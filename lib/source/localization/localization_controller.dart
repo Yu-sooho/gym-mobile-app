@@ -5,12 +5,16 @@ export 'package:flutter/widgets.dart';
 
 @immutable
 class LoginScreenText {
-  String title;
-  String emailLogin;
+  final String title;
+  final String emailLogin;
+  final String emailRegist;
+  final String setting;
 
   LoginScreenText({
     required this.title,
     required this.emailLogin,
+    required this.emailRegist,
+    required this.setting,
   });
 }
 
@@ -25,13 +29,17 @@ class LocalizationController extends GetxController {
     if (language.value == 0) {
       LoginScreenText loginScreenText = LoginScreenText(
           title: LoginScreenTextEn().title,
-          emailLogin: LoginScreenTextEn().emailLogin);
+          emailLogin: LoginScreenTextEn().emailLogin,
+          emailRegist: LoginScreenTextEn().emailRegist,
+          setting: LoginScreenTextEn().setting);
 
       return loginScreenText;
     } else {
       LoginScreenText loginScreenText = LoginScreenText(
           title: LoginScreenTextKr().title,
-          emailLogin: LoginScreenTextKr().emailLogin);
+          emailLogin: LoginScreenTextKr().emailLogin,
+          emailRegist: LoginScreenTextKr().emailRegist,
+          setting: LoginScreenTextKr().setting);
 
       return loginScreenText;
     }

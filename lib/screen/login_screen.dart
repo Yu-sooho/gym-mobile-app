@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/source/localization/localization_controller.dart';
@@ -9,18 +7,34 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final LocalizationController controller = Get.put(LocalizationController());
-
-  void onPressEmail() {
-    print(controller.language.value);
-    if (controller.language.value == 1) {
-      controller.changeLanguage(0);
-      return;
-    }
-    controller.changeLanguage(1);
-  }
-
   @override
   Widget build(BuildContext context) {
+    void onPressKakao() {
+      print('카카오로 로그인');
+    }
+
+    void onPressApple() {
+      print('애플로 로그인');
+    }
+
+    void onPressGoogle() {
+      print('구글로 로그인');
+    }
+
+    void onPressEmail() {
+      if (controller.language.value == 1) {
+        controller.changeLanguage(0);
+        return;
+      }
+      controller.changeLanguage(1);
+    }
+
+    void onPressRegistEmail() {}
+
+    void onPressSetting() {
+      Navigator.of(context).pushNamed('/setting');
+    }
+
     return Scaffold(
         body: Container(
             clipBehavior: Clip.hardEdge,
@@ -43,23 +57,54 @@ class LoginScreen extends StatelessWidget {
                     ),
                     LoginButton(
                         image: AssetImage('assets/loginButton/kakao_login.png'),
-                        onPress: onPressEmail),
+                        onPress: onPressKakao),
                     LoginButton(
                         image:
                             AssetImage('assets/loginButton/google_login.png'),
-                        onPress: onPressEmail),
+                        onPress: onPressGoogle),
                     LoginButton(
                         image: AssetImage('assets/loginButton/apple_login.png'),
-                        onPress: onPressEmail),
-                    // Obx(() => Text(
-                    //       controller.localiztion().emailLogin,
-                    //       style: const TextStyle(fontSize: 20),
-                    //     )),
-                    // TextButton(
-                    //     onPressed: onPressEmail,
-                    //     child: Text(
-                    //       controller.localiztion().emailLogin,
-                    //     ))
+                        onPress: onPressApple),
+                    Obx(() => InkWell(
+                          onTap: onPressEmail,
+                          child: Container(
+                            width: 320,
+                            height: 28,
+                            margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              controller.localiztion().emailLogin,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.blueGrey),
+                            ),
+                          ),
+                        )),
+                    Obx(() => InkWell(
+                          onTap: onPressRegistEmail,
+                          child: Container(
+                            width: 320,
+                            height: 28,
+                            alignment: Alignment.center,
+                            child: Text(
+                              controller.localiztion().emailRegist,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.blueGrey),
+                            ),
+                          ),
+                        )),
+                    Obx(() => InkWell(
+                          onTap: onPressSetting,
+                          child: Container(
+                            width: 320,
+                            height: 28,
+                            alignment: Alignment.center,
+                            child: Text(
+                              controller.localiztion().setting,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.blueGrey),
+                            ),
+                          ),
+                        )),
                   ],
                 ))));
   }
