@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/source/localization/localization_controller.dart';
-import 'package:gym_calendar/widgets/button/login_button.dart';
+import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -73,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                             margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                             alignment: Alignment.center,
                             child: Text(
-                              controller.localiztion().emailLogin,
+                              controller.localiztionLoginScreen().emailLogin,
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.blueGrey),
                             ),
@@ -86,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                             height: 28,
                             alignment: Alignment.center,
                             child: Text(
-                              controller.localiztion().emailRegist,
+                              controller.localiztionLoginScreen().emailRegist,
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.blueGrey),
                             ),
@@ -99,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                             height: 28,
                             alignment: Alignment.center,
                             child: Text(
-                              controller.localiztion().setting,
+                              controller.localiztionLoginScreen().setting,
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.blueGrey),
                             ),

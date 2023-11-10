@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/source/localization/login_screen_text.dart';
+import 'package:gym_calendar/source/localization/setting_screen_text.dart';
 export 'package:flutter/widgets.dart';
 
 @immutable
@@ -18,6 +19,14 @@ class LoginScreenText {
   });
 }
 
+class SettingScreenText {
+  final String title;
+
+  SettingScreenText({
+    required this.title,
+  });
+}
+
 class LocalizationController extends GetxController {
   RxInt language = 0.obs;
 
@@ -25,14 +34,13 @@ class LocalizationController extends GetxController {
     language.value = lang;
   }
 
-  LoginScreenText localiztion() {
+  LoginScreenText localiztionLoginScreen() {
     if (language.value == 0) {
       LoginScreenText loginScreenText = LoginScreenText(
           title: LoginScreenTextEn().title,
           emailLogin: LoginScreenTextEn().emailLogin,
           emailRegist: LoginScreenTextEn().emailRegist,
           setting: LoginScreenTextEn().setting);
-
       return loginScreenText;
     } else {
       LoginScreenText loginScreenText = LoginScreenText(
@@ -40,8 +48,19 @@ class LocalizationController extends GetxController {
           emailLogin: LoginScreenTextKr().emailLogin,
           emailRegist: LoginScreenTextKr().emailRegist,
           setting: LoginScreenTextKr().setting);
-
       return loginScreenText;
+    }
+  }
+
+  SettingScreenText localiztionSettingScreen() {
+    if (language.value == 0) {
+      SettingScreenText settingScreenText =
+          SettingScreenText(title: SettingScreenTextEn().title);
+      return settingScreenText;
+    } else {
+      SettingScreenText settingScreenText =
+          SettingScreenText(title: SettingScreenTextKr().title);
+      return settingScreenText;
     }
   }
 }
