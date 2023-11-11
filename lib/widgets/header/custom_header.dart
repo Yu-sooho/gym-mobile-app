@@ -1,73 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gym_calendar/store/package_stores.dart';
 
 @immutable
 class CustomHeader extends StatelessWidget {
+  final AppStateController appStateController = Get.put(AppStateController());
+
   final String title;
-  final String rightText;
   final Function()? onPressLeft;
   final Function()? onPressRight;
+
+  final String? rightText;
 
   CustomHeader({
     super.key,
     required this.title,
-    required this.rightText,
+    this.rightText = '',
     this.onPressLeft,
     this.onPressRight,
   });
+
+  late final screenSize = appStateController.logicalWidth;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: SafeArea(
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                    onTap: onPressLeft,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      width: 100,
-                      height: 32,
-                      child: Icon(Icons.arrow_back_ios,
-                          color: Colors.white, size: 24),
-                    )),
-                InkWell(
-                    child: Container(
-                        alignment: Alignment.center,
-                        width: 160,
-                        height: 32,
-                        child: Text(
-                          title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14),
-                        ))
-                    // Icon(Icons.arrow_back_ios,
-                    //     color: Colors.white, size: 24)),
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+              onTap: onPressLeft,
+              child: Container(
+                  alignment: Alignment.centerLeft,
+                  width: screenSize / 6,
+                  height: 32,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+                    child: Icon(Icons.arrow_back_ios,
+                        color: Colors.white, size: 24),
+                  ))),
+          InkWell(
+              child: Container(
+                  alignment: Alignment.center,
+                  width: screenSize / 6 * 4,
+                  height: 32,
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14),
+                  ))),
+          InkWell(
+              onTap: onPressLeft,
+              child: Container(
+                  alignment: Alignment.centerLeft,
+                  width: screenSize / 6,
+                  height: 32,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+                    child: Text(
+                      rightText!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14),
                     ),
-                InkWell(
-                    onTap: onPressRight,
-                    child: SizedBox(
-                        width: 100,
-                        height: 32,
-                        child: Text(
-                          rightText,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14),
-                        ))
-                    // Icon(Icons.arrow_back_ios,
-                    //     color: Colors.white, size: 24)),
-                    ),
-              ],
-            )),
-      ),
+                  ))),
+        ],
+      )),
     );
   }
 }

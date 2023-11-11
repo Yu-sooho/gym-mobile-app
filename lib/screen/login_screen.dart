@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/source/localization/localization_controller.dart';
+import 'package:gym_calendar/store/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final LocalizationController controller = Get.put(LocalizationController());
+  final LocalizationController localizationController =
+      Get.put(LocalizationController());
   @override
   Widget build(BuildContext context) {
     void onPressKakao() {
@@ -22,11 +23,11 @@ class LoginScreen extends StatelessWidget {
     }
 
     void onPressEmail() {
-      if (controller.language.value == 1) {
-        controller.changeLanguage(0);
+      if (localizationController.language.value == 1) {
+        localizationController.changeLanguage(0);
         return;
       }
-      controller.changeLanguage(1);
+      localizationController.changeLanguage(1);
     }
 
     void onPressRegistEmail() {}
@@ -73,7 +74,9 @@ class LoginScreen extends StatelessWidget {
                             margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
                             alignment: Alignment.center,
                             child: Text(
-                              controller.localiztionLoginScreen().emailLogin,
+                              localizationController
+                                  .localiztionLoginScreen()
+                                  .emailLogin,
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.blueGrey),
                             ),
@@ -86,7 +89,9 @@ class LoginScreen extends StatelessWidget {
                             height: 28,
                             alignment: Alignment.center,
                             child: Text(
-                              controller.localiztionLoginScreen().emailRegist,
+                              localizationController
+                                  .localiztionLoginScreen()
+                                  .emailRegist,
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.blueGrey),
                             ),
@@ -99,7 +104,9 @@ class LoginScreen extends StatelessWidget {
                             height: 28,
                             alignment: Alignment.center,
                             child: Text(
-                              controller.localiztionLoginScreen().setting,
+                              localizationController
+                                  .localiztionLoginScreen()
+                                  .setting,
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.blueGrey),
                             ),

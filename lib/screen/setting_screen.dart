@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/source/localization/localization_controller.dart';
+import 'package:gym_calendar/store/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -20,7 +20,6 @@ class SettingScreen extends StatelessWidget {
               child: Column(children: [
                 CustomHeader(
                     title: controller.localiztionSettingScreen().title,
-                    rightText: '',
                     onPressLeft: () => {Navigator.of(context).pop()}),
               ]),
             )));
