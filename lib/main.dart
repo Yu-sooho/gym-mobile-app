@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screen/package_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() {
   runApp(GetMaterialApp(home: Main()));
+  firebaseInit();
 }
 
 class Main extends StatelessWidget {
@@ -19,4 +22,10 @@ class Main extends StatelessWidget {
       },
     );
   }
+}
+
+void firebaseInit() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }

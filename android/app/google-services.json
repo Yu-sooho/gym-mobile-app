@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "475767358760",
+    "project_id": "gymcalendar-20206",
+    "storage_bucket": "gymcalendar-20206.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475767358760:android:09b470ec1e27d0aaa03c1d",
+        "android_client_info": {
+          "package_name": "com.example.gym_calendar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJF7seWDvFXzLD3JwVwW-b8ZltCoCffWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
