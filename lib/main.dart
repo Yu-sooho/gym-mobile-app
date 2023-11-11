@@ -5,8 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() {
-  runApp(GetMaterialApp(home: Main()));
+  WidgetsFlutterBinding.ensureInitialized();
   firebaseInit();
+  runApp(GetMaterialApp(home: Main()));
 }
 
 class Main extends StatelessWidget {
@@ -25,6 +26,7 @@ class Main extends StatelessWidget {
 }
 
 void firebaseInit() async {
+  print(DefaultFirebaseOptions.currentPlatform);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

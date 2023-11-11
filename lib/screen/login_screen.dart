@@ -97,8 +97,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                         )),
-                    Obx(() => InkWell(
-                          onTap: onPressSetting,
+                    Obx(() => CustomButton(
+                          onPress: onPressSetting,
                           child: Container(
                             width: 320,
                             height: 28,
@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                                   fontSize: 12, color: Colors.blueGrey),
                             ),
                           ),
-                        )),
+                        ))
                   ],
                 ))));
   }
