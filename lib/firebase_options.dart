@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCJF7seWDvFXzLD3JwVwW-b8ZltCoCffWo',
-    appId: '1:475767358760:android:09b470ec1e27d0aaa03c1d',
+    appId: '1:475767358760:android:cb232be799657db8a03c1d',
     messagingSenderId: '475767358760',
     projectId: 'gymcalendar-20206',
     storageBucket: 'gymcalendar-20206.appspot.com',
@@ -63,11 +63,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyC6VFyJh6aU9Ba5GTfwvjqORwmmeH6h96c',
-    appId: '1:475767358760:ios:529cdf8cdc845c5da03c1d',
+    appId: '1:475767358760:ios:d583bfd6b5791b93a03c1d',
     messagingSenderId: '475767358760',
     projectId: 'gymcalendar-20206',
     storageBucket: 'gymcalendar-20206.appspot.com',
-    iosBundleId: 'com.example.gymCalendar',
+    iosClientId: '475767358760-noaak21ldbftdlti1mj0s1dtgmb9t4om.apps.googleusercontent.com',
+    iosBundleId: 'com.guardian.gymCalendar',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -76,6 +77,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '475767358760',
     projectId: 'gymcalendar-20206',
     storageBucket: 'gymcalendar-20206.appspot.com',
+    iosClientId: '475767358760-7k3opmr7vrtc17td1ed3qv3ejsdih4tn.apps.googleusercontent.com',
     iosBundleId: 'com.example.gymCalendar.RunnerTests',
   );
 }

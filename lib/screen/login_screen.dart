@@ -8,6 +8,10 @@ class LoginScreen extends StatelessWidget {
 
   final LocalizationController localizationController =
       Get.put(LocalizationController());
+
+  final FirebaseAuthController authController =
+      Get.put(FirebaseAuthController());
+
   @override
   Widget build(BuildContext context) {
     void onPressKakao() {
@@ -15,6 +19,7 @@ class LoginScreen extends StatelessWidget {
     }
 
     void onPressApple() {
+      authController.appleLogin();
       print('애플로 로그인');
     }
 
