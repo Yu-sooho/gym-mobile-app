@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/store/package_stores.dart';
+import 'dart:io' show Platform;
 
 @immutable
 class CustomButton extends StatelessWidget {
@@ -24,7 +25,11 @@ class CustomButton extends StatelessWidget {
       if (screenName != null) {
         String result = screenName.replaceAll('/', '');
         await firebaseAnalyticsController.clickEvent(
-            name: 'custom_button', parameters: {'screenName': result});
+            name: 'custom_button',
+            parameters: {
+              'screenName': result,
+              'platform': Platform.isIOS ? 'ios' : 'android'
+            });
       }
       if (onPress != null) {
         onPress!();
