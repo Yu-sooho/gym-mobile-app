@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gym_calendar/store/package_stores.dart';
 import 'firebase_options.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -18,6 +20,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "GymCalendar",
+      navigatorKey: navigatorKey,
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginScreen(),

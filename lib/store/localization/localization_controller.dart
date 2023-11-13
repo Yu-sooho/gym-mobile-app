@@ -11,11 +11,14 @@ class LoginScreenText {
   final String emailRegist;
   final String setting;
 
+  final String loginError;
+
   LoginScreenText({
     required this.title,
     required this.emailLogin,
     required this.emailRegist,
     required this.setting,
+    required this.loginError,
   });
 }
 
@@ -40,14 +43,16 @@ class LocalizationController extends GetxController {
           title: LoginScreenTextEn().title,
           emailLogin: LoginScreenTextEn().emailLogin,
           emailRegist: LoginScreenTextEn().emailRegist,
-          setting: LoginScreenTextEn().setting);
+          setting: LoginScreenTextEn().setting,
+          loginError: LoginScreenTextEn().loginError);
       return loginScreenText;
     } else {
       LoginScreenText loginScreenText = LoginScreenText(
           title: LoginScreenTextKr().title,
           emailLogin: LoginScreenTextKr().emailLogin,
           emailRegist: LoginScreenTextKr().emailRegist,
-          setting: LoginScreenTextKr().setting);
+          setting: LoginScreenTextKr().setting,
+          loginError: LoginScreenTextKr().loginError);
       return loginScreenText;
     }
   }

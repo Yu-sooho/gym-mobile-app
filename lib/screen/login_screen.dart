@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/store/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
+import 'package:gym_calendar/main.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -9,24 +11,33 @@ class LoginScreen extends StatelessWidget {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
 
-  final FirebaseAuthController authController =
-      Get.put(FirebaseAuthController());
+  final AuthStateController authController = Get.put(AuthStateController());
+
+  void onPressKakao() {
+    print('카카오로 로그인');
+  }
+
+  void onPressGoogle() {
+    print('구글로 로그인');
+  }
+
+  void onPressApple() async {
+    final res = await authController.appleLogin();
+    if (res) {
+      navigatorKey.currentState?.pushNamed('/home');
+      return;
+    }
+    Fluttertoast.showToast(
+        msg: localizationController.localiztionLoginScreen().loginError,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    void onPressKakao() {
-      print('카카오로 로그인');
-    }
-
-    void onPressApple() {
-      authController.appleLogin();
-      print('애플로 로그인');
-    }
-
-    void onPressGoogle() {
-      print('구글로 로그인');
-    }
-
     void onPressEmail() {
       if (localizationController.language.value == 1) {
         localizationController.changeLanguage(0);

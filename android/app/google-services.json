@@ -7,48 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:475767358760:android:09b470ec1e27d0aaa03c1d",
-        "android_client_info": {
-          "package_name": "com.example.gym_calendar"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "475767358760-ikn7qniilrqlmon53rcuupuqtejc21ii.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCJF7seWDvFXzLD3JwVwW-b8ZltCoCffWo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "475767358760-ikn7qniilrqlmon53rcuupuqtejc21ii.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "475767358760-662qvo4dilgkic55aik8ibtr4fnc4tk5.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.gymCalendar"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:475767358760:android:cb232be799657db8a03c1d",
         "android_client_info": {
           "package_name": "com.guardian.gymCalendar"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "475767358760-klqcon97ktbminvu2nkbpffr6llt2ihi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guardian.gymCalendar",
+            "certificate_hash": "6a7e0f3e3bcaed9b81ab9a12d9e87aed9e709a16"
+          }
+        },
         {
           "client_id": "475767358760-ikn7qniilrqlmon53rcuupuqtejc21ii.apps.googleusercontent.com",
           "client_type": 3

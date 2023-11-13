@@ -67,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '475767358760',
     projectId: 'gymcalendar-20206',
     storageBucket: 'gymcalendar-20206.appspot.com',
+    androidClientId: '475767358760-klqcon97ktbminvu2nkbpffr6llt2ihi.apps.googleusercontent.com',
     iosClientId: '475767358760-noaak21ldbftdlti1mj0s1dtgmb9t4om.apps.googleusercontent.com',
     iosBundleId: 'com.guardian.gymCalendar',
   );
@@ -77,6 +78,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '475767358760',
     projectId: 'gymcalendar-20206',
     storageBucket: 'gymcalendar-20206.appspot.com',
+    androidClientId: '475767358760-klqcon97ktbminvu2nkbpffr6llt2ihi.apps.googleusercontent.com',
     iosClientId: '475767358760-7k3opmr7vrtc17td1ed3qv3ejsdih4tn.apps.googleusercontent.com',
     iosBundleId: 'com.example.gymCalendar.RunnerTests',
   );
