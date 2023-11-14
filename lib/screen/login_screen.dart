@@ -16,8 +16,9 @@ class _LoginScreenState extends State<LoginScreen> {
       Get.put(LocalizationController());
   final AuthStateController authController = Get.put(AuthStateController());
 
-  void onPressKakao() {
-    print('카카오로 로그인');
+  void onPressKakao() async {
+    final res = await authController.kakaoLogin();
+    print('카카오로 로그인 $res');
   }
 
   Future<void> onPressGoogle() async {

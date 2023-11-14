@@ -4,6 +4,7 @@ import 'package:gym_calendar/screen/package_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gym_calendar/store/package_stores.dart';
 import 'firebase_options.dart';
+import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,6 +12,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await firebaseLoginCheck();
+  KakaoSdk.init(nativeAppKey: 'd3c9e4923a1864904073b797a2de34d1');
   runApp(GetMaterialApp(home: Main()));
 }
 

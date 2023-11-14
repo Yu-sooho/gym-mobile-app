@@ -57,6 +57,10 @@ class FirebaseAuthController extends GetxController {
     }
   }
 
+  Future<bool> kakaoLoginFirebase(user) async {
+    return true;
+  }
+
   Future<void> signOut() async {
     return FirebaseAuth.instance.signOut().whenComplete(() {
       print("SignOut Done");

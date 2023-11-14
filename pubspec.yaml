@@ -47,6 +47,8 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   fluttertoast: ^8.2.4
   google_sign_in: ^6.1.6
+  kakao_flutter_sdk_user: ^1.6.1
+  kakao_flutter_sdk_common: ^1.6.1
 
 dev_dependencies:
   flutter_test:
