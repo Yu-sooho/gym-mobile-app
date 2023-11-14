@@ -11,5 +11,5 @@ class LoginScreenTextEn {
   String emailLogin = 'EmailLogin';
   String emailRegist = 'Regist for Email';
   String setting = 'Setting';
-  String loginError = 'error';
+  String loginError = 'login error, try again';
 }

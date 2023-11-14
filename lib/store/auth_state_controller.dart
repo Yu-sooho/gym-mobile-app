@@ -57,11 +57,14 @@ class AuthStateController extends GetxController {
     );
 
     try {
-      final res = await googleSignIn.signIn();
-      print('res $res');
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        return false; // or throw an error
+      }
+      await firebaseAuthController.googleLoginFirebase(googleUser);
+      return true;
     } catch (error) {
-      print('error $error');
+      return false;
     }
-    return true;
   }
 }

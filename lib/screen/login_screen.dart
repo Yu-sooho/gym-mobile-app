@@ -21,8 +21,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> onPressGoogle() async {
-    await authController.googleLogin();
-    print('구글로 로그인');
+    final res = await authController.googleLogin();
+    if (res) {
+      if (!context.mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+      return;
+    }
+    Fluttertoast.showToast(
+        msg: localizationController.localiztionLoginScreen().loginError,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   Future<void> onPressApple(BuildContext context) async {
