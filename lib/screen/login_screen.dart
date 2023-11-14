@@ -3,28 +3,37 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/store/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
-import 'package:gym_calendar/main.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
 
   final AuthStateController authController = Get.put(AuthStateController());
+
+  final FirebaseAuthController firebaseAuthController =
+      Get.put(FirebaseAuthController());
 
   void onPressKakao() {
     print('카카오로 로그인');
   }
 
   void onPressGoogle() {
+    firebaseAuthController.signOut();
     print('구글로 로그인');
   }
 
-  void onPressApple() async {
+  Future<void> onPressApple(BuildContext context) async {
     final res = await authController.appleLogin();
     if (res) {
-      navigatorKey.currentState?.pushNamed('/home');
+      if (!context.mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
       return;
     }
     Fluttertoast.showToast(
@@ -81,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                         onPress: onPressGoogle),
                     LoginButton(
                         image: AssetImage('assets/loginButton/apple_login.png'),
-                        onPress: onPressApple),
+                        onPress: () => onPressApple(context)),
                     Obx(() => InkWell(
                           onTap: onPressEmail,
                           child: Container(

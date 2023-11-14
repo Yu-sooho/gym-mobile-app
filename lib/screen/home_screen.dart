@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gym_calendar/store/package_stores.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final FirebaseAuthController firebaseAuthController =
+      Get.put(FirebaseAuthController());
+
+  void onPressEmail(BuildContext context) {
+    firebaseAuthController.signOut();
+    Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +71,21 @@ class HomeScreen extends StatelessWidget {
                       fontSize: 48,
                       fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  height: 30,
+                InkWell(
+                  onTap: () => onPressEmail(context),
+                  child: Container(
+                    width: 320,
+                    decoration: BoxDecoration(color: Colors.red),
+                    height: 280,
+                    margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '1231321312312',
+                      style:
+                          const TextStyle(fontSize: 12, color: Colors.blueGrey),
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                  height: 100,
-                )
               ],
             ),
             Row(

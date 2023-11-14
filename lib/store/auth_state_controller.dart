@@ -41,6 +41,4 @@ class AuthStateController extends GetxController {
       return false;
     }
   }
-
-  void appleLogout(credential) async {}
 }
