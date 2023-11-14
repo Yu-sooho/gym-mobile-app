@@ -71,7 +71,8 @@ class AuthStateController extends GetxController {
         final res = await UserApi.instance.loginWithKakaoTalk();
         if (res.accessToken.isNotEmpty) {
           User user = await UserApi.instance.me();
-          await firebaseAuthController.kakaoLoginFirebase(user);
+          await firebaseAuthController.kakaoLoginFirebase(
+              user, res.accessToken);
         }
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
@@ -82,7 +83,8 @@ class AuthStateController extends GetxController {
           final res = await UserApi.instance.loginWithKakaoAccount();
           if (res.accessToken.isNotEmpty) {
             User user = await UserApi.instance.me();
-            await firebaseAuthController.kakaoLoginFirebase(user);
+            await firebaseAuthController.kakaoLoginFirebase(
+                user, res.accessToken);
           }
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
@@ -92,8 +94,10 @@ class AuthStateController extends GetxController {
       try {
         final res = await UserApi.instance.loginWithKakaoAccount();
         if (res.accessToken.isNotEmpty) {
+          print(res);
           User user = await UserApi.instance.me();
-          await firebaseAuthController.kakaoLoginFirebase(user);
+          await firebaseAuthController.kakaoLoginFirebase(
+              user, res.accessToken);
         }
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');

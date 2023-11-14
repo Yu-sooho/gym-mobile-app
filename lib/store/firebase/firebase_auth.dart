@@ -57,7 +57,9 @@ class FirebaseAuthController extends GetxController {
     }
   }
 
-  Future<bool> kakaoLoginFirebase(user) async {
+  Future<bool> kakaoLoginFirebase(user, token) async {
+    print(user);
+    print(token);
     return true;
   }
 
