@@ -14,18 +14,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
-
   final AuthStateController authController = Get.put(AuthStateController());
-
-  final FirebaseAuthController firebaseAuthController =
-      Get.put(FirebaseAuthController());
 
   void onPressKakao() {
     print('카카오로 로그인');
   }
 
-  void onPressGoogle() {
-    firebaseAuthController.signOut();
+  Future<void> onPressGoogle() async {
+    await authController.googleLogin();
     print('구글로 로그인');
   }
 

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/store/package_stores.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:crypto/crypto.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:io' show Platform;
 
 class AuthStateController extends GetxController {
   dynamic authState;
@@ -40,5 +42,26 @@ class AuthStateController extends GetxController {
       print('error $error');
       return false;
     }
+  }
+
+  Future<bool> googleLogin() async {
+    const List<String> scopes = <String>[
+      'email',
+    ];
+
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId: Platform.isIOS
+          ? '475767358760-c87a5aimkmm2j7poh2iuqpglvfdqfv7m.apps.googleusercontent.com'
+          : null,
+      scopes: scopes,
+    );
+
+    try {
+      final res = await googleSignIn.signIn();
+      print('res $res');
+    } catch (error) {
+      print('error $error');
+    }
+    return true;
   }
 }
