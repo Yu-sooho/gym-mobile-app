@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/store/package_stores.dart';
+import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:crypto/crypto.dart';
@@ -71,8 +71,9 @@ class AuthStateController extends GetxController {
         final res = await UserApi.instance.loginWithKakaoTalk();
         if (res.accessToken.isNotEmpty) {
           User user = await UserApi.instance.me();
-          await firebaseAuthController.kakaoLoginFirebase(
+          final firebaseRes = await firebaseAuthController.kakaoLoginFirebase(
               user, res.accessToken);
+          if (!firebaseRes) return false;
         }
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
@@ -83,8 +84,9 @@ class AuthStateController extends GetxController {
           final res = await UserApi.instance.loginWithKakaoAccount();
           if (res.accessToken.isNotEmpty) {
             User user = await UserApi.instance.me();
-            await firebaseAuthController.kakaoLoginFirebase(
+            final firebaseRes = await firebaseAuthController.kakaoLoginFirebase(
                 user, res.accessToken);
+            if (!firebaseRes) return false;
           }
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
@@ -94,10 +96,10 @@ class AuthStateController extends GetxController {
       try {
         final res = await UserApi.instance.loginWithKakaoAccount();
         if (res.accessToken.isNotEmpty) {
-          print(res);
           User user = await UserApi.instance.me();
-          await firebaseAuthController.kakaoLoginFirebase(
+          final firebaseRes = await firebaseAuthController.kakaoLoginFirebase(
               user, res.accessToken);
+          if (!firebaseRes) return false;
         }
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');

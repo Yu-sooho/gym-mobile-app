@@ -57,7 +57,6 @@ const updateOrCreateUser = async (user: KakaoUser): Promise<UserRecord|null> => 
     }
     return null;
   }
-
 };
 
 kakaoAuth.post("/kakaoLogin", async (req, res) => {

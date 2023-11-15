@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/store/package_stores.dart';
+import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,7 +18,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void onPressKakao() async {
     final res = await authController.kakaoLogin();
-    print('카카오로 로그인 $res');
+    if (res) {
+      if (!context.mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+      return;
+    }
+    Fluttertoast.showToast(
+        msg: localizationController.localiztionLoginScreen().loginError,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   Future<void> onPressGoogle() async {

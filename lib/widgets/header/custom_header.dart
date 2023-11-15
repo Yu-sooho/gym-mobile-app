@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/store/package_stores.dart';
+import 'package:gym_calendar/stores/package_stores.dart';
 
 @immutable
 class CustomHeader extends StatelessWidget {

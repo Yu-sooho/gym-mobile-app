@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/screen/package_screen.dart';
+import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gym_calendar/store/package_stores.dart';
+import 'package:gym_calendar/stores/package_stores.dart';
 import 'firebase_options.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 

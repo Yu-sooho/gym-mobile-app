@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/store/localization/login_screen_text.dart';
-import 'package:gym_calendar/store/localization/setting_screen_text.dart';
+import 'package:gym_calendar/stores/localization/login_screen_text.dart';
+import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 export 'package:flutter/widgets.dart';
 
 @immutable
