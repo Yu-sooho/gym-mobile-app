@@ -16,6 +16,10 @@ class _LoginScreenState extends State<LoginScreen> {
       Get.put(LocalizationController());
   final AuthStateController authController = Get.put(AuthStateController());
 
+  void onPressNaver() async {
+    final res = await authController.naverLogin();
+  }
+
   void onPressKakao() async {
     final res = await authController.kakaoLogin();
     if (res) {
@@ -100,6 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         size: 150,
                       ),
                     ),
+                    LoginButton(
+                        image: AssetImage('assets/loginButton/kakao_login.png'),
+                        onPress: onPressNaver),
                     LoginButton(
                         image: AssetImage('assets/loginButton/kakao_login.png'),
                         onPress: onPressKakao),

@@ -6,6 +6,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:crypto/crypto.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'dart:io' show Platform;
 
 class AuthStateController extends GetxController {
@@ -90,6 +91,7 @@ class AuthStateController extends GetxController {
           }
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
+          return false;
         }
       }
     } else {
@@ -103,8 +105,19 @@ class AuthStateController extends GetxController {
         }
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
+        return false;
       }
     }
+    return false;
+  }
+
+  Future<bool> naverLogin() async {
+    NaverLoginResult resLogin = await FlutterNaverLogin.logIn();
+    final NaverLoginResult result = await FlutterNaverLogin.logIn();
+    NaverAccessToken res = await FlutterNaverLogin.currentAccessToken;
+
+    print(resLogin);
+
     return true;
   }
 }
