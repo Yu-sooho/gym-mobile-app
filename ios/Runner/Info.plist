@@ -38,9 +38,53 @@
       <key>CFBundleURLSchemes</key>
       <array>
         <string>com.googleusercontent.apps.475767358760-c87a5aimkmm2j7poh2iuqpglvfdqfv7m</string>
+        <string>socialLoginNaver</string>
       </array>
       </dict>
     </array>
+
+    <key>naverServiceAppUrlScheme</key>
+    <string>socialLoginNaver</string>
+	
+    <!-- naver client_id -->
+    <key>naverConsumerKey</key>
+    <string>bGsZ6gZRYumkzT6R0zvp</string>
+    
+    <!-- naver client_secret -->
+    <key>naverConsumerSecret</key>
+    <string>vuFyJtc85h</string>
+
+    <key>naverServiceAppName</key>
+    <string>GymCalendar</string>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+       <string>naversearchapp</string>
+       <string>naversearchthirdlogin</string>
+    </array>
+
+    <key>NSAppTransportSecurity</key>
+    <dict>
+       <key>NSAllowsArbitraryLoads</key>
+       <true/>
+       <key>NSExceptionDomains</key>
+       <dict>
+          <key>naver.com</key>
+          <dict>
+             <key>NSExceptionRequiresForwardSecrecy</key>
+             <false/>
+             <key>NSIncludesSubdomains</key>
+             <true/>
+          </dict>
+          <key>naver.net</key>
+          <dict>
+             <key>NSExceptionRequiresForwardSecrecy</key>
+             <false/>
+             <key>NSIncludesSubdomains</key>
+             <true/>
+          </dict>
+        </dict>
+    </dict>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
