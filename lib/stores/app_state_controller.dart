@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/stores/package_stores.dart';
 
 class AppStateController extends GetxController {
+  final CustomColorController customColorController =
+      Get.put(CustomColorController());
+
   final view = WidgetsBinding.instance.platformDispatcher.views.first;
   final size =
       WidgetsBinding.instance.platformDispatcher.views.first.physicalSize;
@@ -27,4 +32,17 @@ class AppStateController extends GetxController {
 
   late double logicalWidth = width2;
   late double logicalHeight = height2;
+
+  bool isLoading = false;
+
+  showToast(String text) {
+    Fluttertoast.showToast(
+        msg: text,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: customColorController.customColor().toastText,
+        backgroundColor: customColorController.customColor().toastBackground,
+        fontSize: 16.0);
+  }
 }

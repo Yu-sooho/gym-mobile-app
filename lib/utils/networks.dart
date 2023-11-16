@@ -17,6 +17,10 @@ class Networks {
       }
       return parsedJson;
     } catch (error) {
+      final errorMessage = error.toString();
+      if (errorMessage.contains("Connection refused")) {
+        throw 'network Error';
+      }
       print('httpPost: $error');
       rethrow;
     }

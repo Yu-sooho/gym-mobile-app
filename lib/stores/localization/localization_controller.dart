@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
+import 'package:gym_calendar/stores/localization/component_error_text.dart';
 export 'package:flutter/widgets.dart';
 
 @immutable
@@ -24,6 +25,12 @@ class LoginScreenText {
   });
 }
 
+class ComponentErrorText {
+  final String networkError;
+
+  ComponentErrorText({required this.networkError});
+}
+
 class SettingScreenText {
   final String title;
 
@@ -33,7 +40,7 @@ class SettingScreenText {
 }
 
 class LocalizationController extends GetxController {
-  RxInt language = 0.obs;
+  RxInt language = 1.obs;
 
   void changeLanguage(lang) {
     language.value = lang;
@@ -69,6 +76,18 @@ class LocalizationController extends GetxController {
     } else {
       SettingScreenText settingScreenText =
           SettingScreenText(title: SettingScreenTextKr().title);
+      return settingScreenText;
+    }
+  }
+
+  ComponentErrorText localiztionComponentError() {
+    if (language.value == 0) {
+      ComponentErrorText settingScreenText =
+          ComponentErrorText(networkError: ComponentErrorTextEn().networkError);
+      return settingScreenText;
+    } else {
+      ComponentErrorText settingScreenText =
+          ComponentErrorText(networkError: ComponentErrorTextKr().networkError);
       return settingScreenText;
     }
   }

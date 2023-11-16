@@ -15,6 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
   final AuthStateController authController = Get.put(AuthStateController());
+  final CustomColorController customColorController =
+      Get.put(CustomColorController());
+  final AppStateController appStateController = Get.put(AppStateController());
 
   void onPressLogin({String? type}) async {
     try {
@@ -39,28 +42,17 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
         return;
       }
-      Fluttertoast.showToast(
-          msg: localizationController.localiztionLoginScreen().loginError,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      appStateController.showToast(
+          localizationController.localiztionLoginScreen().loginError);
     } catch (error) {
-      String errorMessage =
-          localizationController.localiztionLoginScreen().loginError;
       if (error ==
           'Error: The email address is already in use by another account.') {
-        errorMessage =
-            localizationController.localiztionLoginScreen().duplicationEmail;
+        appStateController.showToast(
+            localizationController.localiztionLoginScreen().duplicationEmail);
+      } else if (error == 'network Error') {
+        appStateController.showToast(
+            localizationController.localiztionComponentError().networkError);
       }
-      Fluttertoast.showToast(
-          msg: errorMessage,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          textColor: Colors.white,
-          fontSize: 16.0);
     }
   }
 
@@ -81,85 +73,86 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return Scaffold(
-        body: Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              color: Colors.black87,
-            ),
-            child: Align(
-                alignment: Alignment(0, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(50),
-                      child: Icon(
-                        Icons.beach_access,
-                        color: Colors.white,
-                        size: 150,
-                      ),
+        body: Obx(
+      () => Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            color: customColorController.customColor().defaultBackground,
+          ),
+          child: Align(
+              alignment: Alignment(0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(50),
+                    child: Icon(
+                      Icons.beach_access,
+                      color: Colors.white,
+                      size: 150,
                     ),
-                    LoginButton(
-                        image: AssetImage('assets/loginButton/kakao_login.png'),
-                        onPress: () => onPressLogin(type: 'naver')),
-                    LoginButton(
-                        image: AssetImage('assets/loginButton/kakao_login.png'),
-                        onPress: () => onPressLogin(type: 'kakao')),
-                    LoginButton(
-                        image:
-                            AssetImage('assets/loginButton/google_login.png'),
-                        onPress: () => onPressLogin(type: 'google')),
-                    LoginButton(
-                        image: AssetImage('assets/loginButton/apple_login.png'),
-                        onPress: () => onPressLogin(type: 'apple')),
-                    Obx(() => InkWell(
-                          onTap: onPressEmail,
-                          child: Container(
-                            width: 320,
-                            height: 28,
-                            margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
-                            alignment: Alignment.center,
-                            child: Text(
-                              localizationController
-                                  .localiztionLoginScreen()
-                                  .emailLogin,
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.blueGrey),
-                            ),
+                  ),
+                  LoginButton(
+                      image: AssetImage('assets/loginButton/kakao_login.png'),
+                      onPress: () => onPressLogin(type: 'naver')),
+                  LoginButton(
+                      image: AssetImage('assets/loginButton/kakao_login.png'),
+                      onPress: () => onPressLogin(type: 'kakao')),
+                  LoginButton(
+                      image: AssetImage('assets/loginButton/google_login.png'),
+                      onPress: () => onPressLogin(type: 'google')),
+                  LoginButton(
+                      image: AssetImage('assets/loginButton/apple_login.png'),
+                      onPress: () => onPressLogin(type: 'apple')),
+                  Obx(() => InkWell(
+                        onTap: onPressEmail,
+                        child: Container(
+                          width: 320,
+                          height: 28,
+                          margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                          alignment: Alignment.center,
+                          child: Text(
+                            localizationController
+                                .localiztionLoginScreen()
+                                .emailLogin,
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.blueGrey),
                           ),
-                        )),
-                    Obx(() => InkWell(
-                          onTap: onPressRegistEmail,
-                          child: Container(
-                            width: 320,
-                            height: 28,
-                            alignment: Alignment.center,
-                            child: Text(
-                              localizationController
-                                  .localiztionLoginScreen()
-                                  .emailRegist,
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.blueGrey),
-                            ),
+                        ),
+                      )),
+                  Obx(() => InkWell(
+                        onTap: onPressRegistEmail,
+                        child: Container(
+                          width: 320,
+                          height: 28,
+                          alignment: Alignment.center,
+                          child: Text(
+                            localizationController
+                                .localiztionLoginScreen()
+                                .emailRegist,
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.blueGrey),
                           ),
-                        )),
-                    Obx(() => CustomButton(
-                          onPress: onPressSetting,
-                          child: Container(
-                            width: 320,
-                            height: 28,
-                            alignment: Alignment.center,
-                            child: Text(
-                              localizationController
-                                  .localiztionLoginScreen()
-                                  .setting,
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.blueGrey),
-                            ),
+                        ),
+                      )),
+                  Obx(() => CustomButton(
+                        onPress: onPressSetting,
+                        child: Container(
+                          width: 320,
+                          height: 28,
+                          alignment: Alignment.center,
+                          child: Text(
+                            localizationController
+                                .localiztionLoginScreen()
+                                .setting,
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.blueGrey),
                           ),
-                        ))
-                  ],
-                ))));
+                        ),
+                      ))
+                ],
+              ))),
+    ));
   }
 }
