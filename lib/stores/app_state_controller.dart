@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class AppStateController extends GetxController {
   final CustomColorController customColorController =
@@ -33,9 +33,20 @@ class AppStateController extends GetxController {
   late double logicalWidth = width2;
   late double logicalHeight = height2;
 
-  bool isLoading = false;
+  final OverlayEntry overlayEntrys = OverlayEntry(builder: loadingScreen);
 
-  showToast(String text) {
+  RxBool isLoading = false.obs;
+  void setIsLoading(bool value, BuildContext context) {
+    isLoading.value = value;
+    if (value) {
+      OverlayState overlayState = Overlay.of(context);
+      overlayState.insert(overlayEntrys);
+    } else if (overlayEntrys.mounted) {
+      overlayEntrys.remove();
+    }
+  }
+
+  void showToast(String text) {
     Fluttertoast.showToast(
         msg: text,
         toastLength: Toast.LENGTH_LONG,

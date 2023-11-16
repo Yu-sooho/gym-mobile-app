@@ -17,12 +17,16 @@ void main() async {
 }
 
 class Main extends StatelessWidget {
-  final FirebaseAuthController controller = Get.put(FirebaseAuthController());
+  final FirebaseAuthController firebaseAuthController =
+      Get.put(FirebaseAuthController());
+  final AppStateController appStateController = Get.put(AppStateController());
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "GymCalendar",
-      initialRoute: controller.authState != null ? '/home' : '/login',
+      initialRoute:
+          firebaseAuthController.authState != null ? '/home' : '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),

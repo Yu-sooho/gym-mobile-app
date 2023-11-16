@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -22,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void onPressLogin({String? type}) async {
     try {
       if (type!.isEmpty) return;
+      appStateController.setIsLoading(true, context);
       dynamic res;
       switch (type) {
         case 'kakao':
@@ -37,6 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
           res = await authController.appleLogin();
           break;
       }
+      if (!context.mounted) return;
+      appStateController.setIsLoading(false, context);
       if (res) {
         if (!context.mounted) return;
         Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
@@ -45,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appStateController.showToast(
           localizationController.localiztionLoginScreen().loginError);
     } catch (error) {
+      appStateController.setIsLoading(false, context);
       if (error ==
           'Error: The email address is already in use by another account.') {
         appStateController.showToast(
@@ -58,20 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    void onPressEmail() {
-      if (localizationController.language.value == 1) {
-        localizationController.changeLanguage(0);
-        return;
-      }
-      localizationController.changeLanguage(1);
-    }
-
-    void onPressRegistEmail() {}
-
-    void onPressSetting() {
-      Navigator.of(context).pushNamed('/setting');
-    }
-
     return Scaffold(
         body: Obx(
       () => Container(
@@ -105,52 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   LoginButton(
                       image: AssetImage('assets/loginButton/apple_login.png'),
                       onPress: () => onPressLogin(type: 'apple')),
-                  Obx(() => InkWell(
-                        onTap: onPressEmail,
-                        child: Container(
-                          width: 320,
-                          height: 28,
-                          margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            localizationController
-                                .localiztionLoginScreen()
-                                .emailLogin,
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.blueGrey),
-                          ),
-                        ),
-                      )),
-                  Obx(() => InkWell(
-                        onTap: onPressRegistEmail,
-                        child: Container(
-                          width: 320,
-                          height: 28,
-                          alignment: Alignment.center,
-                          child: Text(
-                            localizationController
-                                .localiztionLoginScreen()
-                                .emailRegist,
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.blueGrey),
-                          ),
-                        ),
-                      )),
-                  Obx(() => CustomButton(
-                        onPress: onPressSetting,
-                        child: Container(
-                          width: 320,
-                          height: 28,
-                          alignment: Alignment.center,
-                          child: Text(
-                            localizationController
-                                .localiztionLoginScreen()
-                                .setting,
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.blueGrey),
-                          ),
-                        ),
-                      ))
                 ],
               ))),
     ));

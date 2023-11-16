@@ -5,6 +5,8 @@ class CustomColorMode1 {
   Color toastText = const Color(0xffb74093);
 
   Color defaultBackground = const Color(0xff242424);
+  Color loadingSpinnerOpacity = const Color(0xC8242424);
+  Color loadingSpinnerColor = const Color(0xffffffff);
 }
 
 class CustomColorMode2 {
@@ -12,4 +14,6 @@ class CustomColorMode2 {
   Color toastText = const Color(0xffb74093);
 
   Color defaultBackground = const Color(0xff242424);
+  Color loadingSpinnerOpacity = const Color(0xC8242424);
+  Color loadingSpinnerColor = const Color(0xffffffff);
 }
