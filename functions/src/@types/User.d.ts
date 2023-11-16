@@ -17,3 +17,11 @@ interface KakaoUser {
     id: number;
     kakao_account?: KakaoAccount;
 }
+
+interface NaverUser {
+    id: string,
+    nickname: string,
+    profile_image: string,
+    email: string
+    name: string
+}

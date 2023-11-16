@@ -1,18 +1,33 @@
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:gym_calendar/utils/package_util.dart';
 
 class SocialLoginProvider {
   Future<dynamic> postKakaoLogin(option) async {
-    print(option);
-    Uri uri = Uri.parse(
-        "http://127.0.0.1:5001/gymcalendar-20206/us-central1/kakaoAuth/kakaoLogin");
     try {
-      final response = await http.post(uri, body: option);
-      final parsedJson = jsonDecode(response.body);
-      return parsedJson;
+      Networks networks = Networks();
+      final res = networks.httpPost(
+        uri:
+            "http://127.0.0.1:5001/gymcalendar-20206/us-central1/kakaoAuth/kakaoLogin",
+        body: option,
+      );
+      return res;
     } catch (error) {
       print('KakaoProvider: $error');
-      return false;
+      rethrow;
+    }
+  }
+
+  Future<dynamic> postNaverLogin(option) async {
+    try {
+      Networks networks = Networks();
+      final res = networks.httpPost(
+        uri:
+            "http://127.0.0.1:5001/gymcalendar-20206/us-central1/naverAuth/naverLogin",
+        body: option,
+      );
+      return res;
+    } catch (error) {
+      print('NaverProvider: $error');
+      rethrow;
     }
   }
 }

@@ -12,6 +12,7 @@ class LoginScreenText {
   final String setting;
 
   final String loginError;
+  final String duplicationEmail;
 
   LoginScreenText({
     required this.title,
@@ -19,6 +20,7 @@ class LoginScreenText {
     required this.emailRegist,
     required this.setting,
     required this.loginError,
+    required this.duplicationEmail,
   });
 }
 
@@ -44,7 +46,8 @@ class LocalizationController extends GetxController {
           emailLogin: LoginScreenTextEn().emailLogin,
           emailRegist: LoginScreenTextEn().emailRegist,
           setting: LoginScreenTextEn().setting,
-          loginError: LoginScreenTextEn().loginError);
+          loginError: LoginScreenTextEn().loginError,
+          duplicationEmail: LoginScreenTextEn().duplicationEmail);
       return loginScreenText;
     } else {
       LoginScreenText loginScreenText = LoginScreenText(
@@ -52,7 +55,8 @@ class LocalizationController extends GetxController {
           emailLogin: LoginScreenTextKr().emailLogin,
           emailRegist: LoginScreenTextKr().emailRegist,
           setting: LoginScreenTextKr().setting,
-          loginError: LoginScreenTextKr().loginError);
+          loginError: LoginScreenTextKr().loginError,
+          duplicationEmail: LoginScreenTextKr().duplicationEmail);
       return loginScreenText;
     }
   }

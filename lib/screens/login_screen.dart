@@ -16,56 +16,52 @@ class _LoginScreenState extends State<LoginScreen> {
       Get.put(LocalizationController());
   final AuthStateController authController = Get.put(AuthStateController());
 
-  void onPressNaver() async {
-    final res = await authController.naverLogin();
-  }
-
-  void onPressKakao() async {
-    final res = await authController.kakaoLogin();
-    if (res) {
-      if (!context.mounted) return;
-      Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
-      return;
+  void onPressLogin({String? type}) async {
+    try {
+      if (type!.isEmpty) return;
+      dynamic res;
+      switch (type) {
+        case 'kakao':
+          res = await authController.kakaoLogin();
+          break;
+        case 'naver':
+          res = await authController.naverLogin();
+          break;
+        case 'google':
+          res = await authController.googleLogin();
+          break;
+        case 'apple':
+          res = await authController.appleLogin();
+          break;
+      }
+      if (res) {
+        if (!context.mounted) return;
+        Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+        return;
+      }
+      Fluttertoast.showToast(
+          msg: localizationController.localiztionLoginScreen().loginError,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } catch (error) {
+      String errorMessage =
+          localizationController.localiztionLoginScreen().loginError;
+      if (error ==
+          'Error: The email address is already in use by another account.') {
+        errorMessage =
+            localizationController.localiztionLoginScreen().duplicationEmail;
+      }
+      Fluttertoast.showToast(
+          msg: errorMessage,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
-    Fluttertoast.showToast(
-        msg: localizationController.localiztionLoginScreen().loginError,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
-
-  Future<void> onPressGoogle() async {
-    final res = await authController.googleLogin();
-    if (res) {
-      if (!context.mounted) return;
-      Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
-      return;
-    }
-    Fluttertoast.showToast(
-        msg: localizationController.localiztionLoginScreen().loginError,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
-
-  Future<void> onPressApple(BuildContext context) async {
-    final res = await authController.appleLogin();
-    if (res) {
-      if (!context.mounted) return;
-      Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
-      return;
-    }
-    Fluttertoast.showToast(
-        msg: localizationController.localiztionLoginScreen().loginError,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        textColor: Colors.white,
-        fontSize: 16.0);
   }
 
   @override
@@ -106,17 +102,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     LoginButton(
                         image: AssetImage('assets/loginButton/kakao_login.png'),
-                        onPress: onPressNaver),
+                        onPress: () => onPressLogin(type: 'naver')),
                     LoginButton(
                         image: AssetImage('assets/loginButton/kakao_login.png'),
-                        onPress: onPressKakao),
+                        onPress: () => onPressLogin(type: 'kakao')),
                     LoginButton(
                         image:
                             AssetImage('assets/loginButton/google_login.png'),
-                        onPress: onPressGoogle),
+                        onPress: () => onPressLogin(type: 'google')),
                     LoginButton(
                         image: AssetImage('assets/loginButton/apple_login.png'),
-                        onPress: () => onPressApple(context)),
+                        onPress: () => onPressLogin(type: 'apple')),
                     Obx(() => InkWell(
                           onTap: onPressEmail,
                           child: Container(

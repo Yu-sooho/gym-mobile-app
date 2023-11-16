@@ -39,8 +39,8 @@ class AuthStateController extends GetxController {
       }
       return false;
     } catch (error) {
-      print('error $error');
-      return false;
+      print('auth_state_controller appleLogin $error');
+      rethrow;
     }
   }
 
@@ -62,7 +62,8 @@ class AuthStateController extends GetxController {
       await firebaseAuthController.googleLoginFirebase(googleUser);
       return true;
     } catch (error) {
-      return false;
+      print('auth_state_controller googleLogin $error');
+      rethrow;
     }
   }
 
@@ -75,10 +76,11 @@ class AuthStateController extends GetxController {
           final firebaseRes = await firebaseAuthController.kakaoLoginFirebase(
               user, res.accessToken);
           if (!firebaseRes) return false;
+          return true;
         }
       } catch (error) {
-        print('카카오톡으로 로그인 실패 $error');
         if (error is PlatformException && error.code == 'CANCELED') {
+          print('auth_state_controller kakaoLogin cancel $error');
           return false;
         }
         try {
@@ -88,10 +90,11 @@ class AuthStateController extends GetxController {
             final firebaseRes = await firebaseAuthController.kakaoLoginFirebase(
                 user, res.accessToken);
             if (!firebaseRes) return false;
+            return true;
           }
         } catch (error) {
-          print('카카오계정으로 로그인 실패 $error');
-          return false;
+          print('auth_state_controller kakaoLogin $error');
+          rethrow;
         }
       }
     } else {
@@ -102,22 +105,27 @@ class AuthStateController extends GetxController {
           final firebaseRes = await firebaseAuthController.kakaoLoginFirebase(
               user, res.accessToken);
           if (!firebaseRes) return false;
+          return true;
         }
       } catch (error) {
-        print('카카오계정으로 로그인 실패 $error');
-        return false;
+        print('auth_state_controller kakaoLogin isNotInstalled Kakao $error');
+        rethrow;
       }
     }
     return false;
   }
 
   Future<bool> naverLogin() async {
-    NaverLoginResult resLogin = await FlutterNaverLogin.logIn();
-    final NaverLoginResult result = await FlutterNaverLogin.logIn();
-    NaverAccessToken res = await FlutterNaverLogin.currentAccessToken;
-
-    print(resLogin);
-
-    return true;
+    try {
+      final NaverLoginResult user = await FlutterNaverLogin.logIn();
+      NaverAccessToken res = await FlutterNaverLogin.currentAccessToken;
+      final firebaseRes = await firebaseAuthController.naverLoginFirebase(
+          user, res.accessToken);
+      if (!firebaseRes) return false;
+      return true;
+    } catch (error) {
+      print('auth_state_controller naverLogin $error');
+      rethrow;
+    }
   }
 }

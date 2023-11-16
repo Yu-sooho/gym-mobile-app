@@ -35,7 +35,7 @@ class FirebaseAuthController extends GetxController {
       return false;
     } catch (error) {
       print('firebase_auth appleLoginFirebase $error');
-      return false;
+      rethrow;
     }
   }
 
@@ -54,19 +54,39 @@ class FirebaseAuthController extends GetxController {
       return false;
     } catch (error) {
       print('firebase_auth googleLoginFirebase $error');
-      return false;
+      rethrow;
     }
   }
 
   Future<bool> kakaoLoginFirebase(user, token) async {
-    final SocialLoginProvider socialLoginProvider = SocialLoginProvider();
-    final res = await socialLoginProvider.postKakaoLogin({"code": token});
-    print(res['firebaseToken']);
-    if (res['firebaseToken'] != null) {
-      await FirebaseAuth.instance.signInWithCustomToken(res['firebaseToken']);
-      return true;
+    try {
+      final SocialLoginProvider socialLoginProvider = SocialLoginProvider();
+      final res = await socialLoginProvider.postKakaoLogin({"code": token});
+      print(res['firebaseToken']);
+      if (res['firebaseToken'] != null) {
+        await FirebaseAuth.instance.signInWithCustomToken(res['firebaseToken']);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      print('firebase_auth kakaoLoginFirebase $error');
+      rethrow;
     }
-    return false;
+  }
+
+  Future<bool> naverLoginFirebase(user, token) async {
+    try {
+      final SocialLoginProvider socialLoginProvider = SocialLoginProvider();
+      final res = await socialLoginProvider.postNaverLogin({"code": token});
+      if (res['firebaseToken'] != null) {
+        await FirebaseAuth.instance.signInWithCustomToken(res['firebaseToken']);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      print('firebase_auth naverLoginFirebase $error');
+      rethrow;
+    }
   }
 
   Future<void> signOut() async {
