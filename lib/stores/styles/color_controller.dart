@@ -11,6 +11,7 @@ class CustomColor {
   final Color loadingSpinnerOpacity;
   final Color loadingSpinnerColor;
   final Color defaultTextColor;
+  final Color skeletonColor;
 
   CustomColor(
       {required this.toastBackground,
@@ -18,7 +19,8 @@ class CustomColor {
       required this.defaultBackground,
       required this.loadingSpinnerOpacity,
       required this.loadingSpinnerColor,
-      required this.defaultTextColor});
+      required this.defaultTextColor,
+      required this.skeletonColor});
 }
 
 class CustomColorController extends GetxController {
@@ -36,7 +38,8 @@ class CustomColorController extends GetxController {
           defaultBackground: CustomColorMode1().defaultBackground,
           loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
           loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
-          defaultTextColor: CustomColorMode1().defaultTextColor);
+          defaultTextColor: CustomColorMode1().defaultTextColor,
+          skeletonColor: CustomColorMode1().skeletonColor);
       return customColor;
     } else if (colorType.value == 1) {
       CustomColor customColor = CustomColor(
@@ -45,7 +48,8 @@ class CustomColorController extends GetxController {
           defaultBackground: CustomColorMode2().defaultBackground,
           loadingSpinnerOpacity: CustomColorMode2().loadingSpinnerOpacity,
           loadingSpinnerColor: CustomColorMode2().loadingSpinnerColor,
-          defaultTextColor: CustomColorMode2().defaultTextColor);
+          defaultTextColor: CustomColorMode2().defaultTextColor,
+          skeletonColor: CustomColorMode2().skeletonColor);
       return customColor;
     } else {
       CustomColor customColor = CustomColor(
@@ -54,7 +58,8 @@ class CustomColorController extends GetxController {
           defaultBackground: CustomColorMode1().defaultBackground,
           loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
           loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
-          defaultTextColor: CustomColorMode1().defaultTextColor);
+          defaultTextColor: CustomColorMode1().defaultTextColor,
+          skeletonColor: CustomColorMode1().skeletonColor);
       return customColor;
     }
   }

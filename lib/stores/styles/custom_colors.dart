@@ -9,6 +9,7 @@ class CustomColorMode1 {
   Color loadingSpinnerColor = const Color(0xffffffff);
 
   Color defaultTextColor = const Color(0xffffffff);
+  Color skeletonColor = const Color(0xff124234);
 }
 
 class CustomColorMode2 {
@@ -20,4 +21,5 @@ class CustomColorMode2 {
   Color loadingSpinnerColor = const Color(0xffffffff);
 
   Color defaultTextColor = const Color(0xffffffff);
+  Color skeletonColor = const Color(0xff124234);
 }
