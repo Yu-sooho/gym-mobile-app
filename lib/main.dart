@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
@@ -5,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'firebase_options.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +15,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await firebaseLoginCheck();
+  await firebaseMessagingInit();
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
   KakaoSdk.init(nativeAppKey: 'd3c9e4923a1864904073b797a2de34d1');
   runApp(GetMaterialApp(home: Main()));
 }
@@ -39,5 +45,32 @@ class Main extends StatelessWidget {
 Future<bool> firebaseLoginCheck() async {
   final FirebaseAuthController controller = Get.put(FirebaseAuthController());
   controller.addAuthEventListener();
+  return true;
+}
+
+void temp() {}
+
+Future<bool> firebaseMessagingInit() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  print('setting ${settings.authorizationStatus}');
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
   return true;
 }

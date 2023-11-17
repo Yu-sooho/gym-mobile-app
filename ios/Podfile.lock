@@ -661,6 +661,9 @@ PODS:
   - Firebase/Firestore (10.17.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 10.17.0)
+  - Firebase/Messaging (10.17.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 10.17.0)
   - Firebase/Storage (10.17.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.17.0)
@@ -677,6 +680,10 @@ PODS:
     - Flutter
   - firebase_crashlytics (3.4.4):
     - Firebase/Crashlytics (= 10.17.0)
+    - firebase_core
+    - Flutter
+  - firebase_messaging (14.7.4):
+    - Firebase/Messaging (= 10.17.0)
     - firebase_core
     - Flutter
   - firebase_storage (11.5.0):
@@ -750,6 +757,15 @@ PODS:
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - PromisesObjC (~> 2.1)
+  - FirebaseMessaging (10.17.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Reachability (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseSessions (10.17.0):
     - FirebaseCore (~> 10.5)
     - FirebaseCoreExtension (~> 10.0)
@@ -918,6 +934,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
+  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_naver_login (from `.symlinks/plugins/flutter_naver_login/ios`)
@@ -946,6 +963,7 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseFirestoreInternal
     - FirebaseInstallations
+    - FirebaseMessaging
     - FirebaseSessions
     - FirebaseSharedSwift
     - FirebaseStorage
@@ -976,6 +994,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_crashlytics:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
+  firebase_messaging:
+    :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
@@ -1007,6 +1027,7 @@ SPEC CHECKSUMS:
   firebase_auth: 8b51489f374ea36b8f0aac047738de1d1f02e573
   firebase_core: efc9455611b8769fa90fbdae5da182600bd6901c
   firebase_crashlytics: 6a564f58db90be49c49d9ac100bc5cc3fcbf8267
+  firebase_messaging: 9c697d1ecfe77edf15d995b5048906ffc994c96c
   firebase_storage: 683f584f1d7606f41241095911a5798535baa791
   FirebaseAnalytics: b9284f9fff10157a843e0422e908711f7bf3b9f2
   FirebaseAppCheckInterop: 534d033d8d0436b4ab066a8205013d271e18a2b9
@@ -1019,6 +1040,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 67e8c2dc613a86f056cc0037569f2aaee7dbf5fe
   FirebaseFirestoreInternal: f902222ee92a48e30693bf347f6a8f365c800e79
   FirebaseInstallations: 9387bf15abfc69a714f54e54f74a251264fdb79b
+  FirebaseMessaging: 1367b28c0c83a63072af4a711328fcc2e6899902
   FirebaseSessions: 49f39e5c10e3f9fdd38d01b748329bae2a2fa8ed
   FirebaseSharedSwift: e8fe8d63d434266a1b2c7f02807d5b64462e1851
   FirebaseStorage: 4af6f9ea67b6a8e4e3cbd75e006b4776a50e8b12
