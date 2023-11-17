@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -8,9 +9,12 @@ class HomeScreen extends StatelessWidget {
   final FirebaseAuthController firebaseAuthController =
       Get.put(FirebaseAuthController());
 
+  final AppStateController appStateController = Get.put(AppStateController());
+
   void onPressEmail(BuildContext context) {
-    firebaseAuthController.signOut();
-    Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
+    appStateController.permissionCheck(Permission.notification);
+    // firebaseAuthController.signOut();
+    // Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
   }
 
   @override
