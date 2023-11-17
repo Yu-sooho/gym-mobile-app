@@ -26,7 +26,7 @@ class Main extends StatelessWidget {
     return MaterialApp(
       title: "GymCalendar",
       initialRoute:
-          firebaseAuthController.authState != null ? '/home' : '/login',
+          firebaseAuthController.currentUser != null ? '/home' : '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),

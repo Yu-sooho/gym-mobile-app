@@ -92,6 +92,7 @@ naverAuth.post("/naverLogin", async (req, res) => {
         .createCustomToken(authUser.uid, { provider: "Naver" });
     return res.status(200).json({ firebaseToken });
   }catch(error){
+    console.log('naverLogin' ,error);
      return res.status(400).json({
         code: 400,
         message: `${error}`,

@@ -11,8 +11,8 @@ class Networks {
       final response = await http.post(parseUri, body: body);
       final parsedJson = jsonDecode(response.body);
       print(
-          'Networks httpPost uri:$uri body:$body header:$header response:$parsedJson');
-      if (parsedJson['code'] != 200 || parsedJson['code'] != 202) {
+          'Networks httpPost uri:$uri body:$body header:$header statusCode:${response.statusCode} response:$parsedJson');
+      if (response.statusCode != 200 && response.statusCode != 202) {
         throw parsedJson['message'];
       }
       return parsedJson;
@@ -21,7 +21,7 @@ class Networks {
       if (errorMessage.contains("Connection refused")) {
         throw 'network Error';
       }
-      print('httpPost: $error');
+      print('httpPost error: $error');
       rethrow;
     }
   }

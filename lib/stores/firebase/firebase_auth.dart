@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,18 +8,16 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FirebaseAuthController extends GetxController {
-  User? authState;
-
-  final storage = FlutterSecureStorage();
+  User? currentUser;
 
   void addAuthEventListener() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        authState = user;
+        currentUser = user;
         print('FirebaseAuthController addAuthEventListener login $user');
         return;
       }
-      authState = null;
+      currentUser = null;
       print('FirebaseAuthController addAuthEventListener logout');
     });
   }
