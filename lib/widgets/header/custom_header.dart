@@ -5,6 +5,7 @@ import 'package:gym_calendar/stores/package_stores.dart';
 @immutable
 class CustomHeader extends StatelessWidget {
   final AppStateController appStateController = Get.put(AppStateController());
+  final CustomFontController fontController = Get.put(CustomFontController());
 
   final String title;
   final Function()? onPressLeft;
@@ -45,14 +46,9 @@ class CustomHeader extends StatelessWidget {
                   alignment: Alignment.center,
                   width: screenSize / 6 * 4,
                   height: 32,
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
-                  ))),
+                  child: Text(title,
+                      textAlign: TextAlign.center,
+                      style: fontController.customFont().bold14))),
           InkWell(
               onTap: onPressLeft,
               child: Container(
@@ -61,14 +57,9 @@ class CustomHeader extends StatelessWidget {
                   height: 32,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                    child: Text(
-                      rightText!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14),
-                    ),
+                    child: Text(rightText!,
+                        textAlign: TextAlign.center,
+                        style: fontController.customFont().bold14),
                   ))),
         ],
       )),

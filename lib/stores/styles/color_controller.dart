@@ -10,13 +10,15 @@ class CustomColor {
   final Color defaultBackground;
   final Color loadingSpinnerOpacity;
   final Color loadingSpinnerColor;
+  final Color defaultTextColor;
 
   CustomColor(
       {required this.toastBackground,
       required this.toastText,
       required this.defaultBackground,
       required this.loadingSpinnerOpacity,
-      required this.loadingSpinnerColor});
+      required this.loadingSpinnerColor,
+      required this.defaultTextColor});
 }
 
 class CustomColorController extends GetxController {
@@ -33,7 +35,8 @@ class CustomColorController extends GetxController {
           toastText: CustomColorMode1().toastText,
           defaultBackground: CustomColorMode1().defaultBackground,
           loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
-          loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor);
+          loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
+          defaultTextColor: CustomColorMode1().defaultTextColor);
       return customColor;
     } else if (colorType.value == 1) {
       CustomColor customColor = CustomColor(
@@ -41,7 +44,8 @@ class CustomColorController extends GetxController {
           toastText: CustomColorMode2().toastText,
           defaultBackground: CustomColorMode2().defaultBackground,
           loadingSpinnerOpacity: CustomColorMode2().loadingSpinnerOpacity,
-          loadingSpinnerColor: CustomColorMode2().loadingSpinnerColor);
+          loadingSpinnerColor: CustomColorMode2().loadingSpinnerColor,
+          defaultTextColor: CustomColorMode2().defaultTextColor);
       return customColor;
     } else {
       CustomColor customColor = CustomColor(
@@ -49,7 +53,8 @@ class CustomColorController extends GetxController {
           toastText: CustomColorMode1().toastText,
           defaultBackground: CustomColorMode1().defaultBackground,
           loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
-          loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor);
+          loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
+          defaultTextColor: CustomColorMode1().defaultTextColor);
       return customColor;
     }
   }

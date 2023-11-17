@@ -14,8 +14,6 @@ void main() async {
   );
   await firebaseLoginCheck();
   await firebaseMessagingInit();
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  print(fcmToken);
   KakaoSdk.init(nativeAppKey: 'd3c9e4923a1864904073b797a2de34d1');
   runApp(GetMaterialApp(home: Main()));
 }
@@ -34,7 +32,8 @@ class Main extends StatelessWidget {
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
-        '/setting': (context) => SettingScreen()
+        '/setting': (context) => SettingScreen(),
+        '/profile': (context) => ProfileScreen()
       },
     );
   }
@@ -47,6 +46,8 @@ Future<bool> firebaseLoginCheck() async {
 }
 
 Future<bool> firebaseMessagingInit() async {
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  print(fcmToken);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print('Message data: ${message.data}');

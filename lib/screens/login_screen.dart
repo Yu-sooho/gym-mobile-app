@@ -82,18 +82,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       size: 150,
                     ),
                   ),
-                  LoginButton(
-                      image: AssetImage('assets/loginButton/kakao_login.png'),
-                      onPress: () => onPressLogin(type: 'naver')),
-                  LoginButton(
-                      image: AssetImage('assets/loginButton/kakao_login.png'),
-                      onPress: () => onPressLogin(type: 'kakao')),
-                  LoginButton(
-                      image: AssetImage('assets/loginButton/google_login.png'),
-                      onPress: () => onPressLogin(type: 'google')),
-                  LoginButton(
-                      image: AssetImage('assets/loginButton/apple_login.png'),
-                      onPress: () => onPressLogin(type: 'apple')),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: LoginButton(
+                        image: AssetImage('assets/loginButton/kakao_login.png'),
+                        onPress: () => onPressLogin(type: 'naver')),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: LoginButton(
+                        image: AssetImage('assets/loginButton/kakao_login.png'),
+                        onPress: () => onPressLogin(type: 'kakao')),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: LoginButton(
+                        image:
+                            AssetImage('assets/loginButton/google_login.png'),
+                        onPress: () => onPressLogin(type: 'google')),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: LoginButton(
+                        image: AssetImage('assets/loginButton/apple_login.png'),
+                        onPress: () => onPressLogin(type: 'apple')),
+                  ),
                 ],
               ))),
     ));

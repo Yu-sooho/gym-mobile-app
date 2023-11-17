@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gym_calendar/stores/package_stores.dart';
 
 @immutable
 class LoginButton extends StatelessWidget {
@@ -13,14 +15,20 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.black87, borderRadius: BorderRadius.circular(6)),
-      margin: EdgeInsets.all(6),
-      child: InkWell(
-        onTap: onPress,
-        child: Image(image: image, width: 320, height: 44, fit: BoxFit.fill),
-      ),
+    return Stack(
+      children: <Widget>[
+        Image(image: image, width: 320, height: 44, fit: BoxFit.fill),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onPress,
+              highlightColor: Colors.white.withOpacity(0.5),
+              splashColor: Colors.white.withOpacity(0.2),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

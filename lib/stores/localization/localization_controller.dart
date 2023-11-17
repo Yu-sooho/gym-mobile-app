@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
+import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
 import 'package:gym_calendar/stores/localization/component_error_text.dart';
 export 'package:flutter/widgets.dart';
 
@@ -35,6 +36,14 @@ class SettingScreenText {
   final String title;
 
   SettingScreenText({
+    required this.title,
+  });
+}
+
+class ProfileScreenText {
+  final String title;
+
+  ProfileScreenText({
     required this.title,
   });
 }
@@ -77,6 +86,18 @@ class LocalizationController extends GetxController {
       SettingScreenText settingScreenText =
           SettingScreenText(title: SettingScreenTextKr().title);
       return settingScreenText;
+    }
+  }
+
+  ProfileScreenText localiztionProfileScreen() {
+    if (language.value == 0) {
+      ProfileScreenText profileScreenText =
+          ProfileScreenText(title: ProfileScreenTextEn().title);
+      return profileScreenText;
+    } else {
+      ProfileScreenText profileScreenText =
+          ProfileScreenText(title: ProfileScreenTextKr().title);
+      return profileScreenText;
     }
   }
 
