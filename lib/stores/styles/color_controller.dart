@@ -14,8 +14,15 @@ class CustomColor {
   final Color skeletonColor;
   final Color skeletonColor2;
 
+  final Color buttonBorder;
+
   final Color buttonOpacity;
   final Color transparent;
+
+  final Color modalBackground;
+  final Color modalText;
+  final Color modalCancel;
+  final Color modalOk;
 
   CustomColor(
       {required this.toastBackground,
@@ -27,7 +34,12 @@ class CustomColor {
       required this.skeletonColor,
       required this.skeletonColor2,
       required this.buttonOpacity,
-      required this.transparent});
+      required this.buttonBorder,
+      required this.transparent,
+      required this.modalBackground,
+      required this.modalText,
+      required this.modalOk,
+      required this.modalCancel});
 }
 
 class CustomColorController extends GetxController {
@@ -50,6 +62,11 @@ class CustomColorController extends GetxController {
         skeletonColor2: CustomColorMode2().skeletonColor2,
         buttonOpacity: CustomColorMode1().buttonOpacity,
         transparent: CustomColorMode1().transparent,
+        buttonBorder: CustomColorMode1().buttonBorder,
+        modalBackground: CustomColorMode1().modalBackground,
+        modalText: CustomColorMode1().modalText,
+        modalOk: CustomColorMode1().modalOk,
+        modalCancel: CustomColorMode1().modalCancel,
       );
       return customColor;
     } else if (colorType.value == 1) {
@@ -64,6 +81,11 @@ class CustomColorController extends GetxController {
         skeletonColor2: CustomColorMode2().skeletonColor2,
         buttonOpacity: CustomColorMode2().buttonOpacity,
         transparent: CustomColorMode2().transparent,
+        buttonBorder: CustomColorMode1().buttonBorder,
+        modalBackground: CustomColorMode2().modalBackground,
+        modalText: CustomColorMode2().modalText,
+        modalOk: CustomColorMode2().modalOk,
+        modalCancel: CustomColorMode2().modalCancel,
       );
       return customColor;
     } else {
@@ -78,6 +100,11 @@ class CustomColorController extends GetxController {
         skeletonColor2: CustomColorMode2().skeletonColor2,
         buttonOpacity: CustomColorMode1().buttonOpacity,
         transparent: CustomColorMode1().transparent,
+        buttonBorder: CustomColorMode1().buttonBorder,
+        modalBackground: CustomColorMode2().modalBackground,
+        modalText: CustomColorMode2().modalText,
+        modalOk: CustomColorMode2().modalOk,
+        modalCancel: CustomColorMode2().modalCancel,
       );
       return customColor;
     }

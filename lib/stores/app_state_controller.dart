@@ -28,11 +28,11 @@ class AppStateController extends GetxController {
           .instance.platformDispatcher.views.first.physicalSize.height /
       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
 
-  late double screenWidth = width1;
-  late double screenHeight = height1;
+  late RxDouble screenWidth = width1.obs;
+  late RxDouble screenHeight = height1.obs;
 
-  late double logicalWidth = width2;
-  late double logicalHeight = height2;
+  late RxDouble logicalWidth = width2.obs;
+  late RxDouble logicalHeight = height2.obs;
 
   final OverlayEntry overlayEntrys = OverlayEntry(builder: loadingScreen);
 

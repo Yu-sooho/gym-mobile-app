@@ -14,6 +14,13 @@ class CustomColorMode1 {
 
   Color buttonOpacity = const Color(0x32ffffff);
   Color transparent = const Color(0x00ffffff);
+
+  Color buttonBorder = const Color(0x32ffffff);
+
+  Color modalBackground = const Color(0xffffffff);
+  Color modalText = const Color(0xff242424);
+  Color modalOk = const Color(0xff242424);
+  Color modalCancel = const Color(0x32242424);
 }
 
 class CustomColorMode2 {
@@ -30,4 +37,11 @@ class CustomColorMode2 {
 
   Color buttonOpacity = const Color(0x32ffffff);
   Color transparent = const Color(0x00ffffff);
+
+  Color buttonBorder = const Color(0x32ffffff);
+
+  Color modalBackground = const Color(0xffffffff);
+  Color modalText = const Color(0x32ffffff);
+  Color modalOk = const Color(0x32ffffff);
+  Color modalCancel = const Color(0x32ffffff);
 }

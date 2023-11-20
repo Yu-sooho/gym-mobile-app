@@ -1,5 +1,5 @@
 class SettingScreenTextKr {
-  String title = '옵션';
+  String title = '알림 설정';
 }
 
 class SettingScreenTextEn {

@@ -25,6 +25,26 @@ class CustomFont1 {
       fontSize: 18,
       fontWeight: FontWeight.bold,
       color: colorController.customColor().defaultTextColor);
+  late TextStyle modalTitle = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+      color: colorController.customColor().modalText);
+  late TextStyle modalText = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 12,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalText);
+  late TextStyle modalOk = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalOk);
+  late TextStyle modalCancel = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalCancel);
 }
 
 class CustomFont2 {
@@ -51,6 +71,26 @@ class CustomFont2 {
       fontSize: 18,
       fontWeight: FontWeight.bold,
       color: colorController.customColor().defaultTextColor);
+  late TextStyle modalTitle = TextStyle(
+      fontFamily: 'Nanum',
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+      color: colorController.customColor().modalText);
+  late TextStyle modalText = TextStyle(
+      fontFamily: 'Nanum',
+      fontSize: 12,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalText);
+  late TextStyle modalOk = TextStyle(
+      fontFamily: 'Nanum',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalOk);
+  late TextStyle modalCancel = TextStyle(
+      fontFamily: 'Nanum',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalCancel);
 }
 
 class CustomFont3 {
@@ -77,4 +117,25 @@ class CustomFont3 {
       fontSize: 18,
       fontWeight: FontWeight.bold,
       color: colorController.customColor().defaultTextColor);
+
+  late TextStyle modalTitle = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+      color: colorController.customColor().modalText);
+  late TextStyle modalText = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 12,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalText);
+  late TextStyle modalOk = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalOk);
+  late TextStyle modalCancel = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: colorController.customColor().modalCancel);
 }

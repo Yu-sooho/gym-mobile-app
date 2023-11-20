@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 @immutable
 class ProfileScreen extends StatefulWidget {
@@ -21,37 +21,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Get.put(CustomColorController());
   final FirebaseAuthController firebaseAuthController =
       Get.put(FirebaseAuthController());
+  final AppStateController appStateController = Get.put(AppStateController());
+  final CustomFontController fontController = Get.put(CustomFontController());
 
-  late OverlayEntry overlayEntrys = OverlayEntry(builder: photo);
+  late OverlayEntry overlayPhoto = OverlayEntry(
+      builder: (_) => photoScreen(
+          onPress: () => onPressImage(context),
+          imageUri:
+              'https://image.dongascience.com/Photo/2017/10/15076010680571.jpg'));
+
+  late OverlayEntry overlayLogout = OverlayEntry(
+      builder: (_) => customModalScreen(
+          title:
+              localizationController.localiztionModalScreenText().logoutTitle,
+          description:
+              localizationController.localiztionModalScreenText().logoutText,
+          onPressCancel: logoutCancel,
+          onPressOk: () => {logout(context)}));
 
   void onPressImage(BuildContext context) {
-    if (overlayEntrys.mounted) {
-      overlayEntrys.remove();
+    if (overlayPhoto.mounted) {
+      overlayPhoto.remove();
       return;
     }
     OverlayState overlayState = Overlay.of(context);
-    overlayState.insert(overlayEntrys);
+    overlayState.insert(overlayPhoto);
   }
 
-  Widget photo(BuildContext context) {
-    return Scaffold(
-        backgroundColor: colorController.customColor().loadingSpinnerOpacity,
-        body: CustomButton(
-            highlightColor: colorController.customColor().transparent,
-            splashColor: colorController.customColor().transparent,
-            onPress: () => onPressImage(context),
-            child: CachedNetworkImage(
-              imageUrl:
-                  'https://image.dongascience.com/Photo/2017/10/15076010680571.jpg',
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                    image: imageProvider,
-                  ),
-                ),
-              ),
-            )));
+  void onPressSetting() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SettingScreen()),
+    );
+  }
+
+  void onPressInquiry() {}
+  void onPressLogout(BuildContext context) {
+    if (overlayLogout.mounted) {
+      overlayLogout.remove();
+      return;
+    }
+    OverlayState overlayState = Overlay.of(context);
+    overlayState.insert(overlayLogout);
+  }
+
+  void logoutCancel() {
+    if (overlayLogout.mounted) {
+      overlayLogout.remove();
+      return;
+    }
+  }
+
+  void logout(BuildContext context) async {
+    if (overlayLogout.mounted) {
+      overlayLogout.remove();
+    }
+    await firebaseAuthController.signOut();
+    if (!mounted) return;
+    Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
   }
 
   @override
@@ -62,100 +89,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )),
       Scaffold(
           backgroundColor: Colors.transparent,
-          body: SizedBox(
-              child: SizedBox(
-            child: Column(children: [
-              CustomHeader(
-                  title:
-                      localizationController.localiztionProfileScreen().title,
-                  onPressLeft: () => {Navigator.of(context).pop()}),
-              SizedBox(
-                  child: Padding(
-                padding: EdgeInsets.only(top: 0),
-                child: userContainer(
-                    context,
-                    widget.currentUser ?? firebaseAuthController.currentUser,
-                    onPressImage),
-              ))
-            ]),
-          )))
+          body: Column(children: [
+            CustomHeader(
+                title: localizationController.localiztionProfileScreen().title,
+                onPressLeft: () => {Navigator.of(context).pop()}),
+            SizedBox(
+              height: appStateController.logicalHeight.value -
+                  MediaQuery.of(context).padding.top -
+                  MediaQuery.of(context).padding.bottom,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(top: 24),
+                child: Column(children: [
+                  SizedBox(
+                      child: Padding(
+                    padding: EdgeInsets.only(top: 0),
+                    child: userProfileButton(
+                        context,
+                        widget.currentUser ??
+                            firebaseAuthController.currentUser,
+                        onPressImage),
+                  )),
+                  SizedBox(height: 16),
+                  CustomButton(
+                      child: Container(
+                    height: 32,
+                    width: 320,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                            color: colorController.customColor().buttonBorder)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            localizationController
+                                .localiztionProfileScreen()
+                                .edit,
+                            style: fontController.customFont().bold12,
+                          )
+                        ]),
+                  )),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  RightArrowButton(
+                      onPress: onPressSetting,
+                      title: localizationController
+                          .localiztionProfileScreen()
+                          .setting),
+                  RightArrowButton(
+                      onPress: onPressInquiry,
+                      title: localizationController
+                          .localiztionProfileScreen()
+                          .inquiry),
+                  RightArrowButton(
+                      onPress: () => {onPressLogout(context)},
+                      isHaveRight: false,
+                      textStyle: fontController.customFont().medium12,
+                      title: localizationController
+                          .localiztionProfileScreen()
+                          .logout)
+                ]),
+              ),
+            )
+          ]))
     ]);
   }
-}
-
-Widget userContainer(
-  BuildContext context,
-  User? user,
-  onPressImage,
-) {
-  final CustomFontController fontController = Get.put(CustomFontController());
-  final AppStateController appStateController = Get.put(AppStateController());
-
-  return SizedBox(
-    child: Column(children: [
-      InkWell(
-          child: CustomButton(
-        onPress: () => {onPressImage(context)},
-        borderRadius: BorderRadius.circular(50),
-        child: CachedNetworkImage(
-          imageUrl:
-              'https://image.dongascience.com/Photo/2017/10/15076010680571.jpg',
-          imageBuilder: (context, imageProvider) => Container(
-            width: 100.0,
-            height: 100.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-            ),
-          ),
-          placeholder: (context, url) => skeletonBox(),
-          errorWidget: (context, url, error) => errorBox(),
-        ),
-      )),
-      SizedBox(
-        height: 24,
-      ),
-      Container(
-          alignment: Alignment.center,
-          width: appStateController.width2,
-          child: Obx(() => Text(
-                '${user?.displayName}',
-                style: fontController.customFont().bold12,
-                textAlign: TextAlign.center,
-              )))
-    ]),
-  );
-}
-
-Widget skeletonBox() {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-
-  return Obx(() => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: colorController.customColor().skeletonColor,
-        ),
-        width: 100.0,
-        height: 100.0,
-      ));
-}
-
-Widget errorBox() {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-
-  return Obx(() => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: colorController.customColor().skeletonColor,
-        ),
-        width: 100.0,
-        height: 100.0,
-        child: Icon(
-          Icons.camera,
-          color: colorController.customColor().skeletonColor2,
-          size: 100,
-        ),
-      ));
 }

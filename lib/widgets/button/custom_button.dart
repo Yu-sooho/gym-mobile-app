@@ -29,16 +29,16 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     onTap() async {
-      final screenName = ModalRoute.of(context)?.settings.name;
-      if (screenName != null) {
-        String result = screenName.replaceAll('/', '');
-        await firebaseAnalyticsController.clickEvent(
-            name: 'custom_button',
-            parameters: {
-              'screenName': result,
-              'platform': Platform.isIOS ? 'ios' : 'android'
-            });
-      }
+      // final screenName = ModalRoute.of(context)?.settings.name;
+      // if (screenName != null) {
+      //   String result = screenName.replaceAll('/', '');
+      //   await firebaseAnalyticsController.clickEvent(
+      //       name: 'custom_button',
+      //       parameters: {
+      //         'screenName': result,
+      //         'platform': Platform.isIOS ? 'ios' : 'android'
+      //       });
+      // }
       if (onPress != null) {
         onPress!();
       }
@@ -53,7 +53,8 @@ class CustomButton extends StatelessWidget {
                 onTap: onTap,
                 borderRadius: borderRadius,
                 highlightColor: highlightColor,
-                splashColor: splashColor,
+                splashColor:
+                    splashColor ?? colorController.customColor().transparent,
                 hoverColor: colorController.customColor().buttonOpacity,
               )),
         ),

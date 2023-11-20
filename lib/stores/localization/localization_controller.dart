@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
+import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
 import 'package:gym_calendar/stores/localization/component_error_text.dart';
@@ -42,10 +43,30 @@ class SettingScreenText {
 
 class ProfileScreenText {
   final String title;
+  final String edit;
+  final String setting;
+  final String inquiry;
+  final String logout;
+  ProfileScreenText(
+      {required this.title,
+      required this.edit,
+      required this.setting,
+      required this.inquiry,
+      required this.logout});
+}
 
-  ProfileScreenText({
-    required this.title,
-  });
+class ModalScreenText {
+  final String ok;
+  final String cancel;
+
+  final String logoutTitle;
+  final String logoutText;
+
+  ModalScreenText(
+      {required this.ok,
+      required this.cancel,
+      required this.logoutTitle,
+      required this.logoutText});
 }
 
 class LocalizationController extends GetxController {
@@ -91,12 +112,20 @@ class LocalizationController extends GetxController {
 
   ProfileScreenText localiztionProfileScreen() {
     if (language.value == 0) {
-      ProfileScreenText profileScreenText =
-          ProfileScreenText(title: ProfileScreenTextEn().title);
+      ProfileScreenText profileScreenText = ProfileScreenText(
+          title: ProfileScreenTextEn().title,
+          edit: ProfileScreenTextEn().edit,
+          setting: ProfileScreenTextEn().setting,
+          inquiry: ProfileScreenTextEn().inquiry,
+          logout: ProfileScreenTextEn().logout);
       return profileScreenText;
     } else {
-      ProfileScreenText profileScreenText =
-          ProfileScreenText(title: ProfileScreenTextKr().title);
+      ProfileScreenText profileScreenText = ProfileScreenText(
+          title: ProfileScreenTextKr().title,
+          edit: ProfileScreenTextKr().edit,
+          setting: ProfileScreenTextKr().setting,
+          inquiry: ProfileScreenTextKr().inquiry,
+          logout: ProfileScreenTextKr().logout);
       return profileScreenText;
     }
   }
@@ -110,6 +139,24 @@ class LocalizationController extends GetxController {
       ComponentErrorText settingScreenText =
           ComponentErrorText(networkError: ComponentErrorTextKr().networkError);
       return settingScreenText;
+    }
+  }
+
+  ModalScreenText localiztionModalScreenText() {
+    if (language.value == 0) {
+      ModalScreenText modalScreenText = ModalScreenText(
+          ok: ModalScreenTextEn().ok,
+          cancel: ModalScreenTextEn().cancel,
+          logoutText: ModalScreenTextEn().logoutText,
+          logoutTitle: ModalScreenTextEn().logoutTitle);
+      return modalScreenText;
+    } else {
+      ModalScreenText modalScreenText = ModalScreenText(
+          ok: ModalScreenTextKr().ok,
+          cancel: ModalScreenTextKr().cancel,
+          logoutText: ModalScreenTextKr().logoutText,
+          logoutTitle: ModalScreenTextKr().logoutTitle);
+      return modalScreenText;
     }
   }
 }
