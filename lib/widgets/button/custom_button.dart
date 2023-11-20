@@ -7,14 +7,22 @@ import 'dart:io' show Platform;
 class CustomButton extends StatelessWidget {
   final FirebaseAnalyticsController firebaseAnalyticsController =
       Get.put(FirebaseAnalyticsController());
+  final CustomColorController colorController =
+      Get.put(CustomColorController());
 
   final Function()? onPress;
   final BoxDecoration? boxDecoration;
   final Widget child;
+  final BorderRadius? borderRadius;
+  late final Color? highlightColor;
+  late final Color? splashColor;
 
   CustomButton({
     this.onPress,
     this.boxDecoration,
+    this.borderRadius,
+    this.highlightColor,
+    this.splashColor,
     required this.child,
   });
 
@@ -36,9 +44,20 @@ class CustomButton extends StatelessWidget {
       }
     }
 
-    return InkWell(
-      onTap: onTap,
-      child: child,
-    );
+    return Stack(children: <Widget>[
+      child,
+      Positioned.fill(
+        child: Material(
+          color: const Color.fromRGBO(0, 0, 0, 0),
+          child: Obx(() => InkWell(
+                onTap: onTap,
+                borderRadius: borderRadius,
+                highlightColor: highlightColor,
+                splashColor: splashColor,
+                hoverColor: colorController.customColor().buttonOpacity,
+              )),
+        ),
+      ),
+    ]);
   }
 }

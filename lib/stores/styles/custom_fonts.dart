@@ -10,6 +10,11 @@ class CustomFont1 {
       fontSize: 12,
       fontWeight: FontWeight.normal,
       color: colorController.customColor().defaultTextColor);
+  late TextStyle bold12 = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
+      color: colorController.customColor().defaultTextColor);
   late TextStyle bold14 = TextStyle(
       fontFamily: 'NotoSans',
       fontSize: 14,
@@ -31,6 +36,11 @@ class CustomFont2 {
       fontSize: 12,
       fontWeight: FontWeight.normal,
       color: colorController.customColor().defaultTextColor);
+  late TextStyle bold12 = TextStyle(
+      fontFamily: 'Nanum',
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
+      color: colorController.customColor().defaultTextColor);
   late TextStyle bold14 = TextStyle(
       fontFamily: 'Nanum',
       fontSize: 14,
@@ -51,6 +61,11 @@ class CustomFont3 {
       fontFamily: 'SCore',
       fontSize: 12,
       fontWeight: FontWeight.normal,
+      color: colorController.customColor().defaultTextColor);
+  late TextStyle bold12 = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
       color: colorController.customColor().defaultTextColor);
   late TextStyle bold14 = TextStyle(
       fontFamily: 'SCore',

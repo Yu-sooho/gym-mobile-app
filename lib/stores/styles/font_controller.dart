@@ -6,11 +6,13 @@ export 'package:flutter/widgets.dart';
 @immutable
 class CustomFont {
   final TextStyle medium12;
+  final TextStyle bold12;
   final TextStyle bold14;
   final TextStyle bold18;
 
   CustomFont({
     required this.medium12,
+    required this.bold12,
     required this.bold14,
     required this.bold18,
   });
@@ -27,6 +29,7 @@ class CustomFontController extends GetxController {
     if (fontType.value == 0) {
       CustomFont customFont = CustomFont(
         medium12: CustomFont1().medium12,
+        bold12: CustomFont1().bold12,
         bold14: CustomFont1().bold14,
         bold18: CustomFont1().bold18,
       );
@@ -34,6 +37,7 @@ class CustomFontController extends GetxController {
     } else if (fontType.value == 1) {
       CustomFont customFont = CustomFont(
         medium12: CustomFont2().medium12,
+        bold12: CustomFont1().bold12,
         bold14: CustomFont2().bold14,
         bold18: CustomFont2().bold18,
       );
@@ -41,6 +45,7 @@ class CustomFontController extends GetxController {
     } else {
       CustomFont customFont = CustomFont(
         medium12: CustomFont3().medium12,
+        bold12: CustomFont1().bold12,
         bold14: CustomFont3().bold14,
         bold18: CustomFont3().bold18,
       );

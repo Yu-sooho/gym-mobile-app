@@ -9,7 +9,11 @@ class CustomColorMode1 {
   Color loadingSpinnerColor = const Color(0xffffffff);
 
   Color defaultTextColor = const Color(0xffffffff);
-  Color skeletonColor = const Color(0xff124234);
+  Color skeletonColor = const Color(0xffe5e5e5);
+  Color skeletonColor2 = const Color(0xffffffff);
+
+  Color buttonOpacity = const Color(0x32ffffff);
+  Color transparent = const Color(0x00ffffff);
 }
 
 class CustomColorMode2 {
@@ -21,5 +25,9 @@ class CustomColorMode2 {
   Color loadingSpinnerColor = const Color(0xffffffff);
 
   Color defaultTextColor = const Color(0xffffffff);
-  Color skeletonColor = const Color(0xff124234);
+  Color skeletonColor = const Color(0xffe5e5e5);
+  Color skeletonColor2 = const Color(0xffffffff);
+
+  Color buttonOpacity = const Color(0x32ffffff);
+  Color transparent = const Color(0x00ffffff);
 }
