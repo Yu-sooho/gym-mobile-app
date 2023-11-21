@@ -27,47 +27,48 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: SafeArea(
-          bottom: false,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                  onTap: onPressLeft,
-                  child: Container(
-                      alignment: Alignment.centerLeft,
-                      width: screenSize / 6,
-                      height: 32,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-                        child: Icon(Icons.arrow_back_ios,
-                            color:
-                                colorController.customColor().defaultTextColor,
-                            size: 24),
-                      ))),
-              InkWell(
-                  child: Container(
-                      alignment: Alignment.center,
-                      width: screenSize / 6 * 4,
-                      height: 32,
-                      child: Text(title,
-                          textAlign: TextAlign.center,
-                          style: fontController.customFont().bold14))),
-              InkWell(
-                  onTap: onPressLeft,
-                  child: Container(
-                      alignment: Alignment.centerLeft,
-                      width: screenSize / 6,
-                      height: 32,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                        child: Text(rightText!,
-                            textAlign: TextAlign.center,
-                            style: fontController.customFont().bold14),
-                      ))),
-            ],
-          )),
-    );
+    return Obx(() => SizedBox(
+          child: SafeArea(
+              bottom: false,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: onPressLeft,
+                      child: Container(
+                          alignment: Alignment.centerLeft,
+                          width: screenSize / 6,
+                          height: 32,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+                            child: Icon(Icons.arrow_back_ios,
+                                color: colorController
+                                    .customColor()
+                                    .defaultTextColor,
+                                size: 24),
+                          ))),
+                  InkWell(
+                      child: Container(
+                          alignment: Alignment.center,
+                          width: screenSize / 6 * 4,
+                          height: 32,
+                          child: Text(title,
+                              textAlign: TextAlign.center,
+                              style: fontController.customFont().bold14))),
+                  InkWell(
+                      onTap: onPressLeft,
+                      child: Container(
+                          alignment: Alignment.centerLeft,
+                          width: screenSize / 6,
+                          height: 32,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+                            child: Text(rightText!,
+                                textAlign: TextAlign.center,
+                                style: fontController.customFont().bold14),
+                          ))),
+                ],
+              )),
+        ));
   }
 }

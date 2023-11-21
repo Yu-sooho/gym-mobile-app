@@ -36,6 +36,9 @@ class AppStateController extends GetxController {
 
   final OverlayEntry overlayEntrys = OverlayEntry(builder: loadingScreen);
 
+  late RxBool exerciseAlarm = true.obs;
+  late RxBool scheduleAlarm = true.obs;
+
   RxBool isLoading = false.obs;
   void setIsLoading(bool value, BuildContext context) {
     isLoading.value = value;
@@ -48,6 +51,7 @@ class AppStateController extends GetxController {
   }
 
   void showToast(String text) {
+    Fluttertoast.cancel();
     Fluttertoast.showToast(
         msg: text,
         toastLength: Toast.LENGTH_LONG,
@@ -55,7 +59,7 @@ class AppStateController extends GetxController {
         timeInSecForIosWeb: 1,
         textColor: customColorController.customColor().toastText,
         backgroundColor: customColorController.customColor().toastBackground,
-        fontSize: 16.0);
+        fontSize: 14.0);
   }
 
   // isGranted - 권한 동의 상태 시 true

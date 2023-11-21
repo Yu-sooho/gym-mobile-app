@@ -13,11 +13,12 @@ class CustomColor {
   final Color defaultTextColor;
   final Color skeletonColor;
   final Color skeletonColor2;
+  final Color transparent;
 
   final Color buttonBorder;
-
   final Color buttonOpacity;
-  final Color transparent;
+
+  final Color switchColor;
 
   final Color modalBackground;
   final Color modalText;
@@ -35,6 +36,7 @@ class CustomColor {
       required this.skeletonColor2,
       required this.buttonOpacity,
       required this.buttonBorder,
+      required this.switchColor,
       required this.transparent,
       required this.modalBackground,
       required this.modalText,
@@ -67,6 +69,7 @@ class CustomColorController extends GetxController {
         modalText: CustomColorMode1().modalText,
         modalOk: CustomColorMode1().modalOk,
         modalCancel: CustomColorMode1().modalCancel,
+        switchColor: CustomColorMode1().switchColor,
       );
       return customColor;
     } else if (colorType.value == 1) {
@@ -86,6 +89,7 @@ class CustomColorController extends GetxController {
         modalText: CustomColorMode2().modalText,
         modalOk: CustomColorMode2().modalOk,
         modalCancel: CustomColorMode2().modalCancel,
+        switchColor: CustomColorMode2().switchColor,
       );
       return customColor;
     } else {
@@ -105,6 +109,7 @@ class CustomColorController extends GetxController {
         modalText: CustomColorMode2().modalText,
         modalOk: CustomColorMode2().modalOk,
         modalCancel: CustomColorMode2().modalCancel,
+        switchColor: CustomColorMode1().switchColor,
       );
       return customColor;
     }

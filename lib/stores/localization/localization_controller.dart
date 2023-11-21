@@ -35,9 +35,22 @@ class ComponentErrorText {
 
 class SettingScreenText {
   final String title;
+  final String exerciseAlarm;
+  final String scheduleAlarm;
+
+  final String exerciseAlarmCancelToast;
+  final String scheduleAlarmCancelToast;
+  final String exerciseAlarmToast;
+  final String scheduleAlarmToast;
 
   SettingScreenText({
     required this.title,
+    required this.exerciseAlarm,
+    required this.scheduleAlarm,
+    required this.exerciseAlarmCancelToast,
+    required this.scheduleAlarmCancelToast,
+    required this.exerciseAlarmToast,
+    required this.scheduleAlarmToast,
   });
 }
 
@@ -100,12 +113,28 @@ class LocalizationController extends GetxController {
 
   SettingScreenText localiztionSettingScreen() {
     if (language.value == 0) {
-      SettingScreenText settingScreenText =
-          SettingScreenText(title: SettingScreenTextEn().title);
+      SettingScreenText settingScreenText = SettingScreenText(
+          title: SettingScreenTextEn().title,
+          scheduleAlarm: SettingScreenTextEn().scheduleAlarm,
+          exerciseAlarm: SettingScreenTextEn().exerciseAlarm,
+          scheduleAlarmToast: SettingScreenTextEn().scheduleAlarmToast,
+          exerciseAlarmToast: SettingScreenTextEn().exerciseAlarmToast,
+          scheduleAlarmCancelToast:
+              SettingScreenTextEn().scheduleAlarmCancelToast,
+          exerciseAlarmCancelToast:
+              SettingScreenTextEn().exerciseAlarmCancelToast);
       return settingScreenText;
     } else {
-      SettingScreenText settingScreenText =
-          SettingScreenText(title: SettingScreenTextKr().title);
+      SettingScreenText settingScreenText = SettingScreenText(
+          title: SettingScreenTextKr().title,
+          scheduleAlarm: SettingScreenTextKr().scheduleAlarm,
+          exerciseAlarm: SettingScreenTextKr().exerciseAlarm,
+          scheduleAlarmToast: SettingScreenTextKr().scheduleAlarmToast,
+          exerciseAlarmToast: SettingScreenTextKr().exerciseAlarmToast,
+          scheduleAlarmCancelToast:
+              SettingScreenTextEn().scheduleAlarmCancelToast,
+          exerciseAlarmCancelToast:
+              SettingScreenTextEn().exerciseAlarmCancelToast);
       return settingScreenText;
     }
   }
