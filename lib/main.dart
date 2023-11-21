@@ -34,6 +34,7 @@ class Main extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/setting': (context) => SettingScreen(),
         '/profile': (context) => ProfileScreen(),
+        '/profile_edit': (context) => ProfileEditScreen(),
       },
     );
   }

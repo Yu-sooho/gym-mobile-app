@@ -14,9 +14,6 @@ class HomeScreen extends StatelessWidget {
       Get.put(CustomColorController());
 
   void onPressEmail(BuildContext context) {
-    // appStateController.permissionCheck(Permission.notification);
-    // firebaseAuthController.signOut();
-    // Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ProfileScreen()),

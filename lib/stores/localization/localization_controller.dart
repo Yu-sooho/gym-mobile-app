@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
+import 'package:gym_calendar/stores/localization/profile_edit_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
 import 'package:gym_calendar/stores/localization/component_error_text.dart';
@@ -66,6 +67,13 @@ class ProfileScreenText {
       required this.setting,
       required this.inquiry,
       required this.logout});
+}
+
+class ProfileEditScreenText {
+  final String title;
+  ProfileEditScreenText({
+    required this.title,
+  });
 }
 
 class ModalScreenText {
@@ -156,6 +164,20 @@ class LocalizationController extends GetxController {
           inquiry: ProfileScreenTextKr().inquiry,
           logout: ProfileScreenTextKr().logout);
       return profileScreenText;
+    }
+  }
+
+  ProfileEditScreenText localiztionProfileEditScreen() {
+    if (language.value == 0) {
+      ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
+        title: ProfileEditScreenTextEn().title,
+      );
+      return profileEditScreenText;
+    } else {
+      ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
+        title: ProfileEditScreenTextKr().title,
+      );
+      return profileEditScreenText;
     }
   }
 

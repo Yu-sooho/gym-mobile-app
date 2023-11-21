@@ -5,7 +5,7 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AppStateController extends GetxController {
-  final CustomColorController customColorController =
+  final CustomColorController colorController =
       Get.put(CustomColorController());
 
   final view = WidgetsBinding.instance.platformDispatcher.views.first;
@@ -57,8 +57,8 @@ class AppStateController extends GetxController {
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        textColor: customColorController.customColor().toastText,
-        backgroundColor: customColorController.customColor().toastBackground,
+        textColor: colorController.customColor().toastText,
+        backgroundColor: colorController.customColor().toastBackground,
         fontSize: 14.0);
   }
 

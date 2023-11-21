@@ -9,8 +9,7 @@ Widget customSwitchButton(BuildContext context,
     bool value = true,
     TextStyle? textStyle}) {
   CustomFontController customFontController = Get.put(CustomFontController());
-  CustomColorController customColorController =
-      Get.put(CustomColorController());
+  CustomColorController colorController = Get.put(CustomColorController());
 
   return Obx(() => CustomButton(
       onPress: onPress,
@@ -30,8 +29,7 @@ Widget customSwitchButton(BuildContext context,
                   scale: .7,
                   child: CupertinoSwitch(
                     value: value,
-                    activeColor:
-                        customColorController.customColor().switchColor,
+                    activeColor: colorController.customColor().switchColor,
                     onChanged: (bool? value) {},
                   )),
             ],

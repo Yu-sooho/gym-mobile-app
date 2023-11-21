@@ -14,7 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
   final AuthStateController authController = Get.put(AuthStateController());
-  final CustomColorController customColorController =
+  final CustomColorController colorController =
       Get.put(CustomColorController());
   final AppStateController appStateController = Get.put(AppStateController());
 
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       () => Container(
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            color: customColorController.customColor().defaultBackground,
+            color: colorController.customColor().defaultBackground,
           ),
           child: Align(
               alignment: Alignment(0, 0),
