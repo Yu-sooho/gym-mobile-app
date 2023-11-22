@@ -8,7 +8,7 @@ Widget customSwitchButton(BuildContext context,
     Function()? onPress,
     bool value = true,
     TextStyle? textStyle}) {
-  CustomFontController customFontController = Get.put(CustomFontController());
+  CustomFontController fontController = Get.put(CustomFontController());
   CustomColorController colorController = Get.put(CustomColorController());
 
   return Obx(() => CustomButton(
@@ -22,7 +22,7 @@ Widget customSwitchButton(BuildContext context,
             children: [
               Text(
                 title ?? '',
-                style: textStyle ?? customFontController.customFont().bold12,
+                style: textStyle ?? fontController.customFont().bold12,
               ),
               Transform.scale(
                   transformHitTests: false,

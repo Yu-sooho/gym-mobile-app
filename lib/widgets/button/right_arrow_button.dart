@@ -17,8 +17,7 @@ class RightArrowButton extends StatelessWidget {
       required this.onPress});
 
   final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController customFontController =
-      Get.put(CustomFontController());
+  final CustomFontController fontController = Get.put(CustomFontController());
   final CustomColorController colorController =
       Get.put(CustomColorController());
 
@@ -36,8 +35,7 @@ class RightArrowButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(title,
-                      style: textStyle ??
-                          customFontController.customFont().bold14),
+                      style: textStyle ?? fontController.customFont().bold14),
                   isHaveRight
                       ? Icon(
                           Icons.arrow_right_outlined,

@@ -21,6 +21,9 @@ class CustomColorMode1 {
   Color modalText = const Color(0xff242424);
   Color modalOk = const Color(0xff242424);
   Color modalCancel = const Color(0x32242424);
+  Color textInputCursor = const Color(0xffffffff);
+  Color textInputFocusCursor = const Color(0xff921314);
+  Color placeholder = const Color(0xff712424);
 }
 
 class CustomColorMode2 {
@@ -44,4 +47,7 @@ class CustomColorMode2 {
   Color modalText = const Color(0xff242424);
   Color modalOk = const Color(0xff242424);
   Color modalCancel = const Color(0x32242424);
+  Color textInputCursor = const Color(0xff242424);
+  Color textInputFocusCursor = const Color(0xffffffff);
+  Color placeholder = const Color(0xff712424);
 }

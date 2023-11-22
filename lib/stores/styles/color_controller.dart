@@ -25,6 +25,10 @@ class CustomColor {
   final Color modalCancel;
   final Color modalOk;
 
+  final Color textInputCursor;
+  final Color textInputFocusCursor;
+  final Color placeholder;
+
   CustomColor(
       {required this.toastBackground,
       required this.toastText,
@@ -41,7 +45,10 @@ class CustomColor {
       required this.modalBackground,
       required this.modalText,
       required this.modalOk,
-      required this.modalCancel});
+      required this.modalCancel,
+      required this.textInputCursor,
+      required this.textInputFocusCursor,
+      required this.placeholder});
 }
 
 class CustomColorController extends GetxController {
@@ -54,63 +61,69 @@ class CustomColorController extends GetxController {
   CustomColor customColor() {
     if (colorType.value == 0) {
       CustomColor customColor = CustomColor(
-        toastBackground: CustomColorMode1().toastBackground,
-        toastText: CustomColorMode1().toastText,
-        defaultBackground: CustomColorMode1().defaultBackground,
-        loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
-        loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
-        defaultTextColor: CustomColorMode1().defaultTextColor,
-        skeletonColor: CustomColorMode1().skeletonColor,
-        skeletonColor2: CustomColorMode2().skeletonColor2,
-        buttonOpacity: CustomColorMode1().buttonOpacity,
-        transparent: CustomColorMode1().transparent,
-        buttonBorder: CustomColorMode1().buttonBorder,
-        modalBackground: CustomColorMode1().modalBackground,
-        modalText: CustomColorMode1().modalText,
-        modalOk: CustomColorMode1().modalOk,
-        modalCancel: CustomColorMode1().modalCancel,
-        switchColor: CustomColorMode1().switchColor,
-      );
+          toastBackground: CustomColorMode1().toastBackground,
+          toastText: CustomColorMode1().toastText,
+          defaultBackground: CustomColorMode1().defaultBackground,
+          loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
+          loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
+          defaultTextColor: CustomColorMode1().defaultTextColor,
+          skeletonColor: CustomColorMode1().skeletonColor,
+          skeletonColor2: CustomColorMode2().skeletonColor2,
+          buttonOpacity: CustomColorMode1().buttonOpacity,
+          transparent: CustomColorMode1().transparent,
+          buttonBorder: CustomColorMode1().buttonBorder,
+          modalBackground: CustomColorMode1().modalBackground,
+          modalText: CustomColorMode1().modalText,
+          modalOk: CustomColorMode1().modalOk,
+          modalCancel: CustomColorMode1().modalCancel,
+          switchColor: CustomColorMode1().switchColor,
+          textInputCursor: CustomColorMode1().textInputCursor,
+          textInputFocusCursor: CustomColorMode1().textInputFocusCursor,
+          placeholder: CustomColorMode1().placeholder);
       return customColor;
     } else if (colorType.value == 1) {
       CustomColor customColor = CustomColor(
-        toastBackground: CustomColorMode2().toastBackground,
-        toastText: CustomColorMode2().toastText,
-        defaultBackground: CustomColorMode2().defaultBackground,
-        loadingSpinnerOpacity: CustomColorMode2().loadingSpinnerOpacity,
-        loadingSpinnerColor: CustomColorMode2().loadingSpinnerColor,
-        defaultTextColor: CustomColorMode2().defaultTextColor,
-        skeletonColor: CustomColorMode2().skeletonColor,
-        skeletonColor2: CustomColorMode2().skeletonColor2,
-        buttonOpacity: CustomColorMode2().buttonOpacity,
-        transparent: CustomColorMode2().transparent,
-        buttonBorder: CustomColorMode1().buttonBorder,
-        modalBackground: CustomColorMode2().modalBackground,
-        modalText: CustomColorMode2().modalText,
-        modalOk: CustomColorMode2().modalOk,
-        modalCancel: CustomColorMode2().modalCancel,
-        switchColor: CustomColorMode2().switchColor,
-      );
+          toastBackground: CustomColorMode2().toastBackground,
+          toastText: CustomColorMode2().toastText,
+          defaultBackground: CustomColorMode2().defaultBackground,
+          loadingSpinnerOpacity: CustomColorMode2().loadingSpinnerOpacity,
+          loadingSpinnerColor: CustomColorMode2().loadingSpinnerColor,
+          defaultTextColor: CustomColorMode2().defaultTextColor,
+          skeletonColor: CustomColorMode2().skeletonColor,
+          skeletonColor2: CustomColorMode2().skeletonColor2,
+          buttonOpacity: CustomColorMode2().buttonOpacity,
+          transparent: CustomColorMode2().transparent,
+          buttonBorder: CustomColorMode1().buttonBorder,
+          modalBackground: CustomColorMode2().modalBackground,
+          modalText: CustomColorMode2().modalText,
+          modalOk: CustomColorMode2().modalOk,
+          modalCancel: CustomColorMode2().modalCancel,
+          switchColor: CustomColorMode2().switchColor,
+          textInputCursor: CustomColorMode1().textInputCursor,
+          textInputFocusCursor: CustomColorMode1().textInputFocusCursor,
+          placeholder: CustomColorMode1().placeholder);
       return customColor;
     } else {
       CustomColor customColor = CustomColor(
-        toastBackground: CustomColorMode1().toastBackground,
-        toastText: CustomColorMode1().toastText,
-        defaultBackground: CustomColorMode1().defaultBackground,
-        loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
-        loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
-        defaultTextColor: CustomColorMode1().defaultTextColor,
-        skeletonColor: CustomColorMode1().skeletonColor,
-        skeletonColor2: CustomColorMode2().skeletonColor2,
-        buttonOpacity: CustomColorMode1().buttonOpacity,
-        transparent: CustomColorMode1().transparent,
-        buttonBorder: CustomColorMode1().buttonBorder,
-        modalBackground: CustomColorMode2().modalBackground,
-        modalText: CustomColorMode2().modalText,
-        modalOk: CustomColorMode2().modalOk,
-        modalCancel: CustomColorMode2().modalCancel,
-        switchColor: CustomColorMode1().switchColor,
-      );
+          toastBackground: CustomColorMode1().toastBackground,
+          toastText: CustomColorMode1().toastText,
+          defaultBackground: CustomColorMode1().defaultBackground,
+          loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
+          loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
+          defaultTextColor: CustomColorMode1().defaultTextColor,
+          skeletonColor: CustomColorMode1().skeletonColor,
+          skeletonColor2: CustomColorMode2().skeletonColor2,
+          buttonOpacity: CustomColorMode1().buttonOpacity,
+          transparent: CustomColorMode1().transparent,
+          buttonBorder: CustomColorMode1().buttonBorder,
+          modalBackground: CustomColorMode2().modalBackground,
+          modalText: CustomColorMode2().modalText,
+          modalOk: CustomColorMode2().modalOk,
+          modalCancel: CustomColorMode2().modalCancel,
+          switchColor: CustomColorMode1().switchColor,
+          textInputCursor: CustomColorMode1().textInputCursor,
+          textInputFocusCursor: CustomColorMode1().textInputFocusCursor,
+          placeholder: CustomColorMode1().placeholder);
       return customColor;
     }
   }

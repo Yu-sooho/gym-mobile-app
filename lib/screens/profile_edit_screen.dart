@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -26,23 +27,51 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   XFile? image;
   final ImagePicker picker = ImagePicker();
+  late String nickName = firebaseAuthController.currentUser?.displayName ?? '';
 
   void onPressImage(BuildContext context) async {
     final photoPermission =
         await appStateController.permissionCheck(Permission.photos);
     if (photoPermission) {
-      getImage(ImageSource.gallery);
+      if (!context.mounted) return;
+      getImage(ImageSource.gallery, context);
     }
   }
 
-  //이미지를 가져오는 함수
-  Future getImage(ImageSource imageSource) async {
-    final XFile? pickedFile = await picker.pickImage(source: imageSource);
-    if (pickedFile != null) {
-      setState(() {
-        image = XFile(pickedFile.path);
-      });
+  Future getImage(ImageSource imageSource, BuildContext context) async {
+    appStateController.setIsLoading(true, context);
+    try {
+      final XFile? pickedFile = await picker.pickImage(source: imageSource);
+      if (pickedFile != null) {
+        setState(() {
+          image = XFile(pickedFile.path);
+        });
+      }
+      if (!context.mounted) return;
+      appStateController.setIsLoading(false, context);
+    } catch (error) {
+      appStateController.setIsLoading(false, context);
     }
+  }
+
+  final formKey = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+
+  void onChangedName(String name) {
+    setState(() {
+      nickName = name;
+      formKey.currentState?.validate();
+    });
+  }
+
+  String? validateNickName(value) {
+    final check = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    if (check) {
+      return localizationController
+          .localiztionProfileEditScreen()
+          .errorNickName;
+    }
+    return null;
   }
 
   @override
@@ -59,7 +88,15 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   image: image != null ? File(image!.path) : null),
             )),
             SizedBox(height: 16),
-            Text('123')
+            customTextInput(context, onChangedName,
+                title: localizationController
+                    .localiztionProfileEditScreen()
+                    .nickName,
+                placeholder: nickName,
+                maxLength: 8,
+                count: nickName.length,
+                validator: validateNickName,
+                key: formKey),
           ])
         ]);
   }

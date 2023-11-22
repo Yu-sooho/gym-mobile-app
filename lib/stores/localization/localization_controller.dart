@@ -71,9 +71,14 @@ class ProfileScreenText {
 
 class ProfileEditScreenText {
   final String title;
-  ProfileEditScreenText({
-    required this.title,
-  });
+  final String nickName;
+  final String errorNickName;
+  final String errorDescription;
+  ProfileEditScreenText(
+      {required this.title,
+      required this.nickName,
+      required this.errorNickName,
+      required this.errorDescription});
 }
 
 class ModalScreenText {
@@ -171,11 +176,17 @@ class LocalizationController extends GetxController {
     if (language.value == 0) {
       ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
         title: ProfileEditScreenTextEn().title,
+        nickName: ProfileEditScreenTextEn().nickName,
+        errorNickName: ProfileEditScreenTextEn().errorNickName,
+        errorDescription: ProfileEditScreenTextEn().errorDescription,
       );
       return profileEditScreenText;
     } else {
       ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
         title: ProfileEditScreenTextKr().title,
+        nickName: ProfileEditScreenTextKr().nickName,
+        errorNickName: ProfileEditScreenTextKr().errorNickName,
+        errorDescription: ProfileEditScreenTextKr().errorDescription,
       );
       return profileEditScreenText;
     }

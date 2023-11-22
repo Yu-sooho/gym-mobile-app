@@ -18,8 +18,7 @@ Widget customModalScreen(
   final CustomColorController colorController =
       Get.put(CustomColorController());
   final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController customFontController =
-      Get.put(CustomFontController());
+  final CustomFontController fontController = Get.put(CustomFontController());
 
   return Obx(() => Scaffold(
       backgroundColor: backgroundColor ??
@@ -37,13 +36,13 @@ Widget customModalScreen(
             child: Column(children: [
               Text(
                 title ?? 'title',
-                style: customFontController.customFont().modalTitle,
+                style: fontController.customFont().modalTitle,
               ),
               Expanded(
                 child: Align(
                     child: Text(
                   description ?? 'text',
-                  style: customFontController.customFont().modalText,
+                  style: fontController.customFont().modalText,
                 )),
               ),
               Row(
@@ -62,8 +61,7 @@ Widget customModalScreen(
                                 localizationController
                                     .localiztionModalScreenText()
                                     .cancel,
-                            style:
-                                customFontController.customFont().modalCancel,
+                            style: fontController.customFont().modalCancel,
                           ),
                         ),
                       )),
@@ -80,7 +78,7 @@ Widget customModalScreen(
                                 localizationController
                                     .localiztionModalScreenText()
                                     .ok,
-                            style: customFontController.customFont().modalOk,
+                            style: fontController.customFont().modalOk,
                           ),
                         ),
                       ))
