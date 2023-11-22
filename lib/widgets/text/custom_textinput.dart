@@ -27,6 +27,7 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
             Form(
                 key: key,
                 child: TextFormField(
+                  scrollPadding: EdgeInsets.only(bottom: 34),
                   onChanged: onChanged,
                   maxLength: maxLength,
                   autovalidateMode: AutovalidateMode.values.last,

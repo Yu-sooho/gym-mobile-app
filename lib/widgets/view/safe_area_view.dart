@@ -15,6 +15,7 @@ Widget safeAreaView(BuildContext context, String title,
           backgroundColor: colorController.customColor().defaultBackground,
         )),
     Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: Column(children: [
           CustomHeader(
@@ -22,7 +23,9 @@ Widget safeAreaView(BuildContext context, String title,
           SizedBox(
             height: appStateController.logicalHeight.value -
                 MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).padding.bottom,
+                MediaQuery.of(context).padding.bottom -
+                MediaQuery.of(context).viewInsets.bottom -
+                32,
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
                   0, 24, 0, 24 + MediaQuery.of(context).padding.bottom),
