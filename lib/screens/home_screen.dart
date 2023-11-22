@@ -2,34 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/widgets/package_widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreen();
+}
+
+class _HomeScreen extends State<HomeScreen> {
   final FirebaseAuthController firebaseAuthController =
       Get.put(FirebaseAuthController());
   final AppStateController appStateController = Get.put(AppStateController());
   final CustomFontController fontController = Get.put(CustomFontController());
   final CustomColorController colorController =
       Get.put(CustomColorController());
-
-  void onPressEmail(BuildContext context) {
+  final LocalizationController localizationController =
+      Get.put(LocalizationController());
+  void onPressProfile(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ProfileScreen()),
     );
   }
 
-  void onPressText() {
-    if (fontController.fontType.value == 2 ||
-        colorController.colorType.value == 2) {
-      fontController.fontType.value = 0;
-      colorController.colorType.value = 0;
-      return;
-    }
-    fontController.fontType.value++;
-    colorController.colorType.value++;
-  }
+  var tab = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,162 +36,149 @@ class HomeScreen extends StatelessWidget {
       Obx(() => Scaffold(
             backgroundColor: colorController.customColor().defaultBackground,
           )),
-      Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Padding(
-          padding: const EdgeInsets.only(right: 18, left: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 80,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      const Text(
-                        'Hey, selena',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w800),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                        onTap: onPressText,
-                        child: Text(
-                          'Welcome back',
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              fontSize: 18),
+      Column(
+        children: [
+          homeHeader(context, tab),
+          SizedBox(
+            height: appStateController.logicalHeight.value -
+                MediaQuery.of(context).padding.top -
+                MediaQuery.of(context).viewInsets.bottom -
+                32,
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: [
+                Text('홈페이지'),
+                Text('샵페이지'),
+                Text('샵페이지'),
+                Text('샵페이지')
+              ][tab],
+              bottomNavigationBar: Theme(
+                  data: ThemeData(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                  ),
+                  child: BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor:
+                        colorController.customColor().defaultBackground,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    currentIndex: tab,
+                    onTap: (i) {
+                      setState(() {
+                        tab = i;
+                      });
+                    },
+                    items: [
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.calendar_today_outlined,
+                          color: colorController.customColor().bottomTabBarItem,
+                          size: 24,
                         ),
-                      )
+                        activeIcon: Icon(
+                          Icons.calendar_today,
+                          color: colorController
+                              .customColor()
+                              .bottomTabBarActiveItem,
+                          size: 24,
+                        ), //해당 items 눌렀을 때 보여줄 아이콘
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.apps_outage_outlined,
+                          color: colorController.customColor().bottomTabBarItem,
+                          size: 24,
+                        ),
+                        activeIcon: Icon(
+                          Icons.apps_outage,
+                          color: colorController
+                              .customColor()
+                              .bottomTabBarActiveItem,
+                          size: 24,
+                        ), //해당 items 눌렀을 때 보여줄 아이콘
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.timer_outlined,
+                          color: colorController.customColor().bottomTabBarItem,
+                          size: 24,
+                        ),
+                        activeIcon: Icon(
+                          Icons.timer,
+                          color: colorController
+                              .customColor()
+                              .bottomTabBarActiveItem,
+                          size: 24,
+                        ), //해당 items 눌렀을 때 보여줄 아이콘
+                        label: 'Shop',
+                      ),
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.shop_2_outlined,
+                          color: colorController.customColor().bottomTabBarItem,
+                          size: 24,
+                        ),
+                        activeIcon: Icon(
+                          Icons.shopping_bag,
+                          color: colorController
+                              .customColor()
+                              .bottomTabBarActiveItem,
+                          size: 24,
+                        ), //해당 items 눌렀을 때 보여줄 아이콘
+                        label: 'Home',
+                      ),
                     ],
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 120,
-                  ),
-                  Text(
-                    'Total Balance',
-                    style: fontController.customFont().bold14,
-                  ),
-                  Text(
-                    '\$5 194 482',
-                    style: fontController.customFont().bold14,
-                  ),
-                  InkWell(
-                    onTap: () => onPressEmail(context),
-                    child: Container(
-                      width: 320,
-                      decoration: BoxDecoration(color: Colors.red),
-                      height: 280,
-                      margin: EdgeInsets.fromLTRB(0, 12, 0, 0),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '1231321312312',
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.blueGrey),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const Text(
-                    'Wallet',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    'View all',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
-                      fontSize: 24,
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Euro',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '6 428',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 14),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      'EUR',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 10),
-                                    )
-                                  ],
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        Transform.scale(
-                          scale: 2.2,
-                          child: Transform.translate(
-                            offset: const Offset(8, 15),
-                            child: const Icon(
-                              Icons.euro,
-                              color: Colors.white,
-                              size: 88,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ))
-            ],
-          ),
-        ),
-      ),
+                  )),
+            ),
+          )
+        ],
+      )
     ]));
   }
+}
+
+Widget homeHeader(BuildContext context, int tab) {
+  final LocalizationController localizationController =
+      Get.put(LocalizationController());
+  final CustomFontController fontController = Get.put(CustomFontController());
+
+  String titleSelector() {
+    switch (tab) {
+      case 0:
+        return localizationController.localiztionHomeScreen().title1;
+      case 1:
+        return localizationController.localiztionHomeScreen().title2;
+      case 2:
+        return localizationController.localiztionHomeScreen().title3;
+      case 3:
+        return localizationController.localiztionHomeScreen().title4;
+    }
+    return '';
+  }
+
+  return (Obx(() => Material(
+      color: Colors.transparent,
+      child: SafeArea(
+          bottom: false,
+          child: Container(
+            decoration: BoxDecoration(color: Colors.transparent),
+            height: 32,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  titleSelector(),
+                  style: fontController.customFont().bold14,
+                )
+              ],
+            ),
+          )))));
 }

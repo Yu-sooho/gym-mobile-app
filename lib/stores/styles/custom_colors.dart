@@ -24,6 +24,9 @@ class CustomColorMode1 {
   Color textInputCursor = const Color(0xffffffff);
   Color textInputFocusCursor = const Color(0xff921314);
   Color placeholder = const Color(0xff712424);
+
+  Color bottomTabBarActiveItem = const Color(0xffffffff);
+  Color bottomTabBarItem = const Color(0xff444442);
 }
 
 class CustomColorMode2 {
@@ -50,4 +53,6 @@ class CustomColorMode2 {
   Color textInputCursor = const Color(0xff242424);
   Color textInputFocusCursor = const Color(0xffffffff);
   Color placeholder = const Color(0xff712424);
+  Color bottomTabBarActiveItem = const Color(0xffffffff);
+  Color bottomTabBarItem = const Color(0xff444442);
 }

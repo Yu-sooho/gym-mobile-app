@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/stores/localization/home_screen_text.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_edit_screen_text.dart';
@@ -79,6 +80,19 @@ class ProfileEditScreenText {
       required this.nickName,
       required this.errorNickName,
       required this.errorDescription});
+}
+
+class HomeScreenText {
+  final String title1;
+  final String title2;
+  final String title3;
+  final String title4;
+  HomeScreenText({
+    required this.title1,
+    required this.title2,
+    required this.title3,
+    required this.title4,
+  });
 }
 
 class ModalScreenText {
@@ -219,6 +233,24 @@ class LocalizationController extends GetxController {
           logoutText: ModalScreenTextKr().logoutText,
           logoutTitle: ModalScreenTextKr().logoutTitle);
       return modalScreenText;
+    }
+  }
+
+  HomeScreenText localiztionHomeScreen() {
+    if (language.value == 0) {
+      HomeScreenText settingScreenText = HomeScreenText(
+          title1: HomeScreenTextEn().title1,
+          title2: HomeScreenTextEn().title2,
+          title3: HomeScreenTextEn().title3,
+          title4: HomeScreenTextEn().title4);
+      return settingScreenText;
+    } else {
+      HomeScreenText settingScreenText = HomeScreenText(
+          title1: HomeScreenTextKr().title1,
+          title2: HomeScreenTextKr().title2,
+          title3: HomeScreenTextKr().title3,
+          title4: HomeScreenTextKr().title4);
+      return settingScreenText;
     }
   }
 }
