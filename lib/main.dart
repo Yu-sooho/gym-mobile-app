@@ -32,8 +32,9 @@ class Main extends StatelessWidget {
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
-        '/setting': (context) => SettingScreen(),
         '/profile': (context) => ProfileScreen(),
+        '/setting': (context) => SettingScreen(),
+        '/theme': (context) => ThemeScreen(),
         '/profile_edit': (context) => ProfileEditScreen(),
       },
     );

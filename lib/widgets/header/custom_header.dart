@@ -34,6 +34,8 @@ class CustomHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       onTap: onPressLeft,
                       child: Container(
                           alignment: Alignment.centerLeft,

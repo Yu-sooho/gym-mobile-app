@@ -7,7 +7,7 @@ class ProfileEditScreenTextKr {
 
 class ProfileEditScreenTextEn {
   String title = 'Profile Edit';
-  String nickName = '닉네임';
-  String errorNickName = '닉네임 확인해';
-  String errorDescription = '설명 확인해';
+  String nickName = 'fdasfsdafd';
+  String errorNickName = 'fdasfdsafd';
+  String errorDescription = 'fdsafdsaf';
 }

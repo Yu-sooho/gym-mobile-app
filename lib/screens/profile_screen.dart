@@ -48,6 +48,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     overlayState.insert(overlayPhoto);
   }
 
+  void onPressTheme() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ThemeScreen()),
+    );
+  }
+
   void onPressSetting() {
     Navigator.push(
       context,
@@ -149,6 +156,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           RightArrowButton(
               onPress: onPressSetting,
               title: localizationController.localiztionProfileScreen().setting),
+          RightArrowButton(
+              onPress: onPressTheme,
+              title: localizationController.localiztionProfileScreen().theme),
           RightArrowButton(
               onPress: onPressInquiry,
               title: localizationController.localiztionProfileScreen().inquiry),

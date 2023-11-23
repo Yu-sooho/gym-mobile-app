@@ -60,6 +60,7 @@ class CustomColorController extends GetxController {
   RxInt colorType = 0.obs;
 
   void changeColorMode(int type) {
+    print(type);
     colorType.value = type;
   }
 
@@ -73,7 +74,7 @@ class CustomColorController extends GetxController {
         loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
         defaultTextColor: CustomColorMode1().defaultTextColor,
         skeletonColor: CustomColorMode1().skeletonColor,
-        skeletonColor2: CustomColorMode2().skeletonColor2,
+        skeletonColor2: CustomColorMode1().skeletonColor2,
         buttonOpacity: CustomColorMode1().buttonOpacity,
         transparent: CustomColorMode1().transparent,
         buttonBorder: CustomColorMode1().buttonBorder,
@@ -101,42 +102,42 @@ class CustomColorController extends GetxController {
         skeletonColor2: CustomColorMode2().skeletonColor2,
         buttonOpacity: CustomColorMode2().buttonOpacity,
         transparent: CustomColorMode2().transparent,
-        buttonBorder: CustomColorMode1().buttonBorder,
+        buttonBorder: CustomColorMode2().buttonBorder,
         modalBackground: CustomColorMode2().modalBackground,
         modalText: CustomColorMode2().modalText,
         modalOk: CustomColorMode2().modalOk,
         modalCancel: CustomColorMode2().modalCancel,
         switchColor: CustomColorMode2().switchColor,
-        textInputCursor: CustomColorMode1().textInputCursor,
-        textInputFocusCursor: CustomColorMode1().textInputFocusCursor,
-        placeholder: CustomColorMode1().placeholder,
-        bottomTabBarActiveItem: CustomColorMode1().bottomTabBarActiveItem,
-        bottomTabBarItem: CustomColorMode1().bottomTabBarItem,
+        textInputCursor: CustomColorMode2().textInputCursor,
+        textInputFocusCursor: CustomColorMode2().textInputFocusCursor,
+        placeholder: CustomColorMode2().placeholder,
+        bottomTabBarActiveItem: CustomColorMode2().bottomTabBarActiveItem,
+        bottomTabBarItem: CustomColorMode2().bottomTabBarItem,
       );
       return customColor;
     } else {
       CustomColor customColor = CustomColor(
-        toastBackground: CustomColorMode1().toastBackground,
-        toastText: CustomColorMode1().toastText,
-        defaultBackground: CustomColorMode1().defaultBackground,
-        loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
-        loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
-        defaultTextColor: CustomColorMode1().defaultTextColor,
-        skeletonColor: CustomColorMode1().skeletonColor,
-        skeletonColor2: CustomColorMode2().skeletonColor2,
-        buttonOpacity: CustomColorMode1().buttonOpacity,
-        transparent: CustomColorMode1().transparent,
-        buttonBorder: CustomColorMode1().buttonBorder,
-        modalBackground: CustomColorMode2().modalBackground,
-        modalText: CustomColorMode2().modalText,
-        modalOk: CustomColorMode2().modalOk,
-        modalCancel: CustomColorMode2().modalCancel,
-        switchColor: CustomColorMode1().switchColor,
-        textInputCursor: CustomColorMode1().textInputCursor,
-        textInputFocusCursor: CustomColorMode1().textInputFocusCursor,
-        placeholder: CustomColorMode1().placeholder,
-        bottomTabBarActiveItem: CustomColorMode1().bottomTabBarActiveItem,
-        bottomTabBarItem: CustomColorMode1().bottomTabBarItem,
+        toastBackground: CustomColorMode3().toastBackground,
+        toastText: CustomColorMode3().toastText,
+        defaultBackground: CustomColorMode3().defaultBackground,
+        loadingSpinnerOpacity: CustomColorMode3().loadingSpinnerOpacity,
+        loadingSpinnerColor: CustomColorMode3().loadingSpinnerColor,
+        defaultTextColor: CustomColorMode3().defaultTextColor,
+        skeletonColor: CustomColorMode3().skeletonColor,
+        skeletonColor2: CustomColorMode3().skeletonColor2,
+        buttonOpacity: CustomColorMode3().buttonOpacity,
+        transparent: CustomColorMode3().transparent,
+        buttonBorder: CustomColorMode3().buttonBorder,
+        modalBackground: CustomColorMode3().modalBackground,
+        modalText: CustomColorMode3().modalText,
+        modalOk: CustomColorMode3().modalOk,
+        modalCancel: CustomColorMode3().modalCancel,
+        switchColor: CustomColorMode3().switchColor,
+        textInputCursor: CustomColorMode3().textInputCursor,
+        textInputFocusCursor: CustomColorMode3().textInputFocusCursor,
+        placeholder: CustomColorMode3().placeholder,
+        bottomTabBarActiveItem: CustomColorMode3().bottomTabBarActiveItem,
+        bottomTabBarItem: CustomColorMode3().bottomTabBarItem,
       );
       return customColor;
     }

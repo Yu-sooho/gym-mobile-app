@@ -20,11 +20,26 @@ class _HomeScreen extends State<HomeScreen> {
       Get.put(CustomColorController());
   final LocalizationController localizationController =
       Get.put(LocalizationController());
+
   void onPressProfile(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ProfileScreen()),
     );
+  }
+
+  String titleSelector() {
+    switch (tab) {
+      case 0:
+        return localizationController.localiztionHomeScreen().title1;
+      case 1:
+        return localizationController.localiztionHomeScreen().title2;
+      case 2:
+        return localizationController.localiztionHomeScreen().title3;
+      case 3:
+        return localizationController.localiztionHomeScreen().title4;
+    }
+    return '';
   }
 
   var tab = 0;
@@ -38,7 +53,48 @@ class _HomeScreen extends State<HomeScreen> {
           )),
       Column(
         children: [
-          homeHeader(context, tab),
+          Material(
+              color: Colors.transparent,
+              child: SafeArea(
+                  bottom: false,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    height: 32,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            height: 32,
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 16),
+                                child: SizedBox(
+                                  width: 24,
+                                ))),
+                        Obx(() => Text(
+                              titleSelector(),
+                              style: fontController.customFont().bold14,
+                            )),
+                        CustomButton(
+                          onPress: () => onPressProfile(context),
+                          child: SizedBox(
+                            height: 32,
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 16),
+                                child: Icon(
+                                  Icons.person,
+                                  color: colorController
+                                      .customColor()
+                                      .bottomTabBarActiveItem,
+                                  size: 24,
+                                )),
+                          ),
+                        )
+                      ],
+                    ),
+                  ))),
           SizedBox(
             height: appStateController.logicalHeight.value -
                 MediaQuery.of(context).padding.top -
@@ -83,7 +139,7 @@ class _HomeScreen extends State<HomeScreen> {
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
-                        ), //해당 items 눌렀을 때 보여줄 아이콘
+                        ),
                         label: 'Home',
                       ),
                       BottomNavigationBarItem(
@@ -99,7 +155,7 @@ class _HomeScreen extends State<HomeScreen> {
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
-                        ), //해당 items 눌렀을 때 보여줄 아이콘
+                        ),
                         label: 'Home',
                       ),
                       BottomNavigationBarItem(
@@ -131,7 +187,7 @@ class _HomeScreen extends State<HomeScreen> {
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
-                        ), //해당 items 눌렀을 때 보여줄 아이콘
+                        ),
                         label: 'Home',
                       ),
                     ],
@@ -142,43 +198,4 @@ class _HomeScreen extends State<HomeScreen> {
       )
     ]));
   }
-}
-
-Widget homeHeader(BuildContext context, int tab) {
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final CustomFontController fontController = Get.put(CustomFontController());
-
-  String titleSelector() {
-    switch (tab) {
-      case 0:
-        return localizationController.localiztionHomeScreen().title1;
-      case 1:
-        return localizationController.localiztionHomeScreen().title2;
-      case 2:
-        return localizationController.localiztionHomeScreen().title3;
-      case 3:
-        return localizationController.localiztionHomeScreen().title4;
-    }
-    return '';
-  }
-
-  return (Obx(() => Material(
-      color: Colors.transparent,
-      child: SafeArea(
-          bottom: false,
-          child: Container(
-            decoration: BoxDecoration(color: Colors.transparent),
-            height: 32,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  titleSelector(),
-                  style: fontController.customFont().bold14,
-                )
-              ],
-            ),
-          )))));
 }

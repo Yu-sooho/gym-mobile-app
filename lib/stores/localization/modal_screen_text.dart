@@ -10,6 +10,6 @@ class ModalScreenTextEn {
   String ok = 'OK';
   String cancel = 'cancel';
 
-  String logoutTitle = '로그아웃';
-  String logoutText = '정말 로그아웃 하시겠습니까?';
+  String logoutTitle = 'logout';
+  String logoutText = 'fufu?';
 }

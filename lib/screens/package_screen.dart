@@ -5,3 +5,4 @@ export 'profile_screen.dart';
 export 'profile_edit_screen.dart';
 
 export 'setting_screen.dart';
+export 'theme_screen.dart';

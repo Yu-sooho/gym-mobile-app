@@ -7,6 +7,7 @@ import 'package:gym_calendar/stores/localization/profile_edit_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
 import 'package:gym_calendar/stores/localization/component_error_text.dart';
+import 'package:gym_calendar/stores/localization/theme_screen.dart';
 export 'package:flutter/widgets.dart';
 
 @immutable
@@ -61,11 +62,13 @@ class ProfileScreenText {
   final String edit;
   final String setting;
   final String inquiry;
+  final String theme;
   final String logout;
   ProfileScreenText(
       {required this.title,
       required this.edit,
       required this.setting,
+      required this.theme,
       required this.inquiry,
       required this.logout});
 }
@@ -107,6 +110,19 @@ class ModalScreenText {
       required this.cancel,
       required this.logoutTitle,
       required this.logoutText});
+}
+
+class ThemeScreenText {
+  final String title;
+  final String colorTitle;
+  final String fontTitle;
+  final String languageTitle;
+
+  ThemeScreenText(
+      {required this.title,
+      required this.fontTitle,
+      required this.colorTitle,
+      required this.languageTitle});
 }
 
 class LocalizationController extends GetxController {
@@ -159,9 +175,9 @@ class LocalizationController extends GetxController {
           scheduleAlarmToast: SettingScreenTextKr().scheduleAlarmToast,
           exerciseAlarmToast: SettingScreenTextKr().exerciseAlarmToast,
           scheduleAlarmCancelToast:
-              SettingScreenTextEn().scheduleAlarmCancelToast,
+              SettingScreenTextKr().scheduleAlarmCancelToast,
           exerciseAlarmCancelToast:
-              SettingScreenTextEn().exerciseAlarmCancelToast);
+              SettingScreenTextKr().exerciseAlarmCancelToast);
       return settingScreenText;
     }
   }
@@ -172,6 +188,7 @@ class LocalizationController extends GetxController {
           title: ProfileScreenTextEn().title,
           edit: ProfileScreenTextEn().edit,
           setting: ProfileScreenTextEn().setting,
+          theme: ProfileScreenTextEn().theme,
           inquiry: ProfileScreenTextEn().inquiry,
           logout: ProfileScreenTextEn().logout);
       return profileScreenText;
@@ -180,6 +197,7 @@ class LocalizationController extends GetxController {
           title: ProfileScreenTextKr().title,
           edit: ProfileScreenTextKr().edit,
           setting: ProfileScreenTextKr().setting,
+          theme: ProfileScreenTextKr().theme,
           inquiry: ProfileScreenTextKr().inquiry,
           logout: ProfileScreenTextKr().logout);
       return profileScreenText;
@@ -203,6 +221,24 @@ class LocalizationController extends GetxController {
         errorDescription: ProfileEditScreenTextKr().errorDescription,
       );
       return profileEditScreenText;
+    }
+  }
+
+  ThemeScreenText localiztionThemeScreen() {
+    if (language.value == 0) {
+      ThemeScreenText settingScreenText = ThemeScreenText(
+          title: ThemeScreenTextEn().title,
+          colorTitle: ThemeScreenTextEn().colorTitle,
+          fontTitle: ThemeScreenTextEn().fontTitle,
+          languageTitle: ThemeScreenTextEn().languageTitle);
+      return settingScreenText;
+    } else {
+      ThemeScreenText settingScreenText = ThemeScreenText(
+          title: ThemeScreenTextKr().title,
+          colorTitle: ThemeScreenTextKr().colorTitle,
+          fontTitle: ThemeScreenTextKr().fontTitle,
+          languageTitle: ThemeScreenTextKr().languageTitle);
+      return settingScreenText;
     }
   }
 
