@@ -17,6 +17,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
       Get.put(CustomColorController());
   final AppStateController appStateController = Get.put(AppStateController());
   final CustomFontController fontController = Get.put(CustomFontController());
+  late OverlayEntry overlayLogout;
 
   bool colorOpen = false;
   bool fontOpen = false;
@@ -41,8 +42,20 @@ class _ThemeScreenState extends State<ThemeScreen> {
   }
 
   void changeLanguage(lang) {
-    localizationController.changeLanguage(lang);
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+    overlayLogout = OverlayEntry(
+        builder: (_) => customModalScreen(
+            title:
+                localizationController.localiztionModalScreenText().logoutTitle,
+            description:
+                localizationController.localiztionModalScreenText().logoutText,
+            onPressCancel: () {
+              overlayLogout.remove();
+            },
+            onPressOk: () {
+              overlayLogout.remove();
+              localizationController.changeLanguage(lang);
+              Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+            }));
   }
 
   @override
@@ -55,16 +68,26 @@ class _ThemeScreenState extends State<ThemeScreen> {
               isOpen: colorOpen,
               onPress: onPressColor),
           colorOpen
-              ? radioButtonList(context, [0, 1, 2], colorController.colorType,
-                  colorController.changeColorMode, 'ColorMode')
+              ? radioButtonList(
+                  context,
+                  [0, 1, 2],
+                  colorController.colorType,
+                  colorController.changeColorMode,
+                  'ColorMode',
+                  localizationController.localiztionThemeScreen().colorName)
               : SizedBox(),
           titleButton(context,
               title: localizationController.localiztionThemeScreen().fontTitle,
               isOpen: fontOpen,
               onPress: onPressFont),
           fontOpen
-              ? radioButtonList(context, [0, 1, 2], fontController.fontType,
-                  fontController.changeFontMode, 'FontMode')
+              ? radioButtonList(
+                  context,
+                  [0, 1, 2],
+                  fontController.fontType,
+                  fontController.changeFontMode,
+                  'FontMode',
+                  localizationController.localiztionThemeScreen().fontName)
               : SizedBox(),
           titleButton(context,
               title:
@@ -77,7 +100,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   [0, 1],
                   localizationController.language,
                   changeLanguage,
-                  'LanguageMode')
+                  'LanguageMode',
+                  localizationController.localiztionThemeScreen().languageName)
               : SizedBox(),
         ]);
   }
@@ -89,6 +113,7 @@ Widget radioButtonList(
   RxInt selectValue,
   Function(int value) onPressItem,
   String itemText,
+  List<String> names,
 ) {
   final CustomFontController fontController = Get.put(CustomFontController());
   final CustomColorController colorController =
@@ -112,7 +137,7 @@ Widget radioButtonList(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('$itemText $index',
+                            Text(names[index],
                                 style: selectValue.value == index
                                     ? fontController.customFont().bold12
                                     : fontController.customFont().medium12),

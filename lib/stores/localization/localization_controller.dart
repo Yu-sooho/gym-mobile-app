@@ -118,11 +118,18 @@ class ThemeScreenText {
   final String fontTitle;
   final String languageTitle;
 
+  final List<String> colorName;
+  final List<String> fontName;
+  final List<String> languageName;
+
   ThemeScreenText(
       {required this.title,
       required this.fontTitle,
       required this.colorTitle,
-      required this.languageTitle});
+      required this.languageTitle,
+      required this.colorName,
+      required this.fontName,
+      required this.languageName});
 }
 
 class LocalizationController extends GetxController {
@@ -230,14 +237,20 @@ class LocalizationController extends GetxController {
           title: ThemeScreenTextEn().title,
           colorTitle: ThemeScreenTextEn().colorTitle,
           fontTitle: ThemeScreenTextEn().fontTitle,
-          languageTitle: ThemeScreenTextEn().languageTitle);
+          languageTitle: ThemeScreenTextEn().languageTitle,
+          languageName: ThemeScreenTextEn().languageName,
+          colorName: ThemeScreenTextEn().colorName,
+          fontName: ThemeScreenTextEn().fontName);
       return settingScreenText;
     } else {
       ThemeScreenText settingScreenText = ThemeScreenText(
           title: ThemeScreenTextKr().title,
           colorTitle: ThemeScreenTextKr().colorTitle,
           fontTitle: ThemeScreenTextKr().fontTitle,
-          languageTitle: ThemeScreenTextKr().languageTitle);
+          languageTitle: ThemeScreenTextKr().languageTitle,
+          languageName: ThemeScreenTextEn().languageName,
+          colorName: ThemeScreenTextEn().colorName,
+          fontName: ThemeScreenTextEn().fontName);
       return settingScreenText;
     }
   }
