@@ -12,16 +12,16 @@ class CustomHeader extends StatelessWidget {
   final String title;
   final Function()? onPressLeft;
   final Function()? onPressRight;
-
+  final bool isRightInActive;
   final String? rightText;
 
-  CustomHeader({
-    super.key,
-    required this.title,
-    this.rightText = '',
-    this.onPressLeft,
-    this.onPressRight,
-  });
+  CustomHeader(
+      {super.key,
+      required this.title,
+      this.rightText = '',
+      this.onPressLeft,
+      this.onPressRight,
+      this.isRightInActive = false});
 
   late final screenSize = appStateController.logicalWidth.value;
 
@@ -58,16 +58,31 @@ class CustomHeader extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: fontController.customFont().bold14))),
                   InkWell(
-                      onTap: onPressLeft,
+                      onTap: isRightInActive ? () {} : onPressRight,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       child: Container(
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.centerRight,
                           width: screenSize / 6,
                           height: 32,
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
                             child: Text(rightText!,
-                                textAlign: TextAlign.center,
-                                style: fontController.customFont().bold14),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontFamily: fontController
+                                        .customFont()
+                                        .bold12
+                                        .fontFamily,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: isRightInActive
+                                        ? colorController
+                                            .customColor()
+                                            .buttonInActiveText
+                                        : colorController
+                                            .customColor()
+                                            .buttonActiveText)),
                           ))),
                 ],
               )),

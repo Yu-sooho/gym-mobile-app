@@ -4,8 +4,14 @@ import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
 @override
-Widget safeAreaView(BuildContext context, String title,
-    {List<Widget>? children}) {
+Widget safeAreaView(
+  BuildContext context,
+  String title, {
+  List<Widget>? children,
+  final Function()? onPressRight,
+  final bool? isRightInActive,
+  final String? rightText,
+}) {
   final CustomColorController colorController =
       Get.put(CustomColorController());
   final AppStateController appStateController = Get.put(AppStateController());
@@ -19,7 +25,14 @@ Widget safeAreaView(BuildContext context, String title,
         backgroundColor: Colors.transparent,
         body: Column(children: [
           CustomHeader(
-              title: title, onPressLeft: () => {Navigator.of(context).pop()}),
+            title: title,
+            onPressRight: onPressRight,
+            rightText: rightText ?? '',
+            isRightInActive: isRightInActive ?? false,
+            onPressLeft: () => {
+              Navigator.of(context).pop(),
+            },
+          ),
           SizedBox(
             height: appStateController.logicalHeight.value -
                 MediaQuery.of(context).padding.top -

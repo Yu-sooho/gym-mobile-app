@@ -4,18 +4,18 @@ class ThemeScreenTextKr {
   String fontTitle = '폰트 설정';
   String languageTitle = '언어 설정';
 
-  List<String> colorName = ['ColorMode1', 'ColorMode2', 'ColorMode3'];
-  List<String> fontName = ['FontMode1', 'FontMode2', 'FontMode3'];
-  List<String> languageName = ['English', 'Korean'];
+  List<String> colorName = ['색상1', '색상2', '색상3'];
+  List<String> fontName = ['폰트1', '폰트2', '폰트3'];
+  List<String> languageName = ['English', '한글'];
 }
 
 class ThemeScreenTextEn {
-  String title = 'fdasfdsafd';
-  String colorTitle = 'gadsfdasfd';
-  String fontTitle = 'fdsafdsaf';
-  String languageTitle = 'afdasfdsa';
+  String title = 'Theme Setting';
+  String colorTitle = 'Color Setting';
+  String fontTitle = 'Font Setting';
+  String languageTitle = 'Language Setting';
 
   List<String> colorName = ['ColorMode1', 'ColorMode2', 'ColorMode3'];
   List<String> fontName = ['FontMode1', 'FontMode2', 'FontMode3'];
-  List<String> languageName = ['English', 'Korean'];
+  List<String> languageName = ['English', '한글'];
 }

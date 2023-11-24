@@ -42,6 +42,7 @@ Widget customModalScreen(
                 child: Align(
                     child: Text(
                   description ?? 'text',
+                  textAlign: TextAlign.center,
                   style: fontController.customFont().modalText,
                 )),
               ),

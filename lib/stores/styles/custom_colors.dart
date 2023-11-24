@@ -27,6 +27,9 @@ class CustomColorMode1 {
 
   Color bottomTabBarActiveItem = const Color(0xffffffff);
   Color bottomTabBarItem = const Color(0xff444442);
+
+  Color buttonInActiveText = const Color(0xff444442);
+  Color buttonActiveText = const Color(0xffffffff);
 }
 
 class CustomColorMode2 {
@@ -38,7 +41,7 @@ class CustomColorMode2 {
   Color loadingSpinnerOpacity = const Color(0xC8242424);
   Color loadingSpinnerColor = const Color(0xffffffff);
 
-  Color defaultTextColor = const Color(0xffffffff);
+  Color defaultTextColor = const Color(0xff129273);
   Color skeletonColor = const Color(0xffe5e5e5);
   Color skeletonColor2 = const Color(0xffffffff);
 
@@ -55,6 +58,8 @@ class CustomColorMode2 {
   Color placeholder = const Color(0xff712424);
   Color bottomTabBarActiveItem = const Color(0xffffffff);
   Color bottomTabBarItem = const Color(0xff444442);
+  Color buttonInActiveText = const Color(0xff444442);
+  Color buttonActiveText = const Color(0xffffffff);
 }
 
 class CustomColorMode3 {
@@ -66,7 +71,7 @@ class CustomColorMode3 {
   Color loadingSpinnerOpacity = const Color(0xC8242424);
   Color loadingSpinnerColor = const Color(0xffffffff);
 
-  Color defaultTextColor = const Color(0xffffffff);
+  Color defaultTextColor = const Color(0xff1ea523);
   Color skeletonColor = const Color(0xffe5e5e5);
   Color skeletonColor2 = const Color(0xffffffff);
 
@@ -83,4 +88,6 @@ class CustomColorMode3 {
   Color placeholder = const Color(0xff712424);
   Color bottomTabBarActiveItem = const Color(0xffffffff);
   Color bottomTabBarItem = const Color(0xff444442);
+  Color buttonInActiveText = const Color(0xff444442);
+  Color buttonActiveText = const Color(0xffffffff);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/stores/localization/component_button_text.dart';
 import 'package:gym_calendar/stores/localization/home_screen_text.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
@@ -34,6 +35,12 @@ class ComponentErrorText {
   final String networkError;
 
   ComponentErrorText({required this.networkError});
+}
+
+class ComponentButtonText {
+  final String save;
+
+  ComponentButtonText({required this.save});
 }
 
 class SettingScreenText {
@@ -105,11 +112,16 @@ class ModalScreenText {
   final String logoutTitle;
   final String logoutText;
 
+  final String themeChangeTitle;
+  final String themeChangeText;
+
   ModalScreenText(
       {required this.ok,
       required this.cancel,
       required this.logoutTitle,
-      required this.logoutText});
+      required this.logoutText,
+      required this.themeChangeText,
+      required this.themeChangeTitle});
 }
 
 class ThemeScreenText {
@@ -248,9 +260,9 @@ class LocalizationController extends GetxController {
           colorTitle: ThemeScreenTextKr().colorTitle,
           fontTitle: ThemeScreenTextKr().fontTitle,
           languageTitle: ThemeScreenTextKr().languageTitle,
-          languageName: ThemeScreenTextEn().languageName,
-          colorName: ThemeScreenTextEn().colorName,
-          fontName: ThemeScreenTextEn().fontName);
+          languageName: ThemeScreenTextKr().languageName,
+          colorName: ThemeScreenTextKr().colorName,
+          fontName: ThemeScreenTextKr().fontName);
       return settingScreenText;
     }
   }
@@ -267,20 +279,36 @@ class LocalizationController extends GetxController {
     }
   }
 
+  ComponentButtonText localiztionComponentButton() {
+    if (language.value == 0) {
+      ComponentButtonText localiztionButtonText =
+          ComponentButtonText(save: ComponentButtonTextEn().save);
+      return localiztionButtonText;
+    } else {
+      ComponentButtonText localiztionButtonText =
+          ComponentButtonText(save: ComponentButtonTextKr().save);
+      return localiztionButtonText;
+    }
+  }
+
   ModalScreenText localiztionModalScreenText() {
     if (language.value == 0) {
       ModalScreenText modalScreenText = ModalScreenText(
           ok: ModalScreenTextEn().ok,
           cancel: ModalScreenTextEn().cancel,
           logoutText: ModalScreenTextEn().logoutText,
-          logoutTitle: ModalScreenTextEn().logoutTitle);
+          logoutTitle: ModalScreenTextEn().logoutTitle,
+          themeChangeTitle: ModalScreenTextEn().themeChangeTitle,
+          themeChangeText: ModalScreenTextEn().themeChangeText);
       return modalScreenText;
     } else {
       ModalScreenText modalScreenText = ModalScreenText(
           ok: ModalScreenTextKr().ok,
           cancel: ModalScreenTextKr().cancel,
           logoutText: ModalScreenTextKr().logoutText,
-          logoutTitle: ModalScreenTextKr().logoutTitle);
+          logoutTitle: ModalScreenTextKr().logoutTitle,
+          themeChangeTitle: ModalScreenTextKr().themeChangeTitle,
+          themeChangeText: ModalScreenTextKr().themeChangeText);
       return modalScreenText;
     }
   }
