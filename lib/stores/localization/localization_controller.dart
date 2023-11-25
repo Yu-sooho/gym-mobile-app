@@ -83,13 +83,15 @@ class ProfileScreenText {
 class ProfileEditScreenText {
   final String title;
   final String nickName;
+  final String save;
   final String errorNickName;
   final String errorDescription;
   ProfileEditScreenText(
       {required this.title,
       required this.nickName,
       required this.errorNickName,
-      required this.errorDescription});
+      required this.errorDescription,
+      required this.save});
 }
 
 class HomeScreenText {
@@ -228,6 +230,7 @@ class LocalizationController extends GetxController {
       ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
         title: ProfileEditScreenTextEn().title,
         nickName: ProfileEditScreenTextEn().nickName,
+        save: ProfileEditScreenTextEn().save,
         errorNickName: ProfileEditScreenTextEn().errorNickName,
         errorDescription: ProfileEditScreenTextEn().errorDescription,
       );
@@ -236,6 +239,7 @@ class LocalizationController extends GetxController {
       ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
         title: ProfileEditScreenTextKr().title,
         nickName: ProfileEditScreenTextKr().nickName,
+        save: ProfileEditScreenTextKr().save,
         errorNickName: ProfileEditScreenTextKr().errorNickName,
         errorDescription: ProfileEditScreenTextKr().errorDescription,
       );

@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -74,11 +72,25 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     return null;
   }
 
+  bool checkCanSave() {
+    if (nickName == firebaseAuthController.currentUser?.displayName ||
+        nickName == '' ||
+        validateNickName(nickName) != null) {
+      return true;
+    }
+    return false;
+  }
+
+  void changeProfile() {}
+
   @override
   Widget build(BuildContext context) {
     final user = firebaseAuthController.currentUser;
     return safeAreaView(
         context, localizationController.localiztionProfileEditScreen().title,
+        rightText: localizationController.localiztionProfileEditScreen().save,
+        isRightInActive: checkCanSave(),
+        onPressRight: changeProfile,
         children: [
           Column(children: [
             SizedBox(
