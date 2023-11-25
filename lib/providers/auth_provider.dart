@@ -5,8 +5,7 @@ class SocialLoginProvider {
     try {
       Networks networks = Networks();
       final res = networks.httpPost(
-        uri:
-            "http://127.0.0.1:5001/gymcalendar-20206/us-central1/kakaoAuth/kakaoLogin",
+        uri: "${networks.baseUrl}kakaoAuth/kakaoLogin",
         body: option,
       );
       return res;
@@ -20,8 +19,7 @@ class SocialLoginProvider {
     try {
       Networks networks = Networks();
       final res = networks.httpPost(
-        uri:
-            "http://127.0.0.1:5001/gymcalendar-20206/us-central1/naverAuth/naverLogin",
+        uri: "${networks.baseUrl}naverAuth/naverLogin",
         body: option,
       );
       return res;
