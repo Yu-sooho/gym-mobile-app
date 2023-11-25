@@ -6,3 +6,4 @@ export 'profile_edit_screen.dart';
 
 export 'setting_screen.dart';
 export 'theme_screen.dart';
+export 'inquiry_screen.dart';

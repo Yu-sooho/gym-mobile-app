@@ -42,6 +42,9 @@ class SettingScreen extends StatelessWidget {
     return safeAreaView(
         context, localizationController.localiztionSettingScreen().title,
         children: [
+          SizedBox(
+            height: 24,
+          ),
           Obx(() => customSwitchButton(context,
               value: appStateController.exerciseAlarm.value,
               title: localizationController

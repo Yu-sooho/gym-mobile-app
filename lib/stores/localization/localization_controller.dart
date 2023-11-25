@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/component_button_text.dart';
 import 'package:gym_calendar/stores/localization/home_screen_text.dart';
+import 'package:gym_calendar/stores/localization/inquiry_screen_text.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_edit_screen_text.dart';
@@ -39,8 +40,9 @@ class ComponentErrorText {
 
 class ComponentButtonText {
   final String save;
+  final String inquiry;
 
-  ComponentButtonText({required this.save});
+  ComponentButtonText({required this.save, required this.inquiry});
 }
 
 class SettingScreenText {
@@ -92,6 +94,26 @@ class ProfileEditScreenText {
       required this.errorNickName,
       required this.errorDescription,
       required this.save});
+}
+
+class InquiryScreenText {
+  final String title;
+  final String inquiry;
+  final String inquiryList;
+
+  final String inquiryTitlePlaceholder;
+  final String inquiryContentPlaceholder;
+
+  final String errorTitle;
+  final String errorContent;
+  InquiryScreenText(
+      {required this.title,
+      required this.inquiry,
+      required this.inquiryList,
+      required this.inquiryTitlePlaceholder,
+      required this.inquiryContentPlaceholder,
+      required this.errorTitle,
+      required this.errorContent});
 }
 
 class HomeScreenText {
@@ -247,6 +269,34 @@ class LocalizationController extends GetxController {
     }
   }
 
+  InquiryScreenText localiztionInquiryScreen() {
+    if (language.value == 0) {
+      InquiryScreenText inquiryScreenText = InquiryScreenText(
+          title: InquiryScreenTextEn().title,
+          inquiry: InquiryScreenTextEn().inquiry,
+          inquiryList: InquiryScreenTextEn().inquiryList,
+          inquiryTitlePlaceholder:
+              InquiryScreenTextEn().inquiryTitlePlaceholder,
+          inquiryContentPlaceholder:
+              InquiryScreenTextEn().inquiryContentPlaceholder,
+          errorTitle: InquiryScreenTextEn().errorTitle,
+          errorContent: InquiryScreenTextEn().errorContent);
+      return inquiryScreenText;
+    } else {
+      InquiryScreenText inquiryScreenText = InquiryScreenText(
+          title: InquiryScreenTextKr().title,
+          inquiry: InquiryScreenTextKr().inquiry,
+          inquiryList: InquiryScreenTextKr().inquiryList,
+          inquiryTitlePlaceholder:
+              InquiryScreenTextKr().inquiryTitlePlaceholder,
+          inquiryContentPlaceholder:
+              InquiryScreenTextKr().inquiryContentPlaceholder,
+          errorTitle: InquiryScreenTextKr().errorTitle,
+          errorContent: InquiryScreenTextKr().errorContent);
+      return inquiryScreenText;
+    }
+  }
+
   ThemeScreenText localiztionThemeScreen() {
     if (language.value == 0) {
       ThemeScreenText settingScreenText = ThemeScreenText(
@@ -285,12 +335,15 @@ class LocalizationController extends GetxController {
 
   ComponentButtonText localiztionComponentButton() {
     if (language.value == 0) {
-      ComponentButtonText localiztionButtonText =
-          ComponentButtonText(save: ComponentButtonTextEn().save);
+      ComponentButtonText localiztionButtonText = ComponentButtonText(
+        save: ComponentButtonTextEn().save,
+        inquiry: ComponentButtonTextEn().inquiry,
+      );
       return localiztionButtonText;
     } else {
-      ComponentButtonText localiztionButtonText =
-          ComponentButtonText(save: ComponentButtonTextKr().save);
+      ComponentButtonText localiztionButtonText = ComponentButtonText(
+          save: ComponentButtonTextKr().save,
+          inquiry: ComponentButtonTextKr().inquiry);
       return localiztionButtonText;
     }
   }

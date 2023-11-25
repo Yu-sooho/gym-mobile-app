@@ -35,6 +35,9 @@ class CustomColor {
   final Color buttonActiveText;
   final Color buttonInActiveText;
 
+  final Color buttonActiveColor;
+  final Color buttonInActiveColor;
+
   CustomColor(
       {required this.toastBackground,
       required this.toastText,
@@ -58,7 +61,9 @@ class CustomColor {
       required this.bottomTabBarActiveItem,
       required this.bottomTabBarItem,
       required this.buttonActiveText,
-      required this.buttonInActiveText});
+      required this.buttonInActiveText,
+      required this.buttonActiveColor,
+      required this.buttonInActiveColor});
 }
 
 class CustomColorController extends GetxController {
@@ -94,7 +99,9 @@ class CustomColorController extends GetxController {
           bottomTabBarActiveItem: CustomColorMode1().bottomTabBarActiveItem,
           bottomTabBarItem: CustomColorMode1().bottomTabBarItem,
           buttonInActiveText: CustomColorMode1().buttonInActiveText,
-          buttonActiveText: CustomColorMode1().buttonActiveText);
+          buttonActiveText: CustomColorMode1().buttonActiveText,
+          buttonInActiveColor: CustomColorMode1().buttonInActiveColor,
+          buttonActiveColor: CustomColorMode1().buttonActiveColor);
       return customColor;
     } else if (colorType.value == 1) {
       CustomColor customColor = CustomColor(
@@ -120,7 +127,9 @@ class CustomColorController extends GetxController {
           bottomTabBarActiveItem: CustomColorMode2().bottomTabBarActiveItem,
           bottomTabBarItem: CustomColorMode2().bottomTabBarItem,
           buttonInActiveText: CustomColorMode2().buttonInActiveText,
-          buttonActiveText: CustomColorMode2().buttonActiveText);
+          buttonActiveText: CustomColorMode2().buttonActiveText,
+          buttonInActiveColor: CustomColorMode2().buttonInActiveColor,
+          buttonActiveColor: CustomColorMode2().buttonActiveColor);
       return customColor;
     } else {
       CustomColor customColor = CustomColor(
@@ -146,7 +155,9 @@ class CustomColorController extends GetxController {
           bottomTabBarActiveItem: CustomColorMode3().bottomTabBarActiveItem,
           bottomTabBarItem: CustomColorMode3().bottomTabBarItem,
           buttonInActiveText: CustomColorMode3().buttonInActiveText,
-          buttonActiveText: CustomColorMode3().buttonActiveText);
+          buttonActiveText: CustomColorMode3().buttonActiveText,
+          buttonInActiveColor: CustomColorMode3().buttonInActiveColor,
+          buttonActiveColor: CustomColorMode3().buttonActiveColor);
       return customColor;
     }
   }

@@ -92,24 +92,22 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         isRightInActive: checkCanSave(),
         onPressRight: changeProfile,
         children: [
-          Column(children: [
-            SizedBox(
-                child: Padding(
-              padding: EdgeInsets.only(top: 0),
-              child: userProfileButton(context, user, onPressImage,
-                  image: image != null ? File(image!.path) : null),
-            )),
-            SizedBox(height: 16),
-            customTextInput(context, onChangedName,
-                title: localizationController
-                    .localiztionProfileEditScreen()
-                    .nickName,
-                placeholder: nickName,
-                maxLength: 8,
-                count: nickName.length,
-                validator: validateNickName,
-                key: formKey),
-          ])
+          SizedBox(
+              child: Padding(
+            padding: EdgeInsets.only(top: 24),
+            child: userProfileButton(context, user, onPressImage,
+                image: image != null ? File(image!.path) : null),
+          )),
+          SizedBox(height: 16),
+          customTextInput(context, onChangedName,
+              title: localizationController
+                  .localiztionProfileEditScreen()
+                  .nickName,
+              placeholder: nickName,
+              maxLength: 8,
+              count: nickName.length,
+              validator: validateNickName,
+              key: formKey),
         ]);
   }
 }

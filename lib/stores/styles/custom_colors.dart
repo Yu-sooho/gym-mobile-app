@@ -22,14 +22,16 @@ class CustomColorMode1 {
   Color modalOk = const Color(0xff242424);
   Color modalCancel = const Color(0x32242424);
   Color textInputCursor = const Color(0xffffffff);
-  Color textInputFocusCursor = const Color(0xff921314);
-  Color placeholder = const Color(0xff712424);
+  Color textInputFocusCursor = const Color(0xffffffff);
+  Color placeholder = const Color(0xff929292);
 
   Color bottomTabBarActiveItem = const Color(0xffffffff);
   Color bottomTabBarItem = const Color(0xff444442);
 
   Color buttonInActiveText = const Color(0xff444442);
   Color buttonActiveText = const Color(0xffffffff);
+  Color buttonInActiveColor = const Color(0xff114442);
+  Color buttonActiveColor = Color.fromARGB(255, 0, 0, 0);
 }
 
 class CustomColorMode2 {
@@ -60,6 +62,8 @@ class CustomColorMode2 {
   Color bottomTabBarItem = const Color(0xff444442);
   Color buttonInActiveText = const Color(0xff444442);
   Color buttonActiveText = const Color(0xffffffff);
+  Color buttonInActiveColor = const Color(0xff444442);
+  Color buttonActiveColor = const Color(0xffffffff);
 }
 
 class CustomColorMode3 {
@@ -90,4 +94,6 @@ class CustomColorMode3 {
   Color bottomTabBarItem = const Color(0xff444442);
   Color buttonInActiveText = const Color(0xff444442);
   Color buttonActiveText = const Color(0xffffffff);
+  Color buttonInActiveColor = const Color(0xff444442);
+  Color buttonActiveColor = const Color(0xffffffff);
 }

@@ -41,7 +41,7 @@ Widget safeAreaView(
                 32,
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
-                  0, 24, 0, 24 + MediaQuery.of(context).padding.bottom),
+                  0, 0, 0, 24 + MediaQuery.of(context).padding.bottom),
               child: Column(children: children ?? []),
             ),
           )

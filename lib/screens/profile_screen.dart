@@ -69,7 +69,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void onPressInquiry() {}
+  void onPressInquiry() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => InquiryScreen()),
+    );
+  }
 
   void onPressLogout(BuildContext context) {
     if (overlayLogout.mounted) {
@@ -103,71 +108,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context,
       localizationController.localiztionProfileScreen().title,
       children: [
-        Column(children: [
-          SizedBox(
-              child: Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: userProfileButton(context, user, onPressImage),
-          )),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-              alignment: Alignment.center,
-              width: appStateController.width2,
-              child: Obx(() => Column(children: [
-                    Text(
-                      '${user?.displayName}',
-                      style: fontController.customFont().bold12,
+        SizedBox(
+            child: Padding(
+          padding: EdgeInsets.only(top: 24),
+          child: userProfileButton(context, user, onPressImage),
+        )),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+            alignment: Alignment.center,
+            width: appStateController.width2,
+            child: Obx(() => Column(children: [
+                  Text(
+                    '${user?.displayName}',
+                    style: fontController.customFont().bold12,
+                    textAlign: TextAlign.center,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 4),
+                    child: Text(
+                      '${user?.phoneNumber}',
+                      style: fontController.customFont().medium12,
                       textAlign: TextAlign.center,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 4),
-                      child: Text(
-                        '${user?.phoneNumber}',
-                        style: fontController.customFont().medium12,
-                        textAlign: TextAlign.center,
-                      ),
+                  )
+                ]))),
+        SizedBox(height: 16),
+        CustomButton(
+            onPress: onPressEdit,
+            child: Container(
+              height: 32,
+              width: 320,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                      color: colorController.customColor().buttonBorder)),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      localizationController.localiztionProfileScreen().edit,
+                      style: fontController.customFont().bold12,
                     )
-                  ]))),
-          SizedBox(height: 16),
-          CustomButton(
-              onPress: onPressEdit,
-              child: Container(
-                height: 32,
-                width: 320,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                        color: colorController.customColor().buttonBorder)),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        localizationController.localiztionProfileScreen().edit,
-                        style: fontController.customFont().bold12,
-                      )
-                    ]),
-              )),
-          SizedBox(
-            height: 24,
-          ),
-          RightArrowButton(
-              onPress: onPressSetting,
-              title: localizationController.localiztionProfileScreen().setting),
-          RightArrowButton(
-              onPress: onPressTheme,
-              title: localizationController.localiztionProfileScreen().theme),
-          RightArrowButton(
-              onPress: onPressInquiry,
-              title: localizationController.localiztionProfileScreen().inquiry),
-          RightArrowButton(
-              onPress: () => {onPressLogout(context)},
-              isHaveRight: false,
-              textStyle: fontController.customFont().medium12,
-              title: localizationController.localiztionProfileScreen().logout)
-        ])
+                  ]),
+            )),
+        SizedBox(
+          height: 24,
+        ),
+        RightArrowButton(
+            onPress: onPressSetting,
+            title: localizationController.localiztionProfileScreen().setting),
+        RightArrowButton(
+            onPress: onPressTheme,
+            title: localizationController.localiztionProfileScreen().theme),
+        RightArrowButton(
+            onPress: onPressInquiry,
+            title: localizationController.localiztionProfileScreen().inquiry),
+        RightArrowButton(
+            onPress: () => {onPressLogout(context)},
+            isHaveRight: false,
+            textStyle: fontController.customFont().medium12,
+            title: localizationController.localiztionProfileScreen().logout)
       ],
     );
   }
