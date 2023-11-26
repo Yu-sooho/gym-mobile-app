@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -7,8 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileEditScreen extends StatefulWidget {
-  final User? currentUser;
-  ProfileEditScreen({super.key, this.currentUser});
+  ProfileEditScreen({super.key});
 
   @override
   State<ProfileEditScreen> createState() => _ProfileEditScreenState();
@@ -23,9 +23,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       Get.put(FirebaseAuthController());
   final AppStateController appStateController = Get.put(AppStateController());
 
+  XFile? pickedFile;
   XFile? image;
   final ImagePicker picker = ImagePicker();
-  late String nickName = firebaseAuthController.currentUser?.displayName ?? '';
+  late String nickName =
+      firebaseAuthController.currentUserData?['displayName'] ?? '';
 
   void onPressImage(BuildContext context) async {
     final photoPermission =
@@ -39,10 +41,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   Future getImage(ImageSource imageSource, BuildContext context) async {
     appStateController.setIsLoading(true, context);
     try {
-      final XFile? pickedFile = await picker.pickImage(source: imageSource);
+      pickedFile = await picker.pickImage(source: imageSource);
       if (pickedFile != null) {
         setState(() {
-          image = XFile(pickedFile.path);
+          image = XFile(pickedFile!.path);
         });
       }
       if (!context.mounted) return;
@@ -73,7 +75,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   }
 
   bool checkCanSave() {
-    if (nickName == firebaseAuthController.currentUser?.displayName ||
+    if (image != null) return false;
+    if (nickName == firebaseAuthController.currentUserData?['displayName'] ||
         nickName == '' ||
         validateNickName(nickName) != null) {
       return true;
@@ -81,16 +84,46 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     return false;
   }
 
-  void changeProfile() {}
+  void changeProfile(BuildContext context) async {
+    if (image != null) {
+      appStateController.setIsLoading(true, context);
+      if (firebaseAuthController.currentUser?.uid == null) {
+        appStateController.setIsLoading(false, context);
+        Fluttertoast.showToast(msg: 'FUFU');
+        return;
+      }
+      final url = await uploadProfileImage(
+          firebaseAuthController.currentUser!.uid,
+          pickedFile!.name,
+          pickedFile!.path);
+      if (url == null) {
+        if (context.mounted) {
+          appStateController.setIsLoading(false, context);
+        }
+        Fluttertoast.showToast(msg: 'FUFU');
+        return;
+      }
+      final res =
+          await updateUser(url, firebaseAuthController.currentUser!.uid);
+      if (res) {
+        firebaseAuthController.currentUserData?['photoURL'] = url;
+        if (context.mounted) {
+          Navigator.pop(context);
+          appStateController.setIsLoading(false, context);
+        }
+        Fluttertoast.showToast(msg: 'FUFU2');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final user = firebaseAuthController.currentUser;
+    final user = firebaseAuthController.currentUserData;
     return safeAreaView(
         context, localizationController.localiztionProfileEditScreen().title,
         rightText: localizationController.localiztionProfileEditScreen().save,
         isRightInActive: checkCanSave(),
-        onPressRight: changeProfile,
+        onPressRight: () => changeProfile(context),
         children: [
           SizedBox(
               child: Padding(

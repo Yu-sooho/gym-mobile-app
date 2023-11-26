@@ -1,22 +1,48 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gym_calendar/providers/auth_provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+Future<bool> updateUser(String url, String uid) async {
+  try {
+    if (url.isNotEmpty && uid.isNotEmpty) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({'photoURL': url});
+    }
+    return true;
+  } catch (error) {
+    print('updateUser $error');
+    return false;
+  }
+}
+
 class FirebaseAuthController extends GetxController {
   User? currentUser;
+  late dynamic currentUserData;
 
   void addAuthEventListener() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         currentUser = user;
+        getUser(user);
         print('FirebaseAuthController addAuthEventListener login $user');
         return;
       }
       currentUser = null;
       print('FirebaseAuthController addAuthEventListener logout');
     });
+  }
+
+  void getUser(User user) async {
+    final res = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    currentUserData = res.data();
   }
 
   Future<bool> appleLoginFirebase(

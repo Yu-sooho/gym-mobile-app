@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
@@ -7,8 +6,7 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 
 @immutable
 class ProfileScreen extends StatefulWidget {
-  final User? currentUser;
-  ProfileScreen({super.key, this.currentUser});
+  ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -23,13 +21,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Get.put(FirebaseAuthController());
   final AppStateController appStateController = Get.put(AppStateController());
   final CustomFontController fontController = Get.put(CustomFontController());
-
   late OverlayEntry overlayPhoto = OverlayEntry(
       builder: (_) => photoScreen(
           onPress: () => onPressImage(context),
-          imageUri:
-              'https://image.dongascience.com/Photo/2017/10/15076010680571.jpg'));
-
+          imageUri: firebaseAuthController.currentUserData?['photoURL']));
   late OverlayEntry overlayLogout = OverlayEntry(
       builder: (_) => customModalScreen(
           title:
@@ -40,10 +35,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onPressOk: () => {logout(context)}));
 
   void onPressImage(BuildContext context) {
+    if (firebaseAuthController.currentUserData?['photoURL'] == null) return;
+
     if (overlayPhoto.mounted) {
       overlayPhoto.remove();
       return;
     }
+
     OverlayState overlayState = Overlay.of(context);
     overlayState.insert(overlayPhoto);
   }
@@ -103,7 +101,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = widget.currentUser ?? firebaseAuthController.currentUser;
+    final user = firebaseAuthController.currentUserData;
+    print(firebaseAuthController.currentUserData['email']);
     return safeAreaView(
       context,
       localizationController.localiztionProfileScreen().title,
@@ -121,14 +120,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: appStateController.width2,
             child: Obx(() => Column(children: [
                   Text(
-                    '${user?.displayName}',
+                    '${user?['displayName']}',
                     style: fontController.customFont().bold12,
                     textAlign: TextAlign.center,
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 4),
                     child: Text(
-                      '${user?.phoneNumber}',
+                      '${user?['phoneNumber']}',
                       style: fontController.customFont().medium12,
                       textAlign: TextAlign.center,
                     ),

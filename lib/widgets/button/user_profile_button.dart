@@ -1,16 +1,18 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
-Widget userProfileButton(BuildContext context, User? user, onPressImage,
+Widget userProfileButton(BuildContext context, dynamic user, onPressImage,
     {File? image}) {
   final CustomColorController colorController =
       Get.put(CustomColorController());
+  final FirebaseAuthController firebaseAuthController =
+      Get.put(FirebaseAuthController());
+
   return SizedBox(
     child: Column(children: [
       InkWell(
@@ -32,7 +34,8 @@ Widget userProfileButton(BuildContext context, User? user, onPressImage,
                     ))
                 : CachedNetworkImage(
                     imageUrl:
-                        'https://image.dongascience.com/Photo/2017/10/15076010680571.jpg',
+                        firebaseAuthController.currentUserData?['photoURL'] ??
+                            '',
                     imageBuilder: (context, imageProvider) => Container(
                       width: 100.0,
                       height: 100.0,
