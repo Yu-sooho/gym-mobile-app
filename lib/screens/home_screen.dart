@@ -49,7 +49,7 @@ class _HomeScreen extends State<HomeScreen> {
     return MaterialApp(
         home: Stack(children: <Widget>[
       Obx(() => Scaffold(
-            backgroundColor: colorController.customColor().defaultBackground,
+            backgroundColor: colorController.customColor().defaultBackground1,
           )),
       Column(
         children: [
@@ -116,7 +116,7 @@ class _HomeScreen extends State<HomeScreen> {
                   child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
                     backgroundColor:
-                        colorController.customColor().defaultBackground,
+                        colorController.customColor().defaultBackground1,
                     showSelectedLabels: false,
                     showUnselectedLabels: false,
                     currentIndex: tab,

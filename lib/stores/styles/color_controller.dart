@@ -7,7 +7,8 @@ export 'package:flutter/widgets.dart';
 class CustomColor {
   final Color toastBackground;
   final Color toastText;
-  final Color defaultBackground;
+  final Color defaultBackground1;
+  final Color defaultBackground2;
   final Color loadingSpinnerOpacity;
   final Color loadingSpinnerColor;
   final Color defaultTextColor;
@@ -18,13 +19,15 @@ class CustomColor {
   final Color buttonBorder;
   final Color buttonOpacity;
 
-  final Color switchColor;
+  final Color switchTrackColor;
+  final Color switchActiveColor;
 
   final Color modalBackground;
   final Color modalText;
   final Color modalCancel;
   final Color modalOk;
 
+  final Color errorText;
   final Color textInputCursor;
   final Color textInputFocusCursor;
   final Color placeholder;
@@ -41,7 +44,8 @@ class CustomColor {
   CustomColor(
       {required this.toastBackground,
       required this.toastText,
-      required this.defaultBackground,
+      required this.defaultBackground1,
+      required this.defaultBackground2,
       required this.loadingSpinnerOpacity,
       required this.loadingSpinnerColor,
       required this.defaultTextColor,
@@ -49,12 +53,14 @@ class CustomColor {
       required this.skeletonColor2,
       required this.buttonOpacity,
       required this.buttonBorder,
-      required this.switchColor,
+      required this.switchActiveColor,
+      required this.switchTrackColor,
       required this.transparent,
       required this.modalBackground,
       required this.modalText,
       required this.modalOk,
       required this.modalCancel,
+      required this.errorText,
       required this.textInputCursor,
       required this.textInputFocusCursor,
       required this.placeholder,
@@ -76,9 +82,11 @@ class CustomColorController extends GetxController {
   CustomColor customColor() {
     if (colorType.value == 0) {
       CustomColor customColor = CustomColor(
+          errorText: CustomColorMode1().errorText,
           toastBackground: CustomColorMode1().toastBackground,
           toastText: CustomColorMode1().toastText,
-          defaultBackground: CustomColorMode1().defaultBackground,
+          defaultBackground1: CustomColorMode1().defaultBackground1,
+          defaultBackground2: CustomColorMode1().defaultBackground2,
           loadingSpinnerOpacity: CustomColorMode1().loadingSpinnerOpacity,
           loadingSpinnerColor: CustomColorMode1().loadingSpinnerColor,
           defaultTextColor: CustomColorMode1().defaultTextColor,
@@ -91,7 +99,8 @@ class CustomColorController extends GetxController {
           modalText: CustomColorMode1().modalText,
           modalOk: CustomColorMode1().modalOk,
           modalCancel: CustomColorMode1().modalCancel,
-          switchColor: CustomColorMode1().switchColor,
+          switchActiveColor: CustomColorMode1().switchActiveColor,
+          switchTrackColor: CustomColorMode1().switchTrackColor,
           textInputCursor: CustomColorMode1().textInputCursor,
           textInputFocusCursor: CustomColorMode1().textInputFocusCursor,
           placeholder: CustomColorMode1().placeholder,
@@ -104,9 +113,11 @@ class CustomColorController extends GetxController {
       return customColor;
     } else if (colorType.value == 1) {
       CustomColor customColor = CustomColor(
+          errorText: CustomColorMode2().errorText,
           toastBackground: CustomColorMode2().toastBackground,
           toastText: CustomColorMode2().toastText,
-          defaultBackground: CustomColorMode2().defaultBackground,
+          defaultBackground1: CustomColorMode2().defaultBackground1,
+          defaultBackground2: CustomColorMode2().defaultBackground2,
           loadingSpinnerOpacity: CustomColorMode2().loadingSpinnerOpacity,
           loadingSpinnerColor: CustomColorMode2().loadingSpinnerColor,
           defaultTextColor: CustomColorMode2().defaultTextColor,
@@ -119,7 +130,8 @@ class CustomColorController extends GetxController {
           modalText: CustomColorMode2().modalText,
           modalOk: CustomColorMode2().modalOk,
           modalCancel: CustomColorMode2().modalCancel,
-          switchColor: CustomColorMode2().switchColor,
+          switchActiveColor: CustomColorMode2().switchActiveColor,
+          switchTrackColor: CustomColorMode2().switchTrackColor,
           textInputCursor: CustomColorMode2().textInputCursor,
           textInputFocusCursor: CustomColorMode2().textInputFocusCursor,
           placeholder: CustomColorMode2().placeholder,
@@ -132,9 +144,11 @@ class CustomColorController extends GetxController {
       return customColor;
     } else {
       CustomColor customColor = CustomColor(
+          errorText: CustomColorMode3().errorText,
           toastBackground: CustomColorMode3().toastBackground,
           toastText: CustomColorMode3().toastText,
-          defaultBackground: CustomColorMode3().defaultBackground,
+          defaultBackground1: CustomColorMode3().defaultBackground1,
+          defaultBackground2: CustomColorMode3().defaultBackground2,
           loadingSpinnerOpacity: CustomColorMode3().loadingSpinnerOpacity,
           loadingSpinnerColor: CustomColorMode3().loadingSpinnerColor,
           defaultTextColor: CustomColorMode3().defaultTextColor,
@@ -147,7 +161,8 @@ class CustomColorController extends GetxController {
           modalText: CustomColorMode3().modalText,
           modalOk: CustomColorMode3().modalOk,
           modalCancel: CustomColorMode3().modalCancel,
-          switchColor: CustomColorMode3().switchColor,
+          switchActiveColor: CustomColorMode3().switchActiveColor,
+          switchTrackColor: CustomColorMode3().switchTrackColor,
           textInputCursor: CustomColorMode3().textInputCursor,
           textInputFocusCursor: CustomColorMode3().textInputFocusCursor,
           placeholder: CustomColorMode3().placeholder,

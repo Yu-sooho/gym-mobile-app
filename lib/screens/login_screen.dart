@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       () => Container(
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            color: colorController.customColor().defaultBackground,
+            color: colorController.customColor().defaultBackground1,
           ),
           child: Align(
               alignment: Alignment(0, 0),

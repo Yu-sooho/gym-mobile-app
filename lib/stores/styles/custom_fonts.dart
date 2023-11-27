@@ -5,6 +5,11 @@ class CustomFont1 {
   final CustomColorController colorController =
       Get.put(CustomColorController());
 
+  late TextStyle regular12 = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 12,
+      fontWeight: FontWeight.w100,
+      color: colorController.customColor().defaultTextColor);
   late TextStyle medium12 = TextStyle(
       fontFamily: 'NotoSans',
       fontSize: 12,
@@ -51,6 +56,11 @@ class CustomFont2 {
   final CustomColorController colorController =
       Get.put(CustomColorController());
 
+  late TextStyle regular12 = TextStyle(
+      fontFamily: 'Nanum',
+      fontSize: 12,
+      fontWeight: FontWeight.w100,
+      color: colorController.customColor().defaultTextColor);
   late TextStyle medium12 = TextStyle(
       fontFamily: 'Nanum',
       fontSize: 12,
@@ -97,6 +107,11 @@ class CustomFont3 {
   final CustomColorController colorController =
       Get.put(CustomColorController());
 
+  late TextStyle regular12 = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 12,
+      fontWeight: FontWeight.w100,
+      color: colorController.customColor().defaultTextColor);
   late TextStyle medium12 = TextStyle(
       fontFamily: 'SCore',
       fontSize: 12,

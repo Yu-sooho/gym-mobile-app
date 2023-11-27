@@ -29,7 +29,9 @@ Widget customSwitchButton(BuildContext context,
                   scale: .7,
                   child: CupertinoSwitch(
                     value: value,
-                    activeColor: colorController.customColor().switchColor,
+                    activeColor:
+                        colorController.customColor().switchActiveColor,
+                    trackColor: colorController.customColor().switchTrackColor,
                     onChanged: (bool? value) {},
                   )),
             ],

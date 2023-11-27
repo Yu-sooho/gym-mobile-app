@@ -139,21 +139,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SizedBox(height: 16),
         CustomButton(
             onPress: onPressEdit,
+            borderRadius: BorderRadius.circular(10),
+            highlightColor: colorController.customColor().buttonOpacity,
             child: Container(
               height: 32,
               width: 320,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
+                  color: colorController.customColor().buttonActiveColor,
                   border: Border.all(
                       color: colorController.customColor().buttonBorder)),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      localizationController.localiztionProfileScreen().edit,
-                      style: fontController.customFont().bold12,
-                    )
+                    Text(localizationController.localiztionProfileScreen().edit,
+                        style: TextStyle(
+                            fontFamily:
+                                fontController.customFont().bold12.fontFamily,
+                            fontWeight:
+                                fontController.customFont().bold12.fontWeight,
+                            color:
+                                colorController.customColor().buttonActiveText,
+                            fontSize:
+                                fontController.customFont().bold12.fontSize))
                   ]),
             )),
         SizedBox(

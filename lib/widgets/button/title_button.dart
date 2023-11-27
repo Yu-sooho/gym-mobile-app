@@ -12,11 +12,9 @@ Widget titleButton(BuildContext context,
 
   return (CustomButton(
       onPress: onPress,
-      child: Container(
+      child: SizedBox(
           width: appStateController.logicalWidth.value,
           height: 52,
-          decoration: BoxDecoration(
-              color: colorController.customColor().defaultBackground),
           child: Padding(
               padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
               child: Row(

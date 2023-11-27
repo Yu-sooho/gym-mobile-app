@@ -144,6 +144,25 @@ Widget inquiryContainer(BuildContext context,
                 validator: validateTitle,
                 onChanged: onChangeTitle,
                 decoration: InputDecoration(
+                  focusedErrorBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: colorController.customColor().errorText,
+                    ),
+                  ),
+                  errorBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: colorController.customColor().errorText,
+                    ),
+                  ),
+                  errorStyle: TextStyle(
+                      fontSize: fontController.customFont().regular12.fontSize,
+                      fontFamily:
+                          fontController.customFont().regular12.fontFamily,
+                      fontWeight:
+                          fontController.customFont().regular12.fontWeight,
+                      color: colorController.customColor().errorText),
                   counterStyle: fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                   isDense: true,
@@ -170,7 +189,7 @@ Widget inquiryContainer(BuildContext context,
                   focusColor: colorController.customColor().textInputCursor,
                 )))),
     Padding(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
         child: Form(
             child: TextFormField(
                 maxLength: 200,
@@ -182,6 +201,25 @@ Widget inquiryContainer(BuildContext context,
                 autovalidateMode: AutovalidateMode.values.last,
                 style: fontController.customFont().medium12,
                 decoration: InputDecoration(
+                  focusedErrorBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: colorController.customColor().errorText,
+                    ),
+                  ),
+                  errorBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: colorController.customColor().errorText,
+                    ),
+                  ),
+                  errorStyle: TextStyle(
+                      fontSize: fontController.customFont().regular12.fontSize,
+                      fontFamily:
+                          fontController.customFont().regular12.fontFamily,
+                      fontWeight:
+                          fontController.customFont().regular12.fontWeight,
+                      color: colorController.customColor().errorText),
                   counterStyle: fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 12),
                   isDense: true,
@@ -213,9 +251,11 @@ Widget inquiryContainer(BuildContext context,
           onPress: onPressInquiry,
           child: Container(
               width: double.infinity,
-              height: 48,
+              height: 32,
               alignment: Alignment.center,
               decoration: BoxDecoration(
+                  border: Border.all(
+                      color: colorController.customColor().buttonBorder),
                   color: isReady
                       ? colorController.customColor().buttonActiveColor
                       : colorController.customColor().buttonInActiveColor,

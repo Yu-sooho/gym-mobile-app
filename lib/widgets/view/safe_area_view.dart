@@ -15,11 +15,19 @@ Widget safeAreaView(
   final CustomColorController colorController =
       Get.put(CustomColorController());
   final AppStateController appStateController = Get.put(AppStateController());
-
   return Stack(children: <Widget>[
     Obx(() => Scaffold(
-          backgroundColor: colorController.customColor().defaultBackground,
-        )),
+            body: Container(
+                decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment(0, -3),
+              end: Alignment(0, 1),
+              colors: <Color>[
+                colorController.customColor().defaultBackground2,
+                colorController.customColor().defaultBackground1,
+              ], // Gradient from https://learnui.design/tools/gradient-generator.html
+              tileMode: TileMode.clamp),
+        )))),
     Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
