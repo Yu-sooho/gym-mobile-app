@@ -89,7 +89,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       appStateController.setIsLoading(true, context);
       if (firebaseAuthController.currentUser?.uid == null) {
         appStateController.setIsLoading(false, context);
-        Fluttertoast.showToast(msg: 'FUFU');
+        // Fluttertoast.showToast(msg: 'FUFU');
         return;
       }
       final url = await uploadProfileImage(
@@ -100,7 +100,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         if (context.mounted) {
           appStateController.setIsLoading(false, context);
         }
-        Fluttertoast.showToast(msg: 'FUFU');
+        // Fluttertoast.showToast(msg: 'FUFU');
         return;
       }
       final res =
@@ -111,7 +111,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           Navigator.pop(context);
           appStateController.setIsLoading(false, context);
         }
-        Fluttertoast.showToast(msg: 'FUFU2');
+        // Fluttertoast.showToast(msg: 'FUFU2');
       }
     }
   }

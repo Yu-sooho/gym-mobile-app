@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -23,6 +24,7 @@ Widget photoScreen(
           onPress: onPress,
           child: CachedNetworkImage(
             imageUrl: imageUri,
+            placeholder: (context, url) => skeletonBox(),
             imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -32,4 +34,14 @@ Widget photoScreen(
               ),
             ),
           )));
+}
+
+Widget skeletonBox() {
+  final CustomColorController colorController =
+      Get.put(CustomColorController());
+
+  return Obx(() => SpinKitThreeBounce(
+        color: colorController.customColor().loadingSpinnerColor,
+        size: 15,
+      ));
 }

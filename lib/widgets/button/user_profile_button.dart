@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -81,6 +82,10 @@ class _UserProfileButtonState extends State<UserProfileButton> {
           ),
           width: 100.0,
           height: 100.0,
+          child: SpinKitThreeBounce(
+            color: colorController.customColor().loadingSpinnerColor,
+            size: 15,
+          ),
         ));
   }
 

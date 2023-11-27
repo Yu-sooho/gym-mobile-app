@@ -7,13 +7,10 @@ Widget loadingScreen(BuildContext context) {
   return Obx(() => Container(
         decoration: BoxDecoration(
             color: colorController.customColor().loadingSpinnerOpacity),
-        child: Center(child: SpinKitFadingCircle(
-          itemBuilder: (BuildContext context, int index) {
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                  color: colorController.customColor().loadingSpinnerColor),
-            );
-          },
-        )),
+        child: Center(
+          child: SpinKitFadingCircle(
+            color: colorController.customColor().loadingSpinnerColor,
+          ),
+        ),
       ));
 }
