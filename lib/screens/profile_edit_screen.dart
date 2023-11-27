@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';

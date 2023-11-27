@@ -46,12 +46,28 @@ class _UserProfileButtonState extends State<UserProfileButton> {
               child: image != null
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(50),
-                      child: Image.file(
-                        image!,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ))
+                      child: Stack(children: <Widget>[
+                        Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: colorController
+                                    .customColor()
+                                    .skeletonColor),
+                            child: SpinKitThreeBounce(
+                              color: colorController
+                                  .customColor()
+                                  .loadingSpinnerColor,
+                              size: 15,
+                            )),
+                        Image.file(
+                          image!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        )
+                      ]))
                   : CachedNetworkImage(
                       imageUrl: imageUrl ?? '',
                       imageBuilder: (context, imageProvider) => Container(
@@ -101,9 +117,9 @@ class _UserProfileButtonState extends State<UserProfileButton> {
           width: 100.0,
           height: 100.0,
           child: Icon(
-            Icons.camera,
+            Icons.photo,
             color: colorController.customColor().skeletonColor2,
-            size: 100,
+            size: 55,
           ),
         ));
   }
