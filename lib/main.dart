@@ -50,7 +50,6 @@ Future<bool> firebaseLoginCheck() async {
 
 Future<bool> firebaseMessagingInit() async {
   final fcmToken = await FirebaseMessaging.instance.getToken();
-  print(fcmToken);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print('Message data: ${message.data}');

@@ -70,7 +70,6 @@ class CustomColorController extends GetxController {
   RxInt colorType = 0.obs;
 
   void changeColorMode(int type) {
-    print(type);
     colorType.value = type;
   }
 

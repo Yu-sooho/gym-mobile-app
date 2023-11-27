@@ -20,9 +20,28 @@ Future<bool> updateUser(String url, String uid) async {
   }
 }
 
+class UserData {
+  RxString? displayName;
+  RxBool? disabled;
+  RxString? creationTime;
+  RxString? email;
+  RxBool? emailVerified;
+  RxString? photoURL;
+  RxString? phoneNumber;
+  UserData({
+    this.displayName,
+    this.disabled,
+    this.creationTime,
+    this.email,
+    this.emailVerified,
+    this.photoURL,
+    this.phoneNumber,
+  });
+}
+
 class FirebaseAuthController extends GetxController {
   User? currentUser;
-  late dynamic currentUserData;
+  UserData currentUserData = UserData();
 
   void addAuthEventListener() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -42,7 +61,21 @@ class FirebaseAuthController extends GetxController {
         .collection('users')
         .doc(user.uid)
         .get();
-    currentUserData = res.data();
+    final String photoURL = res.data()?['photoURL'];
+    final bool disabled = res.data()?['disabled'];
+    final String displayName = res.data()?['displayName'];
+    final String creationTime = res.data()?['creationTime'];
+    final String email = res.data()?['email'];
+    final bool emailVerified = res.data()?['emailVerified'];
+    final String? phoneNumber = res.data()?['phoneNumber'];
+
+    currentUserData.photoURL = photoURL.obs;
+    currentUserData.disabled = disabled.obs;
+    currentUserData.displayName = displayName.obs;
+    currentUserData.creationTime = creationTime.obs;
+    currentUserData.email = email.obs;
+    currentUserData.emailVerified = emailVerified.obs;
+    currentUserData.phoneNumber = phoneNumber?.obs;
   }
 
   Future<bool> appleLoginFirebase(
@@ -85,7 +118,6 @@ class FirebaseAuthController extends GetxController {
     try {
       final SocialLoginProvider socialLoginProvider = SocialLoginProvider();
       final res = await socialLoginProvider.postKakaoLogin({"code": token});
-      print(res['firebaseToken']);
       if (res['firebaseToken'] != null) {
         await FirebaseAuth.instance.signInWithCustomToken(res['firebaseToken']);
         return true;

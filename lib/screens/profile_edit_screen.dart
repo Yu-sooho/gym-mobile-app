@@ -24,10 +24,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final AppStateController appStateController = Get.put(AppStateController());
 
   XFile? pickedFile;
-  XFile? image;
+  File? image;
   final ImagePicker picker = ImagePicker();
   late String nickName =
-      firebaseAuthController.currentUserData?['displayName'] ?? '';
+      firebaseAuthController.currentUserData.displayName?.value ?? '';
 
   void onPressImage(BuildContext context) async {
     final photoPermission =
@@ -44,7 +44,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       pickedFile = await picker.pickImage(source: imageSource);
       if (pickedFile != null) {
         setState(() {
-          image = XFile(pickedFile!.path);
+          image = File(pickedFile!.path);
         });
       }
       if (!context.mounted) return;
@@ -76,7 +76,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   bool checkCanSave() {
     if (image != null) return false;
-    if (nickName == firebaseAuthController.currentUserData?['displayName'] ||
+    if (nickName == firebaseAuthController.currentUserData.displayName?.value ||
         nickName == '' ||
         validateNickName(nickName) != null) {
       return true;
@@ -106,7 +106,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       final res =
           await updateUser(url, firebaseAuthController.currentUser!.uid);
       if (res) {
-        firebaseAuthController.currentUserData?['photoURL'] = url;
+        firebaseAuthController.currentUserData.photoURL?.value = url;
         if (context.mounted) {
           Navigator.pop(context);
           appStateController.setIsLoading(false, context);
@@ -128,8 +128,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           SizedBox(
               child: Padding(
             padding: EdgeInsets.only(top: 24),
-            child: userProfileButton(context, user, onPressImage,
-                image: image != null ? File(image!.path) : null),
+            child: UserProfileButton(
+              image: image,
+              imageUrl: user.photoURL?.value,
+              onPressImage: onPressImage,
+            ),
           )),
           SizedBox(height: 16),
           customTextInput(context, onChangedName,

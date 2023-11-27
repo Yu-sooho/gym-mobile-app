@@ -24,7 +24,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late OverlayEntry overlayPhoto = OverlayEntry(
       builder: (_) => photoScreen(
           onPress: () => onPressImage(context),
-          imageUri: firebaseAuthController.currentUserData?['photoURL']));
+          imageUri:
+              firebaseAuthController.currentUserData.photoURL?.value ?? ''));
   late OverlayEntry overlayLogout = OverlayEntry(
       builder: (_) => customModalScreen(
           title:
@@ -35,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onPressOk: () => {logout(context)}));
 
   void onPressImage(BuildContext context) {
-    if (firebaseAuthController.currentUserData?['photoURL'] == null) return;
+    if (firebaseAuthController.currentUserData.photoURL?.value == null) return;
 
     if (overlayPhoto.mounted) {
       overlayPhoto.remove();
@@ -102,7 +103,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = firebaseAuthController.currentUserData;
-    print(firebaseAuthController.currentUserData['email']);
     return safeAreaView(
       context,
       localizationController.localiztionProfileScreen().title,
@@ -110,7 +110,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SizedBox(
             child: Padding(
           padding: EdgeInsets.only(top: 24),
-          child: userProfileButton(context, user, onPressImage),
+          child: Obx(() => UserProfileButton(
+                imageUrl: user.photoURL?.value,
+                onPressImage: onPressImage,
+              )),
         )),
         SizedBox(
           height: 20,
@@ -120,14 +123,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: appStateController.width2,
             child: Obx(() => Column(children: [
                   Text(
-                    '${user?['displayName']}',
+                    '${user.displayName}',
                     style: fontController.customFont().bold12,
                     textAlign: TextAlign.center,
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 4),
                     child: Text(
-                      '${user?['phoneNumber']}',
+                      '${user.phoneNumber}',
                       style: fontController.customFont().medium12,
                       textAlign: TextAlign.center,
                     ),
