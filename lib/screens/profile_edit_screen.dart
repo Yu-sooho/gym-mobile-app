@@ -83,6 +83,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   }
 
   void changeProfile(BuildContext context) async {
+    Map<Object, Object> data = {};
     if (image != null) {
       appStateController.setIsLoading(true, context);
       if (firebaseAuthController.currentUser?.uid == null) {
@@ -101,16 +102,21 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         // Fluttertoast.showToast(msg: 'FUFU');
         return;
       }
-      final res =
-          await updateUser(url, firebaseAuthController.currentUser!.uid);
-      if (res) {
-        firebaseAuthController.currentUserData.photoURL?.value = url;
-        if (context.mounted) {
-          Navigator.pop(context);
-          appStateController.setIsLoading(false, context);
-        }
-        // Fluttertoast.showToast(msg: 'FUFU2');
+      firebaseAuthController.currentUserData.photoURL?.value = url;
+    }
+
+    if (nickName.isEmpty) return;
+
+    data = {...data, 'displayNameㅇ': nickName};
+
+    final res = await updateUser(data, firebaseAuthController.currentUser!.uid);
+    if (res) {
+      if (context.mounted) {
+        Navigator.pop(context);
+        firebaseAuthController.currentUserData.displayName!.value = nickName;
+        appStateController.setIsLoading(false, context);
       }
+      // Fluttertoast.showToast(msg: 'FUFU2');
     }
   }
 

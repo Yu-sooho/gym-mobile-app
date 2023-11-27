@@ -5,13 +5,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gym_calendar/providers/auth_provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-Future<bool> updateUser(String url, String uid) async {
+Future<bool> updateUser(Map<Object, Object> data, String uid) async {
   try {
-    if (url.isNotEmpty && uid.isNotEmpty) {
+    if (uid.isNotEmpty) {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
-          .update({'photoURL': url});
+          .update(data);
     }
     return true;
   } catch (error) {
