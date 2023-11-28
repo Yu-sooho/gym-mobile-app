@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -88,7 +89,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       appStateController.setIsLoading(true, context);
       if (firebaseAuthController.currentUser?.uid == null) {
         appStateController.setIsLoading(false, context);
-        // Fluttertoast.showToast(msg: 'FUFU');
+        Fluttertoast.showToast(
+            msg: localizationController
+                .localiztionProfileEditScreen()
+                .errorChange);
         return;
       }
       final url = await uploadProfileImage(
@@ -99,15 +103,20 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         if (context.mounted) {
           appStateController.setIsLoading(false, context);
         }
-        // Fluttertoast.showToast(msg: 'FUFU');
+        Fluttertoast.showToast(
+            msg: localizationController
+                .localiztionProfileEditScreen()
+                .errorChange);
         return;
       }
+
+      data = {...data, 'photoURL': url};
       firebaseAuthController.currentUserData.photoURL?.value = url;
     }
 
     if (nickName.isEmpty) return;
 
-    data = {...data, 'displayNameㅇ': nickName};
+    data = {...data, 'displayName': nickName};
 
     final res = await updateUser(data, firebaseAuthController.currentUser!.uid);
     if (res) {
@@ -115,8 +124,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         Navigator.pop(context);
         firebaseAuthController.currentUserData.displayName!.value = nickName;
         appStateController.setIsLoading(false, context);
+        Fluttertoast.showToast(
+            msg: localizationController
+                .localiztionProfileEditScreen()
+                .successChange);
       }
-      // Fluttertoast.showToast(msg: 'FUFU2');
     }
   }
 

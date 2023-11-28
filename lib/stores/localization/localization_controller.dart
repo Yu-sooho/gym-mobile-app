@@ -88,11 +88,16 @@ class ProfileEditScreenText {
   final String save;
   final String errorNickName;
   final String errorDescription;
+
+  final String successChange;
+  final String errorChange;
   ProfileEditScreenText(
       {required this.title,
       required this.nickName,
       required this.errorNickName,
       required this.errorDescription,
+      required this.successChange,
+      required this.errorChange,
       required this.save});
 }
 
@@ -250,21 +255,23 @@ class LocalizationController extends GetxController {
   ProfileEditScreenText localiztionProfileEditScreen() {
     if (language.value == 0) {
       ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
-        title: ProfileEditScreenTextEn().title,
-        nickName: ProfileEditScreenTextEn().nickName,
-        save: ProfileEditScreenTextEn().save,
-        errorNickName: ProfileEditScreenTextEn().errorNickName,
-        errorDescription: ProfileEditScreenTextEn().errorDescription,
-      );
+          title: ProfileEditScreenTextEn().title,
+          nickName: ProfileEditScreenTextEn().nickName,
+          save: ProfileEditScreenTextEn().save,
+          errorNickName: ProfileEditScreenTextEn().errorNickName,
+          errorDescription: ProfileEditScreenTextEn().errorDescription,
+          successChange: ProfileEditScreenTextEn().successChange,
+          errorChange: ProfileEditScreenTextEn().errorChange);
       return profileEditScreenText;
     } else {
       ProfileEditScreenText profileEditScreenText = ProfileEditScreenText(
-        title: ProfileEditScreenTextKr().title,
-        nickName: ProfileEditScreenTextKr().nickName,
-        save: ProfileEditScreenTextKr().save,
-        errorNickName: ProfileEditScreenTextKr().errorNickName,
-        errorDescription: ProfileEditScreenTextKr().errorDescription,
-      );
+          title: ProfileEditScreenTextKr().title,
+          nickName: ProfileEditScreenTextKr().nickName,
+          save: ProfileEditScreenTextKr().save,
+          errorNickName: ProfileEditScreenTextKr().errorNickName,
+          errorDescription: ProfileEditScreenTextKr().errorDescription,
+          successChange: ProfileEditScreenTextKr().successChange,
+          errorChange: ProfileEditScreenTextEn().errorChange);
       return profileEditScreenText;
     }
   }

@@ -49,7 +49,17 @@ class _HomeScreen extends State<HomeScreen> {
     return MaterialApp(
         home: Stack(children: <Widget>[
       Obx(() => Scaffold(
-            backgroundColor: colorController.customColor().defaultBackground1,
+            body: Container(
+                decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment(0, -3),
+                  end: Alignment(0, 1),
+                  colors: <Color>[
+                    colorController.customColor().defaultBackground2,
+                    colorController.customColor().defaultBackground1,
+                  ], // Gradient from https://learnui.design/tools/gradient-generator.html
+                  tileMode: TileMode.clamp),
+            )),
           )),
       Column(
         children: [
@@ -112,11 +122,11 @@ class _HomeScreen extends State<HomeScreen> {
                   data: ThemeData(
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
                   ),
                   child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
-                    backgroundColor:
-                        colorController.customColor().defaultBackground1,
+                    backgroundColor: Colors.transparent,
                     showSelectedLabels: false,
                     showUnselectedLabels: false,
                     currentIndex: tab,

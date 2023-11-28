@@ -30,7 +30,7 @@ class CustomColorMode1 {
   Color errorText = const Color(0xffea4653);
 
   Color bottomTabBarActiveItem = const Color(0xffffffff);
-  Color bottomTabBarItem = const Color(0xff444442);
+  Color bottomTabBarItem = const Color(0xff171F21);
 
   Color buttonInActiveText = const Color(0xffA9AABC);
   Color buttonActiveText = const Color(0xffffffff);
