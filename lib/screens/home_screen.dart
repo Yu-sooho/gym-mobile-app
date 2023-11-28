@@ -126,6 +126,7 @@ class _HomeScreen extends State<HomeScreen> {
                     shadowColor: Colors.transparent,
                   ),
                   child: BottomNavigationBar(
+                    elevation: 0,
                     type: BottomNavigationBarType.fixed,
                     backgroundColor: Colors.transparent,
                     showSelectedLabels: false,

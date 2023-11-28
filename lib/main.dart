@@ -29,8 +29,7 @@ class Main extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return MaterialApp(
       title: "GymCalendar",
-      initialRoute:
-          firebaseAuthController.currentUser != null ? '/home' : '/login',
+      initialRoute: firebaseAuthController.uid != null ? '/home' : '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),

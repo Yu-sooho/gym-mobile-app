@@ -9,17 +9,17 @@ import 'package:gym_calendar/providers/auth_provider.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-Future<bool> updateUser(Map<Object, Object> data, String uid) async {
+Future<bool> updateUser(Map<Object, Object> data, String docId) async {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
   final AppStateController appStateController = Get.put(AppStateController());
   try {
-    if (uid.isNotEmpty) {
+    if (docId.isNotEmpty) {
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(uid)
+          .doc(docId)
           .update(data)
-          .timeout(Duration(seconds: 10));
+          .timeout(Duration(seconds: 30));
     }
 
     appStateController.showToast(
@@ -61,42 +61,51 @@ class UserData {
 }
 
 class FirebaseAuthController extends GetxController {
-  User? currentUser;
+  RxString? uid;
+  RxString? docId;
   UserData currentUserData = UserData();
 
   void addAuthEventListener() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        currentUser = user;
+        uid = user.uid.obs;
         getUser(user);
         print('FirebaseAuthController addAuthEventListener login $user');
         return;
       }
-      currentUser = null;
+      uid = null;
       print('FirebaseAuthController addAuthEventListener logout');
     });
   }
 
   void getUser(User user) async {
-    final res = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
-    final String photoURL = res.data()?['photoURL'];
-    final bool disabled = res.data()?['disabled'];
-    final String displayName = res.data()?['displayName'];
-    final String creationTime = res.data()?['creationTime'];
-    final String email = res.data()?['email'];
-    final bool emailVerified = res.data()?['emailVerified'];
-    final String? phoneNumber = res.data()?['phoneNumber'];
+    try {
+      final res = await FirebaseFirestore.instance
+          .collection('users')
+          .where('uid', isEqualTo: user.uid)
+          .get();
 
-    currentUserData.photoURL = photoURL.obs;
-    currentUserData.disabled = disabled.obs;
-    currentUserData.displayName = displayName.obs;
-    currentUserData.creationTime = creationTime.obs;
-    currentUserData.email = email.obs;
-    currentUserData.emailVerified = emailVerified.obs;
-    currentUserData.phoneNumber = phoneNumber?.obs;
+      for (var doc in res.docs) {
+        docId = doc.id.obs;
+        final bool? disabled = doc.data()['disabled'];
+        final bool? emailVerified = doc.data()['emailVerified'];
+        final String? photoURL = doc.data()['photoURL'];
+        final String? displayName = doc.data()['displayName'];
+        final String? creationTime = doc.data()['creationTime'];
+        final String? email = doc.data()['email'];
+        final String? phontNumber = doc.data()['phoneNumber'];
+
+        currentUserData.disabled = disabled?.obs;
+        currentUserData.emailVerified = emailVerified?.obs;
+        currentUserData.photoURL = photoURL?.obs;
+        currentUserData.displayName = displayName?.obs;
+        currentUserData.creationTime = creationTime?.obs;
+        currentUserData.email = email?.obs;
+        currentUserData.phoneNumber = phontNumber?.obs;
+      }
+    } catch (error) {
+      print('getUser error $error');
+    }
   }
 
   Future<bool> appleLoginFirebase(

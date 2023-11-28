@@ -5,15 +5,15 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 
 Future<dynamic> uploadProfileImage(
-    String uid, String fileName, String filePath) async {
+    String docId, String fileName, String filePath) async {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
   final AppStateController appStateController = Get.put(AppStateController());
   try {
     var storageRef =
-        FirebaseStorage.instance.ref('users/profilePicture/$uid/$fileName');
+        FirebaseStorage.instance.ref('users/profilePicture/$docId/$fileName');
     final file = File(filePath);
-    await storageRef.putFile(file).timeout(Duration(seconds: 10));
+    await storageRef.putFile(file).timeout(Duration(seconds: 30));
     final url = await storageRef.getDownloadURL();
     return url;
   } on TimeoutException catch (_) {

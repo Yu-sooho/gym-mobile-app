@@ -130,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: 4),
                     child: Text(
-                      '${user.phoneNumber}',
+                      '123',
                       style: fontController.customFont().medium12,
                       textAlign: TextAlign.center,
                     ),

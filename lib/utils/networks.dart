@@ -16,7 +16,7 @@ class Networks {
       if (uri.isEmpty) return false;
       final response = await http
           .post(parseUri, body: body)
-          .timeout(const Duration(seconds: 3));
+          .timeout(const Duration(seconds: 30));
       final parsedJson = jsonDecode(response.body);
       print(
           'Networks httpPost uri:$uri body:$body header:$header statusCode:${response.statusCode} response:$parsedJson');

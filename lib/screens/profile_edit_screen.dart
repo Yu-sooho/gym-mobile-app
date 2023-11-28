@@ -86,14 +86,12 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     Map<Object, Object> data = {};
     appStateController.setIsLoading(true, context);
     if (image != null) {
-      if (firebaseAuthController.currentUser?.uid == null) {
+      if (firebaseAuthController.docId == null) {
         appStateController.setIsLoading(false, context);
         return;
       }
-      final url = await uploadProfileImage(
-          firebaseAuthController.currentUser!.uid,
-          pickedFile!.name,
-          pickedFile!.path);
+      final url = await uploadProfileImage(firebaseAuthController.docId!.value,
+          pickedFile!.name, pickedFile!.path);
       if (url == null) {
         if (context.mounted) {
           appStateController.setIsLoading(false, context);
@@ -109,7 +107,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
     data = {...data, 'displayName': nickName};
 
-    final res = await updateUser(data, firebaseAuthController.currentUser!.uid);
+    final res = await updateUser(data, firebaseAuthController.docId!.value);
     if (res) {
       if (context.mounted) {
         Navigator.pop(context);
