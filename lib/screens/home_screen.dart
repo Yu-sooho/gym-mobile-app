@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/screens/%08hometabscreen/calendar_screen.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -113,7 +114,7 @@ class _HomeScreen extends State<HomeScreen> {
             child: Scaffold(
               backgroundColor: Colors.transparent,
               body: [
-                Text('홈페이지'),
+                CalendarScreen(),
                 Text('샵페이지'),
                 Text('샵페이지'),
                 Text('샵페이지')
