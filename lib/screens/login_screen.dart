@@ -61,54 +61,61 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Obx(
-      () => Container(
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: colorController.customColor().defaultBackground1,
-          ),
-          child: Align(
-              alignment: Alignment(0, 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(50),
-                    child: Icon(
-                      Icons.beach_access,
-                      color: Colors.white,
-                      size: 150,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: LoginButton(
-                        image: AssetImage('assets/loginButton/kakao_login.png'),
-                        onPress: () => onPressLogin(type: 'naver')),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: LoginButton(
-                        image: AssetImage('assets/loginButton/kakao_login.png'),
-                        onPress: () => onPressLogin(type: 'kakao')),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: LoginButton(
-                        image:
-                            AssetImage('assets/loginButton/google_login.png'),
-                        onPress: () => onPressLogin(type: 'google')),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: LoginButton(
-                        image: AssetImage('assets/loginButton/apple_login.png'),
-                        onPress: () => onPressLogin(type: 'apple')),
-                  ),
+    return Stack(children: <Widget>[
+      Obx(() => Scaffold(
+              body: Container(
+                  decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment(0, -3),
+                end: Alignment(0, 1),
+                colors: <Color>[
+                  colorController.customColor().defaultBackground2,
+                  colorController.customColor().defaultBackground1,
                 ],
-              ))),
-    ));
+                tileMode: TileMode.clamp),
+          )))),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Column(children: [
+            SizedBox(
+                height: appStateController.logicalHeight.value,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: LoginButton(
+                            image: AssetImage(
+                                'assets/loginButton/kakao_login.png'),
+                            onPress: () => onPressLogin(type: 'naver')),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: LoginButton(
+                            image: AssetImage(
+                                'assets/loginButton/kakao_login.png'),
+                            onPress: () => onPressLogin(type: 'kakao')),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: LoginButton(
+                            image: AssetImage(
+                                'assets/loginButton/google_login.png'),
+                            onPress: () => onPressLogin(type: 'google')),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: LoginButton(
+                            image: AssetImage(
+                                'assets/loginButton/apple_login.png'),
+                            onPress: () => onPressLogin(type: 'apple')),
+                      ),
+                    ],
+                  ),
+                ))
+          ]))
+    ]);
   }
 }

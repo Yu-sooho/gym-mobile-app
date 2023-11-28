@@ -14,10 +14,12 @@ class CustomHeader extends StatelessWidget {
   final Function()? onPressRight;
   final bool isRightInActive;
   final String? rightText;
+  final bool noBack;
 
   CustomHeader(
       {super.key,
       required this.title,
+      this.noBack = false,
       this.rightText = '',
       this.onPressLeft,
       this.onPressRight,
@@ -33,22 +35,24 @@ class CustomHeader extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: onPressLeft,
-                      child: Container(
-                          alignment: Alignment.centerLeft,
-                          width: screenSize / 6,
-                          height: 32,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-                            child: Icon(Icons.arrow_back_ios,
-                                color: colorController
-                                    .customColor()
-                                    .defaultTextColor,
-                                size: 24),
-                          ))),
+                  noBack
+                      ? SizedBox()
+                      : InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: onPressLeft,
+                          child: Container(
+                              alignment: Alignment.centerLeft,
+                              width: screenSize / 6,
+                              height: 32,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                child: Icon(Icons.arrow_back_ios,
+                                    color: colorController
+                                        .customColor()
+                                        .defaultTextColor,
+                                    size: 24),
+                              ))),
                   InkWell(
                       child: Container(
                           alignment: Alignment.center,

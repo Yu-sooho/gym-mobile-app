@@ -11,6 +11,8 @@ Widget safeAreaView(
   final Function()? onPressRight,
   final bool? isRightInActive,
   final String? rightText,
+  final bool noBackButton = false,
+  final bool noHeader = false,
 }) {
   final CustomColorController colorController =
       Get.put(CustomColorController());
@@ -32,15 +34,17 @@ Widget safeAreaView(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: Column(children: [
-          CustomHeader(
-            title: title,
-            onPressRight: onPressRight,
-            rightText: rightText ?? '',
-            isRightInActive: isRightInActive ?? false,
-            onPressLeft: () => {
-              Navigator.of(context).pop(),
-            },
-          ),
+          (noHeader)
+              ? SizedBox()
+              : CustomHeader(
+                  title: title,
+                  onPressRight: onPressRight,
+                  rightText: rightText ?? '',
+                  isRightInActive: isRightInActive ?? false,
+                  onPressLeft: () => {
+                    Navigator.of(context).pop(),
+                  },
+                ),
           SizedBox(
             height: appStateController.logicalHeight.value -
                 MediaQuery.of(context).padding.top -
