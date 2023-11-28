@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +26,7 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return MaterialApp(
       title: "GymCalendar",
       initialRoute:

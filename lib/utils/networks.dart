@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,9 @@ class Networks {
     Uri parseUri = Uri.parse(uri);
     try {
       if (uri.isEmpty) return false;
-      final response = await http.post(parseUri, body: body);
+      final response = await http
+          .post(parseUri, body: body)
+          .timeout(const Duration(seconds: 3));
       final parsedJson = jsonDecode(response.body);
       print(
           'Networks httpPost uri:$uri body:$body header:$header statusCode:${response.statusCode} response:$parsedJson');
@@ -21,6 +24,10 @@ class Networks {
         throw parsedJson['message'];
       }
       return parsedJson;
+    } on TimeoutException catch (_) {
+      print('TimeoutException');
+    } on SocketException catch (_) {
+      print('SocketException');
     } catch (error) {
       final errorMessage = error.toString();
       if (errorMessage.contains("Connection refused")) {

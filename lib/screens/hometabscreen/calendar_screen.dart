@@ -15,6 +15,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       Get.put(CustomColorController());
   @override
   Widget build(BuildContext context) {
-    return (tabAreaView(context, paddingTop: 24, children: []));
+    return (TabAreaView(paddingTop: 24, children: []));
   }
 }

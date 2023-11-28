@@ -271,7 +271,7 @@ class LocalizationController extends GetxController {
           errorNickName: ProfileEditScreenTextKr().errorNickName,
           errorDescription: ProfileEditScreenTextKr().errorDescription,
           successChange: ProfileEditScreenTextKr().successChange,
-          errorChange: ProfileEditScreenTextEn().errorChange);
+          errorChange: ProfileEditScreenTextKr().errorChange);
       return profileEditScreenText;
     }
   }

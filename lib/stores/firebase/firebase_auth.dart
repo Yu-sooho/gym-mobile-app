@@ -1,19 +1,40 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gym_calendar/providers/auth_provider.dart';
+import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 Future<bool> updateUser(Map<Object, Object> data, String uid) async {
+  final LocalizationController localizationController =
+      Get.put(LocalizationController());
+  final AppStateController appStateController = Get.put(AppStateController());
   try {
     if (uid.isNotEmpty) {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
-          .update(data);
+          .update(data)
+          .timeout(Duration(seconds: 10));
     }
+
+    appStateController.showToast(
+        localizationController.localiztionProfileEditScreen().successChange);
     return true;
+  } on TimeoutException catch (_) {
+    print('TimeoutException');
+    appStateController.showToast(
+        localizationController.localiztionComponentError().networkError);
+    return false;
+  } on SocketException catch (_) {
+    print('SocketException');
+    appStateController.showToast(
+        localizationController.localiztionComponentError().networkError);
+    return false;
   } catch (error) {
     print('updateUser $error');
     return false;
