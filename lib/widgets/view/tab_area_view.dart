@@ -73,7 +73,7 @@ class _TabAreaViewState extends State<TabAreaView> {
                       MediaQuery.of(context).padding.top -
                       MediaQuery.of(context).padding.bottom -
                       MediaQuery.of(context).viewInsets.bottom -
-                      90 -
+                      92 -
                       32 -
                       marginTop -
                       marginBottom,

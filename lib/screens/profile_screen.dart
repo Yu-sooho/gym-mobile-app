@@ -111,6 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Padding(
           padding: EdgeInsets.only(top: 24),
           child: Obx(() => UserProfileButton(
+                skeletonColor: colorController.customColor().skeletonColor,
                 imageUrl: user.photoURL?.value,
                 onPressImage: onPressImage,
               )),

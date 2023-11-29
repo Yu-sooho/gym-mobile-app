@@ -103,15 +103,17 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
       firebaseAuthController.currentUserData.photoURL?.value = url;
     }
 
-    if (nickName.isEmpty) return;
-
-    data = {...data, 'displayName': nickName};
+    if (nickName.isNotEmpty) {
+      data = {...data, 'displayName': nickName};
+    }
 
     final res = await updateUser(data, firebaseAuthController.docId!.value);
     if (res) {
       if (context.mounted) {
         Navigator.pop(context);
-        firebaseAuthController.currentUserData.displayName!.value = nickName;
+        if (nickName.isNotEmpty) {
+          firebaseAuthController.currentUserData.displayName!.value = nickName;
+        }
       }
     }
     if (context.mounted) appStateController.setIsLoading(false, context);

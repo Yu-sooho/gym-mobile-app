@@ -11,7 +11,13 @@ class UserProfileButton extends StatefulWidget {
   final Function? onPressImage;
   final File? image;
   final String? imageUrl;
-  UserProfileButton({super.key, this.onPressImage, this.image, this.imageUrl});
+  final Color? skeletonColor;
+  UserProfileButton(
+      {super.key,
+      this.onPressImage,
+      this.image,
+      this.imageUrl,
+      this.skeletonColor});
 
   @override
   State<UserProfileButton> createState() => _UserProfileButtonState();
@@ -42,7 +48,8 @@ class _UserProfileButtonState extends State<UserProfileButton> {
           child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: colorController.customColor().skeletonColor),
+                  color: widget.skeletonColor ??
+                      colorController.customColor().skeletonColor),
               child: image != null
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(50),
