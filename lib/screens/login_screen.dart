@@ -44,8 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
         return;
       }
-      appStateController.showToast(
-          localizationController.localiztionLoginScreen().loginError);
     } catch (error) {
       appStateController.setIsLoading(false, context);
       if (error ==
@@ -88,28 +86,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.only(top: 10),
                         child: LoginButton(
                             image: AssetImage(
-                                'assets/loginButton/kakao_login.png'),
+                                'assets/images/loginButton/naver_login.png'),
                             onPress: () => onPressLogin(type: 'naver')),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: LoginButton(
                             image: AssetImage(
-                                'assets/loginButton/kakao_login.png'),
+                                'assets/images/loginButton/kakao_login.png'),
                             onPress: () => onPressLogin(type: 'kakao')),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: LoginButton(
                             image: AssetImage(
-                                'assets/loginButton/google_login.png'),
+                                'assets/images/loginButton/google_login.png'),
                             onPress: () => onPressLogin(type: 'google')),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: LoginButton(
                             image: AssetImage(
-                                'assets/loginButton/apple_login.png'),
+                                'assets/images/loginButton/apple_login.png'),
                             onPress: () => onPressLogin(type: 'apple')),
                       ),
                     ],

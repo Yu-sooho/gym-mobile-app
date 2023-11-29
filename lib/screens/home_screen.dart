@@ -58,7 +58,7 @@ class _HomeScreen extends State<HomeScreen> {
                   colors: <Color>[
                     colorController.customColor().defaultBackground2,
                     colorController.customColor().defaultBackground1,
-                  ], // Gradient from https://learnui.design/tools/gradient-generator.html
+                  ],
                   tileMode: TileMode.clamp),
             )),
           )),
@@ -115,7 +115,7 @@ class _HomeScreen extends State<HomeScreen> {
               backgroundColor: Colors.transparent,
               body: [
                 CalendarScreen(),
-                Text('샵페이지'),
+                RoutineScreen(),
                 Text('샵페이지'),
                 Text('샵페이지')
               ][tab],
