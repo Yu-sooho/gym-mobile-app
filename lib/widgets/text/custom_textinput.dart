@@ -10,10 +10,7 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
     String? Function(String? value)? validator,
     double? width,
     GlobalKey? key}) {
-  final CustomFontController fontController = Get.put(CustomFontController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-
+  final Stores stores = Get.put(Stores());
   return (Obx(() => Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: SizedBox(
@@ -23,7 +20,7 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
             title != null
                 ? Text(
                     title,
-                    style: fontController.customFont().bold12,
+                    style: stores.fontController.customFont().bold12,
                   )
                 : SizedBox(),
             Form(
@@ -34,33 +31,42 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
                   maxLength: maxLength,
                   autovalidateMode: AutovalidateMode.values.last,
                   validator: validator,
-                  cursorColor: colorController.customColor().textInputCursor,
-                  style: fontController.customFont().medium12,
+                  cursorColor:
+                      stores.colorController.customColor().textInputCursor,
+                  style: stores.fontController.customFont().medium12,
                   decoration: InputDecoration(
-                    counterStyle: fontController.customFont().medium12,
+                    counterStyle: stores.fontController.customFont().medium12,
                     contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 10),
                     isDense: true,
                     hintText: placeholder,
                     hintStyle: TextStyle(
-                        color: colorController.customColor().placeholder,
-                        fontFamily:
-                            fontController.customFont().medium12.fontFamily,
-                        fontSize:
-                            fontController.customFont().medium12.fontSize),
+                        color: stores.colorController.customColor().placeholder,
+                        fontFamily: stores.fontController
+                            .customFont()
+                            .medium12
+                            .fontFamily,
+                        fontSize: stores.fontController
+                            .customFont()
+                            .medium12
+                            .fontSize),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         width: 1,
-                        color: colorController.customColor().textInputCursor,
+                        color: stores.colorController
+                            .customColor()
+                            .textInputCursor,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         width: 1,
-                        color:
-                            colorController.customColor().textInputFocusCursor,
+                        color: stores.colorController
+                            .customColor()
+                            .textInputFocusCursor,
                       ),
                     ),
-                    focusColor: colorController.customColor().textInputCursor,
+                    focusColor:
+                        stores.colorController.customColor().textInputCursor,
                   ),
                 )),
           ]),

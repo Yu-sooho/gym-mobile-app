@@ -9,38 +9,6 @@ import 'package:gym_calendar/providers/auth_provider.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-Future<bool> updateUser(Map<Object, Object> data, String docId) async {
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final AppStateController appStateController = Get.put(AppStateController());
-  try {
-    if (docId.isNotEmpty) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(docId)
-          .update(data)
-          .timeout(Duration(seconds: 30));
-    }
-
-    appStateController.showToast(
-        localizationController.localiztionProfileEditScreen().successChange);
-    return true;
-  } on TimeoutException catch (_) {
-    print('TimeoutException');
-    appStateController.showToast(
-        localizationController.localiztionComponentError().networkError);
-    return false;
-  } on SocketException catch (_) {
-    print('SocketException');
-    appStateController.showToast(
-        localizationController.localiztionComponentError().networkError);
-    return false;
-  } catch (error) {
-    print('updateUser $error');
-    return false;
-  }
-}
-
 class UserData {
   RxString? displayName;
   RxBool? disabled;

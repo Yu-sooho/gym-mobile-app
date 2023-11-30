@@ -36,8 +36,7 @@ class _UserProfileButtonState extends State<UserProfileButton> {
       image = widget.image;
     });
 
-    final CustomColorController colorController =
-        Get.put(CustomColorController());
+    final Stores stores = Get.put(Stores());
 
     return SizedBox(
       child: Column(children: [
@@ -49,7 +48,7 @@ class _UserProfileButtonState extends State<UserProfileButton> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: widget.skeletonColor ??
-                      colorController.customColor().skeletonColor),
+                      stores.colorController.customColor().skeletonColor),
               child: image != null
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(50),
@@ -59,11 +58,11 @@ class _UserProfileButtonState extends State<UserProfileButton> {
                             height: 100,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
-                                color: colorController
+                                color: stores.colorController
                                     .customColor()
                                     .skeletonColor),
                             child: SpinKitThreeBounce(
-                              color: colorController
+                              color: stores.colorController
                                   .customColor()
                                   .loadingSpinnerColor,
                               size: 15,
@@ -95,37 +94,35 @@ class _UserProfileButtonState extends State<UserProfileButton> {
   }
 
   Widget skeletonBox() {
-    final CustomColorController colorController =
-        Get.put(CustomColorController());
+    final Stores stores = Get.put(Stores());
 
     return Obx(() => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: colorController.customColor().skeletonColor,
+            color: stores.colorController.customColor().skeletonColor,
           ),
           width: 100.0,
           height: 100.0,
           child: SpinKitThreeBounce(
-            color: colorController.customColor().loadingSpinnerColor,
+            color: stores.colorController.customColor().loadingSpinnerColor,
             size: 15,
           ),
         ));
   }
 
   Widget errorBox() {
-    final CustomColorController colorController =
-        Get.put(CustomColorController());
+    final Stores stores = Get.put(Stores());
 
     return Obx(() => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: colorController.customColor().skeletonColor,
+            color: stores.colorController.customColor().skeletonColor,
           ),
           width: 100.0,
           height: 100.0,
           child: Icon(
             Icons.photo,
-            color: colorController.customColor().skeletonColor2,
+            color: stores.colorController.customColor().skeletonColor2,
             size: 55,
           ),
         ));

@@ -1,7 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/stores/app_state_controller.dart';
+import 'package:gym_calendar/stores/firebase/firebase_auth.dart';
+import 'package:gym_calendar/stores/firebase/package_firebase.dart';
+import 'package:gym_calendar/stores/localization/localization_controller.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:crypto/crypto.dart';
@@ -10,10 +15,14 @@ import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'dart:io' show Platform;
 
 class AuthStateController extends GetxController {
-  dynamic authState;
-
   FirebaseAuthController firebaseAuthController =
       Get.put(FirebaseAuthController());
+  final LocalizationController localizationController =
+      Get.put(LocalizationController());
+  final AppStateController appStateController = Get.put(AppStateController());
+  final FirebaseController firebaseController = Get.put(FirebaseController());
+
+  dynamic authState;
 
   Future<bool> appleLogin() async {
     try {
@@ -127,5 +136,20 @@ class AuthStateController extends GetxController {
       print('auth_state_controller naverLogin $error');
       rethrow;
     }
+  }
+
+  Future<bool> updateUser(Map<Object, Object> data, String docId) async {
+    return firebaseController.firebaseAsync(() async {
+      if (docId.isNotEmpty) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(docId)
+            .update(data)
+            .timeout(Duration(seconds: 30));
+      }
+      appStateController.showToast(
+          localizationController.localiztionProfileEditScreen().successChange);
+      return true;
+    });
   }
 }

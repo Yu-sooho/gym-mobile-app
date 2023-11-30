@@ -13,14 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  final FirebaseAuthController firebaseAuthController =
-      Get.put(FirebaseAuthController());
-  final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController fontController = Get.put(CustomFontController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
+  final Stores stores = Get.put(Stores());
 
   void onPressProfile(BuildContext context) {
     Navigator.push(
@@ -32,15 +25,15 @@ class _HomeScreen extends State<HomeScreen> {
   String titleSelector() {
     switch (tab) {
       case 0:
-        return localizationController.localiztionHomeScreen().title1;
+        return stores.localizationController.localiztionHomeScreen().title1;
       case 1:
-        return localizationController.localiztionHomeScreen().title2;
+        return stores.localizationController.localiztionHomeScreen().title2;
       case 2:
-        return localizationController.localiztionHomeScreen().title3;
+        return stores.localizationController.localiztionHomeScreen().title3;
       case 3:
-        return localizationController.localiztionHomeScreen().title4;
+        return stores.localizationController.localiztionHomeScreen().title4;
       case 4:
-        return localizationController.localiztionHomeScreen().title5;
+        return stores.localizationController.localiztionHomeScreen().title5;
     }
     return '';
   }
@@ -58,8 +51,8 @@ class _HomeScreen extends State<HomeScreen> {
                   begin: Alignment(0, -3),
                   end: Alignment(0, 1),
                   colors: <Color>[
-                    colorController.customColor().defaultBackground2,
-                    colorController.customColor().defaultBackground1,
+                    stores.colorController.customColor().defaultBackground2,
+                    stores.colorController.customColor().defaultBackground1,
                   ],
                   tileMode: TileMode.clamp),
             )),
@@ -88,7 +81,7 @@ class _HomeScreen extends State<HomeScreen> {
                                 ))),
                         Obx(() => Text(
                               titleSelector(),
-                              style: fontController.customFont().bold14,
+                              style: stores.fontController.customFont().bold14,
                             )),
                         CustomButton(
                           onPress: () => onPressProfile(context),
@@ -98,7 +91,7 @@ class _HomeScreen extends State<HomeScreen> {
                                 padding: EdgeInsets.only(right: 16),
                                 child: Icon(
                                   Icons.person,
-                                  color: colorController
+                                  color: stores.colorController
                                       .customColor()
                                       .bottomTabBarActiveItem,
                                   size: 24,
@@ -109,7 +102,7 @@ class _HomeScreen extends State<HomeScreen> {
                     ),
                   ))),
           SizedBox(
-            height: appStateController.logicalHeight.value -
+            height: stores.appStateController.logicalHeight.value -
                 MediaQuery.of(context).padding.top -
                 MediaQuery.of(context).viewInsets.bottom -
                 32,
@@ -145,12 +138,14 @@ class _HomeScreen extends State<HomeScreen> {
                         backgroundColor: Colors.transparent,
                         icon: Icon(
                           Icons.calendar_month,
-                          color: colorController.customColor().bottomTabBarItem,
+                          color: stores.colorController
+                              .customColor()
+                              .bottomTabBarItem,
                           size: 24,
                         ),
                         activeIcon: Icon(
                           Icons.calendar_month,
-                          color: colorController
+                          color: stores.colorController
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
@@ -161,12 +156,14 @@ class _HomeScreen extends State<HomeScreen> {
                         backgroundColor: Colors.transparent,
                         icon: Icon(
                           Icons.wysiwyg,
-                          color: colorController.customColor().bottomTabBarItem,
+                          color: stores.colorController
+                              .customColor()
+                              .bottomTabBarItem,
                           size: 24,
                         ),
                         activeIcon: Icon(
                           Icons.wysiwyg,
-                          color: colorController
+                          color: stores.colorController
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
@@ -177,12 +174,14 @@ class _HomeScreen extends State<HomeScreen> {
                         backgroundColor: Colors.transparent,
                         icon: Icon(
                           Icons.apps,
-                          color: colorController.customColor().bottomTabBarItem,
+                          color: stores.colorController
+                              .customColor()
+                              .bottomTabBarItem,
                           size: 24,
                         ),
                         activeIcon: Icon(
                           Icons.apps,
-                          color: colorController
+                          color: stores.colorController
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
@@ -193,12 +192,14 @@ class _HomeScreen extends State<HomeScreen> {
                         backgroundColor: Colors.transparent,
                         icon: Icon(
                           Icons.timer_outlined,
-                          color: colorController.customColor().bottomTabBarItem,
+                          color: stores.colorController
+                              .customColor()
+                              .bottomTabBarItem,
                           size: 24,
                         ),
                         activeIcon: Icon(
                           Icons.timer,
-                          color: colorController
+                          color: stores.colorController
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
@@ -209,12 +210,14 @@ class _HomeScreen extends State<HomeScreen> {
                         backgroundColor: Colors.transparent,
                         icon: Icon(
                           Icons.shop_2_outlined,
-                          color: colorController.customColor().bottomTabBarItem,
+                          color: stores.colorController
+                              .customColor()
+                              .bottomTabBarItem,
                           size: 24,
                         ),
                         activeIcon: Icon(
                           Icons.shopping_bag,
-                          color: colorController
+                          color: stores.colorController
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,

@@ -16,12 +16,7 @@ class ThemeScreen extends StatefulWidget {
 class _ThemeScreenState extends State<ThemeScreen> {
   final storage = FlutterSecureStorage();
 
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController fontController = Get.put(CustomFontController());
+  final Stores stores = Get.put(Stores());
 
   late OverlayEntry overlayPopup;
 
@@ -29,9 +24,9 @@ class _ThemeScreenState extends State<ThemeScreen> {
   bool fontOpen = false;
   bool languageOpen = false;
 
-  late int nowColor = colorController.colorType.value;
-  late int nowFont = fontController.fontType.value;
-  late int language = localizationController.language.value;
+  late int nowColor = stores.colorController.colorType.value;
+  late int nowFont = stores.fontController.fontType.value;
+  late int language = stores.localizationController.language.value;
 
   void onPressColor() {
     setState(() {
@@ -72,10 +67,10 @@ class _ThemeScreenState extends State<ThemeScreen> {
   void changeTheme() {
     overlayPopup = OverlayEntry(
         builder: (_) => customModalScreen(
-            title: localizationController
+            title: stores.localizationController
                 .localiztionModalScreenText()
                 .themeChangeTitle,
-            description: localizationController
+            description: stores.localizationController
                 .localiztionModalScreenText()
                 .themeChangeText,
             onPressCancel: () {
@@ -83,9 +78,9 @@ class _ThemeScreenState extends State<ThemeScreen> {
             },
             onPressOk: () async {
               overlayPopup.remove();
-              await localizationController.changeLanguage(language);
-              await fontController.changeFontMode(nowFont);
-              await colorController.changeColorMode(nowColor);
+              await stores.localizationController.changeLanguage(language);
+              await stores.fontController.changeFontMode(nowFont);
+              await stores.colorController.changeColorMode(nowColor);
               if (context.mounted) {
                 Navigator.pushNamedAndRemoveUntil(
                     context, '/home', (_) => false);
@@ -96,17 +91,18 @@ class _ThemeScreenState extends State<ThemeScreen> {
   }
 
   bool checkCanSave() {
-    if (nowColor != colorController.colorType.value) return false;
-    if (nowFont != fontController.fontType.value) return false;
-    if (language != localizationController.language.value) return false;
+    if (nowColor != stores.colorController.colorType.value) return false;
+    if (nowFont != stores.fontController.fontType.value) return false;
+    if (language != stores.localizationController.language.value) return false;
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return safeAreaView(
-        context, localizationController.localiztionThemeScreen().title,
-        rightText: localizationController.localiztionComponentButton().save,
+        context, stores.localizationController.localiztionThemeScreen().title,
+        rightText:
+            stores.localizationController.localiztionComponentButton().save,
         isRightInActive: checkCanSave(),
         onPressRight: changeTheme,
         children: [
@@ -114,7 +110,9 @@ class _ThemeScreenState extends State<ThemeScreen> {
             height: 24,
           ),
           titleButton(context,
-              title: localizationController.localiztionThemeScreen().colorTitle,
+              title: stores.localizationController
+                  .localiztionThemeScreen()
+                  .colorTitle,
               isOpen: colorOpen,
               onPress: onPressColor),
           colorOpen
@@ -124,11 +122,15 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   nowColor,
                   selectColor,
                   'ColorMode',
-                  localizationController.localiztionThemeScreen().colorName,
+                  stores.localizationController
+                      .localiztionThemeScreen()
+                      .colorName,
                   isColor: true)
               : SizedBox(),
           titleButton(context,
-              title: localizationController.localiztionThemeScreen().fontTitle,
+              title: stores.localizationController
+                  .localiztionThemeScreen()
+                  .fontTitle,
               isOpen: fontOpen,
               onPress: onPressFont),
           fontOpen
@@ -138,12 +140,15 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   nowFont,
                   selectFont,
                   'FontMode',
-                  localizationController.localiztionThemeScreen().fontName,
+                  stores.localizationController
+                      .localiztionThemeScreen()
+                      .fontName,
                   isFont: true)
               : SizedBox(),
           titleButton(context,
-              title:
-                  localizationController.localiztionThemeScreen().languageTitle,
+              title: stores.localizationController
+                  .localiztionThemeScreen()
+                  .languageTitle,
               isOpen: languageOpen,
               onPress: onPressLanguage),
           languageOpen
@@ -153,7 +158,9 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   language,
                   selectLanguage,
                   'LanguageMode',
-                  localizationController.localiztionThemeScreen().languageName)
+                  stores.localizationController
+                      .localiztionThemeScreen()
+                      .languageName)
               : SizedBox(),
         ]);
   }
@@ -169,9 +176,8 @@ Widget radioButtonList(
   bool isFont = false,
   bool isColor = false,
 }) {
-  final CustomFontController fontController = Get.put(CustomFontController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
+
   final CustomFont1 font1 = CustomFont1();
   final CustomFont2 font2 = CustomFont2();
   final CustomFont3 font3 = CustomFont3();
@@ -211,11 +217,14 @@ Widget radioButtonList(
                                                     .defaultTextColor,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.bold,
-                                                fontFamily: fontController
+                                                fontFamily: stores
+                                                    .fontController
                                                     .customFont()
                                                     .medium12
                                                     .fontFamily)
-                                            : fontController.customFont().bold12
+                                            : stores.fontController
+                                                .customFont()
+                                                .bold12
                                     : isFont
                                         ? fontList[index].medium12
                                         : isColor
@@ -224,17 +233,18 @@ Widget radioButtonList(
                                                     .defaultTextColor,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.normal,
-                                                fontFamily: fontController
+                                                fontFamily: stores
+                                                    .fontController
                                                     .customFont()
                                                     .medium12
                                                     .fontFamily)
-                                            : fontController
+                                            : stores.fontController
                                                 .customFont()
                                                 .medium12),
                             selectValue == index
                                 ? Icon(
                                     Icons.check,
-                                    color: colorController
+                                    color: stores.colorController
                                         .customColor()
                                         .bottomTabBarActiveItem,
                                     size: 12,

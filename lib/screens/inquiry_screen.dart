@@ -11,8 +11,7 @@ class InquiryScreen extends StatefulWidget {
 }
 
 class _InquiryScreenState extends State<InquiryScreen> {
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
+  final Stores stores = Get.put(Stores());
 
   bool inquiryOpen = true;
   bool listOpen = false;
@@ -59,10 +58,14 @@ class _InquiryScreenState extends State<InquiryScreen> {
   String? validateTitle(value) {
     final check = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     if (inquiryTitleError) {
-      return localizationController.localiztionInquiryScreen().errorTitle;
+      return stores.localizationController
+          .localiztionInquiryScreen()
+          .errorTitle;
     }
     if (check) {
-      return localizationController.localiztionInquiryScreen().errorTitle;
+      return stores.localizationController
+          .localiztionInquiryScreen()
+          .errorTitle;
     }
 
     return null;
@@ -71,10 +74,14 @@ class _InquiryScreenState extends State<InquiryScreen> {
   String? validateContent(value) {
     final check = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     if (inquiryContentError) {
-      return localizationController.localiztionInquiryScreen().errorContent;
+      return stores.localizationController
+          .localiztionInquiryScreen()
+          .errorContent;
     }
     if (check) {
-      return localizationController.localiztionInquiryScreen().errorContent;
+      return stores.localizationController
+          .localiztionInquiryScreen()
+          .errorContent;
     }
     return null;
   }
@@ -85,13 +92,15 @@ class _InquiryScreenState extends State<InquiryScreen> {
   @override
   Widget build(BuildContext context) {
     return (safeAreaView(
-        context, localizationController.localiztionInquiryScreen().title,
+        context, stores.localizationController.localiztionInquiryScreen().title,
         children: [
           SizedBox(
             height: 24,
           ),
           titleButton(context,
-              title: localizationController.localiztionInquiryScreen().inquiry,
+              title: stores.localizationController
+                  .localiztionInquiryScreen()
+                  .inquiry,
               onPress: onPressInquiryOpen,
               isOpen: inquiryOpen),
           inquiryOpen
@@ -109,8 +118,9 @@ class _InquiryScreenState extends State<InquiryScreen> {
                       !inquiryContentError)
               : SizedBox(),
           titleButton(context,
-              title:
-                  localizationController.localiztionInquiryScreen().inquiryList,
+              title: stores.localizationController
+                  .localiztionInquiryScreen()
+                  .inquiryList,
               onPress: onPressListOpen,
               isOpen: listOpen)
         ]));
@@ -126,11 +136,7 @@ Widget inquiryContainer(BuildContext context,
     validateTitle,
     validateContent,
     bool isReady = false}) {
-  final CustomFontController fontController = Get.put(CustomFontController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
+  final Stores stores = Get.put(Stores());
 
   return (Column(children: [
     Padding(
@@ -138,55 +144,68 @@ Widget inquiryContainer(BuildContext context,
         child: Form(
             child: TextFormField(
                 maxLength: 20,
-                cursorColor: colorController.customColor().textInputCursor,
+                cursorColor:
+                    stores.colorController.customColor().textInputCursor,
                 autovalidateMode: AutovalidateMode.values.last,
-                style: fontController.customFont().medium12,
+                style: stores.fontController.customFont().medium12,
                 validator: validateTitle,
                 onChanged: onChangeTitle,
                 decoration: InputDecoration(
                   focusedErrorBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().errorText,
+                      color: stores.colorController.customColor().errorText,
                     ),
                   ),
                   errorBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().errorText,
+                      color: stores.colorController.customColor().errorText,
                     ),
                   ),
                   errorStyle: TextStyle(
-                      fontSize: fontController.customFont().regular12.fontSize,
-                      fontFamily:
-                          fontController.customFont().regular12.fontFamily,
-                      fontWeight:
-                          fontController.customFont().regular12.fontWeight,
-                      color: colorController.customColor().errorText),
-                  counterStyle: fontController.customFont().medium12,
+                      fontSize:
+                          stores.fontController.customFont().regular12.fontSize,
+                      fontFamily: stores.fontController
+                          .customFont()
+                          .regular12
+                          .fontFamily,
+                      fontWeight: stores.fontController
+                          .customFont()
+                          .regular12
+                          .fontWeight,
+                      color: stores.colorController.customColor().errorText),
+                  counterStyle: stores.fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                   isDense: true,
-                  hintText: localizationController
+                  hintText: stores.localizationController
                       .localiztionInquiryScreen()
                       .inquiryTitlePlaceholder,
                   hintStyle: TextStyle(
-                      color: colorController.customColor().placeholder,
-                      fontFamily:
-                          fontController.customFont().medium12.fontFamily,
-                      fontSize: fontController.customFont().medium12.fontSize),
+                      color: stores.colorController.customColor().placeholder,
+                      fontFamily: stores.fontController
+                          .customFont()
+                          .medium12
+                          .fontFamily,
+                      fontSize:
+                          stores.fontController.customFont().medium12.fontSize),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().textInputCursor,
+                      color:
+                          stores.colorController.customColor().textInputCursor,
                     ),
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().textInputFocusCursor,
+                      color: stores.colorController
+                          .customColor()
+                          .textInputFocusCursor,
                     ),
                   ),
-                  focusColor: colorController.customColor().textInputCursor,
+                  focusColor:
+                      stores.colorController.customColor().textInputCursor,
                 )))),
     Padding(
         padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
@@ -197,53 +216,66 @@ Widget inquiryContainer(BuildContext context,
                 maxLines: null,
                 validator: validateContent,
                 onChanged: onChangeContent,
-                cursorColor: colorController.customColor().textInputCursor,
+                cursorColor:
+                    stores.colorController.customColor().textInputCursor,
                 autovalidateMode: AutovalidateMode.values.last,
-                style: fontController.customFont().medium12,
+                style: stores.fontController.customFont().medium12,
                 decoration: InputDecoration(
                   focusedErrorBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().errorText,
+                      color: stores.colorController.customColor().errorText,
                     ),
                   ),
                   errorBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().errorText,
+                      color: stores.colorController.customColor().errorText,
                     ),
                   ),
                   errorStyle: TextStyle(
-                      fontSize: fontController.customFont().regular12.fontSize,
-                      fontFamily:
-                          fontController.customFont().regular12.fontFamily,
-                      fontWeight:
-                          fontController.customFont().regular12.fontWeight,
-                      color: colorController.customColor().errorText),
-                  counterStyle: fontController.customFont().medium12,
+                      fontSize:
+                          stores.fontController.customFont().regular12.fontSize,
+                      fontFamily: stores.fontController
+                          .customFont()
+                          .regular12
+                          .fontFamily,
+                      fontWeight: stores.fontController
+                          .customFont()
+                          .regular12
+                          .fontWeight,
+                      color: stores.colorController.customColor().errorText),
+                  counterStyle: stores.fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 12),
                   isDense: true,
-                  hintText: localizationController
+                  hintText: stores.localizationController
                       .localiztionInquiryScreen()
                       .inquiryContentPlaceholder,
                   hintStyle: TextStyle(
-                      color: colorController.customColor().placeholder,
-                      fontFamily:
-                          fontController.customFont().medium12.fontFamily,
-                      fontSize: fontController.customFont().medium12.fontSize),
+                      color: stores.colorController.customColor().placeholder,
+                      fontFamily: stores.fontController
+                          .customFont()
+                          .medium12
+                          .fontFamily,
+                      fontSize:
+                          stores.fontController.customFont().medium12.fontSize),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().textInputCursor,
+                      color:
+                          stores.colorController.customColor().textInputCursor,
                     ),
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
-                      color: colorController.customColor().textInputFocusCursor,
+                      color: stores.colorController
+                          .customColor()
+                          .textInputFocusCursor,
                     ),
                   ),
-                  focusColor: colorController.customColor().textInputCursor,
+                  focusColor:
+                      stores.colorController.customColor().textInputCursor,
                 )))),
     Padding(
         padding: EdgeInsets.fromLTRB(20, 24, 20, 24),
@@ -255,19 +287,25 @@ Widget inquiryContainer(BuildContext context,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   border: Border.all(
-                      color: colorController.customColor().buttonBorder),
+                      color: stores.colorController.customColor().buttonBorder),
                   color: isReady
-                      ? colorController.customColor().buttonActiveColor
-                      : colorController.customColor().buttonInActiveColor,
+                      ? stores.colorController.customColor().buttonActiveColor
+                      : stores.colorController
+                          .customColor()
+                          .buttonInActiveColor,
                   borderRadius: BorderRadius.circular(4)),
               child: Text(
-                localizationController.localiztionComponentButton().inquiry,
+                stores.localizationController
+                    .localiztionComponentButton()
+                    .inquiry,
                 style: TextStyle(
-                  fontFamily: fontController.customFont().bold12.fontFamily,
-                  fontWeight: fontController.customFont().bold12.fontWeight,
+                  fontFamily:
+                      stores.fontController.customFont().bold12.fontFamily,
+                  fontWeight:
+                      stores.fontController.customFont().bold12.fontWeight,
                   color: isReady
-                      ? colorController.customColor().buttonActiveText
-                      : colorController.customColor().buttonInActiveText,
+                      ? stores.colorController.customColor().buttonActiveText
+                      : stores.colorController.customColor().buttonInActiveText,
                 ),
               )),
         ))

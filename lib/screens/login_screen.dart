@@ -11,48 +11,45 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final AuthStateController authController = Get.put(AuthStateController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final AppStateController appStateController = Get.put(AppStateController());
+  final Stores stores = Get.put(Stores());
 
   void onPressLogin({String? type}) async {
     try {
       if (type!.isEmpty) return;
-      appStateController.setIsLoading(true, context);
+      stores.appStateController.setIsLoading(true, context);
       dynamic res;
       switch (type) {
         case 'kakao':
-          res = await authController.kakaoLogin();
+          res = await stores.authStateController.kakaoLogin();
           break;
         case 'naver':
-          res = await authController.naverLogin();
+          res = await stores.authStateController.naverLogin();
           break;
         case 'google':
-          res = await authController.googleLogin();
+          res = await stores.authStateController.googleLogin();
           break;
         case 'apple':
-          res = await authController.appleLogin();
+          res = await stores.authStateController.appleLogin();
           break;
       }
       if (!context.mounted) return;
-      appStateController.setIsLoading(false, context);
+      stores.appStateController.setIsLoading(false, context);
       if (res) {
         if (!context.mounted) return;
         Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
         return;
       }
     } catch (error) {
-      appStateController.setIsLoading(false, context);
+      stores.appStateController.setIsLoading(false, context);
       if (error ==
           'Error: The email address is already in use by another account.') {
-        appStateController.showToast(
-            localizationController.localiztionLoginScreen().duplicationEmail);
+        stores.appStateController.showToast(stores.localizationController
+            .localiztionLoginScreen()
+            .duplicationEmail);
       } else if (error == 'network Error') {
-        appStateController.showToast(
-            localizationController.localiztionComponentError().networkError);
+        stores.appStateController.showToast(stores.localizationController
+            .localiztionComponentError()
+            .networkError);
       }
     }
   }
@@ -67,8 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 begin: Alignment(0, -3),
                 end: Alignment(0, 1),
                 colors: <Color>[
-                  colorController.customColor().defaultBackground2,
-                  colorController.customColor().defaultBackground1,
+                  stores.colorController.customColor().defaultBackground2,
+                  stores.colorController.customColor().defaultBackground1,
                 ],
                 tileMode: TileMode.clamp),
           )))),
@@ -76,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.transparent,
           body: Column(children: [
             SizedBox(
-                height: appStateController.logicalHeight.value,
+                height: stores.appStateController.logicalHeight.value,
                 child: Align(
                   alignment: Alignment.center,
                   child: Column(

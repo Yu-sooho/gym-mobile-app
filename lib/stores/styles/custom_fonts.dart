@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/stores/styles/color_controller.dart';
 
 class CustomFont1 {
   final CustomColorController colorController =

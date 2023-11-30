@@ -4,10 +4,7 @@ import 'package:gym_calendar/stores/package_stores.dart';
 
 @immutable
 class CustomHeader extends StatelessWidget {
-  final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController fontController = Get.put(CustomFontController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
 
   final String title;
   final Function()? onPressLeft;
@@ -25,7 +22,7 @@ class CustomHeader extends StatelessWidget {
       this.onPressRight,
       this.isRightInActive = false});
 
-  late final screenSize = appStateController.logicalWidth.value;
+  late final screenSize = stores.appStateController.logicalWidth.value;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +45,7 @@ class CustomHeader extends StatelessWidget {
                               child: Padding(
                                 padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
                                 child: Icon(Icons.arrow_back_ios,
-                                    color: colorController
+                                    color: stores.colorController
                                         .customColor()
                                         .defaultTextColor,
                                     size: 24),
@@ -60,7 +57,8 @@ class CustomHeader extends StatelessWidget {
                           height: 32,
                           child: Text(title,
                               textAlign: TextAlign.center,
-                              style: fontController.customFont().bold14))),
+                              style:
+                                  stores.fontController.customFont().bold14))),
                   InkWell(
                       onTap: isRightInActive ? () {} : onPressRight,
                       splashColor: Colors.transparent,
@@ -74,17 +72,17 @@ class CustomHeader extends StatelessWidget {
                             child: Text(rightText!,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    fontFamily: fontController
+                                    fontFamily: stores.fontController
                                         .customFont()
                                         .bold12
                                         .fontFamily,
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: isRightInActive
-                                        ? colorController
+                                        ? stores.colorController
                                             .customColor()
                                             .buttonInActiveText
-                                        : colorController
+                                        : stores.colorController
                                             .customColor()
                                             .buttonActiveText)),
                           ))),

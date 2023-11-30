@@ -12,15 +12,15 @@ Widget photoScreen(
     Color? splashColor,
     Function()? onPress,
     String imageUri = ''}) {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
   return Scaffold(
       backgroundColor: backgroundColor ??
-          colorController.customColor().loadingSpinnerOpacity,
+          stores.colorController.customColor().loadingSpinnerOpacity,
       body: CustomButton(
-          highlightColor:
-              highlightColor ?? colorController.customColor().transparent,
-          splashColor: splashColor ?? colorController.customColor().transparent,
+          highlightColor: highlightColor ??
+              stores.colorController.customColor().transparent,
+          splashColor:
+              splashColor ?? stores.colorController.customColor().transparent,
           onPress: onPress,
           child: CachedNetworkImage(
             imageUrl: imageUri,
@@ -38,22 +38,20 @@ Widget photoScreen(
 }
 
 Widget skeletonBox() {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
 
   return Obx(() => SpinKitThreeBounce(
-        color: colorController.customColor().loadingSpinnerColor,
+        color: stores.colorController.customColor().loadingSpinnerColor,
         size: 15,
       ));
 }
 
 Widget errorBox() {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
 
   return Obx(() => Container(
         decoration: BoxDecoration(
-          color: colorController.customColor().loadingSpinnerOpacity,
+          color: stores.colorController.customColor().loadingSpinnerOpacity,
         ),
         width: double.infinity,
         height: double.infinity,
@@ -63,11 +61,11 @@ Widget errorBox() {
             height: 400,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: colorController.customColor().skeletonColor,
+              color: stores.colorController.customColor().skeletonColor,
             ),
             child: Icon(
               Icons.photo,
-              color: colorController.customColor().skeletonColor2,
+              color: stores.colorController.customColor().skeletonColor2,
               size: 100,
             )),
       ));

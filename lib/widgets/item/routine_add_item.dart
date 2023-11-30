@@ -12,11 +12,8 @@ class RoutineAddItem extends StatefulWidget {
 }
 
 class _RoutineAddItem extends State<RoutineAddItem> {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final CustomFontController fontController = Get.put(CustomFontController());
+  final Stores stores = Get.put(Stores());
+
   final RoutineStateController routineStateController =
       Get.put(RoutineStateController());
   var title = '';
@@ -26,15 +23,17 @@ class _RoutineAddItem extends State<RoutineAddItem> {
   @override
   Widget build(BuildContext context) {
     return (Container(
-      decoration:
-          BoxDecoration(color: colorController.customColor().transparent),
+      decoration: BoxDecoration(
+          color: stores.colorController.customColor().transparent),
       child: Column(children: [
         customTextInput(
             context,
-            placeholder: localizationController
+            placeholder: stores.localizationController
                 .localiztionRoutineScreen()
                 .inputTitlePlaceholder,
-            title: localizationController.localiztionRoutineScreen().inputTitle,
+            title: stores.localizationController
+                .localiztionRoutineScreen()
+                .inputTitle,
             onChangedTitle),
         Padding(
           padding: EdgeInsets.only(top: 24),
@@ -42,7 +41,8 @@ class _RoutineAddItem extends State<RoutineAddItem> {
               alignment: Alignment.center,
               height: 96,
               decoration: BoxDecoration(
-                  color: colorController.customColor().defaultBackground1),
+                  color:
+                      stores.colorController.customColor().defaultBackground1),
               child: CupertinoPicker.builder(
                   itemExtent: 32,
                   childCount: CycleType.values.length,
@@ -55,7 +55,7 @@ class _RoutineAddItem extends State<RoutineAddItem> {
                         child: Align(
                             child: Text(
                           '${routineStateController.cycle[CycleType.values[index]]}',
-                          style: fontController.customFont().bold18,
+                          style: stores.fontController.customFont().bold18,
                         )));
                   })),
         )

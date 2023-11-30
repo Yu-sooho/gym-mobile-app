@@ -13,30 +13,28 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final FirebaseAuthController firebaseAuthController =
-      Get.put(FirebaseAuthController());
-  final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController fontController = Get.put(CustomFontController());
+  final Stores stores = Get.put(Stores());
+
   late OverlayEntry overlayPhoto = OverlayEntry(
       builder: (_) => photoScreen(
           onPress: () => onPressImage(context),
           imageUri:
-              firebaseAuthController.currentUserData.photoURL?.value ?? ''));
+              stores.firebaseAuthController.currentUserData.photoURL?.value ??
+                  ''));
   late OverlayEntry overlayLogout = OverlayEntry(
       builder: (_) => customModalScreen(
-          title:
-              localizationController.localiztionModalScreenText().logoutTitle,
-          description:
-              localizationController.localiztionModalScreenText().logoutText,
+          title: stores.localizationController
+              .localiztionModalScreenText()
+              .logoutTitle,
+          description: stores.localizationController
+              .localiztionModalScreenText()
+              .logoutText,
           onPressCancel: logoutCancel,
           onPressOk: () => {logout(context)}));
 
   void onPressImage(BuildContext context) {
-    if (firebaseAuthController.currentUserData.photoURL?.value == null) return;
+    if (stores.firebaseAuthController.currentUserData.photoURL?.value == null)
+      return;
 
     if (overlayPhoto.mounted) {
       overlayPhoto.remove();
@@ -95,26 +93,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (overlayLogout.mounted) {
       overlayLogout.remove();
     }
-    await localizationController.changeLanguage(1);
-    await fontController.changeFontMode(0);
-    await colorController.changeColorMode(0);
-    await firebaseAuthController.signOut();
+    await stores.localizationController.changeLanguage(1);
+    await stores.fontController.changeFontMode(0);
+    await stores.colorController.changeColorMode(0);
+    await stores.firebaseAuthController.signOut();
     if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = firebaseAuthController.currentUserData;
+    final user = stores.firebaseAuthController.currentUserData;
     return safeAreaView(
       context,
-      localizationController.localiztionProfileScreen().title,
+      stores.localizationController.localiztionProfileScreen().title,
       children: [
         SizedBox(
             child: Padding(
           padding: EdgeInsets.only(top: 24),
           child: Obx(() => UserProfileButton(
-                skeletonColor: colorController.customColor().skeletonColor,
+                skeletonColor:
+                    stores.colorController.customColor().skeletonColor,
                 imageUrl: user.photoURL?.value,
                 onPressImage: onPressImage,
               )),
@@ -124,11 +123,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Container(
             alignment: Alignment.center,
-            width: appStateController.width2,
+            width: stores.appStateController.width2,
             child: Obx(() => Column(children: [
                   Text(
                     '${user.displayName}',
-                    style: fontController.customFont().bold12,
+                    style: stores.fontController.customFont().bold12,
                     textAlign: TextAlign.center,
                   ),
                 ]))),
@@ -136,29 +135,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
         CustomButton(
             onPress: onPressEdit,
             borderRadius: BorderRadius.circular(10),
-            highlightColor: colorController.customColor().buttonOpacity,
+            highlightColor: stores.colorController.customColor().buttonOpacity,
             child: Container(
               height: 32,
               width: 320,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: colorController.customColor().buttonActiveColor,
+                  color: stores.colorController.customColor().buttonActiveColor,
                   border: Border.all(
-                      color: colorController.customColor().buttonBorder)),
+                      color:
+                          stores.colorController.customColor().buttonBorder)),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(localizationController.localiztionProfileScreen().edit,
+                    Text(
+                        stores.localizationController
+                            .localiztionProfileScreen()
+                            .edit,
                         style: TextStyle(
-                            fontFamily:
-                                fontController.customFont().bold12.fontFamily,
-                            fontWeight:
-                                fontController.customFont().bold12.fontWeight,
-                            color:
-                                colorController.customColor().buttonActiveText,
-                            fontSize:
-                                fontController.customFont().bold12.fontSize))
+                            fontFamily: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontFamily,
+                            fontWeight: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontWeight,
+                            color: stores.colorController
+                                .customColor()
+                                .buttonActiveText,
+                            fontSize: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontSize))
                   ]),
             )),
         SizedBox(
@@ -166,18 +176,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         RightArrowButton(
             onPress: onPressSetting,
-            title: localizationController.localiztionProfileScreen().setting),
+            title: stores.localizationController
+                .localiztionProfileScreen()
+                .setting),
         RightArrowButton(
             onPress: onPressTheme,
-            title: localizationController.localiztionProfileScreen().theme),
+            title:
+                stores.localizationController.localiztionProfileScreen().theme),
         RightArrowButton(
             onPress: onPressInquiry,
-            title: localizationController.localiztionProfileScreen().inquiry),
+            title: stores.localizationController
+                .localiztionProfileScreen()
+                .inquiry),
         RightArrowButton(
             onPress: () => {onPressLogout(context)},
             isHaveRight: false,
-            textStyle: fontController.customFont().medium12,
-            title: localizationController.localiztionProfileScreen().logout)
+            textStyle: stores.fontController.customFont().medium12,
+            title:
+                stores.localizationController.localiztionProfileScreen().logout)
       ],
     );
   }

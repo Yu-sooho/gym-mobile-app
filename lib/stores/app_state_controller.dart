@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/stores/styles/color_controller.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -5,55 +6,53 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 class SettingScreen extends StatelessWidget {
   SettingScreen({super.key});
 
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final AppStateController appStateController = Get.put(AppStateController());
+  final Stores stores = Get.put(Stores());
 
   void onPressExerciseAlarm() {
-    if (appStateController.exerciseAlarm.value) {
-      appStateController.exerciseAlarm.value = false;
-      appStateController.showToast(localizationController
+    if (stores.appStateController.exerciseAlarm.value) {
+      stores.appStateController.exerciseAlarm.value = false;
+      stores.appStateController.showToast(stores.localizationController
           .localiztionSettingScreen()
           .exerciseAlarmCancelToast);
       return;
     }
-    appStateController.showToast(
-        localizationController.localiztionSettingScreen().exerciseAlarmToast);
-    appStateController.exerciseAlarm.value = true;
+    stores.appStateController.showToast(stores.localizationController
+        .localiztionSettingScreen()
+        .exerciseAlarmToast);
+    stores.appStateController.exerciseAlarm.value = true;
   }
 
   void onPressScheduleAlarm() {
-    if (appStateController.scheduleAlarm.value) {
-      appStateController.scheduleAlarm.value = false;
-      appStateController.showToast(localizationController
+    if (stores.appStateController.scheduleAlarm.value) {
+      stores.appStateController.scheduleAlarm.value = false;
+      stores.appStateController.showToast(stores.localizationController
           .localiztionSettingScreen()
           .scheduleAlarmCancelToast);
       return;
     }
-    appStateController.showToast(
-        localizationController.localiztionSettingScreen().scheduleAlarmToast);
-    appStateController.scheduleAlarm.value = true;
+    stores.appStateController.showToast(stores.localizationController
+        .localiztionSettingScreen()
+        .scheduleAlarmToast);
+    stores.appStateController.scheduleAlarm.value = true;
   }
 
   @override
   Widget build(BuildContext context) {
     return safeAreaView(
-        context, localizationController.localiztionSettingScreen().title,
+        context, stores.localizationController.localiztionSettingScreen().title,
         children: [
           SizedBox(
             height: 24,
           ),
           Obx(() => customSwitchButton(context,
-              value: appStateController.exerciseAlarm.value,
-              title: localizationController
+              value: stores.appStateController.exerciseAlarm.value,
+              title: stores.localizationController
                   .localiztionSettingScreen()
                   .exerciseAlarm,
               onPress: onPressExerciseAlarm)),
           Obx(() => customSwitchButton(context,
-              value: appStateController.scheduleAlarm.value,
-              title: localizationController
+              value: stores.appStateController.scheduleAlarm.value,
+              title: stores.localizationController
                   .localiztionSettingScreen()
                   .scheduleAlarm,
               onPress: onPressScheduleAlarm)),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -13,23 +14,17 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final FirebaseAuthController firebaseAuthController =
-      Get.put(FirebaseAuthController());
-  final AppStateController appStateController = Get.put(AppStateController());
+  final Stores stores = Get.put(Stores());
 
   XFile? pickedFile;
   File? image;
   final ImagePicker picker = ImagePicker();
   late String nickName =
-      firebaseAuthController.currentUserData.displayName?.value ?? '';
+      stores.firebaseAuthController.currentUserData.displayName?.value ?? '';
 
   void onPressImage(BuildContext context) async {
     final photoPermission =
-        await appStateController.permissionCheck(Permission.photos);
+        await stores.appStateController.permissionCheck(Permission.photos);
     if (photoPermission) {
       if (!context.mounted) return;
       getImage(ImageSource.gallery, context);
@@ -37,7 +32,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   }
 
   Future getImage(ImageSource imageSource, BuildContext context) async {
-    appStateController.setIsLoading(true, context);
+    stores.appStateController.setIsLoading(true, context);
     try {
       pickedFile = await picker.pickImage(source: imageSource);
       if (pickedFile != null) {
@@ -46,9 +41,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         });
       }
       if (!context.mounted) return;
-      appStateController.setIsLoading(false, context);
+      stores.appStateController.setIsLoading(false, context);
     } catch (error) {
-      appStateController.setIsLoading(false, context);
+      stores.appStateController.setIsLoading(false, context);
     }
   }
 
@@ -65,7 +60,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   String? validateNickName(value) {
     final check = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
     if (check) {
-      return localizationController
+      return stores.localizationController
           .localiztionProfileEditScreen()
           .errorNickName;
     }
@@ -74,7 +69,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   bool checkCanSave() {
     if (image != null) return false;
-    if (nickName == firebaseAuthController.currentUserData.displayName?.value ||
+    if (nickName ==
+            stores.firebaseAuthController.currentUserData.displayName?.value ||
         nickName == '' ||
         validateNickName(nickName) != null) {
       return true;
@@ -84,47 +80,52 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   void changeProfile(BuildContext context) async {
     Map<Object, Object> data = {};
-    appStateController.setIsLoading(true, context);
+    stores.appStateController.setIsLoading(true, context);
     if (image != null) {
-      if (firebaseAuthController.docId == null) {
-        appStateController.setIsLoading(false, context);
+      if (stores.firebaseAuthController.docId == null) {
+        stores.appStateController.setIsLoading(false, context);
         return;
       }
-      final url = await uploadProfileImage(firebaseAuthController.docId!.value,
-          pickedFile!.name, pickedFile!.path);
+      final url = await stores.firebaseStorageController.uploadProfileImage(
+          stores.firebaseAuthController.docId!.value,
+          pickedFile!.name,
+          pickedFile!.path);
       if (url == null) {
         if (context.mounted) {
-          appStateController.setIsLoading(false, context);
+          stores.appStateController.setIsLoading(false, context);
         }
         return;
       }
 
       data = {...data, 'photoURL': url};
-      firebaseAuthController.currentUserData.photoURL?.value = url;
+      stores.firebaseAuthController.currentUserData.photoURL?.value = url;
     }
 
     if (nickName.isNotEmpty) {
       data = {...data, 'displayName': nickName};
     }
 
-    final res = await updateUser(data, firebaseAuthController.docId!.value);
+    final res = await stores.authStateController
+        .updateUser(data, stores.firebaseAuthController.docId!.value);
     if (res) {
       if (context.mounted) {
         Navigator.pop(context);
         if (nickName.isNotEmpty) {
-          firebaseAuthController.currentUserData.displayName!.value = nickName;
+          stores.firebaseAuthController.currentUserData.displayName!.value =
+              nickName;
         }
       }
     }
-    if (context.mounted) appStateController.setIsLoading(false, context);
+    if (context.mounted) stores.appStateController.setIsLoading(false, context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = firebaseAuthController.currentUserData;
-    return safeAreaView(
-        context, localizationController.localiztionProfileEditScreen().title,
-        rightText: localizationController.localiztionProfileEditScreen().save,
+    final user = stores.firebaseAuthController.currentUserData;
+    return safeAreaView(context,
+        stores.localizationController.localiztionProfileEditScreen().title,
+        rightText:
+            stores.localizationController.localiztionProfileEditScreen().save,
         isRightInActive: checkCanSave(),
         onPressRight: () => changeProfile(context),
         children: [
@@ -139,7 +140,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           )),
           SizedBox(height: 16),
           customTextInput(context, onChangedName,
-              title: localizationController
+              title: stores.localizationController
                   .localiztionProfileEditScreen()
                   .nickName,
               placeholder: nickName,

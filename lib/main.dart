@@ -22,16 +22,15 @@ void main() async {
 }
 
 class Main extends StatelessWidget {
-  final FirebaseAuthController firebaseAuthController =
-      Get.put(FirebaseAuthController());
-  final AppStateController appStateController = Get.put(AppStateController());
+  final Stores stores = Get.put(Stores());
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return MaterialApp(
       title: "GymCalendar",
-      initialRoute: firebaseAuthController.uid != null ? '/home' : '/login',
+      initialRoute:
+          stores.firebaseAuthController.uid != null ? '/home' : '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
@@ -48,38 +47,34 @@ class Main extends StatelessWidget {
 Future<bool> themeCheck() async {
   final storage = FlutterSecureStorage();
 
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final CustomFontController fontController = Get.put(CustomFontController());
+  final Stores stores = Get.put(Stores());
 
   String? colorType = await storage.read(key: 'colorType');
   String? fontType = await storage.read(key: 'fontType');
   String? language = await storage.read(key: 'language');
 
   if (language != null) {
-    localizationController.changeLanguage(int.parse(language));
+    stores.localizationController.changeLanguage(int.parse(language));
   } else {
-    localizationController.changeLanguage(1);
+    stores.localizationController.changeLanguage(1);
   }
   if (fontType != null) {
-    fontController.changeFontMode(int.parse(fontType));
+    stores.fontController.changeFontMode(int.parse(fontType));
   } else {
-    fontController.changeFontMode(1);
+    stores.fontController.changeFontMode(1);
   }
   if (colorType != null) {
-    colorController.changeColorMode(int.parse(colorType));
+    stores.colorController.changeColorMode(int.parse(colorType));
   } else {
-    colorController.changeColorMode(1);
+    stores.colorController.changeColorMode(1);
   }
 
   return true;
 }
 
 Future<bool> firebaseLoginCheck() async {
-  final FirebaseAuthController controller = Get.put(FirebaseAuthController());
-  controller.addAuthEventListener();
+  final Stores stores = Get.put(Stores());
+  stores.firebaseAuthController.addAuthEventListener();
   return true;
 }
 

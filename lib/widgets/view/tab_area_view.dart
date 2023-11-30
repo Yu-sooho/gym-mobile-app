@@ -42,9 +42,7 @@ class _TabAreaViewState extends State<TabAreaView> {
     final double marginLeft = widget.marginLeft;
     final double marginRight = widget.marginRight;
 
-    final CustomColorController colorController =
-        Get.put(CustomColorController());
-    final AppStateController appStateController = Get.put(AppStateController());
+    final Stores stores = Get.put(Stores());
     return (Stack(children: <Widget>[
       ShaderMask(
           shaderCallback: (Rect rect) {
@@ -52,10 +50,10 @@ class _TabAreaViewState extends State<TabAreaView> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                colorController.customColor().defaultBackground1,
+                stores.colorController.customColor().defaultBackground1,
                 Colors.transparent,
                 Colors.transparent,
-                colorController.customColor().defaultBackground2,
+                stores.colorController.customColor().defaultBackground2,
               ],
               stops: [0.0, 0.01, 0.95, 1.0],
             ).createShader(rect);
@@ -69,7 +67,7 @@ class _TabAreaViewState extends State<TabAreaView> {
               backgroundColor: Colors.transparent,
               body: Column(children: [
                 SizedBox(
-                  height: appStateController.logicalHeight.value -
+                  height: stores.appStateController.logicalHeight.value -
                       MediaQuery.of(context).padding.top -
                       MediaQuery.of(context).padding.bottom -
                       MediaQuery.of(context).viewInsets.bottom -

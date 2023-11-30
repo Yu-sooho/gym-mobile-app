@@ -1,4 +1,4 @@
-import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:flutter/material.dart';
 
 class CustomColorMode1 {
   Color transparent = const Color(0x00ffffff);

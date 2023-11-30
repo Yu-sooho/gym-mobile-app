@@ -1,36 +1,29 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/app_state_controller.dart';
 import 'package:gym_calendar/stores/localization/localization_controller.dart';
 
-class FirebaseStorageController extends GetxController {
-  Future<dynamic> uploadProfileImage(
-      String docId, String fileName, String filePath) async {
+class FirebaseController extends GetxController {
+  Future<bool> firebaseAsync(Function networkFunction) async {
     final LocalizationController localizationController =
         Get.put(LocalizationController());
     final AppStateController appStateController = Get.put(AppStateController());
     try {
-      var storageRef =
-          FirebaseStorage.instance.ref('users/profilePicture/$docId/$fileName');
-      final file = File(filePath);
-      await storageRef.putFile(file).timeout(Duration(seconds: 30));
-      final url = await storageRef.getDownloadURL();
-      return url;
+      return await networkFunction();
     } on TimeoutException catch (_) {
       print('TimeoutException');
       appStateController.showToast(
           localizationController.localiztionComponentError().networkError);
+      return false;
     } on SocketException catch (_) {
       print('SocketException');
       appStateController.showToast(
           localizationController.localiztionComponentError().networkError);
+      return false;
     } catch (error) {
-      print('firebase Storage Error uploadProfileImage $error');
-      appStateController.showToast(
-          localizationController.localiztionComponentError().networkError);
-      return null;
+      print('updateUser $error');
+      return false;
     }
   }
 }

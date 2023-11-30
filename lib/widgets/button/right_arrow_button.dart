@@ -16,16 +16,13 @@ class RightArrowButton extends StatelessWidget {
       required this.title,
       required this.onPress});
 
-  final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController fontController = Get.put(CustomFontController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => (CustomButton(
         onPress: onPress,
-        splashColor: colorController.customColor().transparent,
+        splashColor: stores.colorController.customColor().transparent,
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 0, 8, 0),
           child: SizedBox(
@@ -35,11 +32,14 @@ class RightArrowButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(title,
-                      style: textStyle ?? fontController.customFont().bold14),
+                      style: textStyle ??
+                          stores.fontController.customFont().bold14),
                   isHaveRight
                       ? Icon(
                           Icons.arrow_right_outlined,
-                          color: colorController.customColor().defaultTextColor,
+                          color: stores.colorController
+                              .customColor()
+                              .defaultTextColor,
                           size: 32,
                         )
                       : SizedBox(),

@@ -4,10 +4,7 @@ import 'package:gym_calendar/stores/package_stores.dart';
 
 @immutable
 class CustomButton extends StatelessWidget {
-  final FirebaseAnalyticsController firebaseAnalyticsController =
-      Get.put(FirebaseAnalyticsController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
 
   final Function()? onPress;
   final BoxDecoration? boxDecoration;
@@ -52,9 +49,9 @@ class CustomButton extends StatelessWidget {
                 onTap: onTap,
                 borderRadius: borderRadius,
                 highlightColor: highlightColor,
-                splashColor:
-                    splashColor ?? colorController.customColor().transparent,
-                hoverColor: colorController.customColor().buttonOpacity,
+                splashColor: splashColor ??
+                    stores.colorController.customColor().transparent,
+                hoverColor: stores.colorController.customColor().buttonOpacity,
               )),
         ),
       ),

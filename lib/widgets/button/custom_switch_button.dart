@@ -8,8 +8,7 @@ Widget customSwitchButton(BuildContext context,
     Function()? onPress,
     bool value = true,
     TextStyle? textStyle}) {
-  CustomFontController fontController = Get.put(CustomFontController());
-  CustomColorController colorController = Get.put(CustomColorController());
+  final Stores stores = Get.put(Stores());
 
   return Obx(() => CustomButton(
       onPress: onPress,
@@ -22,7 +21,7 @@ Widget customSwitchButton(BuildContext context,
             children: [
               Text(
                 title ?? '',
-                style: textStyle ?? fontController.customFont().bold12,
+                style: textStyle ?? stores.fontController.customFont().bold12,
               ),
               Transform.scale(
                   transformHitTests: false,
@@ -30,8 +29,9 @@ Widget customSwitchButton(BuildContext context,
                   child: CupertinoSwitch(
                     value: value,
                     activeColor:
-                        colorController.customColor().switchActiveColor,
-                    trackColor: colorController.customColor().switchTrackColor,
+                        stores.colorController.customColor().switchActiveColor,
+                    trackColor:
+                        stores.colorController.customColor().switchTrackColor,
                     onChanged: (bool? value) {},
                   )),
             ],

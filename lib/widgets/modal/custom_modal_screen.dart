@@ -13,73 +13,75 @@ Widget customModalScreen(
     String? description,
     String? okText,
     String? cancelText}) {
-  final LocalizationController localizationController =
-      Get.put(LocalizationController());
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final AppStateController appStateController = Get.put(AppStateController());
-  final CustomFontController fontController = Get.put(CustomFontController());
+  final Stores stores = Get.put(Stores());
 
   return Obx(() => Scaffold(
       backgroundColor: backgroundColor ??
-          colorController.customColor().loadingSpinnerOpacity,
+          stores.colorController.customColor().loadingSpinnerOpacity,
       body: Align(
         child: Container(
-          width: appStateController.logicalWidth.value * 0.7,
-          height: appStateController.logicalHeight.value * 0.2,
+          width: stores.appStateController.logicalWidth.value * 0.7,
+          height: stores.appStateController.logicalHeight.value * 0.2,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: modalBackground ??
-                  colorController.customColor().modalBackground),
+                  stores.colorController.customColor().modalBackground),
           child: Padding(
             padding: EdgeInsets.only(top: 20),
             child: Column(children: [
               Text(
                 title ?? 'title',
-                style: fontController.customFont().modalTitle,
+                style: stores.fontController.customFont().modalTitle,
               ),
               Expanded(
                 child: Align(
                     child: Text(
                   description ?? 'text',
                   textAlign: TextAlign.center,
-                  style: fontController.customFont().modalText,
+                  style: stores.fontController.customFont().modalText,
                 )),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomButton(
-                      highlightColor: colorController.customColor().transparent,
+                      highlightColor:
+                          stores.colorController.customColor().transparent,
                       onPress: onPressCancel,
                       child: SizedBox(
-                        width:
-                            (appStateController.logicalWidth.value * 0.7) / 2,
-                        height: appStateController.logicalHeight.value * 0.07,
+                        width: (stores.appStateController.logicalWidth.value *
+                                0.7) /
+                            2,
+                        height: stores.appStateController.logicalHeight.value *
+                            0.07,
                         child: Align(
                           child: Text(
                             okText ??
-                                localizationController
+                                stores.localizationController
                                     .localiztionModalScreenText()
                                     .cancel,
-                            style: fontController.customFont().modalCancel,
+                            style:
+                                stores.fontController.customFont().modalCancel,
                           ),
                         ),
                       )),
                   CustomButton(
-                      highlightColor: colorController.customColor().transparent,
+                      highlightColor:
+                          stores.colorController.customColor().transparent,
                       onPress: onPressOk,
                       child: SizedBox(
-                        width:
-                            (appStateController.logicalWidth.value * 0.7) / 2,
-                        height: appStateController.logicalHeight.value * 0.07,
+                        width: (stores.appStateController.logicalWidth.value *
+                                0.7) /
+                            2,
+                        height: stores.appStateController.logicalHeight.value *
+                            0.07,
                         child: Align(
                           child: Text(
                             okText ??
-                                localizationController
+                                stores.localizationController
                                     .localiztionModalScreenText()
                                     .ok,
-                            style: fontController.customFont().modalOk,
+                            style: stores.fontController.customFont().modalOk,
                           ),
                         ),
                       ))

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/styles/custom_fonts.dart';
-export 'package:flutter/widgets.dart';
 
 @immutable
 class CustomFont {

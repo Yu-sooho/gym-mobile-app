@@ -12,7 +12,6 @@ import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
 import 'package:gym_calendar/stores/localization/component_error_text.dart';
 import 'package:gym_calendar/stores/localization/theme_screen.dart';
-export 'package:flutter/widgets.dart';
 
 @immutable
 class LoginScreenText {

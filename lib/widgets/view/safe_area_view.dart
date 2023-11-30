@@ -14,9 +14,7 @@ Widget safeAreaView(
   final bool noBackButton = false,
   final bool noHeader = false,
 }) {
-  final CustomColorController colorController =
-      Get.put(CustomColorController());
-  final AppStateController appStateController = Get.put(AppStateController());
+  final Stores stores = Get.put(Stores());
   return Stack(children: <Widget>[
     Obx(() => Scaffold(
             body: Container(
@@ -25,8 +23,8 @@ Widget safeAreaView(
               begin: Alignment(0, -3),
               end: Alignment(0, 1),
               colors: <Color>[
-                colorController.customColor().defaultBackground2,
-                colorController.customColor().defaultBackground1,
+                stores.colorController.customColor().defaultBackground2,
+                stores.colorController.customColor().defaultBackground1,
               ], // Gradient from https://learnui.design/tools/gradient-generator.html
               tileMode: TileMode.clamp),
         )))),
@@ -46,7 +44,7 @@ Widget safeAreaView(
                   },
                 ),
           SizedBox(
-            height: appStateController.logicalHeight.value -
+            height: stores.appStateController.logicalHeight.value -
                 MediaQuery.of(context).padding.top -
                 MediaQuery.of(context).padding.bottom -
                 MediaQuery.of(context).viewInsets.bottom -
