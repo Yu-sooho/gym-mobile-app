@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/component_button_text.dart';
 import 'package:gym_calendar/stores/localization/home_screen_text.dart';
@@ -127,12 +128,13 @@ class HomeScreenText {
   final String title2;
   final String title3;
   final String title4;
-  HomeScreenText({
-    required this.title1,
-    required this.title2,
-    required this.title3,
-    required this.title4,
-  });
+  final String title5;
+  HomeScreenText(
+      {required this.title1,
+      required this.title2,
+      required this.title3,
+      required this.title4,
+      required this.title5});
 }
 
 class ModalScreenText {
@@ -183,10 +185,18 @@ class RoutineScreenText {
 }
 
 class LocalizationController extends GetxController {
+  final storage = FlutterSecureStorage();
   RxInt language = 1.obs;
 
-  void changeLanguage(lang) {
-    language.value = lang;
+  Future<bool> changeLanguage(lang) async {
+    try {
+      await storage.write(key: 'language', value: '$lang');
+      language.value = lang;
+      return true;
+    } catch (error) {
+      print('changeLanguage $error');
+      return false;
+    }
   }
 
   LoginScreenText localiztionLoginScreen() {
@@ -392,14 +402,16 @@ class LocalizationController extends GetxController {
           title1: HomeScreenTextEn().title1,
           title2: HomeScreenTextEn().title2,
           title3: HomeScreenTextEn().title3,
-          title4: HomeScreenTextEn().title4);
+          title4: HomeScreenTextEn().title4,
+          title5: HomeScreenTextEn().title5);
       return settingScreenText;
     } else {
       HomeScreenText settingScreenText = HomeScreenText(
           title1: HomeScreenTextKr().title1,
           title2: HomeScreenTextKr().title2,
           title3: HomeScreenTextKr().title3,
-          title4: HomeScreenTextKr().title4);
+          title4: HomeScreenTextKr().title4,
+          title5: HomeScreenTextKr().title5);
       return settingScreenText;
     }
   }

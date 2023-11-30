@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/styles/custom_colors.dart';
 export 'package:flutter/widgets.dart';
@@ -73,10 +74,18 @@ class CustomColor {
 }
 
 class CustomColorController extends GetxController {
+  final storage = FlutterSecureStorage();
   RxInt colorType = 0.obs;
 
-  void changeColorMode(int type) {
-    colorType.value = type;
+  Future<bool> changeColorMode(type) async {
+    try {
+      await storage.write(key: 'colorType', value: '$type');
+      colorType.value = type;
+      return true;
+    } catch (error) {
+      print('changeColorMode $error');
+      return false;
+    }
   }
 
   CustomColor customColor() {

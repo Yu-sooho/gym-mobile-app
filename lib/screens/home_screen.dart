@@ -39,6 +39,8 @@ class _HomeScreen extends State<HomeScreen> {
         return localizationController.localiztionHomeScreen().title3;
       case 3:
         return localizationController.localiztionHomeScreen().title4;
+      case 4:
+        return localizationController.localiztionHomeScreen().title5;
     }
     return '';
   }
@@ -116,8 +118,9 @@ class _HomeScreen extends State<HomeScreen> {
               body: [
                 CalendarScreen(),
                 RoutineScreen(),
-                Text('샵페이지'),
-                Text('샵페이지')
+                ExerciseScreen(),
+                StopWatchScreen(),
+                ShoppingScreen()
               ][tab],
               bottomNavigationBar: Theme(
                   data: ThemeData(
@@ -141,34 +144,50 @@ class _HomeScreen extends State<HomeScreen> {
                       BottomNavigationBarItem(
                         backgroundColor: Colors.transparent,
                         icon: Icon(
-                          Icons.calendar_today_outlined,
+                          Icons.calendar_month,
                           color: colorController.customColor().bottomTabBarItem,
                           size: 24,
                         ),
                         activeIcon: Icon(
-                          Icons.calendar_today,
+                          Icons.calendar_month,
                           color: colorController
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
                         ),
-                        label: 'Home',
+                        label: 'Calendar',
                       ),
                       BottomNavigationBarItem(
                         backgroundColor: Colors.transparent,
                         icon: Icon(
-                          Icons.apps_outage_outlined,
+                          Icons.wysiwyg,
                           color: colorController.customColor().bottomTabBarItem,
                           size: 24,
                         ),
                         activeIcon: Icon(
-                          Icons.apps_outage,
+                          Icons.wysiwyg,
                           color: colorController
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
                         ),
-                        label: 'Home',
+                        label: 'Routine',
+                      ),
+                      BottomNavigationBarItem(
+                        backgroundColor: Colors.transparent,
+                        icon: Icon(
+                          Icons.apps,
+                          color: colorController.customColor().bottomTabBarItem,
+                          size: 24,
+                        ),
+                        activeIcon: Icon(
+                          Icons.apps,
+                          color: colorController
+                              .customColor()
+                              .bottomTabBarActiveItem,
+                          size: 24,
+                        ),
+                        label: 'Exercise',
                       ),
                       BottomNavigationBarItem(
                         backgroundColor: Colors.transparent,
@@ -183,8 +202,8 @@ class _HomeScreen extends State<HomeScreen> {
                               .customColor()
                               .bottomTabBarActiveItem,
                           size: 24,
-                        ), //해당 items 눌렀을 때 보여줄 아이콘
-                        label: 'Shop',
+                        ),
+                        label: 'Stopwatch',
                       ),
                       BottomNavigationBarItem(
                         backgroundColor: Colors.transparent,
@@ -200,7 +219,7 @@ class _HomeScreen extends State<HomeScreen> {
                               .bottomTabBarActiveItem,
                           size: 24,
                         ),
-                        label: 'Home',
+                        label: 'Shopping',
                       ),
                     ],
                   )),

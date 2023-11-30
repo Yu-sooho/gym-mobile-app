@@ -95,6 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (overlayLogout.mounted) {
       overlayLogout.remove();
     }
+    await localizationController.changeLanguage(1);
+    await fontController.changeFontMode(0);
+    await colorController.changeColorMode(0);
     await firebaseAuthController.signOut();
     if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
@@ -128,14 +131,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     style: fontController.customFont().bold12,
                     textAlign: TextAlign.center,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Text(
-                      '123',
-                      style: fontController.customFont().medium12,
-                      textAlign: TextAlign.center,
-                    ),
-                  )
                 ]))),
         SizedBox(height: 16),
         CustomButton(

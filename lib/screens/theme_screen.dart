@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/styles/custom_colors.dart';
@@ -13,6 +14,8 @@ class ThemeScreen extends StatefulWidget {
 }
 
 class _ThemeScreenState extends State<ThemeScreen> {
+  final storage = FlutterSecureStorage();
+
   final LocalizationController localizationController =
       Get.put(LocalizationController());
   final CustomColorController colorController =
@@ -78,12 +81,15 @@ class _ThemeScreenState extends State<ThemeScreen> {
             onPressCancel: () {
               overlayPopup.remove();
             },
-            onPressOk: () {
+            onPressOk: () async {
               overlayPopup.remove();
-              localizationController.changeLanguage(language);
-              fontController.changeFontMode(nowFont);
-              colorController.changeColorMode(nowColor);
-              Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+              await localizationController.changeLanguage(language);
+              await fontController.changeFontMode(nowFont);
+              await colorController.changeColorMode(nowColor);
+              if (context.mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/home', (_) => false);
+              }
             }));
     OverlayState overlayState = Overlay.of(context);
     overlayState.insert(overlayPopup);

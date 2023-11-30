@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await themeCheck();
   await firebaseLoginCheck();
   await firebaseMessagingInit();
   KakaoSdk.init(nativeAppKey: 'd3c9e4923a1864904073b797a2de34d1');
@@ -41,6 +43,38 @@ class Main extends StatelessWidget {
       },
     );
   }
+}
+
+Future<bool> themeCheck() async {
+  final storage = FlutterSecureStorage();
+
+  final LocalizationController localizationController =
+      Get.put(LocalizationController());
+  final CustomColorController colorController =
+      Get.put(CustomColorController());
+  final CustomFontController fontController = Get.put(CustomFontController());
+
+  String? colorType = await storage.read(key: 'colorType');
+  String? fontType = await storage.read(key: 'fontType');
+  String? language = await storage.read(key: 'language');
+
+  if (language != null) {
+    localizationController.changeLanguage(int.parse(language));
+  } else {
+    localizationController.changeLanguage(1);
+  }
+  if (fontType != null) {
+    fontController.changeFontMode(int.parse(fontType));
+  } else {
+    fontController.changeFontMode(1);
+  }
+  if (colorType != null) {
+    colorController.changeColorMode(int.parse(colorType));
+  } else {
+    colorController.changeColorMode(1);
+  }
+
+  return true;
 }
 
 Future<bool> firebaseLoginCheck() async {

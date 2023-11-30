@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/styles/custom_fonts.dart';
 export 'package:flutter/widgets.dart';
@@ -29,10 +30,18 @@ class CustomFont {
 }
 
 class CustomFontController extends GetxController {
+  final storage = FlutterSecureStorage();
   RxInt fontType = 0.obs;
 
-  void changeFontMode(int type) {
-    fontType.value = type;
+  Future<bool> changeFontMode(type) async {
+    try {
+      await storage.write(key: 'fontType', value: '$type');
+      fontType.value = type;
+      return true;
+    } catch (error) {
+      print('changeFontMode $error');
+      return false;
+    }
   }
 
   CustomFont customFont() {
