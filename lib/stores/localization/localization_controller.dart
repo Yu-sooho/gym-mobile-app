@@ -6,6 +6,7 @@ import 'package:gym_calendar/stores/localization/inquiry_screen_text.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_edit_screen_text.dart';
+import 'package:gym_calendar/stores/localization/routine_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
 import 'package:gym_calendar/stores/localization/component_error_text.dart';
@@ -171,6 +172,14 @@ class ThemeScreenText {
       required this.colorName,
       required this.fontName,
       required this.languageName});
+}
+
+class RoutineScreenText {
+  final String inputTitle;
+  final String inputTitlePlaceholder;
+
+  RoutineScreenText(
+      {required this.inputTitle, required this.inputTitlePlaceholder});
 }
 
 class LocalizationController extends GetxController {
@@ -392,6 +401,22 @@ class LocalizationController extends GetxController {
           title3: HomeScreenTextKr().title3,
           title4: HomeScreenTextKr().title4);
       return settingScreenText;
+    }
+  }
+
+  RoutineScreenText localiztionRoutineScreen() {
+    if (language.value == 0) {
+      RoutineScreenText routineScreenText = RoutineScreenText(
+        inputTitle: RoutineScreenTextEn().inputTitle,
+        inputTitlePlaceholder: RoutineScreenTextEn().inputTitlePlaceholder,
+      );
+      return routineScreenText;
+    } else {
+      RoutineScreenText routineScreenText = RoutineScreenText(
+        inputTitle: RoutineScreenTextKr().inputTitle,
+        inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
+      );
+      return routineScreenText;
     }
   }
 }

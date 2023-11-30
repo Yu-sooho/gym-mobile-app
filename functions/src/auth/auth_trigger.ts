@@ -21,7 +21,7 @@ export const createUser = functions.auth.user().onCreate(async(user) => {
         const userData:UserModel = {
             email:user.email,
             emailVerified:user.emailVerified,
-            displayName:user.displayName,
+            displayName:user.displayName || 'Anonymous',
             photoURL:user.photoURL,
             phoneNumber:user.phoneNumber,
             disabled:user.disabled,

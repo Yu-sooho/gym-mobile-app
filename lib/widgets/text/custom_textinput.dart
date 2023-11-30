@@ -8,6 +8,7 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
     int? count,
     String? placeholder,
     String? Function(String? value)? validator,
+    double? width,
     GlobalKey? key}) {
   final CustomFontController fontController = Get.put(CustomFontController());
   final CustomColorController colorController =
@@ -16,6 +17,7 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
   return (Obx(() => Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: SizedBox(
+          width: width,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             title != null
