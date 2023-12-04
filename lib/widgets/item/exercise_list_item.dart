@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 
-class RoutineListItem extends StatefulWidget {
-  RoutineListItem({super.key});
+class ExerciseListItem extends StatefulWidget {
+  ExerciseListItem({super.key});
 
   @override
-  State<RoutineListItem> createState() => _RoutineListItem();
+  State<ExerciseListItem> createState() => _ExerciseListItem();
 }
 
-class _RoutineListItem extends State<RoutineListItem> {
+class _ExerciseListItem extends State<ExerciseListItem> {
   final Stores stores = Get.put(Stores());
   @override
   Widget build(BuildContext context) {
     return (Container(
       decoration: BoxDecoration(
           color: stores.colorController.customColor().transparent),
-      child: Column(children: [Text('123')]),
+      child: Column(children: []),
     ));
   }
 }

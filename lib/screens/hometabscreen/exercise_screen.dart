@@ -11,6 +11,7 @@ class ExerciseScreen extends StatefulWidget {
 class _ExerciseScreenState extends State<ExerciseScreen> {
   @override
   Widget build(BuildContext context) {
-    return (TabAreaView(paddingTop: 24, children: []));
+    return (TabAreaView(
+        paddingTop: 24, children: [ExerciseAddItem(), Text('123')]));
   }
 }
