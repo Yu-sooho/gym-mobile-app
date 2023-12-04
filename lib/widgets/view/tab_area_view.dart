@@ -73,6 +73,7 @@ class _TabAreaViewState extends State<TabAreaView> {
                       MediaQuery.of(context).viewInsets.bottom -
                       92 -
                       32 -
+                      59 -
                       marginTop -
                       marginBottom,
                   child: SingleChildScrollView(

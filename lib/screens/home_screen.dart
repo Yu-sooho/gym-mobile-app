@@ -57,12 +57,12 @@ class _HomeScreen extends State<HomeScreen> {
                   tileMode: TileMode.clamp),
             )),
           )),
-      Column(
-        children: [
-          Material(
-              color: Colors.transparent,
-              child: SafeArea(
-                  bottom: false,
+      SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              Material(
+                  color: Colors.transparent,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.transparent,
@@ -100,136 +100,136 @@ class _HomeScreen extends State<HomeScreen> {
                         )
                       ],
                     ),
-                  ))),
-          SizedBox(
-            height: stores.appStateController.logicalHeight.value -
-                MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).viewInsets.bottom -
-                32,
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: [
-                CalendarScreen(),
-                RoutineScreen(),
-                ExerciseScreen(),
-                StopWatchScreen(),
-                ShoppingScreen()
-              ][tab],
-              bottomNavigationBar: Theme(
-                  data: ThemeData(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                  ),
-                  child: BottomNavigationBar(
-                    elevation: 0,
-                    type: BottomNavigationBarType.fixed,
-                    backgroundColor: Colors.transparent,
-                    showSelectedLabels: false,
-                    showUnselectedLabels: false,
-                    currentIndex: tab,
-                    onTap: (i) {
-                      setState(() {
-                        tab = i;
-                      });
-                    },
-                    items: [
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.transparent,
-                        icon: Icon(
-                          Icons.calendar_month,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarItem,
-                          size: 24,
-                        ),
-                        activeIcon: Icon(
-                          Icons.calendar_month,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarActiveItem,
-                          size: 24,
-                        ),
-                        label: 'Calendar',
-                      ),
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.transparent,
-                        icon: Icon(
-                          Icons.wysiwyg,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarItem,
-                          size: 24,
-                        ),
-                        activeIcon: Icon(
-                          Icons.wysiwyg,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarActiveItem,
-                          size: 24,
-                        ),
-                        label: 'Routine',
-                      ),
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.transparent,
-                        icon: Icon(
-                          Icons.apps,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarItem,
-                          size: 24,
-                        ),
-                        activeIcon: Icon(
-                          Icons.apps,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarActiveItem,
-                          size: 24,
-                        ),
-                        label: 'Exercise',
-                      ),
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.transparent,
-                        icon: Icon(
-                          Icons.timer_outlined,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarItem,
-                          size: 24,
-                        ),
-                        activeIcon: Icon(
-                          Icons.timer,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarActiveItem,
-                          size: 24,
-                        ),
-                        label: 'Stopwatch',
-                      ),
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.transparent,
-                        icon: Icon(
-                          Icons.shop_2_outlined,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarItem,
-                          size: 24,
-                        ),
-                        activeIcon: Icon(
-                          Icons.shopping_bag,
-                          color: stores.colorController
-                              .customColor()
-                              .bottomTabBarActiveItem,
-                          size: 24,
-                        ),
-                        label: 'Shopping',
-                      ),
-                    ],
                   )),
-            ),
-          )
-        ],
-      )
+              SizedBox(
+                height: stores.appStateController.logicalHeight.value -
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).viewInsets.bottom -
+                    32,
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: [
+                    CalendarScreen(),
+                    RoutineScreen(),
+                    ExerciseScreen(),
+                    StopWatchScreen(),
+                    ShoppingScreen()
+                  ][tab],
+                  bottomNavigationBar: Theme(
+                      data: ThemeData(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                      ),
+                      child: BottomNavigationBar(
+                        elevation: 0,
+                        type: BottomNavigationBarType.fixed,
+                        backgroundColor: Colors.transparent,
+                        showSelectedLabels: false,
+                        showUnselectedLabels: false,
+                        currentIndex: tab,
+                        onTap: (i) {
+                          setState(() {
+                            tab = i;
+                          });
+                        },
+                        items: [
+                          BottomNavigationBarItem(
+                            backgroundColor: Colors.transparent,
+                            icon: Icon(
+                              Icons.calendar_month,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarItem,
+                              size: 24,
+                            ),
+                            activeIcon: Icon(
+                              Icons.calendar_month,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarActiveItem,
+                              size: 24,
+                            ),
+                            label: 'Calendar',
+                          ),
+                          BottomNavigationBarItem(
+                            backgroundColor: Colors.transparent,
+                            icon: Icon(
+                              Icons.wysiwyg,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarItem,
+                              size: 24,
+                            ),
+                            activeIcon: Icon(
+                              Icons.wysiwyg,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarActiveItem,
+                              size: 24,
+                            ),
+                            label: 'Routine',
+                          ),
+                          BottomNavigationBarItem(
+                            backgroundColor: Colors.transparent,
+                            icon: Icon(
+                              Icons.apps,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarItem,
+                              size: 24,
+                            ),
+                            activeIcon: Icon(
+                              Icons.apps,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarActiveItem,
+                              size: 24,
+                            ),
+                            label: 'Exercise',
+                          ),
+                          BottomNavigationBarItem(
+                            backgroundColor: Colors.transparent,
+                            icon: Icon(
+                              Icons.timer_outlined,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarItem,
+                              size: 24,
+                            ),
+                            activeIcon: Icon(
+                              Icons.timer,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarActiveItem,
+                              size: 24,
+                            ),
+                            label: 'Stopwatch',
+                          ),
+                          BottomNavigationBarItem(
+                            backgroundColor: Colors.transparent,
+                            icon: Icon(
+                              Icons.shop_2_outlined,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarItem,
+                              size: 24,
+                            ),
+                            activeIcon: Icon(
+                              Icons.shopping_bag,
+                              color: stores.colorController
+                                  .customColor()
+                                  .bottomTabBarActiveItem,
+                              size: 24,
+                            ),
+                            label: 'Shopping',
+                          ),
+                        ],
+                      )),
+                ),
+              )
+            ],
+          ))
     ]));
   }
 }

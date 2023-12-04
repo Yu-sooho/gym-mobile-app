@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/component_button_text.dart';
+import 'package:gym_calendar/stores/localization/exercise_screen_text.dart';
 import 'package:gym_calendar/stores/localization/home_screen_text.dart';
 import 'package:gym_calendar/stores/localization/inquiry_screen_text.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
@@ -181,6 +182,18 @@ class RoutineScreenText {
 
   RoutineScreenText(
       {required this.inputTitle, required this.inputTitlePlaceholder});
+}
+
+class ExerciseScreenText {
+  final String inputTitle;
+  final String inputTitlePlaceholder;
+
+  final String addExercise;
+
+  ExerciseScreenText(
+      {required this.inputTitle,
+      required this.inputTitlePlaceholder,
+      required this.addExercise});
 }
 
 class LocalizationController extends GetxController {
@@ -428,6 +441,22 @@ class LocalizationController extends GetxController {
         inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
       );
       return routineScreenText;
+    }
+  }
+
+  ExerciseScreenText localiztionExerciseScreen() {
+    if (language.value == 0) {
+      ExerciseScreenText exerciseScreenText = ExerciseScreenText(
+          inputTitle: ExerciseScreenTextEn().inputTitle,
+          inputTitlePlaceholder: ExerciseScreenTextEn().inputTitlePlaceholder,
+          addExercise: ExerciseScreenTextEn().addExercise);
+      return exerciseScreenText;
+    } else {
+      ExerciseScreenText exerciseScreenText = ExerciseScreenText(
+          inputTitle: ExerciseScreenTextKr().inputTitle,
+          inputTitlePlaceholder: ExerciseScreenTextKr().inputTitlePlaceholder,
+          addExercise: ExerciseScreenTextKr().addExercise);
+      return exerciseScreenText;
     }
   }
 }
