@@ -13,7 +13,6 @@ class InquiryScreen extends StatefulWidget {
 class _InquiryScreenState extends State<InquiryScreen> {
   final Stores stores = Get.put(Stores());
 
-  bool inquiryOpen = true;
   bool listOpen = false;
 
   bool inquiryTitleError = false;
@@ -25,12 +24,6 @@ class _InquiryScreenState extends State<InquiryScreen> {
   void onPressListOpen() {
     setState(() {
       listOpen = !listOpen;
-    });
-  }
-
-  void onPressInquiryOpen() {
-    setState(() {
-      inquiryOpen = !inquiryOpen;
     });
   }
 
@@ -97,27 +90,27 @@ class _InquiryScreenState extends State<InquiryScreen> {
           SizedBox(
             height: 24,
           ),
-          titleButton(context,
-              title: stores.localizationController
-                  .localiztionInquiryScreen()
-                  .inquiry,
-              onPress: onPressInquiryOpen,
-              isOpen: inquiryOpen),
-          inquiryOpen
-              ? inquiryContainer(context,
-                  title: inquiryTitle,
-                  content: inquiryContent,
-                  onPressInquiry: onPressInquiry,
-                  onChangeTitle: onChangeTitle,
-                  onChangeContent: onChangeContent,
-                  validateTitle: validateTitle,
-                  validateContent: validateContent,
-                  isReady: title != '' &&
-                      content != '' &&
-                      !inquiryTitleError &&
-                      !inquiryContentError)
-              : SizedBox(),
-          titleButton(context,
+          Container(
+              padding: EdgeInsets.fromLTRB(20, 16, 0, 20),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                  stores.localizationController
+                      .localiztionInquiryScreen()
+                      .inquiry,
+                  style: stores.fontController.customFont().bold12)),
+          inquiryContainer(context,
+              title: inquiryTitle,
+              content: inquiryContent,
+              onPressInquiry: onPressInquiry,
+              onChangeTitle: onChangeTitle,
+              onChangeContent: onChangeContent,
+              validateTitle: validateTitle,
+              validateContent: validateContent,
+              isReady: title != '' &&
+                  content != '' &&
+                  !inquiryTitleError &&
+                  !inquiryContentError),
+          TitleButton(
               title: stores.localizationController
                   .localiztionInquiryScreen()
                   .inquiryList,

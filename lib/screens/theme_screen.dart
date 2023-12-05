@@ -13,7 +13,8 @@ class ThemeScreen extends StatefulWidget {
   State<ThemeScreen> createState() => _ThemeScreenState();
 }
 
-class _ThemeScreenState extends State<ThemeScreen> {
+class _ThemeScreenState extends State<ThemeScreen>
+    with TickerProviderStateMixin {
   final storage = FlutterSecureStorage();
 
   final Stores stores = Get.put(Stores());
@@ -36,6 +37,11 @@ class _ThemeScreenState extends State<ThemeScreen> {
   }
 
   void onPressFont() {
+    if (fontOpen) {
+      _controller.reverse();
+    } else {
+      _controller.forward();
+    }
     setState(() {
       fontOpen = !fontOpen;
     });
@@ -124,6 +130,35 @@ class _ThemeScreenState extends State<ThemeScreen> {
     return true;
   }
 
+  final CustomFont1 font1 = CustomFont1();
+  final CustomFont2 font2 = CustomFont2();
+  final CustomFont3 font3 = CustomFont3();
+
+  final CustomColorMode1 colorMode1 = CustomColorMode1();
+  final CustomColorMode2 colorMode2 = CustomColorMode2();
+  final CustomColorMode3 colorMode3 = CustomColorMode3();
+
+  late Animation<double> _animation;
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
+    _animation =
+        CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
+    _animation.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return safeAreaView(
@@ -136,188 +171,98 @@ class _ThemeScreenState extends State<ThemeScreen> {
           SizedBox(
             height: 24,
           ),
-          titleButton(context,
+          TitleButton(
               title: stores.localizationController
                   .localiztionThemeScreen()
                   .colorTitle,
               isOpen: colorOpen,
               onPress: onPressColor),
-          colorOpen
-              ? radioButtonList(
-                  context,
-                  [0, 1, 2],
-                  nowColor,
-                  selectColor,
-                  'ColorMode',
-                  stores.localizationController
-                      .localiztionThemeScreen()
-                      .colorName,
-                  isColor: true)
-              : SizedBox(),
-          titleButton(context,
+          RadioButtonList(
+            isOpen: colorOpen,
+            group: [0, 1, 2],
+            styleColor: [
+              colorMode1.defaultTextColor,
+              colorMode2.defaultTextColor,
+              colorMode3.defaultTextColor
+            ],
+            selectValue: nowColor,
+            onPressItem: selectColor,
+            itemText: 'ColorMode',
+            names: stores.localizationController
+                .localiztionThemeScreen()
+                .colorName,
+          ),
+          TitleButton(
               title: stores.localizationController
                   .localiztionThemeScreen()
                   .fontTitle,
               isOpen: fontOpen,
               onPress: onPressFont),
-          fontOpen
-              ? SizedBox(
-                  height: 32,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomButton(
-                              onPress: minusFontSize,
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 32,
-                                width: 32,
-                                child: Text(
-                                  '-',
-                                  style:
-                                      stores.fontController.customFont().bold14,
-                                ),
-                              )),
-                          Text('${fontSize.floor()}',
-                              style: stores.fontController.customFont().bold14),
-                          CustomButton(
-                              onPress: plusFontSize,
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 32,
-                                width: 32,
-                                child: Text('+',
-                                    style: stores.fontController
-                                        .customFont()
-                                        .bold14),
-                              )),
-                        ]),
-                  ),
-                )
-              : SizedBox(),
-          fontOpen
-              ? radioButtonList(
-                  context,
-                  [0, 1, 2],
-                  nowFont,
-                  selectFont,
-                  'FontMode',
-                  stores.localizationController
-                      .localiztionThemeScreen()
-                      .fontName,
-                  isFont: true)
-              : SizedBox(),
-          titleButton(context,
+          AnimatedOpacity(
+              opacity: fontOpen ? 1 : 0,
+              curve: Curves.fastOutSlowIn,
+              duration: const Duration(milliseconds: 250),
+              child: SizedBox(
+                height: _animation.value * 32,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomButton(
+                            onPress: minusFontSize,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 32,
+                              width: 32,
+                              child: Text(
+                                '-',
+                                style:
+                                    stores.fontController.customFont().bold14,
+                              ),
+                            )),
+                        Text('${fontSize.floor()}',
+                            style: stores.fontController.customFont().bold14),
+                        CustomButton(
+                            onPress: plusFontSize,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 32,
+                              width: 32,
+                              child: Text('+',
+                                  style: stores.fontController
+                                      .customFont()
+                                      .bold14),
+                            )),
+                      ]),
+                ),
+              )),
+          RadioButtonList(
+            isOpen: fontOpen,
+            group: [0, 1, 2],
+            styleGroup: [font1.medium12, font2.medium12, font3.medium12],
+            selectValue: nowFont,
+            onPressItem: selectFont,
+            itemText: 'FontMode',
+            names:
+                stores.localizationController.localiztionThemeScreen().fontName,
+          ),
+          TitleButton(
               title: stores.localizationController
                   .localiztionThemeScreen()
                   .languageTitle,
               isOpen: languageOpen,
               onPress: onPressLanguage),
-          languageOpen
-              ? radioButtonList(
-                  context,
-                  [0, 1],
-                  language,
-                  selectLanguage,
-                  'LanguageMode',
-                  stores.localizationController
-                      .localiztionThemeScreen()
-                      .languageName)
-              : SizedBox(),
+          RadioButtonList(
+              isOpen: languageOpen,
+              group: [0, 1],
+              selectValue: language,
+              onPressItem: selectLanguage,
+              itemText: 'LanguageMode',
+              names: stores.localizationController
+                  .localiztionThemeScreen()
+                  .languageName),
         ]);
   }
-}
-
-Widget radioButtonList(
-  BuildContext context,
-  List group,
-  int selectValue,
-  Function(int value) onPressItem,
-  String itemText,
-  List<String> names, {
-  bool isFont = false,
-  bool isColor = false,
-}) {
-  final Stores stores = Get.put(Stores());
-
-  final CustomFont1 font1 = CustomFont1();
-  final CustomFont2 font2 = CustomFont2();
-  final CustomFont3 font3 = CustomFont3();
-  final List fontList = [font1, font2, font3];
-
-  final CustomColorMode1 colorMode1 = CustomColorMode1();
-  final CustomColorMode2 colorMode2 = CustomColorMode2();
-  final CustomColorMode3 colorMode3 = CustomColorMode3();
-  final List colorList = [colorMode1, colorMode2, colorMode3];
-
-  return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(8),
-      itemCount: group.length,
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        return Obx(() => CustomButton(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onPress: () => onPressItem(index),
-              child: SizedBox(
-                  height: 48,
-                  child: Padding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(names[index],
-                                style: selectValue == index
-                                    ? isFont
-                                        ? fontList[index].bold12
-                                        : isColor
-                                            ? TextStyle(
-                                                color: colorList[index]
-                                                    .defaultTextColor,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: stores
-                                                    .fontController
-                                                    .customFont()
-                                                    .medium12
-                                                    .fontFamily)
-                                            : stores.fontController
-                                                .customFont()
-                                                .bold12
-                                    : isFont
-                                        ? fontList[index].medium12
-                                        : isColor
-                                            ? TextStyle(
-                                                color: colorList[index]
-                                                    .defaultTextColor,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.normal,
-                                                fontFamily: stores
-                                                    .fontController
-                                                    .customFont()
-                                                    .medium12
-                                                    .fontFamily)
-                                            : stores.fontController
-                                                .customFont()
-                                                .medium12),
-                            selectValue == index
-                                ? Icon(
-                                    Icons.check,
-                                    color: stores.colorController
-                                        .customColor()
-                                        .bottomTabBarActiveItem,
-                                    size: 12,
-                                  )
-                                : SizedBox()
-                          ],
-                        ),
-                      ))),
-            ));
-      });
 }

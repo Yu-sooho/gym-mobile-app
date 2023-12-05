@@ -20,7 +20,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+        vsync: this, duration: const Duration(milliseconds: 250));
     _animation =
         CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
     _animation.addListener(() {
@@ -82,7 +82,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
       AnimatedOpacity(
           opacity: isOpen ? 1 : 0,
           curve: Curves.fastOutSlowIn,
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 250),
           child: SizedBox(
             width: stores.appStateController.logicalWidth.value,
             height: _animation.value * 260,
