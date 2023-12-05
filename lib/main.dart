@@ -52,6 +52,7 @@ Future<bool> themeCheck() async {
   String? colorType = await storage.read(key: 'colorType');
   String? fontType = await storage.read(key: 'fontType');
   String? language = await storage.read(key: 'language');
+  String? fontSize = await storage.read(key: 'fontSize');
 
   if (language != null) {
     stores.localizationController.changeLanguage(int.parse(language));
@@ -67,6 +68,11 @@ Future<bool> themeCheck() async {
     stores.colorController.changeColorMode(int.parse(colorType));
   } else {
     stores.colorController.changeColorMode(1);
+  }
+  if (fontSize != null) {
+    stores.appStateController.changeFontSize(double.parse(fontSize));
+  } else {
+    stores.appStateController.changeFontSize(0.0);
   }
 
   return true;

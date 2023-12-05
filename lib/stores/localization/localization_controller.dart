@@ -166,14 +166,20 @@ class ThemeScreenText {
   final List<String> fontName;
   final List<String> languageName;
 
-  ThemeScreenText(
-      {required this.title,
-      required this.fontTitle,
-      required this.colorTitle,
-      required this.languageTitle,
-      required this.colorName,
-      required this.fontName,
-      required this.languageName});
+  final String errorFontSizePlus;
+  final String errorFontSizeMinus;
+
+  ThemeScreenText({
+    required this.title,
+    required this.fontTitle,
+    required this.colorTitle,
+    required this.languageTitle,
+    required this.colorName,
+    required this.fontName,
+    required this.languageName,
+    required this.errorFontSizePlus,
+    required this.errorFontSizeMinus,
+  });
 }
 
 class RoutineScreenText {
@@ -343,6 +349,8 @@ class LocalizationController extends GetxController {
           fontTitle: ThemeScreenTextEn().fontTitle,
           languageTitle: ThemeScreenTextEn().languageTitle,
           languageName: ThemeScreenTextEn().languageName,
+          errorFontSizePlus: ThemeScreenTextEn().errorFontSizePlus,
+          errorFontSizeMinus: ThemeScreenTextEn().errorFontSizeMinus,
           colorName: ThemeScreenTextEn().colorName,
           fontName: ThemeScreenTextEn().fontName);
       return settingScreenText;
@@ -353,6 +361,8 @@ class LocalizationController extends GetxController {
           fontTitle: ThemeScreenTextKr().fontTitle,
           languageTitle: ThemeScreenTextKr().languageTitle,
           languageName: ThemeScreenTextKr().languageName,
+          errorFontSizePlus: ThemeScreenTextKr().errorFontSizePlus,
+          errorFontSizeMinus: ThemeScreenTextKr().errorFontSizeMinus,
           colorName: ThemeScreenTextKr().colorName,
           fontName: ThemeScreenTextKr().fontName);
       return settingScreenText;

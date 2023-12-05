@@ -27,6 +27,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
   late int nowColor = stores.colorController.colorType.value;
   late int nowFont = stores.fontController.fontType.value;
   late int language = stores.localizationController.language.value;
+  late double fontSize = stores.appStateController.fontSize.value;
 
   void onPressColor() {
     setState(() {
@@ -64,6 +65,30 @@ class _ThemeScreenState extends State<ThemeScreen> {
     });
   }
 
+  void plusFontSize() {
+    if (fontSize > 4) {
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionThemeScreen()
+          .errorFontSizePlus);
+      return;
+    }
+    setState(() {
+      fontSize++;
+    });
+  }
+
+  void minusFontSize() {
+    if (fontSize < -2) {
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionThemeScreen()
+          .errorFontSizeMinus);
+      return;
+    }
+    setState(() {
+      fontSize--;
+    });
+  }
+
   void changeTheme() {
     overlayPopup = OverlayEntry(
         builder: (_) => customModalScreen(
@@ -81,6 +106,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
               await stores.localizationController.changeLanguage(language);
               await stores.fontController.changeFontMode(nowFont);
               await stores.colorController.changeColorMode(nowColor);
+              await stores.appStateController.changeFontSize(fontSize);
               if (context.mounted) {
                 Navigator.pushNamedAndRemoveUntil(
                     context, '/home', (_) => false);
@@ -94,6 +120,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
     if (nowColor != stores.colorController.colorType.value) return false;
     if (nowFont != stores.fontController.fontType.value) return false;
     if (language != stores.localizationController.language.value) return false;
+    if (fontSize != stores.appStateController.fontSize.value) return false;
     return true;
   }
 
@@ -133,6 +160,44 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   .fontTitle,
               isOpen: fontOpen,
               onPress: onPressFont),
+          fontOpen
+              ? SizedBox(
+                  height: 32,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomButton(
+                              onPress: minusFontSize,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 32,
+                                width: 32,
+                                child: Text(
+                                  '-',
+                                  style:
+                                      stores.fontController.customFont().bold14,
+                                ),
+                              )),
+                          Text('${fontSize.floor()}',
+                              style: stores.fontController.customFont().bold14),
+                          CustomButton(
+                              onPress: plusFontSize,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 32,
+                                width: 32,
+                                child: Text('+',
+                                    style: stores.fontController
+                                        .customFont()
+                                        .bold14),
+                              )),
+                        ]),
+                  ),
+                )
+              : SizedBox(),
           fontOpen
               ? radioButtonList(
                   context,

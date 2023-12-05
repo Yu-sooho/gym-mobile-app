@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
@@ -84,10 +83,9 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
           opacity: isOpen ? 1 : 0,
           curve: Curves.fastOutSlowIn,
           duration: const Duration(milliseconds: 500),
-          child: Container(
+          child: SizedBox(
             width: stores.appStateController.logicalWidth.value,
             height: _animation.value * 260,
-            decoration: BoxDecoration(color: Colors.red),
             child: Column(
               children: [
                 SizedBox(
@@ -95,12 +93,13 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
                     child: customTextInput(
                         context,
                         placeholder: stores.localizationController
-                            .localiztionRoutineScreen()
+                            .localiztionExerciseScreen()
                             .inputTitlePlaceholder,
                         title: stores.localizationController
-                            .localiztionRoutineScreen()
+                            .localiztionExerciseScreen()
                             .inputTitle,
-                        onChangedTitle)),
+                        onChangedTitle,
+                        isAnimated: true)),
                 SizedBox(
                     height: _animation.value * 52,
                     child: CompleteButton(title: '123')),
