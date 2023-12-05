@@ -83,11 +83,35 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
       AnimatedOpacity(
           opacity: isOpen ? 1 : 0,
           curve: Curves.fastOutSlowIn,
-          duration: const Duration(milliseconds: 1000),
+          duration: const Duration(milliseconds: 500),
           child: Container(
-            height: _animation.value * 200,
             width: stores.appStateController.logicalWidth.value,
+            height: _animation.value * 260,
             decoration: BoxDecoration(color: Colors.red),
+            child: Column(
+              children: [
+                SizedBox(
+                    height: _animation.value * 52,
+                    child: customTextInput(
+                        context,
+                        placeholder: stores.localizationController
+                            .localiztionRoutineScreen()
+                            .inputTitlePlaceholder,
+                        title: stores.localizationController
+                            .localiztionRoutineScreen()
+                            .inputTitle,
+                        onChangedTitle)),
+                SizedBox(
+                    height: _animation.value * 52,
+                    child: CompleteButton(title: '123')),
+                SizedBox(
+                    height: _animation.value * 52,
+                    child: CompleteButton(title: '123')),
+                SizedBox(
+                    height: _animation.value * 52,
+                    child: CompleteButton(title: '123'))
+              ],
+            ),
           )),
     ]);
   }

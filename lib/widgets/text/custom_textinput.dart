@@ -18,57 +18,65 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             title != null
-                ? Text(
-                    title,
-                    style: stores.fontController.customFont().bold12,
-                  )
+                ? Expanded(
+                    flex: 1,
+                    child: Text(
+                      title,
+                      style: stores.fontController.customFont().bold12,
+                    ))
                 : SizedBox(),
-            Form(
-                key: key,
-                child: TextFormField(
-                  scrollPadding: EdgeInsets.only(bottom: 34),
-                  onChanged: onChanged,
-                  maxLength: maxLength,
-                  autovalidateMode: AutovalidateMode.values.last,
-                  validator: validator,
-                  cursorColor:
-                      stores.colorController.customColor().textInputCursor,
-                  style: stores.fontController.customFont().medium12,
-                  decoration: InputDecoration(
-                    counterStyle: stores.fontController.customFont().medium12,
-                    contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 10),
-                    isDense: true,
-                    hintText: placeholder,
-                    hintStyle: TextStyle(
-                        color: stores.colorController.customColor().placeholder,
-                        fontFamily: stores.fontController
-                            .customFont()
-                            .medium12
-                            .fontFamily,
-                        fontSize: stores.fontController
-                            .customFont()
-                            .medium12
-                            .fontSize),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: stores.colorController
+            Expanded(
+                flex: 1,
+                child: Form(
+                    key: key,
+                    child: TextFormField(
+                      scrollPadding: EdgeInsets.only(bottom: 34),
+                      onChanged: onChanged,
+                      maxLength: maxLength,
+                      autovalidateMode: AutovalidateMode.values.last,
+                      validator: validator,
+                      cursorColor:
+                          stores.colorController.customColor().textInputCursor,
+                      style: stores.fontController.customFont().medium12,
+                      decoration: InputDecoration(
+                        counterStyle:
+                            stores.fontController.customFont().medium12,
+                        contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 10),
+                        isDense: true,
+                        hintText: placeholder,
+                        hintStyle: TextStyle(
+                            color: stores.colorController
+                                .customColor()
+                                .placeholder,
+                            fontFamily: stores.fontController
+                                .customFont()
+                                .medium12
+                                .fontFamily,
+                            fontSize: stores.fontController
+                                .customFont()
+                                .medium12
+                                .fontSize),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: stores.colorController
+                                .customColor()
+                                .textInputCursor,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: stores.colorController
+                                .customColor()
+                                .textInputFocusCursor,
+                          ),
+                        ),
+                        focusColor: stores.colorController
                             .customColor()
                             .textInputCursor,
                       ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: stores.colorController
-                            .customColor()
-                            .textInputFocusCursor,
-                      ),
-                    ),
-                    focusColor:
-                        stores.colorController.customColor().textInputCursor,
-                  ),
-                )),
+                    ))),
           ]),
         ),
       )));
