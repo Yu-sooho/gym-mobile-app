@@ -29,4 +29,6 @@ class Stores extends GetxController {
   final FirebaseStorageController firebaseStorageController =
       Get.put(FirebaseStorageController());
   final FirebaseController firebaseController = Get.put(FirebaseController());
+  final FirebaseFirestoreController firebaseFirestoreController =
+      Get.put(FirebaseFirestoreController());
 }

@@ -8,8 +8,10 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
     int? count,
     String? placeholder,
     String? Function(String? value)? validator,
+    String? counterText,
     double? width,
     bool isAnimated = false,
+    TextEditingController? controller,
     GlobalKey? key}) {
   final Stores stores = Get.put(Stores());
 
@@ -17,6 +19,7 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
     return Form(
         key: key,
         child: TextFormField(
+          controller: controller,
           scrollPadding: EdgeInsets.only(bottom: 34),
           onChanged: onChanged,
           maxLength: maxLength,
@@ -27,6 +30,7 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
           decoration: InputDecoration(
             counterStyle: stores.fontController.customFont().medium12,
             contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 10),
+            counterText: counterText,
             isDense: true,
             hintText: placeholder,
             hintStyle: TextStyle(

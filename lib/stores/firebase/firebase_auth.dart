@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gym_calendar/providers/auth_provider.dart';
-import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class UserData {

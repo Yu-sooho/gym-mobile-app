@@ -194,12 +194,22 @@ class ExerciseScreenText {
   final String inputTitle;
   final String inputTitlePlaceholder;
 
+  final String partPlaceholder;
+  final String partName;
+
   final String addExercise;
+  final String add;
+
+  final String success;
 
   ExerciseScreenText(
       {required this.inputTitle,
       required this.inputTitlePlaceholder,
-      required this.addExercise});
+      required this.partPlaceholder,
+      required this.partName,
+      required this.addExercise,
+      required this.add,
+      required this.success});
 }
 
 class LocalizationController extends GetxController {
@@ -459,13 +469,21 @@ class LocalizationController extends GetxController {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
           inputTitle: ExerciseScreenTextEn().inputTitle,
           inputTitlePlaceholder: ExerciseScreenTextEn().inputTitlePlaceholder,
-          addExercise: ExerciseScreenTextEn().addExercise);
+          partPlaceholder: ExerciseScreenTextEn().partPlaceholder,
+          partName: ExerciseScreenTextEn().partName,
+          addExercise: ExerciseScreenTextEn().addExercise,
+          add: ExerciseScreenTextEn().add,
+          success: ExerciseScreenTextEn().success);
       return exerciseScreenText;
     } else {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
           inputTitle: ExerciseScreenTextKr().inputTitle,
           inputTitlePlaceholder: ExerciseScreenTextKr().inputTitlePlaceholder,
-          addExercise: ExerciseScreenTextKr().addExercise);
+          partPlaceholder: ExerciseScreenTextKr().partPlaceholder,
+          partName: ExerciseScreenTextKr().partName,
+          addExercise: ExerciseScreenTextKr().addExercise,
+          add: ExerciseScreenTextKr().add,
+          success: ExerciseScreenTextKr().success);
       return exerciseScreenText;
     }
   }

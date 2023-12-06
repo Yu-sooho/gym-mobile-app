@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/app_state_controller.dart';
-import 'package:gym_calendar/stores/firebase/firebase_auth.dart';
 import 'package:gym_calendar/stores/firebase/package_firebase.dart';
 import 'package:gym_calendar/stores/localization/localization_controller.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -139,7 +138,7 @@ class AuthStateController extends GetxController {
   }
 
   Future<bool> updateUser(Map<Object, Object> data, String docId) async {
-    return firebaseController.firebaseAsync(() async {
+    return firebaseController.firebaseBool(() async {
       if (docId.isNotEmpty) {
         await FirebaseFirestore.instance
             .collection('users')
