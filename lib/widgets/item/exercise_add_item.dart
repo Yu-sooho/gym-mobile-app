@@ -87,7 +87,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
       final muscle = stores.exerciseStateController.muscles
           ?.firstWhere((element) => element.name == selectedPart);
       await networkProviders.exerciseProvider
-          .postCustomExercise({'name': exerciseName, 'muclesId': muscle?.id});
+          .postCustomExercise({'name': exerciseName, 'muscleId': muscle?.id});
       if (!context.mounted) return;
       stores.appStateController.setIsLoading(false, context);
       setState(() {

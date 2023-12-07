@@ -23,7 +23,7 @@ class FirebaseController extends GetxController {
           localizationController.localiztionComponentError().networkError);
       return false;
     } catch (error) {
-      print('updateUser $error');
+      print('firebaseVoid $error');
       return false;
     }
   }
@@ -45,7 +45,7 @@ class FirebaseController extends GetxController {
           localizationController.localiztionComponentError().networkError);
       return false;
     } catch (error) {
-      print('updateUser $error');
+      print('firebaseBool $error');
       return false;
     }
   }
@@ -67,7 +67,7 @@ class FirebaseController extends GetxController {
           localizationController.localiztionComponentError().networkError);
       rethrow;
     } catch (error) {
-      print('updateUser $error');
+      print('firebaseQuerySnapshot $error');
       rethrow;
     }
   }

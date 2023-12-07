@@ -36,12 +36,16 @@ class FirebaseFirestoreController extends GetxController {
   }
 
   /// 컬렉션 네임으로 해당 문서 전부 다 가져오는 함수
-  Future<QuerySnapshot> getCollectionData(String collectionName) async {
+  Future<QuerySnapshot> getCollectionData(
+      {String? collectionName, Query? query}) async {
     try {
-      if (collectionName.isEmpty) throw {'error': 'no collectionName'};
-      print('firebase_firestores getCollectionData success $collectionName');
+      if (collectionName == null && query == null) {
+        throw {'error': 'no collectionName and no Query'};
+      }
       return firebaseController.firebaseQuerySnapshot(() async {
-        return await firestore.collection(collectionName).orderBy('id').get();
+        return query != null
+            ? query.get()
+            : firestore.collection(collectionName!).orderBy('id').get();
       });
     } catch (error) {
       print('firebase_firestores getCollectionData error $error');
