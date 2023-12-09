@@ -5,7 +5,8 @@ import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class ExerciseAddItem extends StatefulWidget {
-  ExerciseAddItem({super.key});
+  final Function(double)? getHeight;
+  ExerciseAddItem({super.key, this.getHeight});
 
   @override
   State<ExerciseAddItem> createState() => _ExerciseAddItem();
@@ -56,9 +57,10 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     if (isOpen) {
       isOpen = false;
       isOpenPart = false;
-      _controller.reverse();
+      _controller.reverse().whenComplete(() => widget.getHeight!(48));
       return;
     }
+    widget.getHeight!(274 - 48);
     isOpen = true;
     _controller.forward();
   }
@@ -67,10 +69,12 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     if (isOpenPart) {
       setState(() {
         isOpenPart = false;
+        widget.getHeight!(274 - 48);
       });
     } else {
       setState(() {
         isOpenPart = true;
+        widget.getHeight!(274 + 48);
       });
     }
   }
