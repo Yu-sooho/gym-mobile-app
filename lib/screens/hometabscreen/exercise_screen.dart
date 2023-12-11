@@ -4,7 +4,6 @@ import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ExerciseScreen extends StatefulWidget {
   ExerciseScreen({super.key});
@@ -22,7 +21,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   QueryDocumentSnapshot<Object?>? startAfter;
   List<Exercise>? exerciseList;
   bool endExerciseList = false;
-  int limit = 4;
+  int limit = 10;
   double headerHeight = 48 + 16;
   bool exerciseLoading = false;
 
@@ -38,9 +37,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       exerciseLoading = true;
     });
     final result = await networkProviders.exerciseProvider
-        .getExerciseList(startAfter: startAfter);
+        .getExerciseList(startAfter: startAfter, limit: limit);
     if (result.list.isNotEmpty) {
-      if (result.length < 4) {
+      if (result.length < limit) {
         setState(() {
           endExerciseList = true;
           exerciseLoading = false;
@@ -118,16 +117,18 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         headerSize: headerHeight,
         children: [
           exerciseList != null
-              ? ListView.builder(
+              ? ListView.separated(
                   primary: false,
                   shrinkWrap: true,
-                  itemCount: exerciseList?.length,
+                  itemCount: exerciseList?.length ?? 0,
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: 20,
+                  ),
                   itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: 150,
-                      width: 156,
-                      child: Text('${exerciseList?[index].name}'),
-                    );
+                    return ExerciseListItem(
+                        key: Key('$index'), item: exerciseList![index]);
                   },
                 )
               : SizedBox(),

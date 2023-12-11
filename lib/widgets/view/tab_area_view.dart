@@ -18,6 +18,7 @@ class TabAreaView extends StatefulWidget {
   final ScrollController? scrollController;
   final Widget? header;
   final double? headerSize;
+  final double? maxHeaderSize;
 
   TabAreaView(
       {super.key,
@@ -33,14 +34,49 @@ class TabAreaView extends StatefulWidget {
       this.onRefresh,
       this.scrollController,
       this.header,
-      this.headerSize});
+      this.headerSize,
+      this.maxHeaderSize});
 
   @override
   State<TabAreaView> createState() => _TabAreaViewState();
 }
 
-class _TabAreaViewState extends State<TabAreaView> {
+class _TabAreaViewState extends State<TabAreaView>
+    with TickerProviderStateMixin {
   static const _offsetToArmed = 100.0;
+
+  late AnimationController controller;
+  late Animation<double> animation;
+  late AnimationController controller2;
+  late Animation<double> animation2;
+
+  double lastHeaderSize = 0;
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
+    animation =
+        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+    animation.addListener(() {
+      setState(() {});
+    });
+    controller2 = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
+    animation2 =
+        CurvedAnimation(parent: controller2, curve: Curves.fastOutSlowIn);
+    animation2.addListener(() {
+      setState(() {});
+    });
+    controller.value = 0;
+    controller2.value = 1;
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,113 +95,153 @@ class _TabAreaViewState extends State<TabAreaView> {
 
     final Stores stores = Get.put(Stores());
 
-    return (Stack(children: <Widget>[
-      ShaderMask(
-          shaderCallback: (Rect rect) {
-            return LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                stores.colorController.customColor().defaultBackground1,
-                Colors.transparent,
-                Colors.transparent,
-                stores.colorController.customColor().defaultBackground2,
-              ],
-              stops: [0.0, 0.01, 0.95, 1.0],
-            ).createShader(rect);
+    if (lastHeaderSize != headerSize) {
+      if (lastHeaderSize > headerSize) {
+        controller.reverse();
+        controller2.forward();
+        // 64
+        print('close');
+      } else if (lastHeaderSize != 0) {
+        controller.forward();
+        controller2.reverse();
+        // 242
+        print('open');
+      }
+      lastHeaderSize = headerSize;
+    }
+
+    Widget screenContent() {
+      return (CustomRefreshIndicator(
+          offsetToArmed: _offsetToArmed,
+          autoRebuild: false,
+          onStateChanged: (change) {
+            if (change.didChange(
+              from: IndicatorState.armed,
+              to: IndicatorState.settling,
+            )) {
+              print(change);
+            }
+            if (change.didChange(
+              from: IndicatorState.loading,
+            )) {
+              print(change);
+            }
+            if (change.didChange(
+              to: IndicatorState.idle,
+            )) {
+              print(change);
+            }
           },
-          blendMode: BlendMode.dstOut,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                marginLeft, marginTop, marginRight, marginBottom),
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              backgroundColor: Colors.transparent,
-              body: Column(children: [
-                header ?? SizedBox(),
-                SizedBox(
-                    height: stores.appStateController.logicalHeight.value -
-                        MediaQuery.of(context).padding.top -
-                        MediaQuery.of(context).padding.bottom -
-                        MediaQuery.of(context).viewInsets.bottom -
-                        92 -
-                        32 -
-                        59 -
-                        marginTop -
-                        marginBottom -
-                        headerSize,
-                    child: widget.onRefresh != null
-                        ? CustomRefreshIndicator(
-                            offsetToArmed: _offsetToArmed,
-                            autoRebuild: false,
-                            onStateChanged: (change) {
-                              if (change.didChange(
-                                from: IndicatorState.armed,
-                                to: IndicatorState.settling,
-                              )) {
-                                print(change);
-                              }
-                              if (change.didChange(
-                                from: IndicatorState.loading,
-                              )) {
-                                print(change);
-                              }
-                              if (change.didChange(
-                                to: IndicatorState.idle,
-                              )) {
-                                print(change);
-                              }
+          onRefresh: widget.onRefresh ??
+              () async {
+                return;
+              },
+          builder: (BuildContext context, Widget child,
+              IndicatorController controller) {
+            return Stack(clipBehavior: Clip.hardEdge, children: <Widget>[
+              AnimatedBuilder(
+                  animation: controller,
+                  builder: (context, child) {
+                    return (SizedBox(
+                        height: controller.value * _offsetToArmed,
+                        child: SpinKitFadingCircle(
+                          size: 25,
+                          color: stores.colorController
+                              .customColor()
+                              .loadingSpinnerColor,
+                        )));
+                  }),
+              Container(child: child),
+            ]);
+          },
+          child: SingleChildScrollView(
+            controller: scrollController,
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.fromLTRB(paddingLeft, paddingTop, paddingRight,
+                24 + MediaQuery.of(context).padding.bottom + paddingBottom),
+            child: Column(children: children ?? []),
+          )));
+    }
+
+    Widget screenContainer() {
+      return (Padding(
+        padding: EdgeInsets.fromLTRB(
+            marginLeft, marginTop, marginRight, marginBottom),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.transparent,
+          body: Column(children: [
+            header ?? SizedBox(),
+            SizedBox(
+                height: stores.appStateController.logicalHeight.value -
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).padding.bottom -
+                    MediaQuery.of(context).viewInsets.bottom -
+                    92 -
+                    32 -
+                    59 -
+                    marginTop -
+                    marginBottom -
+                    animation.value * 242 -
+                    animation2.value * 64,
+                child: widget.onRefresh != null
+                    ? header != null
+                        ? ShaderMask(
+                            shaderCallback: (Rect rect) {
+                              return LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  stores.colorController
+                                      .customColor()
+                                      .defaultBackground1,
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                  stores.colorController
+                                      .customColor()
+                                      .defaultBackground2,
+                                ],
+                                stops: [0.0, 0.01, 0.95, 1.0],
+                              ).createShader(rect);
                             },
-                            onRefresh: widget.onRefresh ??
-                                () async {
-                                  return;
-                                },
-                            builder: (BuildContext context, Widget child,
-                                IndicatorController controller) {
-                              return Stack(
-                                  clipBehavior: Clip.hardEdge,
-                                  children: <Widget>[
-                                    AnimatedBuilder(
-                                        animation: controller,
-                                        builder: (context, child) {
-                                          return (SizedBox(
-                                              height: controller.value *
-                                                  _offsetToArmed,
-                                              child: SpinKitFadingCircle(
-                                                size: 25,
-                                                color: stores.colorController
-                                                    .customColor()
-                                                    .loadingSpinnerColor,
-                                              )));
-                                        }),
-                                    Container(child: child),
-                                  ]);
-                            },
-                            child: SingleChildScrollView(
-                              controller: scrollController,
-                              padding: EdgeInsets.fromLTRB(
-                                  paddingLeft,
-                                  paddingTop,
-                                  paddingRight,
-                                  24 +
-                                      MediaQuery.of(context).padding.bottom +
-                                      paddingBottom),
-                              child: Column(children: children ?? []),
-                            ))
-                        : SingleChildScrollView(
-                            controller: scrollController,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            padding: EdgeInsets.fromLTRB(
-                                paddingLeft,
-                                paddingTop,
-                                paddingRight,
-                                24 +
-                                    MediaQuery.of(context).padding.bottom +
-                                    paddingBottom),
-                            child: Column(children: children ?? [])))
-              ]),
-            ),
-          )),
+                            blendMode: BlendMode.dstOut,
+                            child: screenContent())
+                        : screenContent()
+                    : SingleChildScrollView(
+                        controller: scrollController,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(
+                            paddingLeft,
+                            paddingTop,
+                            paddingRight,
+                            24 +
+                                MediaQuery.of(context).padding.bottom +
+                                paddingBottom),
+                        child: Column(children: children ?? [])))
+          ]),
+        ),
+      ));
+    }
+
+    return (Stack(children: <Widget>[
+      header == null
+          ? ShaderMask(
+              shaderCallback: (Rect rect) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    stores.colorController.customColor().defaultBackground1,
+                    Colors.transparent,
+                    Colors.transparent,
+                    stores.colorController.customColor().defaultBackground2,
+                  ],
+                  stops: [0.0, 0.01, 0.95, 1.0],
+                ).createShader(rect);
+              },
+              blendMode: BlendMode.dstOut,
+              child: screenContainer())
+          : screenContainer(),
     ]));
   }
 }

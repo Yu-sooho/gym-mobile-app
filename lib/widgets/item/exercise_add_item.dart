@@ -57,7 +57,8 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     if (isOpen) {
       isOpen = false;
       isOpenPart = false;
-      _controller.reverse().whenComplete(() => widget.getHeight!(48));
+      widget.getHeight!(48);
+      _controller.reverse();
       return;
     }
     widget.getHeight!(274 - 48);
