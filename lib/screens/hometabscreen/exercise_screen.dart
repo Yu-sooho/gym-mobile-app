@@ -102,9 +102,15 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     });
   }
 
+  void onPress(Exercise item) {
+    print(item.muscleId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
+        minHeaderSize: 64,
+        maxHeaderSize: 242,
         onRefresh: onRefresh,
         scrollController: _controller,
         paddingTop: 24,
@@ -128,7 +134,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return ExerciseListItem(
-                        key: Key('$index'), item: exerciseList![index]);
+                        onPress: onPress,
+                        key: Key('$index'),
+                        item: exerciseList![index]);
                   },
                 )
               : SizedBox(),
