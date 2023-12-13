@@ -99,8 +99,6 @@ class _TabAreaViewState extends State<TabAreaView>
     final Stores stores = Get.put(Stores());
 
     if (lastHeaderSize != headerSize) {
-      print(headerSize);
-      print(widget.maxHeaderSize);
       if (headerSize <= widget.maxHeaderSize!) {
         if (lastHeaderSize > headerSize) {
           controller.reverse();

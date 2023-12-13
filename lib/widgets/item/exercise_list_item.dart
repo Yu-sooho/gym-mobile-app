@@ -39,14 +39,21 @@ class _ExerciseListItem extends State<ExerciseListItem> {
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: stores.colorController.customColor().buttonActiveText),
       child: CustomButton(
-          onPress: () => {if (widget.onPress != null) widget.onPress!(item)},
-          child: Column(children: [
-            Text(item.name),
-            Text('${muscle?.name}'),
-            SizedBox(
-              width: stores.appStateController.logicalWidth.value - 20,
-            )
-          ])),
+        onPress: () => {if (widget.onPress != null) widget.onPress!(item)},
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
+            child: Column(children: [
+              Row(
+                children: [
+                  Text(item.name),
+                ],
+              ),
+              Text('${muscle?.name}'),
+              SizedBox(
+                width: stores.appStateController.logicalWidth.value - 20,
+              )
+            ])),
+      ),
     ));
   }
 }

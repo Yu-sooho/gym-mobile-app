@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/styles/color_controller.dart';
+import 'package:gym_calendar/stores/styles/font_controller.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -10,6 +12,7 @@ class AppStateController extends GetxController {
   final storage = FlutterSecureStorage();
   final CustomColorController colorController =
       Get.put(CustomColorController());
+  final CustomFontController fontController = Get.put(CustomFontController());
 
   final view = WidgetsBinding.instance.platformDispatcher.views.first;
   final size =
@@ -76,6 +79,105 @@ class AppStateController extends GetxController {
         textColor: colorController.customColor().toastText,
         backgroundColor: colorController.customColor().toastBackground,
         fontSize: 14.0);
+  }
+
+  void showDialog(Widget child, BuildContext context,
+      {Function()? onPressOk,
+      Function()? onPressCancel,
+      bool? isHaveButton,
+      bool barrierDismissible = true}) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        child: SafeArea(
+          top: false,
+          child: Column(
+            children: [
+              isHaveButton == true
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                          CustomButton(
+                              onPress: () {
+                                Navigator.pop(context);
+                                if (onPressCancel != null) {
+                                  onPressCancel();
+                                }
+                              },
+                              child: SizedBox(
+                                height: 32,
+                                width: 48,
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '취소',
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          color: colorController
+                                              .customColor()
+                                              .defaultBackground1,
+                                          fontFamily: fontController
+                                              .customFont()
+                                              .bold14
+                                              .fontFamily,
+                                          fontWeight: fontController
+                                              .customFont()
+                                              .bold14
+                                              .fontWeight,
+                                          fontSize: fontController
+                                              .customFont()
+                                              .bold14
+                                              .fontSize),
+                                    )),
+                              )),
+                          CustomButton(
+                              onPress: () {
+                                Navigator.pop(context);
+                                if (onPressOk != null) {
+                                  onPressOk();
+                                }
+                              },
+                              child: SizedBox(
+                                height: 32,
+                                width: 48,
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '확인',
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          color: colorController
+                                              .customColor()
+                                              .defaultBackground1,
+                                          fontFamily: fontController
+                                              .customFont()
+                                              .bold14
+                                              .fontFamily,
+                                          fontWeight: fontController
+                                              .customFont()
+                                              .bold14
+                                              .fontWeight,
+                                          fontSize: fontController
+                                              .customFont()
+                                              .bold14
+                                              .fontSize),
+                                    )),
+                              ))
+                        ])
+                  : SizedBox(),
+              Expanded(child: child)
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // isGranted - 권한 동의 상태 시 true

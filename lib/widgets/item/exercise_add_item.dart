@@ -6,7 +6,8 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class ExerciseAddItem extends StatefulWidget {
   final Function(double)? getHeight;
-  ExerciseAddItem({super.key, this.getHeight});
+  final Function()? afterFunc;
+  ExerciseAddItem({super.key, this.getHeight, this.afterFunc});
 
   @override
   State<ExerciseAddItem> createState() => _ExerciseAddItem();
@@ -20,8 +21,8 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
   late AnimationController _controller;
   late TextEditingController _textController;
   var isOpen = false;
-  bool isOpenPart = false;
   String selectedPart = '';
+  String tempSelectedPart = '';
   String exerciseName = '';
 
   @override
@@ -47,16 +48,9 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     super.dispose();
   }
 
-  void selectPart(value) {
-    setState(() {
-      selectedPart = value;
-    });
-  }
-
   void onPressTitleButton() {
     if (isOpen) {
       isOpen = false;
-      isOpenPart = false;
       widget.getHeight!(48);
       _controller.reverse();
       return;
@@ -64,20 +58,6 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     widget.getHeight!(274 - 48);
     isOpen = true;
     _controller.forward();
-  }
-
-  void onPressPart() {
-    if (isOpenPart) {
-      setState(() {
-        isOpenPart = false;
-        widget.getHeight!(274 - 48);
-      });
-    } else {
-      setState(() {
-        isOpenPart = true;
-        widget.getHeight!(274 + 48);
-      });
-    }
   }
 
   onChangedTitle(String value) {
@@ -104,11 +84,26 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
         stores.appStateController.showToast(
             stores.localizationController.localiztionExerciseScreen().success);
       });
+      if (widget.afterFunc != null) {
+        widget.afterFunc!();
+      }
     } catch (error) {
       stores.appStateController.showToast(stores.localizationController
           .localiztionComponentError()
           .networkError);
     }
+  }
+
+  void onChangedItem(int index) {
+    setState(() {
+      tempSelectedPart = stores.exerciseStateController.muscles![index].name;
+    });
+  }
+
+  void onPressOk() {
+    setState(() {
+      selectedPart = tempSelectedPart;
+    });
   }
 
   @override
@@ -150,7 +145,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
           duration: const Duration(milliseconds: 250),
           child: SizedBox(
             width: stores.appStateController.logicalWidth.value,
-            height: _animation.value * (isOpenPart ? 274 : 274 - 96),
+            height: _animation.value * 178,
             child: Column(
               children: [
                 SizedBox(
@@ -172,7 +167,31 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
                   height: _animation.value * 10,
                 ),
                 CustomButton(
-                    onPress: onPressPart,
+                    onPress: () => stores.appStateController.showDialog(
+                        CupertinoPicker(
+                            magnification: 1.22,
+                            squeeze: 1.2,
+                            useMagnifier: true,
+                            itemExtent: 32,
+                            scrollController: FixedExtentScrollController(
+                                initialItem: (stores
+                                        .exerciseStateController.muscles
+                                        ?.indexWhere((element) =>
+                                            element.name == selectedPart) ??
+                                    0)),
+                            onSelectedItemChanged: onChangedItem,
+                            children: List<Widget>.generate(
+                                stores.exerciseStateController.muscles
+                                        ?.length ??
+                                    0, (int index) {
+                              return Center(
+                                  child: Center(
+                                      child: Text(
+                                          '${stores.exerciseStateController.muscles?[index].name}')));
+                            })),
+                        context,
+                        isHaveButton: true,
+                        onPressOk: onPressOk),
                     child: Padding(
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: SizedBox(
@@ -195,45 +214,6 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
                                 )
                               ],
                             )))),
-                isOpenPart
-                    ? Padding(
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Container(
-                            height: 96,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: stores.colorController
-                                        .customColor()
-                                        .defaultBackground1
-                                        .withOpacity(0.3),
-                                    blurRadius: 5.0,
-                                    spreadRadius: 0.0,
-                                    offset: const Offset(0, 7),
-                                  )
-                                ]),
-                            child: CupertinoPicker.builder(
-                                itemExtent: 32,
-                                childCount: stores
-                                    .exerciseStateController.muscles?.length,
-                                onSelectedItemChanged: (index) {
-                                  selectPart(stores.exerciseStateController
-                                      .muscles?[index].name);
-                                },
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                      height: 32,
-                                      child: Align(
-                                          child: Text(
-                                        '${stores.exerciseStateController.muscles?[index].name}',
-                                        style: stores.fontController
-                                            .customFont()
-                                            .bold18,
-                                      )));
-                                })))
-                    : SizedBox(),
                 Expanded(
                     flex: 3,
                     child: SizedBox(

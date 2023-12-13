@@ -6,6 +6,7 @@ class ExerciseScreenTextKr {
   String addExercise = '운동 추가';
   String add = '추가';
   String success = '운동이 추가되었습니다.';
+  String latestSort = '최신순';
 }
 
 class ExerciseScreenTextEn {
@@ -16,4 +17,5 @@ class ExerciseScreenTextEn {
   String addExercise = 'Add Exercise';
   String add = 'Add';
   String success = '운동이 추가되었습니다.';
+  String latestSort = '최신순';
 }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
@@ -25,10 +26,22 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   double headerHeight = 48 + 16;
   bool exerciseLoading = false;
 
+  double sortBarHeight = 40;
+
+  int selectedSort = 0;
+  int tempSelectedSort = 0;
+  double itemExtent = 32.0;
+  late List<String> sortMethod = [
+    stores.localizationController.localiztionExerciseScreen().latestSort
+  ];
+
   void getMuscleList() async {
     if (stores.exerciseStateController.muscles == null) {
       await networkProviders.exerciseProvider.getMuscleList();
     }
+    stores.exerciseStateController.muscles?.forEach((element) {
+      sortMethod.add(element.name);
+    });
   }
 
   void getExerciseList() async {
@@ -36,8 +49,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     setState(() {
       exerciseLoading = true;
     });
-    final result = await networkProviders.exerciseProvider
-        .getExerciseList(startAfter: startAfter, limit: limit);
+    var muscleId = selectedSort != 0 ? selectedSort - 1 : null;
+    final result = await networkProviders.exerciseProvider.getExerciseList(
+        startAfter: startAfter, limit: limit, muscleId: muscleId);
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
         setState(() {
@@ -49,19 +63,43 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         exerciseLoading = false;
         startAfter = result.lastDoc;
         if (exerciseList != null) {
-          exerciseList?.addAll(result.list);
-        } else {
-          exerciseList = result.list;
+          setState(() {
+            exerciseList?.addAll(result.list);
+          });
+        } else if (result.list.isNotEmpty) {
+          setState(() {
+            exerciseList = result.list;
+          });
+        }
+      });
+    }
+  }
+
+  void afterAdd() async {
+    setState(() {
+      exerciseLoading = true;
+    });
+    final result =
+        await networkProviders.exerciseProvider.getExerciseList(limit: 1);
+    setState(() {
+      exerciseLoading = false;
+    });
+    if (result.list.isNotEmpty) {
+      setState(() {
+        if (exerciseList != null) {
+          exerciseList?.insertAll(0, result.list);
         }
       });
     }
   }
 
   Future onRefresh() async {
-    startAfter = null;
-    exerciseList = null;
-    endExerciseList = false;
-    getMuscleList();
+    setState(() {
+      startAfter = null;
+      exerciseList = null;
+      endExerciseList = false;
+      exerciseLoading = false;
+    });
     getExerciseList();
   }
 
@@ -98,7 +136,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   void getHeight(double height) {
     setState(() {
-      headerHeight = height + 16;
+      headerHeight = height + 16 + 32;
     });
   }
 
@@ -106,50 +144,97 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     print(item.muscleId);
   }
 
+  void onChangedSortMethod(int selectedItem) async {
+    setState(() {
+      tempSelectedSort = selectedItem;
+    });
+  }
+
+  void onPressSortMethodOk() async {
+    setState(() {
+      selectedSort = tempSelectedSort;
+      startAfter = null;
+      exerciseList = null;
+      endExerciseList = false;
+      exerciseLoading = false;
+    });
+    getExerciseList();
+  }
+
+  Widget sortBar(BuildContext context) {
+    return (Container(
+        height: sortBarHeight,
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
+          child: CustomButton(
+              onPress: () => stores.appStateController.showDialog(
+                    CupertinoPicker(
+                      magnification: 1.22,
+                      squeeze: 1.2,
+                      useMagnifier: true,
+                      itemExtent: itemExtent,
+                      scrollController: FixedExtentScrollController(
+                        initialItem: selectedSort,
+                      ),
+                      onSelectedItemChanged: onChangedSortMethod,
+                      children:
+                          List<Widget>.generate(sortMethod.length, (int index) {
+                        return Center(child: Text(sortMethod[index]));
+                      }),
+                    ),
+                    context,
+                    isHaveButton: true,
+                    onPressOk: onPressSortMethodOk,
+                  ),
+              highlightColor: Colors.transparent,
+              child: Container(
+                  height: 24,
+                  width: 72,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    sortMethod[selectedSort],
+                    style: stores.fontController.customFont().medium12,
+                  ))),
+        )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
-        minHeaderSize: 64,
-        maxHeaderSize: 242,
+        minHeaderSize: 64 + sortBarHeight,
+        maxHeaderSize: 242 + sortBarHeight,
         onRefresh: onRefresh,
         scrollController: _controller,
-        paddingTop: 24,
-        header: Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: ExerciseAddItem(
-              key: _containerkey,
-              getHeight: getHeight,
-            )),
+        paddingTop: 12,
+        header: Column(children: [
+          Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: ExerciseAddItem(
+                key: _containerkey,
+                afterFunc: afterAdd,
+                getHeight: getHeight,
+              )),
+          sortBar(context)
+        ]),
         headerSize: headerHeight,
         children: [
-          exerciseList != null
-              ? ListView.separated(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: exerciseList?.length ?? 0,
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(
-                    height: 20,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ExerciseListItem(
-                        onPress: onPress,
-                        key: Key('$index'),
-                        item: exerciseList![index]);
-                  },
-                )
-              : SizedBox(),
-          // exerciseLoading
-          //     ? SizedBox(
-          //         child: SpinKitFadingCircle(
-          //           size: 25,
-          //           color: stores.colorController
-          //               .customColor()
-          //               .loadingSpinnerColor,
-          //         ),
-          //       )
-          //     : SizedBox(),
+          ListView.separated(
+            primary: false,
+            shrinkWrap: true,
+            itemCount: exerciseList?.length ?? 0,
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+            separatorBuilder: (BuildContext context, int index) =>
+                const SizedBox(
+              height: 20,
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return ExerciseListItem(
+                  onPress: onPress,
+                  key: Key('$index'),
+                  item: exerciseList![index]);
+            },
+          )
         ]));
   }
 }

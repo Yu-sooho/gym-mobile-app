@@ -34,11 +34,14 @@ class ExerciseProvider {
   }
 
   Future<ExerciseList> getExerciseList(
-      {DocumentSnapshot<Object?>? startAfter, int? limit}) async {
+      {DocumentSnapshot<Object?>? startAfter,
+      int? limit,
+      int? muscleId}) async {
     String uid = stores.firebaseAuthController.uid!.value;
     Query query = firestore
         .collection('user_exercise')
         .where('uid', isEqualTo: uid)
+        .where('muscleId', isEqualTo: muscleId)
         .orderBy('createdAt', descending: true)
         .limit(limit ?? 4);
 
@@ -46,6 +49,7 @@ class ExerciseProvider {
       query = firestore
           .collection('user_exercise')
           .where('uid', isEqualTo: uid)
+          .where('muscleId', isEqualTo: muscleId)
           .orderBy('createdAt', descending: true)
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
@@ -54,8 +58,8 @@ class ExerciseProvider {
     List<Exercise> list = [];
     final res = await stores.firebaseFirestoreController
         .getCollectionData(query: query);
+    final last = res.docs.lastOrNull;
     for (var element in res.docs) {
-      print(element.data());
       final uid = element.get('uid');
       final name = element.get('name');
       final muscleId = element.get('muscleId');
@@ -65,8 +69,7 @@ class ExerciseProvider {
       list.add(exercise);
     }
 
-    return ExerciseList(
-        list: list, lastDoc: res.docs.last, length: res.docs.length);
+    return ExerciseList(list: list, lastDoc: last, length: res.docs.length);
   }
 
   Future postCustomExercise(Map<String, dynamic> data) async {
