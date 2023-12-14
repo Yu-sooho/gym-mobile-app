@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/exercise_models.dart';
@@ -12,7 +10,7 @@ class ExerciseProvider {
   Future<bool> getMuscleList() async {
     try {
       final collectionName = stores.localizationController.language.value == 1
-          ? 'muscles'
+          ? 'muscles_kr'
           : 'muscles';
 
       final res = await stores.firebaseFirestoreController

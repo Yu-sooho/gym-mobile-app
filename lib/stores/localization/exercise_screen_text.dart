@@ -9,6 +9,7 @@ class ExerciseScreenTextKr {
   String latestSort = '최신순';
   String alreadyPart = '이미 추가된 부위 입니다.';
   String maxPart = '부위는 최대 10개까지 가능합니다.';
+  String noExercise = '운동이 없습니다.';
 }
 
 class ExerciseScreenTextEn {
@@ -22,4 +23,5 @@ class ExerciseScreenTextEn {
   String latestSort = '최신순';
   String alreadyPart = '이미 추가된 부위 입니다.';
   String maxPart = '부위는 최대 10개까지 가능합니다.';
+  String noExercise = '운동이 없습니다.';
 }

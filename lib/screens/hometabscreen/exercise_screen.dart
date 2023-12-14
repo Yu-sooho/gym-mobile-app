@@ -52,15 +52,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     var musclesId = selectedSort != 0 ? selectedSort - 1 : null;
     final result = await networkProviders.exerciseProvider.getExerciseList(
         startAfter: startAfter, limit: limit, musclesId: musclesId);
+    setState(() {
+      exerciseLoading = false;
+    });
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
         setState(() {
           endExerciseList = true;
-          exerciseLoading = false;
         });
       }
       setState(() {
-        exerciseLoading = false;
         startAfter = result.lastDoc;
         if (exerciseList != null) {
           setState(() {
@@ -217,22 +218,33 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         ]),
         headerSize: headerHeight,
         children: [
-          ListView.separated(
-            primary: false,
-            shrinkWrap: true,
-            itemCount: exerciseList?.length ?? 0,
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-            separatorBuilder: (BuildContext context, int index) =>
-                const SizedBox(
-              height: 20,
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return ExerciseListItem(
-                  onPress: onPress,
-                  key: Key('$index'),
-                  item: exerciseList![index]);
-            },
-          )
+          exerciseList == null && exerciseLoading == false
+              ? SizedBox(
+                  height: 120,
+                  child: Align(
+                      child: Text(
+                    stores.localizationController
+                        .localiztionExerciseScreen()
+                        .noExercise,
+                    style: stores.fontController.customFont().medium12,
+                  )),
+                )
+              : ListView.separated(
+                  primary: false,
+                  shrinkWrap: true,
+                  itemCount: exerciseList?.length ?? 0,
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: 20,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return ExerciseListItem(
+                        onPress: onPress,
+                        key: Key('$index'),
+                        item: exerciseList![index]);
+                  },
+                )
         ]));
   }
 }
