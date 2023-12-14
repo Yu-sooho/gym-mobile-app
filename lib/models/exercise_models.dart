@@ -10,12 +10,12 @@ class Muscles {
 class Exercise {
   String uid;
   String name;
-  int muscleId;
+  List<dynamic> musclesId;
   Timestamp createdAt;
   Exercise(
       {required this.uid,
       required this.name,
-      required this.muscleId,
+      required this.musclesId,
       required this.createdAt});
 }
 

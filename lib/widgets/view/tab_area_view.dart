@@ -164,14 +164,14 @@ class _TabAreaViewState extends State<TabAreaView>
           )));
     }
 
-    num changeHeader() {
-      if (widget.headerSize != null &&
-          widget.maxHeaderSize != null &&
-          widget.headerSize! > widget.maxHeaderSize!) {
-        return widget.headerSize! - widget.maxHeaderSize!;
-      }
-      return 0;
-    }
+    // num changeHeader() {
+    //   if (widget.headerSize != null &&
+    //       widget.maxHeaderSize != null &&
+    //       widget.headerSize! > widget.maxHeaderSize!) {
+    //     return widget.headerSize! - widget.maxHeaderSize!;
+    //   }
+    //   return 0;
+    // }
 
     Widget screenContainer() {
       return (Padding(
@@ -192,9 +192,11 @@ class _TabAreaViewState extends State<TabAreaView>
                     59 -
                     marginTop -
                     marginBottom -
-                    changeHeader() -
                     (animation.value * (widget.maxHeaderSize ?? 0)) -
-                    (animation2.value * (widget.minHeaderSize ?? 0)),
+                    (animation2.value * (widget.minHeaderSize ?? 0)) -
+                    (headerSize > (widget.maxHeaderSize ?? 0)
+                        ? headerSize - (widget.maxHeaderSize ?? 0)
+                        : 0),
                 child: widget.onRefresh != null
                     ? header != null
                         ? ShaderMask(

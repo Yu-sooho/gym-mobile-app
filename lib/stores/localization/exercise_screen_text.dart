@@ -7,6 +7,8 @@ class ExerciseScreenTextKr {
   String add = '추가';
   String success = '운동이 추가되었습니다.';
   String latestSort = '최신순';
+  String alreadyPart = '이미 추가된 부위 입니다.';
+  String maxPart = '부위는 최대 10개까지 가능합니다.';
 }
 
 class ExerciseScreenTextEn {
@@ -18,4 +20,6 @@ class ExerciseScreenTextEn {
   String add = 'Add';
   String success = '운동이 추가되었습니다.';
   String latestSort = '최신순';
+  String alreadyPart = '이미 추가된 부위 입니다.';
+  String maxPart = '부위는 최대 10개까지 가능합니다.';
 }

@@ -36,12 +36,12 @@ class ExerciseProvider {
   Future<ExerciseList> getExerciseList(
       {DocumentSnapshot<Object?>? startAfter,
       int? limit,
-      int? muscleId}) async {
+      int? musclesId}) async {
     String uid = stores.firebaseAuthController.uid!.value;
     Query query = firestore
         .collection('user_exercise')
         .where('uid', isEqualTo: uid)
-        .where('muscleId', isEqualTo: muscleId)
+        .where('musclesId', arrayContains: musclesId)
         .orderBy('createdAt', descending: true)
         .limit(limit ?? 4);
 
@@ -49,7 +49,7 @@ class ExerciseProvider {
       query = firestore
           .collection('user_exercise')
           .where('uid', isEqualTo: uid)
-          .where('muscleId', isEqualTo: muscleId)
+          .where('musclesId', arrayContains: musclesId)
           .orderBy('createdAt', descending: true)
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
@@ -62,10 +62,10 @@ class ExerciseProvider {
     for (var element in res.docs) {
       final uid = element.get('uid');
       final name = element.get('name');
-      final muscleId = element.get('muscleId');
+      final musclesId = element.get('musclesId');
       final createdAt = element.get('createdAt');
       final exercise = Exercise(
-          uid: uid, name: name, muscleId: muscleId, createdAt: createdAt);
+          uid: uid, name: name, musclesId: musclesId, createdAt: createdAt);
       list.add(exercise);
     }
 

@@ -49,9 +49,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     setState(() {
       exerciseLoading = true;
     });
-    var muscleId = selectedSort != 0 ? selectedSort - 1 : null;
+    var musclesId = selectedSort != 0 ? selectedSort - 1 : null;
     final result = await networkProviders.exerciseProvider.getExerciseList(
-        startAfter: startAfter, limit: limit, muscleId: muscleId);
+        startAfter: startAfter, limit: limit, musclesId: musclesId);
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
         setState(() {
@@ -140,9 +140,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     });
   }
 
-  void onPress(Exercise item) {
-    print(item.muscleId);
-  }
+  void onPress(Exercise item) {}
 
   void onChangedSortMethod(int selectedItem) async {
     setState(() {

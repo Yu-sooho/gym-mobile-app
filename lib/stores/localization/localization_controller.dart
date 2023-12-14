@@ -202,6 +202,8 @@ class ExerciseScreenText {
 
   final String success;
   final String latestSort;
+  final String alreadyPart;
+  final String maxPart;
 
   ExerciseScreenText(
       {required this.inputTitle,
@@ -211,7 +213,9 @@ class ExerciseScreenText {
       required this.addExercise,
       required this.add,
       required this.success,
-      required this.latestSort});
+      required this.latestSort,
+      required this.alreadyPart,
+      required this.maxPart});
 }
 
 class LocalizationController extends GetxController {
@@ -476,7 +480,9 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseScreenTextEn().addExercise,
           add: ExerciseScreenTextEn().add,
           success: ExerciseScreenTextEn().success,
-          latestSort: ExerciseScreenTextEn().latestSort);
+          latestSort: ExerciseScreenTextEn().latestSort,
+          alreadyPart: ExerciseScreenTextEn().alreadyPart,
+          maxPart: ExerciseScreenTextEn().maxPart);
       return exerciseScreenText;
     } else {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
@@ -487,7 +493,9 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseScreenTextKr().addExercise,
           add: ExerciseScreenTextKr().add,
           success: ExerciseScreenTextKr().success,
-          latestSort: ExerciseScreenTextKr().latestSort);
+          latestSort: ExerciseScreenTextKr().latestSort,
+          alreadyPart: ExerciseScreenTextKr().alreadyPart,
+          maxPart: ExerciseScreenTextKr().maxPart);
       return exerciseScreenText;
     }
   }

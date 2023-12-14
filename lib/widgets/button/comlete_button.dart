@@ -6,11 +6,13 @@ class CompleteButton extends StatefulWidget {
   final String title;
   final bool disabled;
   final Function()? onPress;
+  final Animation<double>? animation;
   CompleteButton({
     super.key,
     required this.title,
     required this.onPress,
     this.disabled = false,
+    this.animation,
   });
 
   @override
@@ -24,7 +26,8 @@ class _CompleteButton extends State<CompleteButton> {
     return (CustomButton(
         onPress: widget.disabled ? () {} : widget.onPress,
         child: (Container(
-            height: 48,
+            height:
+                (widget.animation != null ? widget.animation!.value : 1) * 48,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 color: widget.disabled

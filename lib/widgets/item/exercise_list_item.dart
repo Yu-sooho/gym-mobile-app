@@ -18,8 +18,8 @@ class _ExerciseListItem extends State<ExerciseListItem> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
-    final Muscles? muscle = stores.exerciseStateController.muscles
-        ?.firstWhere((element) => element.id == item.muscleId);
+    // final Muscles? muscle = stores.exerciseStateController.muscles
+    //     ?.firstWhere((element) => element.id == item.muscleId);
 
     return (Container(
       height: 100,
@@ -48,7 +48,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                   Text(item.name),
                 ],
               ),
-              Text('${muscle?.name}'),
+              // Text('${muscle?.name}'),
               SizedBox(
                 width: stores.appStateController.logicalWidth.value - 20,
               )

@@ -21,17 +21,14 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
   late AnimationController _controller;
   late TextEditingController _textController;
   var isOpen = false;
-  String selectedPart = '';
-  String tempSelectedPart = '';
+  List<int> selectedPart = [];
+  int? tempSelectedPart;
   String exerciseName = '';
 
   @override
   void initState() {
     super.initState();
     _textController = TextEditingController(text: '');
-    selectedPart = stores.localizationController
-        .localiztionExerciseScreen()
-        .partPlaceholder;
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));
     _animation =
@@ -43,13 +40,13 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
 
   @override
   void dispose() {
-    selectedPart = '';
     _controller.dispose();
     super.dispose();
   }
 
   void onPressTitleButton() {
     if (isOpen) {
+      selectedPart = [];
       isOpen = false;
       widget.getHeight!(48);
       _controller.reverse();
@@ -69,18 +66,15 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
   void onPressAdd() async {
     try {
       stores.appStateController.setIsLoading(true, context);
-      final muscle = stores.exerciseStateController.muscles
-          ?.firstWhere((element) => element.name == selectedPart);
-      await networkProviders.exerciseProvider
-          .postCustomExercise({'name': exerciseName, 'muscleId': muscle?.id});
+      await networkProviders.exerciseProvider.postCustomExercise(
+          {'name': exerciseName, 'musclesId': selectedPart});
       if (!context.mounted) return;
       stores.appStateController.setIsLoading(false, context);
       setState(() {
+        selectedPart = [];
+        tempSelectedPart = null;
         _textController.text = '';
         exerciseName = '';
-        selectedPart = stores.localizationController
-            .localiztionExerciseScreen()
-            .partPlaceholder;
         stores.appStateController.showToast(
             stores.localizationController.localiztionExerciseScreen().success);
       });
@@ -96,14 +90,43 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
 
   void onChangedItem(int index) {
     setState(() {
-      tempSelectedPart = stores.exerciseStateController.muscles![index].name;
+      tempSelectedPart = stores.exerciseStateController.muscles![index].id;
     });
   }
 
   void onPressOk() {
-    setState(() {
-      selectedPart = tempSelectedPart;
-    });
+    final findSelected =
+        selectedPart.where((element) => element == tempSelectedPart);
+    if (findSelected.isNotEmpty) {
+      setState(() {
+        tempSelectedPart = null;
+      });
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionExerciseScreen()
+          .alreadyPart);
+      return;
+    }
+
+    if (selectedPart.length >= 10) {
+      stores.appStateController.showToast(
+          stores.localizationController.localiztionExerciseScreen().maxPart);
+      return;
+    }
+    if (tempSelectedPart != null) {
+      selectedPart.add(tempSelectedPart!);
+      widget.getHeight!(274 - 48 + selectedPart.length * 32);
+      setState(() {
+        tempSelectedPart = null;
+      });
+    }
+  }
+
+  void onPressCancel() {
+    if (tempSelectedPart != null) {
+      setState(() {
+        tempSelectedPart = null;
+      });
+    }
   }
 
   @override
@@ -145,94 +168,115 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
           duration: const Duration(milliseconds: 250),
           child: SizedBox(
             width: stores.appStateController.logicalWidth.value,
-            height: _animation.value * 178,
-            child: Column(
-              children: [
-                SizedBox(
-                    height: _animation.value * 52,
-                    child: customTextInput(
-                        controller: _textController,
-                        maxLength: 20,
-                        counterText: '',
-                        context,
-                        placeholder: stores.localizationController
-                            .localiztionExerciseScreen()
-                            .inputTitlePlaceholder,
-                        title: stores.localizationController
-                            .localiztionExerciseScreen()
-                            .inputTitle,
-                        onChangedTitle,
-                        isAnimated: true)),
-                SizedBox(
-                  height: _animation.value * 10,
-                ),
-                CustomButton(
-                    onPress: () => stores.appStateController.showDialog(
-                        CupertinoPicker(
-                            magnification: 1.22,
-                            squeeze: 1.2,
-                            useMagnifier: true,
-                            itemExtent: 32,
-                            scrollController: FixedExtentScrollController(
-                                initialItem: (stores
-                                        .exerciseStateController.muscles
-                                        ?.indexWhere((element) =>
-                                            element.name == selectedPart) ??
-                                    0)),
-                            onSelectedItemChanged: onChangedItem,
-                            children: List<Widget>.generate(
-                                stores.exerciseStateController.muscles
-                                        ?.length ??
-                                    0, (int index) {
-                              return Center(
-                                  child: Center(
-                                      child: Text(
-                                          '${stores.exerciseStateController.muscles?[index].name}')));
-                            })),
-                        context,
-                        isHaveButton: true,
-                        onPressOk: onPressOk),
-                    child: Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: SizedBox(
-                            height: _animation.value * 48,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  stores.localizationController
-                                      .localiztionExerciseScreen()
-                                      .partName,
-                                  style:
-                                      stores.fontController.customFont().bold12,
-                                ),
-                                Text(
-                                  selectedPart,
-                                  style:
-                                      stores.fontController.customFont().bold12,
-                                )
-                              ],
-                            )))),
-                Expanded(
-                    flex: 3,
-                    child: SizedBox(
-                      height: 16,
-                    )),
-                Expanded(
-                    flex: 8,
-                    child: CompleteButton(
-                        onPress: onPressAdd,
-                        disabled: exerciseName.isEmpty ||
-                            selectedPart ==
+            height: _animation.value * (166 + selectedPart.length * 32),
+            child: Column(children: [
+              SizedBox(
+                  height: _animation.value * 52,
+                  child: customTextInput(
+                      controller: _textController,
+                      maxLength: 20,
+                      counterText: '',
+                      context,
+                      placeholder: stores.localizationController
+                          .localiztionExerciseScreen()
+                          .inputTitlePlaceholder,
+                      title: stores.localizationController
+                          .localiztionExerciseScreen()
+                          .inputTitle,
+                      onChangedTitle,
+                      isAnimated: true)),
+              SizedBox(
+                height: _animation.value * 10,
+              ),
+              CustomButton(
+                  onPress: () => {
+                        setState(() {
+                          tempSelectedPart = 0;
+                        }),
+                        stores.appStateController.showDialog(
+                            CupertinoPicker(
+                                magnification: 1.22,
+                                squeeze: 1.2,
+                                useMagnifier: true,
+                                itemExtent: 32,
+                                onSelectedItemChanged: onChangedItem,
+                                children: List<Widget>.generate(
+                                    stores.exerciseStateController.muscles
+                                            ?.length ??
+                                        0, (int index) {
+                                  return Center(
+                                      child: Center(
+                                          child: Text(
+                                              '${stores.exerciseStateController.muscles?[index].name}')));
+                                })),
+                            context,
+                            isHaveButton: true,
+                            barrierDismissible: false,
+                            onPressOk: onPressOk,
+                            onPressCancel: onPressCancel)
+                      },
+                  child: Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: SizedBox(
+                          height: _animation.value * 48,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
                                 stores.localizationController
                                     .localiztionExerciseScreen()
-                                    .partPlaceholder,
-                        title: stores.localizationController
-                            .localiztionExerciseScreen()
-                            .add))
-              ],
-            ),
+                                    .partName,
+                                style:
+                                    stores.fontController.customFont().bold12,
+                              ),
+                              Text(
+                                (tempSelectedPart != null &&
+                                        stores.exerciseStateController
+                                                .muscles !=
+                                            null)
+                                    ? stores.exerciseStateController
+                                        .muscles![tempSelectedPart!].name
+                                    : stores.localizationController
+                                        .localiztionExerciseScreen()
+                                        .partPlaceholder,
+                                style:
+                                    stores.fontController.customFont().bold12,
+                              )
+                            ],
+                          )))),
+              SizedBox(
+                  height: _animation.value * selectedPart.length * 32,
+                  child: ListView.builder(
+                    primary: false,
+                    shrinkWrap: true,
+                    itemCount: selectedPart.length,
+                    itemExtent: 32,
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                    itemBuilder: (BuildContext context, int index) {
+                      return (SizedBox(
+                        height: 32,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('${selectedPart[index]}'),
+                              CustomButton(child: Text('123'))
+                            ]),
+                      ));
+                    },
+                  )),
+              SizedBox(
+                  height: _animation.value * 56,
+                  child: Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: CompleteButton(
+                          onPress: onPressAdd,
+                          disabled:
+                              exerciseName.isEmpty || selectedPart.isEmpty,
+                          title: stores.localizationController
+                              .localiztionExerciseScreen()
+                              .add)))
+            ]),
           )),
     ]);
   }
