@@ -112,6 +112,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
           stores.localizationController.localiztionExerciseScreen().maxPart);
       return;
     }
+
     if (tempSelectedPart != null) {
       selectedPart.add(tempSelectedPart!);
       widget.getHeight!(274 - 48 + selectedPart.length * 32);
@@ -129,6 +130,12 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     }
   }
 
+  void onPressDelete(int selectedItem) {
+    setState(() {
+      selectedPart.remove(selectedItem);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -138,7 +145,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
           height: 48,
           width: stores.appStateController.logicalWidth.value,
           child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
               child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,7 +223,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
                             onPressCancel: onPressCancel)
                       },
                   child: Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: SizedBox(
                           height: _animation.value * 48,
                           child: Row(
@@ -252,17 +259,26 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
                     shrinkWrap: true,
                     itemCount: selectedPart.length,
                     itemExtent: 32,
-                    padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     itemBuilder: (BuildContext context, int index) {
-                      return (SizedBox(
-                        height: 32,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('${selectedPart[index]}'),
-                              CustomButton(child: Text('123'))
-                            ]),
-                      ));
+                      final String? name = stores
+                          .exerciseStateController.muscles
+                          ?.firstWhere(
+                              (element) => element.id == selectedPart[index])
+                          .name;
+                      return (partListItem(
+                          context,
+                          selectedPart[index],
+                          onPressDelete,
+                          Icon(
+                            CupertinoIcons.clear,
+                            color: stores.colorController
+                                .customColor()
+                                .bottomTabBarActiveItem,
+                            size: 16,
+                          ),
+                          name ?? '',
+                          stores.fontController.customFont().medium12));
                     },
                   )),
               SizedBox(
@@ -280,4 +296,26 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
           )),
     ]);
   }
+}
+
+Widget partListItem(BuildContext context, int selectedItem,
+    Function(int) onPress, Widget icon, String title, TextStyle style) {
+  return (SizedBox(
+    height: 32,
+    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text(
+        title,
+        style: style,
+      ),
+      CustomButton(
+          onPress: () => {onPress(selectedItem)},
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: SizedBox(
+            height: 32,
+            width: 64,
+            child: Align(alignment: Alignment.centerRight, child: icon),
+          ))
+    ]),
+  ));
 }
