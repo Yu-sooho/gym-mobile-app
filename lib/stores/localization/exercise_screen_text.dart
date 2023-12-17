@@ -10,6 +10,8 @@ class ExerciseScreenTextKr {
   String alreadyPart = '이미 추가된 부위 입니다.';
   String maxPart = '부위는 최대 10개까지 가능합니다.';
   String noExercise = '운동이 없습니다.';
+  String successDelete = '삭제되었습니다.';
+  String errorDelete = '이미 삭제된 운동입니다.';
 }
 
 class ExerciseScreenTextEn {
@@ -24,4 +26,6 @@ class ExerciseScreenTextEn {
   String alreadyPart = '이미 추가된 부위 입니다.';
   String maxPart = '부위는 최대 10개까지 가능합니다.';
   String noExercise = '운동이 없습니다.';
+  String successDelete = '삭제되었습니다.';
+  String errorDelete = '이미 삭제된 운동입니다.';
 }

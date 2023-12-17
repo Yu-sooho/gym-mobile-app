@@ -164,15 +164,6 @@ class _TabAreaViewState extends State<TabAreaView>
           )));
     }
 
-    // num changeHeader() {
-    //   if (widget.headerSize != null &&
-    //       widget.maxHeaderSize != null &&
-    //       widget.headerSize! > widget.maxHeaderSize!) {
-    //     return widget.headerSize! - widget.maxHeaderSize!;
-    //   }
-    //   return 0;
-    // }
-
     Widget screenContainer() {
       return (Padding(
         padding: EdgeInsets.fromLTRB(

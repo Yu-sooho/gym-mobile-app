@@ -58,12 +58,17 @@ class ExerciseProvider {
         .getCollectionData(query: query);
     final last = res.docs.lastOrNull;
     for (var element in res.docs) {
+      final id = element.id;
       final uid = element.get('uid');
       final name = element.get('name');
       final musclesId = element.get('musclesId');
       final createdAt = element.get('createdAt');
       final exercise = Exercise(
-          uid: uid, name: name, musclesId: musclesId, createdAt: createdAt);
+          id: id,
+          uid: uid,
+          name: name,
+          musclesId: musclesId,
+          createdAt: createdAt);
       list.add(exercise);
     }
 
@@ -76,6 +81,17 @@ class ExerciseProvider {
       data['createdAt'] = Timestamp.now();
       await stores.firebaseFirestoreController
           .postCollectionDataSet(collectionName: 'user_exercise', obj: data);
+      return true;
+    } catch (error) {
+      print('ExerciseProvider postCustomExercise error: $error');
+      rethrow;
+    }
+  }
+
+  Future deleteCustomExercise(String docName) async {
+    try {
+      await stores.firebaseFirestoreController.deleteCollectionDataSet(
+          collectionName: 'user_exercise', docName: docName);
       return true;
     } catch (error) {
       print('ExerciseProvider postCustomExercise error: $error');

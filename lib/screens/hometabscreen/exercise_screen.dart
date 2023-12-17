@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
@@ -25,9 +26,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   int limit = 10;
   double headerHeight = 48 + 16;
   bool exerciseLoading = false;
-
+  bool isRefresh = false;
   double sortBarHeight = 40;
-
   int selectedSort = 0;
   int tempSelectedSort = 0;
   double itemExtent = 32.0;
@@ -44,8 +44,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     });
   }
 
-  void getExerciseList() async {
-    if (endExerciseList || exerciseLoading) return;
+  Future<bool> getExerciseList() async {
+    if (endExerciseList || exerciseLoading) return false;
     setState(() {
       exerciseLoading = true;
     });
@@ -74,6 +74,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         }
       });
     }
+    return true;
   }
 
   void afterAdd() async {
@@ -94,14 +95,39 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     }
   }
 
+  Future onPressDelete(BuildContext context, Exercise exercise) async {
+    setState(() {
+      exerciseLoading = true;
+    });
+    final result = await networkProviders.exerciseProvider
+        .deleteCustomExercise(exercise.id);
+    if (result) {
+      exerciseList?.remove(exercise);
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionExerciseScreen()
+          .successDelete);
+    } else {
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionExerciseScreen()
+          .errorDelete);
+    }
+    setState(() {
+      exerciseLoading = false;
+    });
+  }
+
   Future onRefresh() async {
     setState(() {
+      isRefresh = true;
       startAfter = null;
       exerciseList = null;
       endExerciseList = false;
       exerciseLoading = false;
     });
-    getExerciseList();
+    await getExerciseList();
+    setState(() {
+      isRefresh = false;
+    });
   }
 
   @override
@@ -144,9 +170,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   void onPress(Exercise item) {}
 
   void onChangedSortMethod(int selectedItem) async {
-    setState(() {
-      tempSelectedSort = selectedItem;
-    });
+    tempSelectedSort = selectedItem;
   }
 
   void onPressSortMethodOk() async {
@@ -229,22 +253,36 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     style: stores.fontController.customFont().medium12,
                   )),
                 )
-              : ListView.separated(
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: exerciseList?.length ?? 0,
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(
-                    height: 20,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ExerciseListItem(
-                        onPress: onPress,
-                        key: Key('$index'),
-                        item: exerciseList![index]);
-                  },
-                )
+              : exerciseList == null && exerciseLoading == true && !isRefresh
+                  ? SizedBox(
+                      height: 120,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SpinKitFadingCircle(
+                          size: 24,
+                          color: stores.colorController
+                              .customColor()
+                              .loadingSpinnerColor,
+                        ),
+                      ),
+                    )
+                  : ListView.separated(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: exerciseList?.length ?? 0,
+                      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const SizedBox(
+                        height: 20,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ExerciseListItem(
+                            onPress: onPress,
+                            onPressDelete: onPressDelete,
+                            key: Key('$index'),
+                            item: exerciseList![index]);
+                      },
+                    )
         ]));
   }
 }

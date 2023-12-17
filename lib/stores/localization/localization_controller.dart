@@ -206,18 +206,24 @@ class ExerciseScreenText {
   final String noExercise;
   final String maxPart;
 
-  ExerciseScreenText(
-      {required this.inputTitle,
-      required this.inputTitlePlaceholder,
-      required this.partPlaceholder,
-      required this.partName,
-      required this.addExercise,
-      required this.add,
-      required this.success,
-      required this.latestSort,
-      required this.alreadyPart,
-      required this.noExercise,
-      required this.maxPart});
+  final String errorDelete;
+  final String successDelete;
+
+  ExerciseScreenText({
+    required this.inputTitle,
+    required this.inputTitlePlaceholder,
+    required this.partPlaceholder,
+    required this.partName,
+    required this.addExercise,
+    required this.add,
+    required this.success,
+    required this.latestSort,
+    required this.alreadyPart,
+    required this.noExercise,
+    required this.maxPart,
+    required this.errorDelete,
+    required this.successDelete,
+  });
 }
 
 class LocalizationController extends GetxController {
@@ -485,7 +491,9 @@ class LocalizationController extends GetxController {
           latestSort: ExerciseScreenTextEn().latestSort,
           alreadyPart: ExerciseScreenTextEn().alreadyPart,
           noExercise: ExerciseScreenTextKr().noExercise,
-          maxPart: ExerciseScreenTextEn().maxPart);
+          maxPart: ExerciseScreenTextEn().maxPart,
+          errorDelete: ExerciseScreenTextEn().errorDelete,
+          successDelete: ExerciseScreenTextEn().successDelete);
       return exerciseScreenText;
     } else {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
@@ -499,7 +507,9 @@ class LocalizationController extends GetxController {
           latestSort: ExerciseScreenTextKr().latestSort,
           alreadyPart: ExerciseScreenTextKr().alreadyPart,
           noExercise: ExerciseScreenTextKr().noExercise,
-          maxPart: ExerciseScreenTextKr().maxPart);
+          maxPart: ExerciseScreenTextKr().maxPart,
+          errorDelete: ExerciseScreenTextEn().errorDelete,
+          successDelete: ExerciseScreenTextEn().successDelete);
       return exerciseScreenText;
     }
   }

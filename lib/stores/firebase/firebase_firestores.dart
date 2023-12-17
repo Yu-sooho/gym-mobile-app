@@ -35,6 +35,29 @@ class FirebaseFirestoreController extends GetxController {
     }
   }
 
+  /// 문서 이름으로 하나의 데이터 삭제
+  Future deleteCollectionDataSet({
+    String collectionName = '',
+    String docName = '',
+  }) async {
+    try {
+      if (collectionName.isEmpty) {
+        throw {'error': 'no collectionName'};
+      }
+      if (docName.isEmpty) {
+        throw {'error': 'no docName'};
+      }
+      print(
+          'firebase_firestores deleteCollectionDataSet success $collectionName');
+      return firebaseController.firebaseVoid(() async {
+        return await firestore.collection(collectionName).doc(docName).delete();
+      });
+    } catch (error) {
+      print('firebase_firestores deleteCollectionDataSet error $error');
+      rethrow;
+    }
+  }
+
   /// 컬렉션 네임으로 해당 문서 전부 다 가져오는 함수
   Future<QuerySnapshot> getCollectionData(
       {String? collectionName, Query? query}) async {

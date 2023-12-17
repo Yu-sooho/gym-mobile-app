@@ -58,6 +58,11 @@ dependencies:
   skeletonizer: ^0.8.0
   image_picker: ^1.0.4
   custom_refresh_indicator: ^3.0.0
+  # flutter_slidable: ^1.0.0
+  flutter_slidable:
+    git:
+      url: https://github.com/Yu-sooho/flutter_slidable.git
+      ref: master
 
 dev_dependencies:
   flutter_test:

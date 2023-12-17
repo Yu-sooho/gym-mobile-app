@@ -78,10 +78,12 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
         stores.appStateController.showToast(
             stores.localizationController.localiztionExerciseScreen().success);
       });
+      widget.getHeight!(274 - 48 + selectedPart.length * 32);
       if (widget.afterFunc != null) {
         widget.afterFunc!();
       }
     } catch (error) {
+      widget.getHeight!(274 - 48 + selectedPart.length * 32);
       stores.appStateController.showToast(stores.localizationController
           .localiztionComponentError()
           .networkError);
@@ -134,6 +136,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     setState(() {
       selectedPart.remove(selectedItem);
     });
+    widget.getHeight!(274 - 48 + selectedPart.length * 32);
   }
 
   @override
