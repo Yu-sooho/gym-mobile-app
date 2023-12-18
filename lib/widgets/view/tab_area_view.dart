@@ -158,8 +158,14 @@ class _TabAreaViewState extends State<TabAreaView>
           child: SingleChildScrollView(
             controller: scrollController,
             physics: AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.fromLTRB(paddingLeft, paddingTop, paddingRight,
-                24 + MediaQuery.of(context).padding.bottom + paddingBottom),
+            padding: EdgeInsets.fromLTRB(
+                paddingLeft,
+                paddingTop,
+                paddingRight,
+                120 +
+                    24 +
+                    MediaQuery.of(context).padding.bottom +
+                    paddingBottom),
             child: Column(children: children ?? []),
           )));
     }

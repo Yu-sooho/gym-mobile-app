@@ -25,7 +25,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
     final item = widget.item;
 
     return (Container(
-        height: 100,
+        height: 64,
         width: stores.appStateController.logicalWidth.value,
         decoration: BoxDecoration(
             boxShadow: [
@@ -39,7 +39,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                 offset: const Offset(5, 7),
               )
             ],
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             color: stores.colorController.customColor().buttonActiveText),
         child: Slidable(
             key: const ValueKey(0),
@@ -80,24 +80,58 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                     height: 24,
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text(item.name),
+                      child: Text(
+                        item.name,
+                        style: TextStyle(
+                            fontFamily: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontFamily,
+                            fontWeight: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontWeight,
+                            fontSize: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontSize),
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 32,
                     width: 340,
-                    child: ListView.builder(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      primary: true,
+                    child: ListView.separated(
+                      primary: false,
+                      shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: item.musclesId.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const SizedBox(
+                        width: 5,
+                      ),
                       itemBuilder: (BuildContext context, int index) {
                         final String? name = stores
                             .exerciseStateController.muscles
                             ?.firstWhere((element) =>
                                 element.id == item.musclesId[index])
                             .name;
-                        return (Text('$name'));
+                        return (Text(
+                          '$name',
+                          style: TextStyle(
+                              fontFamily: stores.fontController
+                                  .customFont()
+                                  .medium12
+                                  .fontFamily,
+                              fontWeight: stores.fontController
+                                  .customFont()
+                                  .medium12
+                                  .fontWeight,
+                              fontSize: stores.fontController
+                                  .customFont()
+                                  .medium12
+                                  .fontSize),
+                        ));
                       },
                     ),
                   )
