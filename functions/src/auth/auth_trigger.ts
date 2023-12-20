@@ -3,16 +3,17 @@ import * as functions from "firebase-functions";
 import { firestore, auth} from 'firebase-admin'
 
 interface UserModel {
-    email?:string,
+    email?:String,
     emailVerified:boolean,
-    displayName?:string,
-    photoURL?:string,
-    phoneNumber?:string,
-    uid:string,
+    displayName?:String,
+    photoURL?:String,
+    phoneNumber?:String,
+    uid:String,
     disabled:boolean,
-    creationTime:string,
-    lastSignInTime:string,
-    lastRefreshTime?:string|null
+    creationTime:String,
+    lastSignInTime:String,
+    lastRefreshTime?:String|null
+    fcmToken?:String
 }
 
 export const createUser = functions.auth.user().onCreate(async(user) => {

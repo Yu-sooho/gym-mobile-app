@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gym_calendar/providers/auth_provider.dart';
+import 'package:gym_calendar/stores/firebase/firebase_firestores.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+// notification1 운동
+// notification2 스케쥴
 class UserData {
   RxString? displayName;
   RxBool? disabled;
@@ -14,18 +18,26 @@ class UserData {
   RxBool? emailVerified;
   RxString? photoURL;
   RxString? phoneNumber;
-  UserData({
-    this.displayName,
-    this.disabled,
-    this.creationTime,
-    this.email,
-    this.emailVerified,
-    this.photoURL,
-    this.phoneNumber,
-  });
+  RxString? fcmToken;
+  RxBool? notification1;
+  RxBool? notification2;
+  UserData(
+      {this.displayName,
+      this.disabled,
+      this.creationTime,
+      this.email,
+      this.emailVerified,
+      this.photoURL,
+      this.phoneNumber,
+      this.fcmToken,
+      this.notification1,
+      this.notification2});
 }
 
 class FirebaseAuthController extends GetxController {
+  final FirebaseFirestoreController firebaseFirestoreController =
+      Get.put(FirebaseFirestoreController());
+
   RxString? uid;
   RxString? docId;
   UserData currentUserData = UserData();
@@ -59,6 +71,9 @@ class FirebaseAuthController extends GetxController {
         final String? creationTime = doc.data()['creationTime'];
         final String? email = doc.data()['email'];
         final String? phontNumber = doc.data()['phoneNumber'];
+        final String? fcmToken = doc.data()['fcmToken'];
+        final bool? notification1 = doc.data()['notification1'];
+        final bool? notification2 = doc.data()['notification2'];
 
         currentUserData.disabled = disabled?.obs;
         currentUserData.emailVerified = emailVerified?.obs;
@@ -67,6 +82,17 @@ class FirebaseAuthController extends GetxController {
         currentUserData.creationTime = creationTime?.obs;
         currentUserData.email = email?.obs;
         currentUserData.phoneNumber = phontNumber?.obs;
+        currentUserData.fcmToken = fcmToken?.obs;
+        currentUserData.notification1 = notification1?.obs;
+        currentUserData.notification2 = notification2?.obs;
+      }
+
+      if (docId?.value != null) {
+        final fcmToken = await FirebaseMessaging.instance.getToken();
+        firebaseFirestoreController.postCollectionDataSet(
+            collectionName: 'users',
+            docName: docId?.value,
+            obj: {'fcmToken': fcmToken});
       }
     } catch (error) {
       print('getUser error $error');

@@ -33,14 +33,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onPressOk: () => {logout(context)}));
 
   void onPressImage(BuildContext context) {
-    if (stores.firebaseAuthController.currentUserData.photoURL?.value == null)
+    if (stores.firebaseAuthController.currentUserData.photoURL?.value == null) {
       return;
-
+    }
     if (overlayPhoto.mounted) {
       overlayPhoto.remove();
       return;
     }
-
     OverlayState overlayState = Overlay.of(context);
     overlayState.insert(overlayPhoto);
   }
@@ -48,28 +47,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void onPressTheme() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ThemeScreen()),
+      MaterialPageRoute(
+          builder: (context) => ThemeScreen(),
+          settings: RouteSettings(name: 'theme')),
     );
   }
 
   void onPressSetting() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SettingScreen()),
+      MaterialPageRoute(
+          builder: (context) => SettingScreen(),
+          settings: RouteSettings(name: 'setting')),
     );
   }
 
   void onPressEdit() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ProfileEditScreen()),
+      MaterialPageRoute(
+          builder: (context) => ProfileEditScreen(),
+          settings: RouteSettings(name: 'profile_edit')),
     );
   }
 
   void onPressInquiry() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => InquiryScreen()),
+      MaterialPageRoute(
+          builder: (context) => InquiryScreen(),
+          settings: RouteSettings(name: 'inquriy')),
     );
   }
 

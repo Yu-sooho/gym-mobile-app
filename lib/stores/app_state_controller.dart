@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -20,13 +19,13 @@ class AppStateController extends GetxController {
   final pixelRatio =
       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
 
-// Size in physical pixels:
+  // Size in physical pixels:
   final width1 =
       WidgetsBinding.instance.platformDispatcher.views.first.physicalSize.width;
   final height1 = WidgetsBinding
       .instance.platformDispatcher.views.first.physicalSize.height;
 
-// Size in logical pixels:
+  // Size in logical pixels:
   final width2 = WidgetsBinding
           .instance.platformDispatcher.views.first.physicalSize.width /
       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;

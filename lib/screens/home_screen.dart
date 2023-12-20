@@ -18,7 +18,9 @@ class _HomeScreen extends State<HomeScreen> {
   void onPressProfile(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ProfileScreen()),
+      MaterialPageRoute(
+          builder: (context) => ProfileScreen(),
+          settings: RouteSettings(name: 'profile')),
     );
   }
 
