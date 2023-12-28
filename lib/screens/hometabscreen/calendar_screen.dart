@@ -11,6 +11,6 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    return (TabAreaView(paddingTop: 24, children: []));
+    return (TabAreaView(paddingTop: 24, children: [HomeCalendar()]));
   }
 }

@@ -20,6 +20,35 @@ class _RoutineAddItem extends State<RoutineAddItem> {
 
   onChangedTitle(String value) {}
 
+  void onChangedItem(int index) {}
+
+  void onPressOkAddExercise() {}
+
+  void onPressCancelAddExercise() {}
+
+  void onPressAddExercise() {
+    stores.appStateController.showDialog(
+        CupertinoPicker(
+            magnification: 1.22,
+            squeeze: 1.2,
+            useMagnifier: true,
+            itemExtent: 32,
+            onSelectedItemChanged: onChangedItem,
+            children: List<Widget>.generate(
+                stores.exerciseStateController.muscles?.length ?? 0,
+                (int index) {
+              return Center(
+                  child: Center(
+                      child: Text(
+                          '${stores.exerciseStateController.muscles?[index].name}')));
+            })),
+        context,
+        isHaveButton: true,
+        barrierDismissible: false,
+        onPressOk: onPressOkAddExercise,
+        onPressCancel: onPressCancelAddExercise);
+  }
+
   @override
   Widget build(BuildContext context) {
     return (Container(

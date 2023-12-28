@@ -58,6 +58,7 @@ dependencies:
   skeletonizer: ^0.8.0
   image_picker: ^1.0.4
   custom_refresh_indicator: ^3.0.0
+  table_calendar: ^3.0.9
   # flutter_slidable: ^1.0.0
   flutter_slidable:
     git:

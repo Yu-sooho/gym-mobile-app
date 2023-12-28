@@ -139,6 +139,32 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
     widget.getHeight!(274 - 48 + selectedPart.length * 32);
   }
 
+  void onPressAddPart() {
+    setState(() {
+      tempSelectedPart = 0;
+    });
+    stores.appStateController.showDialog(
+        CupertinoPicker(
+            magnification: 1.22,
+            squeeze: 1.2,
+            useMagnifier: true,
+            itemExtent: 32,
+            onSelectedItemChanged: onChangedItem,
+            children: List<Widget>.generate(
+                stores.exerciseStateController.muscles?.length ?? 0,
+                (int index) {
+              return Center(
+                  child: Center(
+                      child: Text(
+                          '${stores.exerciseStateController.muscles?[index].name}')));
+            })),
+        context,
+        isHaveButton: true,
+        barrierDismissible: false,
+        onPressOk: onPressOk,
+        onPressCancel: onPressCancel);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -199,32 +225,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
                 height: _animation.value * 10,
               ),
               CustomButton(
-                  onPress: () => {
-                        setState(() {
-                          tempSelectedPart = 0;
-                        }),
-                        stores.appStateController.showDialog(
-                            CupertinoPicker(
-                                magnification: 1.22,
-                                squeeze: 1.2,
-                                useMagnifier: true,
-                                itemExtent: 32,
-                                onSelectedItemChanged: onChangedItem,
-                                children: List<Widget>.generate(
-                                    stores.exerciseStateController.muscles
-                                            ?.length ??
-                                        0, (int index) {
-                                  return Center(
-                                      child: Center(
-                                          child: Text(
-                                              '${stores.exerciseStateController.muscles?[index].name}')));
-                                })),
-                            context,
-                            isHaveButton: true,
-                            barrierDismissible: false,
-                            onPressOk: onPressOk,
-                            onPressCancel: onPressCancel)
-                      },
+                  onPress: onPressAddPart,
                   child: Padding(
                       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: SizedBox(
