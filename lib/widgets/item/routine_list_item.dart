@@ -11,12 +11,19 @@ class RoutineListItem extends StatefulWidget {
 
 class _RoutineListItem extends State<RoutineListItem> {
   final Stores stores = Get.put(Stores());
+  bool isOpen = false;
+
   @override
   Widget build(BuildContext context) {
     return (Container(
       decoration: BoxDecoration(
           color: stores.colorController.customColor().transparent),
-      child: Column(children: [Text('123')]),
+      child: Column(children: [
+        Container(
+            decoration: BoxDecoration(color: Colors.amber),
+            height: 300,
+            child: Text('123'))
+      ]),
     ));
   }
 }

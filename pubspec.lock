@@ -650,7 +650,7 @@ packages:
     source: hosted
     version: "0.2.1+1"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
@@ -1073,10 +1073,11 @@ packages:
   table_calendar:
     dependency: "direct main"
     description:
-      name: table_calendar
-      sha256: "1e3521a3e6d3fc7f645a58b135ab663d458ab12504f1ea7f9b4b81d47086c478"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: fdd076d654e111fcb945a67c145642afa86c1808
+      url: "https://github.com/Yu-sooho/table_calendar.git"
+    source: git
     version: "3.0.9"
   term_glyph:
     dependency: transitive

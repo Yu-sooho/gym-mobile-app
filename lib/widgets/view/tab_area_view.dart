@@ -20,25 +20,32 @@ class TabAreaView extends StatefulWidget {
   final double? headerSize;
   final double? maxHeaderSize;
   final double? minHeaderSize;
+  final Duration? openDuration;
+  final Duration? closeDuration;
+  final Duration? openDelay;
+  final Duration? closeDelay;
 
-  TabAreaView({
-    super.key,
-    this.children,
-    this.paddingTop = 0,
-    this.paddingBottom = 0,
-    this.paddingLeft = 0,
-    this.paddingRight = 0,
-    this.marginTop = 0,
-    this.marginBottom = 0,
-    this.marginLeft = 0,
-    this.marginRight = 0,
-    this.onRefresh,
-    this.scrollController,
-    this.header,
-    this.headerSize,
-    this.maxHeaderSize,
-    this.minHeaderSize,
-  });
+  TabAreaView(
+      {super.key,
+      this.children,
+      this.paddingTop = 0,
+      this.paddingBottom = 0,
+      this.paddingLeft = 0,
+      this.paddingRight = 0,
+      this.marginTop = 0,
+      this.marginBottom = 0,
+      this.marginLeft = 0,
+      this.marginRight = 0,
+      this.onRefresh,
+      this.scrollController,
+      this.header,
+      this.headerSize,
+      this.maxHeaderSize,
+      this.minHeaderSize,
+      this.openDuration,
+      this.closeDuration,
+      this.openDelay,
+      this.closeDelay});
 
   @override
   State<TabAreaView> createState() => _TabAreaViewState();
@@ -59,15 +66,13 @@ class _TabAreaViewState extends State<TabAreaView>
     super.initState();
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
-    animation =
-        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+    animation = CurvedAnimation(parent: controller, curve: Curves.linear);
     animation.addListener(() {
       setState(() {});
     });
     controller2 =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
-    animation2 =
-        CurvedAnimation(parent: controller2, curve: Cubic(1.0, 0.0, 0.2, 0.4));
+    animation2 = CurvedAnimation(parent: controller2, curve: Curves.linear);
     animation2.addListener(() {
       setState(() {});
     });
@@ -95,17 +100,33 @@ class _TabAreaViewState extends State<TabAreaView>
     final ScrollController? scrollController = widget.scrollController;
     final Widget? header = widget.header;
     final double headerSize = widget.headerSize ?? 0;
+    final Duration openDuration =
+        widget.openDuration ?? Duration(milliseconds: 250);
+    final Duration closeDuration =
+        widget.closeDuration ?? Duration(milliseconds: 250);
+    final Duration openDelay = widget.openDelay ?? Duration(seconds: 0);
+    final Duration closeDelay = widget.closeDelay ?? Duration(seconds: 0);
 
     final Stores stores = Get.put(Stores());
 
     if (lastHeaderSize != headerSize) {
       if (headerSize <= widget.maxHeaderSize!) {
         if (lastHeaderSize > headerSize) {
-          controller.reverse();
-          controller2.forward();
+          print('close');
+          controller2.duration = closeDuration;
+          controller.reverseDuration = closeDuration;
+          Future.delayed(closeDelay, () {
+            controller.reverse();
+            controller2.forward();
+          });
         } else if (lastHeaderSize != 0) {
-          controller.forward();
-          controller2.reverse();
+          print('open');
+          controller.duration = openDuration;
+          controller2.reverseDuration = openDuration;
+          Future.delayed(openDelay, () {
+            controller.forward();
+            controller2.reverse();
+          });
         }
         lastHeaderSize = headerSize;
       }

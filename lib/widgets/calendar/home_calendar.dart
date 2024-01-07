@@ -6,9 +6,14 @@ import 'package:intl/intl.dart';
 
 @immutable
 class HomeCalendar extends StatefulWidget {
-  HomeCalendar({
-    super.key,
-  });
+  final Function(DateTime?) onChangedSelectedDate;
+  final Function(double)? onChangedSize;
+  final Function(int)? onChangedLength;
+  HomeCalendar(
+      {super.key,
+      required this.onChangedSelectedDate,
+      this.onChangedSize,
+      this.onChangedLength});
 
   @override
   State<HomeCalendar> createState() => _HomeCalendarState();
@@ -21,23 +26,66 @@ class _HomeCalendarState extends State<HomeCalendar> {
   DateTime last = DateTime(DateTime.now().year + 20, 12, 31);
   DateTime first = DateTime(DateTime.now().year - 20, 1, 1);
 
-  DateTime showTableDate = DateTime.now();
+  DateTime focusedDay = DateTime.now();
+  DateTime? selectedDay;
+
+  final GlobalKey calendarkey = GlobalKey();
 
   onPageChanged(DateTime dateTime) {
     setState(() {
-      showTableDate = dateTime;
+      focusedDay = dateTime;
     });
+  }
+
+  onPressDay(DateTime selected, DateTime focused) {
+    if (selectedDay == selected ||
+        (selected.month == focusedDay.month &&
+            selected.year == focusedDay.year &&
+            selected.day == focusedDay.day)) {
+      setState(() {
+        selectedDay = null;
+        widget.onChangedSelectedDate(null);
+      });
+      return;
+    }
+    setState(() {
+      selectedDay = selected;
+      widget.onChangedSelectedDate(selected);
+    });
+  }
+
+  bool selectedDayPredicate(DateTime day) {
+    if (day == selectedDay) {
+      return true;
+    }
+    return false;
+  }
+
+  getRowLength(int length) {
+    widget.onChangedLength?.call(length);
+  }
+
+  getPageHeight(double height) {
+    widget.onChangedSize?.call(height);
   }
 
   @override
   Widget build(BuildContext context) {
     return (Stack(
       children: <Widget>[
-        header(showTableDate),
+        header(focusedDay),
         dayWeeks(),
         Padding(
+          key: calendarkey,
           padding: EdgeInsets.only(top: 84),
           child: TableCalendar(
+            formatAnimationDuration: Duration(milliseconds: 250),
+            formatAnimationCurve: Curves.linear,
+            getRowLength: getRowLength,
+            getPageHeight: getPageHeight,
+            // sixWeekMonthsEnforced: true,
+            onDaySelected: onPressDay,
+            selectedDayPredicate: selectedDayPredicate,
             onPageChanged: onPageChanged,
             headerVisible: false,
             daysOfWeekVisible: false,
@@ -48,14 +96,19 @@ class _HomeCalendarState extends State<HomeCalendar> {
                         .customColor()
                         .defaultBackground2),
                 todayTextStyle: stores.fontController.customFont().bold12,
+                selectedDecoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground2),
                 selectedTextStyle: stores.fontController.customFont().bold12,
                 outsideTextStyle: stores.fontController.customFont().regular12,
                 weekendTextStyle: stores.fontController.customFont().medium12,
                 holidayTextStyle: stores.fontController.customFont().medium12,
                 defaultTextStyle: stores.fontController.customFont().medium12),
-            firstDay: DateTime.utc(2010, 10, 16),
+            firstDay: first,
             lastDay: last,
-            focusedDay: showTableDate,
+            focusedDay: focusedDay,
           ),
         )
       ],
@@ -65,7 +118,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
 
 Widget header(DateTime date) {
   final Stores stores = Get.put(Stores());
-  String formattedDate = DateFormat.yMMMd().format(date);
+  String formattedDate = DateFormat("yyyy년 MM월 dd일").format(date);
   return (SizedBox(
     height: 40,
     child: Padding(
