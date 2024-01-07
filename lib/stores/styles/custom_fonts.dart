@@ -14,6 +14,11 @@ class CustomFont1 {
       fontSize: 12 + stores.appStateController.fontSize.value,
       fontWeight: FontWeight.normal,
       color: stores.colorController.customColor().defaultTextColor);
+  late TextStyle medium14 = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 14 + stores.appStateController.fontSize.value,
+      fontWeight: FontWeight.normal,
+      color: stores.colorController.customColor().defaultTextColor);
   late TextStyle bold12 = TextStyle(
       fontFamily: 'NotoSans',
       fontSize: 12 + stores.appStateController.fontSize.value,
@@ -65,6 +70,11 @@ class CustomFont2 {
       fontWeight: FontWeight.w100,
       color: stores.colorController.customColor().defaultTextColor);
   late TextStyle medium12 = TextStyle(
+      fontFamily: 'Nanum',
+      fontSize: 12 + stores.appStateController.fontSize.value,
+      fontWeight: FontWeight.normal,
+      color: stores.colorController.customColor().defaultTextColor);
+  late TextStyle medium14 = TextStyle(
       fontFamily: 'Nanum',
       fontSize: 12 + stores.appStateController.fontSize.value,
       fontWeight: FontWeight.normal,
@@ -122,6 +132,11 @@ class CustomFont3 {
   late TextStyle medium12 = TextStyle(
       fontFamily: 'SCore',
       fontSize: 12 + stores.appStateController.fontSize.value,
+      fontWeight: FontWeight.normal,
+      color: stores.colorController.customColor().defaultTextColor);
+  late TextStyle medium14 = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 14 + stores.appStateController.fontSize.value,
       fontWeight: FontWeight.normal,
       color: stores.colorController.customColor().defaultTextColor);
   late TextStyle bold12 = TextStyle(

@@ -112,7 +112,6 @@ class _TabAreaViewState extends State<TabAreaView>
     if (lastHeaderSize != headerSize) {
       if (headerSize <= widget.maxHeaderSize!) {
         if (lastHeaderSize > headerSize) {
-          print('close');
           controller2.duration = closeDuration;
           controller.reverseDuration = closeDuration;
           Future.delayed(closeDelay, () {
@@ -120,7 +119,6 @@ class _TabAreaViewState extends State<TabAreaView>
             controller2.forward();
           });
         } else if (lastHeaderSize != 0) {
-          print('open');
           controller.duration = openDuration;
           controller2.reverseDuration = openDuration;
           Future.delayed(openDelay, () {

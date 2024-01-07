@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -39,9 +40,9 @@ class _HomeCalendarState extends State<HomeCalendar> {
 
   onPressDay(DateTime selected, DateTime focused) {
     if (selectedDay == selected ||
-        (selected.month == focusedDay.month &&
-            selected.year == focusedDay.year &&
-            selected.day == focusedDay.day)) {
+        (selected.month == DateTime.now().month &&
+            selected.year == DateTime.now().year &&
+            selected.day == DateTime.now().day)) {
       setState(() {
         selectedDay = null;
         widget.onChangedSelectedDate(null);
@@ -69,11 +70,20 @@ class _HomeCalendarState extends State<HomeCalendar> {
     widget.onChangedSize?.call(height);
   }
 
+  Future onPressRefresh() async {
+    setState(() {
+      focusedDay = DateTime.now();
+      selectedDay = DateTime.now();
+      widget.onChangedSelectedDate(DateTime.now());
+    });
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return (Stack(
       children: <Widget>[
-        header(focusedDay),
+        header(focusedDay, onPressRefresh),
         dayWeeks(),
         Padding(
           key: calendarkey,
@@ -83,7 +93,6 @@ class _HomeCalendarState extends State<HomeCalendar> {
             formatAnimationCurve: Curves.linear,
             getRowLength: getRowLength,
             getPageHeight: getPageHeight,
-            // sixWeekMonthsEnforced: true,
             onDaySelected: onPressDay,
             selectedDayPredicate: selectedDayPredicate,
             onPageChanged: onPageChanged,
@@ -116,19 +125,44 @@ class _HomeCalendarState extends State<HomeCalendar> {
   }
 }
 
-Widget header(DateTime date) {
+Widget header(DateTime date, Function onPressRefresh) {
   final Stores stores = Get.put(Stores());
-  String formattedDate = DateFormat("yyyy년 MM월 dd일").format(date);
-  return (SizedBox(
-    height: 40,
-    child: Padding(
-        padding: EdgeInsets.only(left: 16),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Text(
-            formattedDate,
-            style: stores.fontController.customFont().bold16,
-          )
-        ])),
+  String formattedDate = DateFormat("yyyy년 MM월").format(date);
+
+  return (Row(
+    children: [
+      SizedBox(
+        height: 40,
+        child: Padding(
+            padding: EdgeInsets.only(left: 16),
+            child:
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Text(
+                formattedDate,
+                style: stores.fontController.customFont().bold16,
+              )
+            ])),
+      ),
+      CustomButton(
+          onPress: () => {onPressRefresh()},
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: SizedBox(
+              height: 32,
+              width: 64,
+              child: Padding(
+                padding: EdgeInsets.only(left: 6),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      Icons.refresh,
+                      color: stores.colorController
+                          .customColor()
+                          .bottomTabBarActiveItem,
+                      size: 20,
+                    )),
+              )))
+    ],
   ));
 }
 

@@ -7,6 +7,7 @@ import 'package:gym_calendar/stores/styles/custom_fonts.dart';
 class CustomFont {
   final TextStyle regular12;
   final TextStyle medium12;
+  final TextStyle medium14;
   final TextStyle bold12;
   final TextStyle bold14;
   final TextStyle bold16;
@@ -20,6 +21,7 @@ class CustomFont {
   CustomFont(
       {required this.regular12,
       required this.medium12,
+      required this.medium14,
       required this.bold12,
       required this.bold14,
       required this.bold16,
@@ -50,6 +52,7 @@ class CustomFontController extends GetxController {
       CustomFont customFont = CustomFont(
           regular12: CustomFont1().regular12,
           medium12: CustomFont1().medium12,
+          medium14: CustomFont1().medium14,
           bold12: CustomFont1().bold12,
           bold14: CustomFont1().bold14,
           bold16: CustomFont1().bold16,
@@ -63,6 +66,7 @@ class CustomFontController extends GetxController {
       CustomFont customFont = CustomFont(
           regular12: CustomFont2().regular12,
           medium12: CustomFont2().medium12,
+          medium14: CustomFont2().medium14,
           bold12: CustomFont2().bold12,
           bold14: CustomFont2().bold14,
           bold16: CustomFont2().bold16,
@@ -76,6 +80,7 @@ class CustomFontController extends GetxController {
       CustomFont customFont = CustomFont(
           regular12: CustomFont3().regular12,
           medium12: CustomFont3().medium12,
+          medium14: CustomFont3().medium14,
           bold12: CustomFont1().bold12,
           bold14: CustomFont3().bold14,
           bold16: CustomFont3().bold16,

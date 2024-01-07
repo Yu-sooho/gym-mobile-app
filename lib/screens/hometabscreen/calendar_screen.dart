@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
+import 'package:intl/intl.dart';
 
 class CalendarScreen extends StatefulWidget {
   CalendarScreen({super.key});
@@ -11,20 +13,31 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  final _controller = ScrollController();
   Stores stores = Stores();
 
-  Future onRefresh() async {
-    print(123);
-  }
+  final _controller = ScrollController();
+  DateTime? selectedDay;
+
+  Future onRefresh() async {}
 
   onChangedSelectedDate(DateTime? selected) {
-    print(selected);
+    setState(() {
+      selectedDay = selected;
+    });
   }
 
-  double calendarMinHeight = 312 + 26;
-  double calendarMaxHeight = 364 + 26;
+  final double insetSize = 28;
+  final double dateTextSize = 64;
+  double calendarMinHeight = 312;
+  double calendarMaxHeight = 364;
   double calendarHeight = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    calendarMinHeight = calendarMinHeight + insetSize + dateTextSize;
+    calendarMaxHeight = calendarMaxHeight + insetSize + dateTextSize;
+  }
 
   onChangedLength(int length) {
     // print(length * 52);
@@ -33,8 +46,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   onChangedSize(double height) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       setState(() {
-        calendarHeight = height + 52 + 26;
-        print('$calendarMinHeight $calendarMaxHeight $calendarHeight');
+        calendarHeight = height + 52 + 28 + 40;
       });
     });
   }
@@ -47,15 +59,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
         headerSize: calendarHeight,
         openDuration: Duration(microseconds: 0),
         closeDuration: Duration(microseconds: 200000),
-        // openDelay: Duration(microseconds: 250),
-        // closeDelay: Duration(microseconds: 250),
         onRefresh: onRefresh,
         scrollController: _controller,
-        paddingTop: 24,
-        header: HomeCalendar(
-          onChangedSelectedDate: onChangedSelectedDate,
-          onChangedSize: onChangedSize,
-          onChangedLength: onChangedLength,
+        header: Column(
+          children: [
+            HomeCalendar(
+              onChangedSelectedDate: onChangedSelectedDate,
+              onChangedSize: onChangedSize,
+              onChangedLength: onChangedLength,
+            ),
+            header(selectedDay ?? DateTime.now(), dateTextSize),
+          ],
         ),
         children: [
           calendarHeight > 0
@@ -69,4 +83,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
               : SizedBox()
         ]));
   }
+}
+
+Widget header(DateTime date, double size) {
+  final Stores stores = Get.put(Stores());
+  String formattedDate = DateFormat("yyyy년 MM월 dd일").format(date);
+  return (SizedBox(
+    height: size,
+    child: Padding(
+        padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Text(
+            formattedDate,
+            style: stores.fontController.customFont().medium14,
+          )
+        ])),
+  ));
 }
