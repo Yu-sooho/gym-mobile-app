@@ -35,6 +35,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     stores.localizationController.localiztionExerciseScreen().latestSort
   ];
 
+  final Duration duration = Duration(milliseconds: 250);
+
   void getMuscleList() async {
     if (stores.exerciseStateController.muscles == null) {
       await networkProviders.exerciseProvider.getMuscleList();
@@ -225,8 +227,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
+        openDuration: duration,
+        closeDuration: duration,
         minHeaderSize: 64 + sortBarHeight,
-        maxHeaderSize: 242 + sortBarHeight,
+        maxHeaderSize: 234 + sortBarHeight,
         onRefresh: onRefresh,
         scrollController: _controller,
         paddingTop: 12,
@@ -234,6 +238,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           Padding(
               padding: EdgeInsets.only(top: 16),
               child: ExerciseAddItem(
+                duration: duration,
                 key: _containerkey,
                 afterFunc: afterAdd,
                 getHeight: getHeight,

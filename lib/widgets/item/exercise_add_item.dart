@@ -7,7 +7,10 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 class ExerciseAddItem extends StatefulWidget {
   final Function(double)? getHeight;
   final Function()? afterFunc;
-  ExerciseAddItem({super.key, this.getHeight, this.afterFunc});
+  final Duration? duration;
+  final Curve? curve;
+  ExerciseAddItem(
+      {super.key, this.getHeight, this.afterFunc, this.duration, this.curve});
 
   @override
   State<ExerciseAddItem> createState() => _ExerciseAddItem();
@@ -28,11 +31,11 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
   @override
   void initState() {
     super.initState();
+    final Duration duration = widget.duration ?? Duration(milliseconds: 250);
+    final Curve curve = widget.curve ?? Curves.linear;
     _textController = TextEditingController(text: '');
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
-    _animation =
-        CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn);
+    _controller = AnimationController(vsync: this, duration: duration);
+    _animation = CurvedAnimation(parent: _controller, curve: curve);
     _animation.addListener(() {
       setState(() {});
     });

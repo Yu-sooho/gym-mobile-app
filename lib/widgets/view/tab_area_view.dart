@@ -114,17 +114,27 @@ class _TabAreaViewState extends State<TabAreaView>
         if (lastHeaderSize > headerSize) {
           controller2.duration = closeDuration;
           controller.reverseDuration = closeDuration;
-          Future.delayed(closeDelay, () {
+          if (closeDelay == Duration(seconds: 0)) {
             controller.reverse();
             controller2.forward();
-          });
+          } else {
+            Future.delayed(closeDelay, () {
+              controller.reverse();
+              controller2.forward();
+            });
+          }
         } else if (lastHeaderSize != 0) {
           controller.duration = openDuration;
           controller2.reverseDuration = openDuration;
-          Future.delayed(openDelay, () {
+          if (openDelay == Duration(seconds: 0)) {
             controller.forward();
             controller2.reverse();
-          });
+          } else {
+            Future.delayed(openDelay, () {
+              controller.forward();
+              controller2.reverse();
+            });
+          }
         }
         lastHeaderSize = headerSize;
       }
