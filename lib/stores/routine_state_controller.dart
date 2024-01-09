@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-
-enum CycleType { day, week, month }
+import 'package:gym_calendar/models/routine_models.dart';
 
 class RoutineStateController extends GetxController {
   RxMap cycle = <CycleType, String>{

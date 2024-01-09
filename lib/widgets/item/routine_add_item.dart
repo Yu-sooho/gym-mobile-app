@@ -1,94 +1,93 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/stores/routine_state_controller.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class RoutineAddItem extends StatefulWidget {
-  RoutineAddItem({super.key});
+  final Duration? duration;
+  final Curve? curve;
+  RoutineAddItem({super.key, this.duration, this.curve});
 
   @override
   State<RoutineAddItem> createState() => _RoutineAddItem();
 }
 
-class _RoutineAddItem extends State<RoutineAddItem> {
+class _RoutineAddItem extends State<RoutineAddItem>
+    with TickerProviderStateMixin {
   final Stores stores = Get.put(Stores());
 
   final RoutineStateController routineStateController =
       Get.put(RoutineStateController());
   var title = '';
+  var isOpen = false;
+  late Animation<double> _animation;
+  late AnimationController _controller;
 
-  onChangedTitle(String value) {}
-
-  void onChangedItem(int index) {}
-
-  void onPressOkAddExercise() {}
-
-  void onPressCancelAddExercise() {}
-
-  void onPressAddExercise() {
-    stores.appStateController.showDialog(
-        CupertinoPicker(
-            magnification: 1.22,
-            squeeze: 1.2,
-            useMagnifier: true,
-            itemExtent: 32,
-            onSelectedItemChanged: onChangedItem,
-            children: List<Widget>.generate(
-                stores.exerciseStateController.muscles?.length ?? 0,
-                (int index) {
-              return Center(
-                  child: Center(
-                      child: Text(
-                          '${stores.exerciseStateController.muscles?[index].name}')));
-            })),
-        context,
-        isHaveButton: true,
-        barrierDismissible: false,
-        onPressOk: onPressOkAddExercise,
-        onPressCancel: onPressCancelAddExercise);
+  @override
+  void initState() {
+    super.initState();
+    final Duration duration = widget.duration ?? Duration(milliseconds: 250);
+    final Curve curve = widget.curve ?? Curves.linear;
+    _controller = AnimationController(vsync: this, duration: duration);
+    _animation = CurvedAnimation(parent: _controller, curve: curve);
+    _animation.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void onPressTitleButton() {
+    if (isOpen) {
+      isOpen = false;
+      _controller.reverse();
+      return;
+    }
+    isOpen = true;
+    _controller.forward();
+  }
+
+  onChangedTitle(String value) {}
+
+  @override
   Widget build(BuildContext context) {
-    return (Container(
-      decoration: BoxDecoration(
-          color: stores.colorController.customColor().transparent),
-      child: Column(children: [
-        customTextInput(
-            context,
-            placeholder: stores.localizationController
-                .localiztionRoutineScreen()
-                .inputTitlePlaceholder,
-            title: stores.localizationController
-                .localiztionRoutineScreen()
-                .inputTitle,
-            onChangedTitle),
-        Padding(
-          padding: EdgeInsets.only(top: 24),
-          child: Container(
-              alignment: Alignment.center,
-              height: 96,
-              decoration: BoxDecoration(
-                  color:
-                      stores.colorController.customColor().defaultBackground1),
-              child: CupertinoPicker.builder(
-                  itemExtent: 32,
-                  childCount: CycleType.values.length,
-                  onSelectedItemChanged: (i) {
-                    print(routineStateController.cycle[CycleType.values[i]]);
-                  },
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        height: 32,
-                        child: Align(
-                            child: Text(
-                          '${routineStateController.cycle[CycleType.values[index]]}',
-                          style: stores.fontController.customFont().bold18,
-                        )));
-                  })),
-        )
-      ]),
-    ));
+    return Column(children: [
+      CustomButton(
+        onPress: onPressTitleButton,
+        child: SizedBox(
+          height: 48,
+          width: stores.appStateController.logicalWidth.value,
+          child: Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      stores.localizationController
+                          .localiztionRoutineScreen()
+                          .addRoutine,
+                      style: stores.fontController.customFont().bold12,
+                    ),
+                    RotationTransition(
+                      turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
+                      child: Icon(
+                        Icons.arrow_drop_up,
+                        color: stores.colorController
+                            .customColor()
+                            .bottomTabBarActiveItem,
+                        size: 24,
+                      ),
+                    )
+                  ])),
+        ),
+      )
+    ]);
   }
 }

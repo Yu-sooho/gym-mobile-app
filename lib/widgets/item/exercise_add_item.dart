@@ -204,7 +204,7 @@ class _ExerciseAddItem extends State<ExerciseAddItem>
       AnimatedOpacity(
           opacity: isOpen ? 1 : 0,
           curve: Curves.fastOutSlowIn,
-          duration: const Duration(milliseconds: 250),
+          duration: widget.duration ?? const Duration(milliseconds: 250),
           child: SizedBox(
             width: stores.appStateController.logicalWidth.value,
             height: _animation.value * (166 + selectedPart.length * 32),

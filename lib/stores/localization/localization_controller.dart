@@ -185,9 +185,16 @@ class ThemeScreenText {
 class RoutineScreenText {
   final String inputTitle;
   final String inputTitlePlaceholder;
+  final String addRoutine;
+  final String routineName;
+  final String latestSort;
 
   RoutineScreenText(
-      {required this.inputTitle, required this.inputTitlePlaceholder});
+      {required this.inputTitle,
+      required this.inputTitlePlaceholder,
+      required this.addRoutine,
+      required this.routineName,
+      required this.latestSort});
 }
 
 class ExerciseScreenText {
@@ -467,12 +474,18 @@ class LocalizationController extends GetxController {
       RoutineScreenText routineScreenText = RoutineScreenText(
         inputTitle: RoutineScreenTextEn().inputTitle,
         inputTitlePlaceholder: RoutineScreenTextEn().inputTitlePlaceholder,
+        addRoutine: RoutineScreenTextEn().addRoutine,
+        routineName: RoutineScreenTextEn().routineName,
+        latestSort: RoutineScreenTextEn().latestSort,
       );
       return routineScreenText;
     } else {
       RoutineScreenText routineScreenText = RoutineScreenText(
         inputTitle: RoutineScreenTextKr().inputTitle,
         inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
+        addRoutine: RoutineScreenTextKr().addRoutine,
+        routineName: RoutineScreenTextKr().routineName,
+        latestSort: RoutineScreenTextKr().latestSort,
       );
       return routineScreenText;
     }
