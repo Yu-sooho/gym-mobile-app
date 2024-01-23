@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gym_calendar/models/package_models.dart';
 
-enum CycleType { day, week, month }
-
 class Routine {
   String uid;
   String id;
   String name;
-  CycleType cycle;
+  int cycle;
   int divisionCount;
   int weight;
   List<Exercise> exercises;

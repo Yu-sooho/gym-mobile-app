@@ -3,7 +3,9 @@ class RoutineScreenTextKr {
   String inputTitlePlaceholder = '8자 이하';
   String addRoutine = '루틴 추가';
   String routineName = '루틴 이름';
+  String routineCycle = '루틴 주기';
   String latestSort = '최신순';
+  String date = '일';
 }
 
 class RoutineScreenTextEn {
@@ -11,5 +13,7 @@ class RoutineScreenTextEn {
   String inputTitlePlaceholder = '8자 이하';
   String addRoutine = '루틴 추가';
   String routineName = '루틴 이름';
+  String routineCycle = '루틴 주기';
   String latestSort = '최신순';
+  String date = '일';
 }

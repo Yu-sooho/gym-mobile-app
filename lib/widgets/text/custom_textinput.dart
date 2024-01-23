@@ -6,12 +6,17 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
     {String? title,
     int? maxLength,
     int? count,
+    TextAlign? textAlign,
     String? placeholder,
     String? Function(String? value)? validator,
     String? counterText,
     double? width,
+    EdgeInsets? contentPadding,
     bool isAnimated = false,
     TextEditingController? controller,
+    UnderlineInputBorder? enabledBorder,
+    UnderlineInputBorder? focusedBorder,
+    TextInputType? keyboardType,
     GlobalKey? key}) {
   final Stores stores = Get.put(Stores());
 
@@ -24,12 +29,14 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
           onChanged: onChanged,
           maxLength: maxLength,
           autovalidateMode: AutovalidateMode.values.last,
+          keyboardType: keyboardType,
           validator: validator,
           cursorColor: stores.colorController.customColor().textInputCursor,
           style: stores.fontController.customFont().medium12,
+          textAlign: textAlign ?? TextAlign.left,
           decoration: InputDecoration(
             counterStyle: stores.fontController.customFont().medium12,
-            contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 10),
+            contentPadding: contentPadding ?? EdgeInsets.fromLTRB(0, 12, 0, 10),
             counterText: counterText,
             isDense: true,
             hintText: placeholder,
@@ -38,31 +45,25 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
                 fontFamily:
                     stores.fontController.customFont().medium12.fontFamily,
                 fontSize: stores.fontController.customFont().medium12.fontSize),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                width: 1,
-                color: stores.colorController.customColor().textInputCursor,
-              ),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                width: 1,
-                color:
-                    stores.colorController.customColor().textInputFocusCursor,
-              ),
-            ),
+            enabledBorder: enabledBorder ??
+                UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: stores.colorController.customColor().textInputCursor,
+                  ),
+                ),
+            focusedBorder: focusedBorder ??
+                UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: stores.colorController
+                        .customColor()
+                        .textInputFocusCursor,
+                  ),
+                ),
             focusColor: stores.colorController.customColor().textInputCursor,
           ),
         ));
-  }
-
-  Widget customTitle() {
-    return (title != null
-        ? Text(
-            title,
-            style: stores.fontController.customFont().bold12,
-          )
-        : SizedBox());
   }
 
   return (Obx(() => Padding(
@@ -71,7 +72,14 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
           width: width,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            isAnimated ? Expanded(flex: 1, child: customTitle()) : SizedBox(),
+            isAnimated && title != null
+                ? Expanded(
+                    flex: 1,
+                    child: Text(
+                      title,
+                      style: stores.fontController.customFont().bold12,
+                    ))
+                : SizedBox(),
             isAnimated ? Expanded(flex: 1, child: customForm()) : customForm(),
           ]),
         ),

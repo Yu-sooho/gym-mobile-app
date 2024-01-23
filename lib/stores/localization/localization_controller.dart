@@ -188,13 +188,17 @@ class RoutineScreenText {
   final String addRoutine;
   final String routineName;
   final String latestSort;
+  final String routineCycle;
+  final String date;
 
   RoutineScreenText(
       {required this.inputTitle,
       required this.inputTitlePlaceholder,
       required this.addRoutine,
       required this.routineName,
-      required this.latestSort});
+      required this.routineCycle,
+      required this.latestSort,
+      required this.date});
 }
 
 class ExerciseScreenText {
@@ -472,21 +476,23 @@ class LocalizationController extends GetxController {
   RoutineScreenText localiztionRoutineScreen() {
     if (language.value == 0) {
       RoutineScreenText routineScreenText = RoutineScreenText(
-        inputTitle: RoutineScreenTextEn().inputTitle,
-        inputTitlePlaceholder: RoutineScreenTextEn().inputTitlePlaceholder,
-        addRoutine: RoutineScreenTextEn().addRoutine,
-        routineName: RoutineScreenTextEn().routineName,
-        latestSort: RoutineScreenTextEn().latestSort,
-      );
+          inputTitle: RoutineScreenTextEn().inputTitle,
+          inputTitlePlaceholder: RoutineScreenTextEn().inputTitlePlaceholder,
+          addRoutine: RoutineScreenTextEn().addRoutine,
+          routineName: RoutineScreenTextEn().routineName,
+          latestSort: RoutineScreenTextEn().latestSort,
+          routineCycle: RoutineScreenTextEn().routineCycle,
+          date: RoutineScreenTextEn().date);
       return routineScreenText;
     } else {
       RoutineScreenText routineScreenText = RoutineScreenText(
-        inputTitle: RoutineScreenTextKr().inputTitle,
-        inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
-        addRoutine: RoutineScreenTextKr().addRoutine,
-        routineName: RoutineScreenTextKr().routineName,
-        latestSort: RoutineScreenTextKr().latestSort,
-      );
+          inputTitle: RoutineScreenTextKr().inputTitle,
+          inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
+          addRoutine: RoutineScreenTextKr().addRoutine,
+          routineName: RoutineScreenTextKr().routineName,
+          latestSort: RoutineScreenTextKr().latestSort,
+          routineCycle: RoutineScreenTextKr().routineCycle,
+          date: RoutineScreenTextKr().date);
       return routineScreenText;
     }
   }
