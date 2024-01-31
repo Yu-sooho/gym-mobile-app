@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
-import 'package:gym_calendar/screens/home_tab_screen/exercise/exercise_add_screen.dart';
+import 'package:gym_calendar/screens/home/exercise/exercise_add_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
