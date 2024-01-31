@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
-import 'package:gym_calendar/screens/hometabscreen/package_tab_screen.dart';
+import 'package:gym_calendar/screens/home_tab_screen/exercise/exercise_add_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
@@ -94,24 +94,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     }
     return true;
   }
-
-  // void afterAdd() async {
-  //   setState(() {
-  //     exerciseLoading = true;
-  //   });
-  //   final result =
-  //       await networkProviders.exerciseProvider.getExerciseList(limit: 1);
-  //   setState(() {
-  //     exerciseLoading = false;
-  //   });
-  //   if (result.list.isNotEmpty) {
-  //     setState(() {
-  //       if (exerciseList != null) {
-  //         exerciseList?.insertAll(0, result.list);
-  //       }
-  //     });
-  //   }
-  // }
 
   Future onPressDelete(BuildContext context, Exercise exercise) async {
     setState(() {

@@ -1,9 +1,5 @@
 export 'login_screen.dart';
-export 'home_screen.dart';
-
-export 'profile_screen.dart';
-export 'profile_edit_screen.dart';
-
-export 'setting_screen.dart';
-export 'theme_screen.dart';
-export 'inquiry_screen.dart';
+export 'inquiry/package_inquiry.dart';
+export 'profile/packge_profile_screen.dart';
+export 'setting/package_setting.dart';
+export 'home_tab_screen/package_tab_screen.dart';
