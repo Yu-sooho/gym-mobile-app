@@ -40,8 +40,8 @@ class TabAreaView extends StatefulWidget {
       this.scrollController,
       this.header,
       this.headerSize,
-      this.maxHeaderSize,
-      this.minHeaderSize,
+      this.maxHeaderSize = 0.0,
+      this.minHeaderSize = 0.0,
       this.openDuration,
       this.closeDuration,
       this.openDelay,
@@ -110,7 +110,7 @@ class _TabAreaViewState extends State<TabAreaView>
     final Stores stores = Get.put(Stores());
 
     if (lastHeaderSize != headerSize) {
-      if (headerSize <= widget.maxHeaderSize!) {
+      if (headerSize <= (widget.maxHeaderSize ?? 0)) {
         if (lastHeaderSize > headerSize) {
           controller2.duration = closeDuration;
           controller.reverseDuration = closeDuration;
@@ -206,58 +206,65 @@ class _TabAreaViewState extends State<TabAreaView>
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
-          body: Column(children: [
-            header ?? SizedBox(),
-            SizedBox(
-                height: stores.appStateController.logicalHeight.value -
-                    MediaQuery.of(context).padding.top -
-                    MediaQuery.of(context).padding.bottom -
-                    MediaQuery.of(context).viewInsets.bottom -
-                    92 -
-                    32 -
-                    59 -
-                    marginTop -
-                    marginBottom -
-                    (animation.value * (widget.maxHeaderSize ?? 0)) -
-                    (animation2.value * (widget.minHeaderSize ?? 0)) -
-                    (headerSize > (widget.maxHeaderSize ?? 0)
-                        ? headerSize - (widget.maxHeaderSize ?? 0)
-                        : 0),
-                child: widget.onRefresh != null
-                    ? header != null
-                        ? ShaderMask(
-                            shaderCallback: (Rect rect) {
-                              return LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  stores.colorController
-                                      .customColor()
-                                      .defaultBackground1,
-                                  Colors.transparent,
-                                  Colors.transparent,
-                                  stores.colorController
-                                      .customColor()
-                                      .defaultBackground2,
-                                ],
-                                stops: [0.0, 0.01, 0.95, 1.0],
-                              ).createShader(rect);
-                            },
-                            blendMode: BlendMode.dstOut,
-                            child: screenContent())
-                        : screenContent()
-                    : SingleChildScrollView(
-                        controller: scrollController,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.fromLTRB(
-                            paddingLeft,
-                            paddingTop,
-                            paddingRight,
-                            24 +
-                                MediaQuery.of(context).padding.bottom +
-                                paddingBottom),
-                        child: Column(children: children ?? [])))
-          ]),
+          body: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: Column(children: [
+              header != null
+                  ? SingleChildScrollView(
+                      child: header,
+                    )
+                  : SizedBox(),
+              SizedBox(
+                  height: stores.appStateController.logicalHeight.value -
+                      MediaQuery.of(context).padding.top -
+                      MediaQuery.of(context).padding.bottom -
+                      MediaQuery.of(context).viewInsets.bottom -
+                      92 -
+                      32 -
+                      59 -
+                      marginTop -
+                      marginBottom -
+                      (animation.value * (widget.maxHeaderSize ?? 0)) -
+                      (animation2.value * (widget.minHeaderSize ?? 0)) -
+                      (headerSize > (widget.maxHeaderSize ?? 0)
+                          ? headerSize - (widget.maxHeaderSize ?? 0)
+                          : 0),
+                  child: widget.onRefresh != null
+                      ? header != null
+                          ? ShaderMask(
+                              shaderCallback: (Rect rect) {
+                                return LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    stores.colorController
+                                        .customColor()
+                                        .defaultBackground1,
+                                    Colors.transparent,
+                                    Colors.transparent,
+                                    stores.colorController
+                                        .customColor()
+                                        .defaultBackground2,
+                                  ],
+                                  stops: [0.0, 0.01, 0.95, 1.0],
+                                ).createShader(rect);
+                              },
+                              blendMode: BlendMode.dstOut,
+                              child: screenContent())
+                          : screenContent()
+                      : SingleChildScrollView(
+                          controller: scrollController,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.fromLTRB(
+                              paddingLeft,
+                              paddingTop,
+                              paddingRight,
+                              24 +
+                                  MediaQuery.of(context).padding.bottom +
+                                  paddingBottom),
+                          child: Column(children: children ?? [])))
+            ]),
+          ),
         ),
       ));
     }

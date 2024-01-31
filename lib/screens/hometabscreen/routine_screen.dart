@@ -87,28 +87,54 @@ class _RoutineScreenState extends State<RoutineScreen> {
         )));
   }
 
+  onPressAdd() {
+    print('123');
+  }
+
+  Widget addButton(BuildContext context) {
+    return (Padding(
+        padding: EdgeInsets.only(top: 24),
+        child: CustomButton(
+          onPress: onPressAdd,
+          child: SizedBox(
+            height: 48,
+            width: stores.appStateController.logicalWidth.value,
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        stores.localizationController
+                            .localiztionRoutineScreen()
+                            .addRoutine,
+                        style: stores.fontController.customFont().bold12,
+                      ),
+                      Icon(
+                        Icons.arrow_right,
+                        color: stores.colorController
+                            .customColor()
+                            .bottomTabBarActiveItem,
+                        size: 24,
+                      ),
+                    ])),
+          ),
+        )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
         paddingTop: 12,
         openDuration: duration,
         closeDuration: duration,
-        minHeaderSize: 64 + sortBarHeight,
-        maxHeaderSize: 234 + sortBarHeight,
+        minHeaderSize: sortBarHeight + 64,
+        maxHeaderSize: sortBarHeight + 64,
         onRefresh: onRefresh,
         scrollController: _controller,
         headerSize: headerHeight,
-        header: Column(children: [
-          Padding(
-              padding: EdgeInsets.only(top: 16),
-              child: RoutineAddItem(
-                duration: duration,
-                // key: _containerkey,
-                // afterFunc: afterAdd,
-                // getHeight: getHeight,
-              )),
-          sortBar(context)
-        ]),
-        children: []));
+        header: Column(children: [addButton(context), sortBar(context)]),
+        children: [RoutineListItem(), RoutineListItem(), RoutineListItem()]));
   }
 }

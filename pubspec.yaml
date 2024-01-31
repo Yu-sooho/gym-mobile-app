@@ -68,6 +68,7 @@ dependencies:
       url: https://github.com/Yu-sooho/flutter_slidable.git
       ref: master
   intl: ^0.18.1
+  keyboard_dismisser: ^3.0.0
 
 dev_dependencies:
   flutter_test:

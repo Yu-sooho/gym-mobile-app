@@ -35,6 +35,16 @@ class Exercise {
       required this.name,
       required this.musclesId,
       required this.createdAt});
+
+  factory Exercise.fromJson(Map<String, dynamic> json) {
+    return Exercise(
+      name: json['name'] as String,
+      id: json['id'] as String,
+      uid: json['uid'] as String,
+      musclesId: json['musclesId'] as List<dynamic>,
+      createdAt: json['createdAt'] as Timestamp,
+    );
+  }
 }
 
 class ExerciseList {

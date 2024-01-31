@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/component_button_text.dart';
+import 'package:gym_calendar/stores/localization/exercise_add_screen_text.dart';
 import 'package:gym_calendar/stores/localization/exercise_screen_text.dart';
 import 'package:gym_calendar/stores/localization/home_screen_text.dart';
 import 'package:gym_calendar/stores/localization/inquiry_screen_text.dart';
@@ -101,6 +102,39 @@ class ProfileEditScreenText {
       required this.successChange,
       required this.errorChange,
       required this.save});
+}
+
+class ExerciseAddScreenText {
+  final String title;
+  final String inputTitle;
+  final String inputTitlePlaceholder;
+  final String partPlaceholder;
+  final String partName;
+  final String addExercise;
+  final String add;
+  final String success;
+  final String latestSort;
+  final String alreadyPart;
+  final String maxPart;
+  final String noExercise;
+  final String successDelete;
+  final String errorDelete;
+  ExerciseAddScreenText({
+    required this.title,
+    required this.inputTitle,
+    required this.inputTitlePlaceholder,
+    required this.partPlaceholder,
+    required this.partName,
+    required this.addExercise,
+    required this.add,
+    required this.success,
+    required this.latestSort,
+    required this.alreadyPart,
+    required this.maxPart,
+    required this.noExercise,
+    required this.successDelete,
+    required this.errorDelete,
+  });
 }
 
 class InquiryScreenText {
@@ -203,17 +237,11 @@ class RoutineScreenText {
 
 class ExerciseScreenText {
   final String inputTitle;
-  final String inputTitlePlaceholder;
-
-  final String partPlaceholder;
-  final String partName;
 
   final String addExercise;
   final String add;
 
-  final String success;
   final String latestSort;
-  final String alreadyPart;
   final String noExercise;
   final String maxPart;
 
@@ -222,14 +250,9 @@ class ExerciseScreenText {
 
   ExerciseScreenText({
     required this.inputTitle,
-    required this.inputTitlePlaceholder,
-    required this.partPlaceholder,
-    required this.partName,
     required this.addExercise,
     required this.add,
-    required this.success,
     required this.latestSort,
-    required this.alreadyPart,
     required this.noExercise,
     required this.maxPart,
     required this.errorDelete,
@@ -501,14 +524,9 @@ class LocalizationController extends GetxController {
     if (language.value == 0) {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
           inputTitle: ExerciseScreenTextEn().inputTitle,
-          inputTitlePlaceholder: ExerciseScreenTextEn().inputTitlePlaceholder,
-          partPlaceholder: ExerciseScreenTextEn().partPlaceholder,
-          partName: ExerciseScreenTextEn().partName,
           addExercise: ExerciseScreenTextEn().addExercise,
           add: ExerciseScreenTextEn().add,
-          success: ExerciseScreenTextEn().success,
           latestSort: ExerciseScreenTextEn().latestSort,
-          alreadyPart: ExerciseScreenTextEn().alreadyPart,
           noExercise: ExerciseScreenTextKr().noExercise,
           maxPart: ExerciseScreenTextEn().maxPart,
           errorDelete: ExerciseScreenTextEn().errorDelete,
@@ -517,19 +535,54 @@ class LocalizationController extends GetxController {
     } else {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
           inputTitle: ExerciseScreenTextKr().inputTitle,
-          inputTitlePlaceholder: ExerciseScreenTextKr().inputTitlePlaceholder,
-          partPlaceholder: ExerciseScreenTextKr().partPlaceholder,
-          partName: ExerciseScreenTextKr().partName,
           addExercise: ExerciseScreenTextKr().addExercise,
           add: ExerciseScreenTextKr().add,
-          success: ExerciseScreenTextKr().success,
           latestSort: ExerciseScreenTextKr().latestSort,
-          alreadyPart: ExerciseScreenTextKr().alreadyPart,
           noExercise: ExerciseScreenTextKr().noExercise,
           maxPart: ExerciseScreenTextKr().maxPart,
           errorDelete: ExerciseScreenTextEn().errorDelete,
           successDelete: ExerciseScreenTextEn().successDelete);
       return exerciseScreenText;
+    }
+  }
+
+  ExerciseAddScreenText localiztionExerciseAddScreen() {
+    if (language.value == 0) {
+      ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
+        title: ExerciseAddScreenTextEn().title,
+        inputTitle: ExerciseAddScreenTextEn().inputTitle,
+        inputTitlePlaceholder: ExerciseAddScreenTextEn().inputTitlePlaceholder,
+        partPlaceholder: ExerciseAddScreenTextEn().partPlaceholder,
+        partName: ExerciseAddScreenTextEn().partName,
+        addExercise: ExerciseAddScreenTextEn().addExercise,
+        add: ExerciseAddScreenTextEn().add,
+        success: ExerciseAddScreenTextEn().success,
+        latestSort: ExerciseAddScreenTextEn().latestSort,
+        alreadyPart: ExerciseAddScreenTextEn().alreadyPart,
+        maxPart: ExerciseAddScreenTextEn().maxPart,
+        noExercise: ExerciseAddScreenTextEn().noExercise,
+        successDelete: ExerciseAddScreenTextEn().successDelete,
+        errorDelete: ExerciseAddScreenTextEn().errorDelete,
+      );
+      return exerciseAddScreenText;
+    } else {
+      ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
+        title: ExerciseAddScreenTextKr().title,
+        inputTitle: ExerciseAddScreenTextKr().inputTitle,
+        inputTitlePlaceholder: ExerciseAddScreenTextKr().inputTitlePlaceholder,
+        partPlaceholder: ExerciseAddScreenTextKr().partPlaceholder,
+        partName: ExerciseAddScreenTextKr().partName,
+        addExercise: ExerciseAddScreenTextKr().addExercise,
+        add: ExerciseAddScreenTextKr().add,
+        success: ExerciseAddScreenTextKr().success,
+        latestSort: ExerciseAddScreenTextKr().latestSort,
+        alreadyPart: ExerciseAddScreenTextKr().alreadyPart,
+        maxPart: ExerciseAddScreenTextKr().maxPart,
+        noExercise: ExerciseAddScreenTextKr().noExercise,
+        successDelete: ExerciseAddScreenTextKr().successDelete,
+        errorDelete: ExerciseAddScreenTextKr().errorDelete,
+      );
+      return exerciseAddScreenText;
     }
   }
 }

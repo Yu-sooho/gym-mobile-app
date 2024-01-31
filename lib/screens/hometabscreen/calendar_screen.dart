@@ -72,15 +72,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ],
         ),
         children: [
-          calendarHeight > 0
-              ? Column(
-                  children: [
-                    RoutineListItem(),
-                    RoutineListItem(),
-                    RoutineListItem()
-                  ],
-                )
-              : SizedBox()
+          RoutineListItem(),
+          RoutineListItem(),
+          RoutineListItem()
+          // calendarHeight > 0
+          //     ? Column(
+          //         children: [
+          //           RoutineListItem(),
+          //           RoutineListItem(),
+          //           RoutineListItem()
+          //         ],
+          //       )
+          //     : SizedBox()
         ]));
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 @override
 Widget safeAreaView(
@@ -29,9 +30,9 @@ Widget safeAreaView(
               tileMode: TileMode.clamp),
         )))),
     Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        body: Column(children: [
+        body: KeyboardDismisser(
+            child: Column(children: [
           (noHeader)
               ? SizedBox()
               : CustomHeader(
@@ -55,6 +56,6 @@ Widget safeAreaView(
               child: Column(children: children ?? []),
             ),
           )
-        ]))
+        ])))
   ]);
 }
