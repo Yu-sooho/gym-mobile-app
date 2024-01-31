@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_calendar/models/routine_models.dart';
+import 'package:gym_calendar/screens/home/routine/package_routine.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
@@ -88,7 +89,12 @@ class _RoutineScreenState extends State<RoutineScreen> {
   }
 
   onPressAdd() {
-    print('123');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => RoutineAddScreen(),
+          settings: RouteSettings(name: 'routineAdd')),
+    );
   }
 
   Widget addButton(BuildContext context) {

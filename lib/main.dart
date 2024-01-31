@@ -41,6 +41,7 @@ class Main extends StatelessWidget {
         '/theme': (context) => ThemeScreen(),
         '/inquriy': (context) => InquiryScreen(),
         '/exerciseAdd': (context) => ExerciseAddScreen(),
+        '/routineAdd': (context) => RoutineAddScreen(),
       },
     );
   }

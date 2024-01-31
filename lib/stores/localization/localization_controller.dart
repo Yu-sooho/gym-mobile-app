@@ -9,6 +9,7 @@ import 'package:gym_calendar/stores/localization/inquiry_screen_text.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_edit_screen_text.dart';
+import 'package:gym_calendar/stores/localization/routine_add_screen_text.dart';
 import 'package:gym_calendar/stores/localization/routine_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
@@ -233,6 +234,33 @@ class RoutineScreenText {
       required this.routineCycle,
       required this.latestSort,
       required this.date});
+}
+
+class RoutineAddScreenText {
+  final String title;
+  final String inputTitle;
+  final String inputTitlePlaceholder;
+  final String exercisePlaceholder;
+  final String add;
+  final String success;
+  final String latestSort;
+  final String maxExercise;
+  final String noRoutine;
+  final String successDelete;
+  final String errorDelete;
+  RoutineAddScreenText({
+    required this.title,
+    required this.inputTitle,
+    required this.inputTitlePlaceholder,
+    required this.exercisePlaceholder,
+    required this.add,
+    required this.success,
+    required this.latestSort,
+    required this.maxExercise,
+    required this.noRoutine,
+    required this.successDelete,
+    required this.errorDelete,
+  });
 }
 
 class ExerciseScreenText {
@@ -583,6 +611,40 @@ class LocalizationController extends GetxController {
         errorDelete: ExerciseAddScreenTextKr().errorDelete,
       );
       return exerciseAddScreenText;
+    }
+  }
+
+  RoutineAddScreenText localiztionRoutineAddScreen() {
+    if (language.value == 0) {
+      RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
+        title: RoutineAddScreenTextEn().title,
+        inputTitle: RoutineAddScreenTextEn().inputTitle,
+        inputTitlePlaceholder: RoutineAddScreenTextEn().inputTitlePlaceholder,
+        exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
+        add: RoutineAddScreenTextEn().add,
+        success: RoutineAddScreenTextEn().success,
+        latestSort: RoutineAddScreenTextEn().latestSort,
+        maxExercise: RoutineAddScreenTextEn().maxExercise,
+        noRoutine: RoutineAddScreenTextEn().noRoutine,
+        successDelete: RoutineAddScreenTextEn().successDelete,
+        errorDelete: RoutineAddScreenTextEn().errorDelete,
+      );
+      return routineAddScreenText;
+    } else {
+      RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
+        title: RoutineAddScreenTextKr().title,
+        inputTitle: RoutineAddScreenTextKr().inputTitle,
+        inputTitlePlaceholder: RoutineAddScreenTextKr().inputTitlePlaceholder,
+        exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
+        add: RoutineAddScreenTextKr().add,
+        success: RoutineAddScreenTextKr().success,
+        latestSort: RoutineAddScreenTextKr().latestSort,
+        maxExercise: RoutineAddScreenTextKr().maxExercise,
+        noRoutine: RoutineAddScreenTextKr().noRoutine,
+        successDelete: RoutineAddScreenTextKr().successDelete,
+        errorDelete: RoutineAddScreenTextKr().errorDelete,
+      );
+      return routineAddScreenText;
     }
   }
 }
