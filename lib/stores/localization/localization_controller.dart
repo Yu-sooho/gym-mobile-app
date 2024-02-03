@@ -120,22 +120,28 @@ class ExerciseAddScreenText {
   final String noExercise;
   final String successDelete;
   final String errorDelete;
-  ExerciseAddScreenText({
-    required this.title,
-    required this.inputTitle,
-    required this.inputTitlePlaceholder,
-    required this.partPlaceholder,
-    required this.partName,
-    required this.addExercise,
-    required this.add,
-    required this.success,
-    required this.latestSort,
-    required this.alreadyPart,
-    required this.maxPart,
-    required this.noExercise,
-    required this.successDelete,
-    required this.errorDelete,
-  });
+  final String weight;
+  final String nowWeight;
+  final String targetWeight;
+
+  ExerciseAddScreenText(
+      {required this.title,
+      required this.inputTitle,
+      required this.inputTitlePlaceholder,
+      required this.partPlaceholder,
+      required this.partName,
+      required this.addExercise,
+      required this.add,
+      required this.success,
+      required this.latestSort,
+      required this.alreadyPart,
+      required this.maxPart,
+      required this.noExercise,
+      required this.successDelete,
+      required this.errorDelete,
+      required this.weight,
+      required this.nowWeight,
+      required this.targetWeight});
 }
 
 class InquiryScreenText {
@@ -248,19 +254,27 @@ class RoutineAddScreenText {
   final String noRoutine;
   final String successDelete;
   final String errorDelete;
-  RoutineAddScreenText({
-    required this.title,
-    required this.inputTitle,
-    required this.inputTitlePlaceholder,
-    required this.exercisePlaceholder,
-    required this.add,
-    required this.success,
-    required this.latestSort,
-    required this.maxExercise,
-    required this.noRoutine,
-    required this.successDelete,
-    required this.errorDelete,
-  });
+  final String cycle;
+  final String repeat;
+  final String cycleDate;
+  final String exerciseListCheck;
+
+  RoutineAddScreenText(
+      {required this.title,
+      required this.inputTitle,
+      required this.inputTitlePlaceholder,
+      required this.exercisePlaceholder,
+      required this.add,
+      required this.success,
+      required this.latestSort,
+      required this.maxExercise,
+      required this.noRoutine,
+      required this.successDelete,
+      required this.errorDelete,
+      required this.cycle,
+      required this.repeat,
+      required this.cycleDate,
+      required this.exerciseListCheck});
 }
 
 class ExerciseScreenText {
@@ -524,30 +538,6 @@ class LocalizationController extends GetxController {
     }
   }
 
-  RoutineScreenText localiztionRoutineScreen() {
-    if (language.value == 0) {
-      RoutineScreenText routineScreenText = RoutineScreenText(
-          inputTitle: RoutineScreenTextEn().inputTitle,
-          inputTitlePlaceholder: RoutineScreenTextEn().inputTitlePlaceholder,
-          addRoutine: RoutineScreenTextEn().addRoutine,
-          routineName: RoutineScreenTextEn().routineName,
-          latestSort: RoutineScreenTextEn().latestSort,
-          routineCycle: RoutineScreenTextEn().routineCycle,
-          date: RoutineScreenTextEn().date);
-      return routineScreenText;
-    } else {
-      RoutineScreenText routineScreenText = RoutineScreenText(
-          inputTitle: RoutineScreenTextKr().inputTitle,
-          inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
-          addRoutine: RoutineScreenTextKr().addRoutine,
-          routineName: RoutineScreenTextKr().routineName,
-          latestSort: RoutineScreenTextKr().latestSort,
-          routineCycle: RoutineScreenTextKr().routineCycle,
-          date: RoutineScreenTextKr().date);
-      return routineScreenText;
-    }
-  }
-
   ExerciseScreenText localiztionExerciseScreen() {
     if (language.value == 0) {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
@@ -577,73 +567,109 @@ class LocalizationController extends GetxController {
   ExerciseAddScreenText localiztionExerciseAddScreen() {
     if (language.value == 0) {
       ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
-        title: ExerciseAddScreenTextEn().title,
-        inputTitle: ExerciseAddScreenTextEn().inputTitle,
-        inputTitlePlaceholder: ExerciseAddScreenTextEn().inputTitlePlaceholder,
-        partPlaceholder: ExerciseAddScreenTextEn().partPlaceholder,
-        partName: ExerciseAddScreenTextEn().partName,
-        addExercise: ExerciseAddScreenTextEn().addExercise,
-        add: ExerciseAddScreenTextEn().add,
-        success: ExerciseAddScreenTextEn().success,
-        latestSort: ExerciseAddScreenTextEn().latestSort,
-        alreadyPart: ExerciseAddScreenTextEn().alreadyPart,
-        maxPart: ExerciseAddScreenTextEn().maxPart,
-        noExercise: ExerciseAddScreenTextEn().noExercise,
-        successDelete: ExerciseAddScreenTextEn().successDelete,
-        errorDelete: ExerciseAddScreenTextEn().errorDelete,
-      );
+          title: ExerciseAddScreenTextEn().title,
+          inputTitle: ExerciseAddScreenTextEn().inputTitle,
+          inputTitlePlaceholder:
+              ExerciseAddScreenTextEn().inputTitlePlaceholder,
+          partPlaceholder: ExerciseAddScreenTextEn().partPlaceholder,
+          partName: ExerciseAddScreenTextEn().partName,
+          addExercise: ExerciseAddScreenTextEn().addExercise,
+          add: ExerciseAddScreenTextEn().add,
+          success: ExerciseAddScreenTextEn().success,
+          latestSort: ExerciseAddScreenTextEn().latestSort,
+          alreadyPart: ExerciseAddScreenTextEn().alreadyPart,
+          maxPart: ExerciseAddScreenTextEn().maxPart,
+          noExercise: ExerciseAddScreenTextEn().noExercise,
+          successDelete: ExerciseAddScreenTextEn().successDelete,
+          errorDelete: ExerciseAddScreenTextEn().errorDelete,
+          weight: ExerciseAddScreenTextEn().weight,
+          nowWeight: ExerciseAddScreenTextEn().nowWeight,
+          targetWeight: ExerciseAddScreenTextEn().targetWeight);
       return exerciseAddScreenText;
     } else {
       ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
-        title: ExerciseAddScreenTextKr().title,
-        inputTitle: ExerciseAddScreenTextKr().inputTitle,
-        inputTitlePlaceholder: ExerciseAddScreenTextKr().inputTitlePlaceholder,
-        partPlaceholder: ExerciseAddScreenTextKr().partPlaceholder,
-        partName: ExerciseAddScreenTextKr().partName,
-        addExercise: ExerciseAddScreenTextKr().addExercise,
-        add: ExerciseAddScreenTextKr().add,
-        success: ExerciseAddScreenTextKr().success,
-        latestSort: ExerciseAddScreenTextKr().latestSort,
-        alreadyPart: ExerciseAddScreenTextKr().alreadyPart,
-        maxPart: ExerciseAddScreenTextKr().maxPart,
-        noExercise: ExerciseAddScreenTextKr().noExercise,
-        successDelete: ExerciseAddScreenTextKr().successDelete,
-        errorDelete: ExerciseAddScreenTextKr().errorDelete,
-      );
+          title: ExerciseAddScreenTextKr().title,
+          inputTitle: ExerciseAddScreenTextKr().inputTitle,
+          inputTitlePlaceholder:
+              ExerciseAddScreenTextKr().inputTitlePlaceholder,
+          partPlaceholder: ExerciseAddScreenTextKr().partPlaceholder,
+          partName: ExerciseAddScreenTextKr().partName,
+          addExercise: ExerciseAddScreenTextKr().addExercise,
+          add: ExerciseAddScreenTextKr().add,
+          success: ExerciseAddScreenTextKr().success,
+          latestSort: ExerciseAddScreenTextKr().latestSort,
+          alreadyPart: ExerciseAddScreenTextKr().alreadyPart,
+          maxPart: ExerciseAddScreenTextKr().maxPart,
+          noExercise: ExerciseAddScreenTextKr().noExercise,
+          successDelete: ExerciseAddScreenTextKr().successDelete,
+          errorDelete: ExerciseAddScreenTextKr().errorDelete,
+          weight: ExerciseAddScreenTextKr().weight,
+          nowWeight: ExerciseAddScreenTextKr().nowWeight,
+          targetWeight: ExerciseAddScreenTextKr().targetWeight);
       return exerciseAddScreenText;
+    }
+  }
+
+  RoutineScreenText localiztionRoutineScreen() {
+    if (language.value == 0) {
+      RoutineScreenText routineScreenText = RoutineScreenText(
+          inputTitle: RoutineScreenTextEn().inputTitle,
+          inputTitlePlaceholder: RoutineScreenTextEn().inputTitlePlaceholder,
+          addRoutine: RoutineScreenTextEn().addRoutine,
+          routineName: RoutineScreenTextEn().routineName,
+          latestSort: RoutineScreenTextEn().latestSort,
+          routineCycle: RoutineScreenTextEn().routineCycle,
+          date: RoutineScreenTextEn().date);
+      return routineScreenText;
+    } else {
+      RoutineScreenText routineScreenText = RoutineScreenText(
+          inputTitle: RoutineScreenTextKr().inputTitle,
+          inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
+          addRoutine: RoutineScreenTextKr().addRoutine,
+          routineName: RoutineScreenTextKr().routineName,
+          latestSort: RoutineScreenTextKr().latestSort,
+          routineCycle: RoutineScreenTextKr().routineCycle,
+          date: RoutineScreenTextKr().date);
+      return routineScreenText;
     }
   }
 
   RoutineAddScreenText localiztionRoutineAddScreen() {
     if (language.value == 0) {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
-        title: RoutineAddScreenTextEn().title,
-        inputTitle: RoutineAddScreenTextEn().inputTitle,
-        inputTitlePlaceholder: RoutineAddScreenTextEn().inputTitlePlaceholder,
-        exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
-        add: RoutineAddScreenTextEn().add,
-        success: RoutineAddScreenTextEn().success,
-        latestSort: RoutineAddScreenTextEn().latestSort,
-        maxExercise: RoutineAddScreenTextEn().maxExercise,
-        noRoutine: RoutineAddScreenTextEn().noRoutine,
-        successDelete: RoutineAddScreenTextEn().successDelete,
-        errorDelete: RoutineAddScreenTextEn().errorDelete,
-      );
+          title: RoutineAddScreenTextEn().title,
+          inputTitle: RoutineAddScreenTextEn().inputTitle,
+          inputTitlePlaceholder: RoutineAddScreenTextEn().inputTitlePlaceholder,
+          exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
+          add: RoutineAddScreenTextEn().add,
+          success: RoutineAddScreenTextEn().success,
+          latestSort: RoutineAddScreenTextEn().latestSort,
+          maxExercise: RoutineAddScreenTextEn().maxExercise,
+          noRoutine: RoutineAddScreenTextEn().noRoutine,
+          successDelete: RoutineAddScreenTextEn().successDelete,
+          errorDelete: RoutineAddScreenTextEn().errorDelete,
+          cycle: RoutineAddScreenTextEn().cycle,
+          repeat: RoutineAddScreenTextEn().repeat,
+          cycleDate: RoutineAddScreenTextEn().cycleDate,
+          exerciseListCheck: RoutineAddScreenTextEn().exerciseListCheck);
       return routineAddScreenText;
     } else {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
-        title: RoutineAddScreenTextKr().title,
-        inputTitle: RoutineAddScreenTextKr().inputTitle,
-        inputTitlePlaceholder: RoutineAddScreenTextKr().inputTitlePlaceholder,
-        exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
-        add: RoutineAddScreenTextKr().add,
-        success: RoutineAddScreenTextKr().success,
-        latestSort: RoutineAddScreenTextKr().latestSort,
-        maxExercise: RoutineAddScreenTextKr().maxExercise,
-        noRoutine: RoutineAddScreenTextKr().noRoutine,
-        successDelete: RoutineAddScreenTextKr().successDelete,
-        errorDelete: RoutineAddScreenTextKr().errorDelete,
-      );
+          title: RoutineAddScreenTextKr().title,
+          inputTitle: RoutineAddScreenTextKr().inputTitle,
+          inputTitlePlaceholder: RoutineAddScreenTextKr().inputTitlePlaceholder,
+          exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
+          add: RoutineAddScreenTextKr().add,
+          success: RoutineAddScreenTextKr().success,
+          latestSort: RoutineAddScreenTextKr().latestSort,
+          maxExercise: RoutineAddScreenTextKr().maxExercise,
+          noRoutine: RoutineAddScreenTextKr().noRoutine,
+          successDelete: RoutineAddScreenTextKr().successDelete,
+          errorDelete: RoutineAddScreenTextKr().errorDelete,
+          cycle: RoutineAddScreenTextKr().cycle,
+          repeat: RoutineAddScreenTextKr().repeat,
+          cycleDate: RoutineAddScreenTextKr().cycleDate,
+          exerciseListCheck: RoutineAddScreenTextKr().exerciseListCheck);
       return routineAddScreenText;
     }
   }

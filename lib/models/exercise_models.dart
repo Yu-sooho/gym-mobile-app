@@ -29,12 +29,16 @@ class Exercise {
   String name;
   List<dynamic> musclesId;
   Timestamp createdAt;
+  int? weight;
+  int? targetWeight;
   Exercise(
       {required this.id,
       required this.uid,
       required this.name,
       required this.musclesId,
-      required this.createdAt});
+      required this.createdAt,
+      this.weight,
+      this.targetWeight});
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
@@ -43,6 +47,8 @@ class Exercise {
       uid: json['uid'] as String,
       musclesId: json['musclesId'] as List<dynamic>,
       createdAt: json['createdAt'] as Timestamp,
+      weight: json['weight'] as int,
+      targetWeight: json['targetWeight'] as int,
     );
   }
 }

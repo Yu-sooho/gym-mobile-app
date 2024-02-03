@@ -10,6 +10,10 @@ class RoutineAddScreenTextKr {
   String noRoutine = '루틴이 없습니다.';
   String successDelete = '삭제되었습니다.';
   String errorDelete = '이미 삭제된 루틴입니다.';
+  String cycle = '루틴 주기';
+  String repeat = '반복 횟수';
+  String cycleDate = '기준 일수';
+  String exerciseListCheck = '추가된 운동';
 }
 
 class RoutineAddScreenTextEn {
@@ -24,4 +28,8 @@ class RoutineAddScreenTextEn {
   String noRoutine = '루틴이 없습니다.';
   String successDelete = '삭제되었습니다.';
   String errorDelete = '이미 삭제된 루틴입니다.';
+  String cycle = '루틴 주기';
+  String repeat = '반복 횟수';
+  String cycleDate = '기준 일수';
+  String exerciseListCheck = '추가된 운동';
 }

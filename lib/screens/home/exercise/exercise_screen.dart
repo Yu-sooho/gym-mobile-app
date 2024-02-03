@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,8 +21,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   Stores stores = Stores();
   final _controller = ScrollController();
 
-  QueryDocumentSnapshot<Object?>? startAfter;
-  bool endExerciseList = false;
   int limit = 10;
   double headerHeight = 48 + 16;
   bool exerciseLoading = false;
@@ -62,24 +59,28 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   }
 
   Future<bool> getExerciseList() async {
-    if (endExerciseList || exerciseLoading) return false;
+    if (stores.exerciseStateController.endExerciseList || exerciseLoading) {
+      return false;
+    }
     setStateifMounted(() {
       exerciseLoading = true;
     });
     var musclesId = selectedSort != 0 ? selectedSort - 1 : null;
     final result = await networkProviders.exerciseProvider.getExerciseList(
-        startAfter: startAfter, limit: limit, musclesId: musclesId);
+        startAfter: stores.exerciseStateController.startAfter,
+        limit: limit,
+        musclesId: musclesId);
     setStateifMounted(() {
       exerciseLoading = false;
     });
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
         setStateifMounted(() {
-          endExerciseList = true;
+          stores.exerciseStateController.endExerciseList = true;
         });
       }
       setState(() {
-        startAfter = result.lastDoc;
+        stores.exerciseStateController.startAfter = result.lastDoc;
         if (stores.exerciseStateController.exerciseList != null) {
           setStateifMounted(() {
             stores.exerciseStateController.exerciseList?.addAll(result.list);
@@ -119,9 +120,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   Future onRefresh() async {
     setState(() {
       isRefresh = true;
-      startAfter = null;
+      stores.exerciseStateController.startAfter = null;
       stores.exerciseStateController.exerciseList = null;
-      endExerciseList = false;
+      stores.exerciseStateController.endExerciseList = false;
       exerciseLoading = false;
     });
     await getExerciseList();
@@ -161,12 +162,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     return null;
   }
 
-  // void getHeight(double height) {
-  //   setState(() {
-  //     headerHeight = height + 16 + 32;
-  //   });
-  // }
-
   void onPress(Exercise item) {}
 
   void onChangedSortMethod(int selectedItem) async {
@@ -176,9 +171,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   void onPressSortMethodOk() async {
     setState(() {
       selectedSort = tempSelectedSort;
-      startAfter = null;
+      stores.exerciseStateController.startAfter = null;
       stores.exerciseStateController.exerciseList = null;
-      endExerciseList = false;
+      stores.exerciseStateController.endExerciseList = false;
       exerciseLoading = false;
     });
     getExerciseList();

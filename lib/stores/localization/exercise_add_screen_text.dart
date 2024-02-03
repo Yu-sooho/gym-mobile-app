@@ -13,6 +13,9 @@ class ExerciseAddScreenTextKr {
   String noExercise = '운동이 없습니다.';
   String successDelete = '삭제되었습니다.';
   String errorDelete = '이미 삭제된 운동입니다.';
+  String weight = '중량';
+  String nowWeight = '현재 중량';
+  String targetWeight = '목표 중량';
 }
 
 class ExerciseAddScreenTextEn {
@@ -30,4 +33,7 @@ class ExerciseAddScreenTextEn {
   String noExercise = '운동이 없습니다.';
   String successDelete = '삭제되었습니다.';
   String errorDelete = '이미 삭제된 운동입니다.';
+  String weight = '중량';
+  String nowWeight = '현재 중량';
+  String targetWeight = '목표 중량';
 }

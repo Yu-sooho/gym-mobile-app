@@ -17,10 +17,15 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   Stores stores = Stores();
   NetworkProviders networkProviders = NetworkProviders();
   TextEditingController _textController = TextEditingController(text: '');
+  TextEditingController _nowWeightController = TextEditingController(text: '');
+  TextEditingController _targetWeightController =
+      TextEditingController(text: '');
   var isOpen = false;
   List<int> selectedPart = [];
   int? tempSelectedPart;
   String exerciseName = '';
+  String weight = '';
+  String targetWeight = '';
 
   @override
   void initState() {
@@ -38,11 +43,27 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     });
   }
 
+  onChangeNowWegiht(String value) {
+    setState(() {
+      weight = value;
+    });
+  }
+
+  onChangeTargetWegiht(String value) {
+    setState(() {
+      targetWeight = value;
+    });
+  }
+
   void onPressAdd(BuildContext context) async {
     try {
       stores.appStateController.setIsLoading(true, context);
-      await networkProviders.exerciseProvider.postCustomExercise(
-          {'name': exerciseName, 'musclesId': selectedPart});
+      await networkProviders.exerciseProvider.postCustomExercise({
+        'name': exerciseName,
+        'musclesId': selectedPart,
+        'weight': weight,
+        'targetWeight': targetWeight
+      });
       final result =
           await networkProviders.exerciseProvider.getExerciseList(limit: 1);
       if (result.list.isNotEmpty) {
@@ -195,6 +216,21 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                   .inputTitle,
               onChangedTitle,
             )),
+            TwoTextInput(
+                stores: stores,
+                textController1: _nowWeightController,
+                textController2: _targetWeightController,
+                title: stores.localizationController
+                    .localiztionExerciseAddScreen()
+                    .weight,
+                placeholder1: stores.localizationController
+                    .localiztionExerciseAddScreen()
+                    .nowWeight,
+                placeholder2: stores.localizationController
+                    .localiztionExerciseAddScreen()
+                    .targetWeight,
+                onChanged1: onChangeNowWegiht,
+                onChanged2: onChangeTargetWegiht),
             Padding(
               padding: EdgeInsets.only(top: 8),
               child: CustomButton(
