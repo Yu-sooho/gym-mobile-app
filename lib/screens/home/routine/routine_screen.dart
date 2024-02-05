@@ -99,7 +99,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
 
   Widget addButton(BuildContext context) {
     return (Padding(
-        padding: EdgeInsets.only(top: 24),
+        padding: EdgeInsets.only(top: 12),
         child: CustomButton(
           onPress: onPressAdd,
           child: SizedBox(
@@ -135,8 +135,8 @@ class _RoutineScreenState extends State<RoutineScreen> {
         paddingTop: 12,
         openDuration: duration,
         closeDuration: duration,
-        minHeaderSize: sortBarHeight + 64,
-        maxHeaderSize: sortBarHeight + 64,
+        minHeaderSize: sortBarHeight + 64 - 12,
+        maxHeaderSize: sortBarHeight + 64 - 12,
         onRefresh: onRefresh,
         scrollController: _controller,
         headerSize: headerHeight,

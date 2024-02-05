@@ -281,6 +281,7 @@ class ExerciseScreenText {
   final String inputTitle;
 
   final String addExercise;
+  final String addPart;
   final String add;
 
   final String latestSort;
@@ -293,6 +294,7 @@ class ExerciseScreenText {
   ExerciseScreenText({
     required this.inputTitle,
     required this.addExercise,
+    required this.addPart,
     required this.add,
     required this.latestSort,
     required this.noExercise,
@@ -543,6 +545,7 @@ class LocalizationController extends GetxController {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
           inputTitle: ExerciseScreenTextEn().inputTitle,
           addExercise: ExerciseScreenTextEn().addExercise,
+          addPart: ExerciseScreenTextEn().addPart,
           add: ExerciseScreenTextEn().add,
           latestSort: ExerciseScreenTextEn().latestSort,
           noExercise: ExerciseScreenTextKr().noExercise,
@@ -554,6 +557,7 @@ class LocalizationController extends GetxController {
       ExerciseScreenText exerciseScreenText = ExerciseScreenText(
           inputTitle: ExerciseScreenTextKr().inputTitle,
           addExercise: ExerciseScreenTextKr().addExercise,
+          addPart: ExerciseScreenTextKr().addPart,
           add: ExerciseScreenTextKr().add,
           latestSort: ExerciseScreenTextKr().latestSort,
           noExercise: ExerciseScreenTextKr().noExercise,

@@ -21,11 +21,23 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   TextEditingController _targetWeightController =
       TextEditingController(text: '');
   var isOpen = false;
-  List<int> selectedPart = [];
-  int? tempSelectedPart;
+
+  List<int> selectedMuscles = [];
+  List<Muscles> selectedMusclesDetail = [];
+
   String exerciseName = '';
   String weight = '';
   String targetWeight = '';
+
+  double openButtonSize = 0.0;
+  double muscleListSize = 0.0;
+  double openButtonOpacity = 0.0;
+  double muscleListOpacity = 0.0;
+  bool isShow = false;
+  Duration duration = Duration(milliseconds: 250);
+
+  final buttonMaxSize = 48.0;
+  final listMaxSize = 108.0;
 
   @override
   void initState() {
@@ -60,7 +72,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       stores.appStateController.setIsLoading(true, context);
       await networkProviders.exerciseProvider.postCustomExercise({
         'name': exerciseName,
-        'musclesId': selectedPart,
+        'musclesId': selectedMuscles,
         'weight': weight,
         'targetWeight': targetWeight
       });
@@ -78,8 +90,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       if (!context.mounted) return;
       stores.appStateController.setIsLoading(false, context);
       setState(() {
-        selectedPart = [];
-        tempSelectedPart = null;
+        selectedMuscles = [];
         _textController.text = '';
         exerciseName = '';
       });
@@ -95,146 +106,114 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     }
   }
 
-  void onChangedItem(int index) {
-    setState(() {
-      tempSelectedPart = stores.exerciseStateController.muscles![index].id;
-    });
-  }
-
-  void onPressOk() {
-    final findSelected =
-        selectedPart.where((element) => element == tempSelectedPart);
-    if (findSelected.isNotEmpty) {
-      setState(() {
-        tempSelectedPart = null;
-      });
-      stores.appStateController.showToast(stores.localizationController
-          .localiztionExerciseAddScreen()
-          .alreadyPart);
-      return;
-    }
-
-    if (selectedPart.length >= 10) {
-      stores.appStateController.showToast(
-          stores.localizationController.localiztionExerciseScreen().maxPart);
-      return;
-    }
-
-    if (tempSelectedPart != null) {
-      selectedPart.add(tempSelectedPart!);
-      setState(() {
-        tempSelectedPart = null;
-      });
-    }
-  }
-
-  void onPressCancel() {
-    if (tempSelectedPart != null) {
-      setState(() {
-        tempSelectedPart = null;
-      });
-    }
-  }
-
   void onPressDelete(int selectedItem) {
     setState(() {
-      selectedPart.remove(selectedItem);
+      selectedMuscles.remove(selectedItem);
     });
-  }
-
-  void onPressAddPart() {
-    setState(() {
-      tempSelectedPart = 0;
-    });
-    stores.appStateController.showDialog(
-        CupertinoPicker(
-            magnification: 1.22,
-            squeeze: 1.2,
-            useMagnifier: true,
-            itemExtent: 32,
-            onSelectedItemChanged: onChangedItem,
-            children: List<Widget>.generate(
-                stores.exerciseStateController.muscles?.length ?? 0,
-                (int index) {
-              return Center(
-                  child: Center(
-                      child: Text(
-                          '${stores.exerciseStateController.muscles?[index].name}')));
-            })),
-        context,
-        isHaveButton: true,
-        barrierDismissible: false,
-        onPressOk: onPressOk,
-        onPressCancel: onPressCancel);
   }
 
   bool checkCanSave() {
     if (exerciseName.isEmpty) {
       return true;
     }
-    if (selectedPart.isEmpty) {
+    if (selectedMuscles.isEmpty) {
       return true;
     }
     return false;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return safeAreaView(context,
-        stores.localizationController.localiztionExerciseAddScreen().title,
-        rightText:
-            stores.localizationController.localiztionExerciseScreen().add,
-        isRightInActive: checkCanSave(),
-        onPressRight: () => onPressAdd(context),
-        children: [
-          Column(children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
-              child: SizedBox(
-                  height: 32,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      stores.localizationController
-                          .localiztionExerciseAddScreen()
-                          .inputTitle,
-                      style: stores.fontController.customFont().bold12,
-                    ),
-                  )),
-            ),
-            SizedBox(
-                child: customTextInput(
-              context,
-              controller: _textController,
-              maxLength: 20,
-              counterText: '',
-              placeholder: stores.localizationController
-                  .localiztionExerciseAddScreen()
-                  .inputTitlePlaceholder,
-              title: stores.localizationController
-                  .localiztionExerciseAddScreen()
-                  .inputTitle,
-              onChangedTitle,
-            )),
-            TwoTextInput(
-                stores: stores,
-                textController1: _nowWeightController,
-                textController2: _targetWeightController,
-                title: stores.localizationController
-                    .localiztionExerciseAddScreen()
-                    .weight,
-                placeholder1: stores.localizationController
-                    .localiztionExerciseAddScreen()
-                    .nowWeight,
-                placeholder2: stores.localizationController
-                    .localiztionExerciseAddScreen()
-                    .targetWeight,
-                onChanged1: onChangeNowWegiht,
-                onChanged2: onChangeTargetWegiht),
-            Padding(
-              padding: EdgeInsets.only(top: 8),
+  Widget addButton(BuildContext context, Function() onPress, String text) {
+    return (Padding(
+        padding: EdgeInsets.only(top: 12),
+        child: CustomButton(
+          onPress: onPress,
+          child: SizedBox(
+            height: 48,
+            width: stores.appStateController.logicalWidth.value,
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        text,
+                        style: stores.fontController.customFont().bold12,
+                      ),
+                      Icon(
+                        Icons.arrow_right,
+                        color: stores.colorController
+                            .customColor()
+                            .bottomTabBarActiveItem,
+                        size: 24,
+                      ),
+                    ])),
+          ),
+        )));
+  }
+
+  onPressExercise(Muscles muscles) {
+    if (selectedMuscles.isEmpty) {
+      setState(() {
+        selectedMuscles.add(muscles.id);
+        selectedMusclesDetail.add(muscles);
+      });
+      setState(() {
+        openButtonSize = buttonMaxSize;
+        openButtonOpacity = 1.0;
+      });
+      return;
+    }
+    int? find = selectedMuscles.firstWhereOrNull(
+      (element) => element == muscles.id,
+    );
+    if (find != null) {
+      if (selectedMuscles.length == 1) {
+        setState(() {
+          openButtonSize = 0.0;
+          openButtonOpacity = 0.0;
+        });
+      }
+      setState(() {
+        selectedMuscles.remove(find);
+        selectedMusclesDetail.remove(muscles);
+      });
+    } else {
+      setState(() {
+        selectedMuscles.add(muscles.id);
+        selectedMusclesDetail.add(muscles);
+        openButtonSize = buttonMaxSize;
+        openButtonOpacity = 1.0;
+      });
+    }
+  }
+
+  showList() {
+    setState(() {
+      isShow = !isShow;
+      muscleListSize = isShow ? 0 : listMaxSize;
+      muscleListOpacity = isShow ? 0.0 : 1.0;
+    });
+  }
+
+  onPressSelectedList(Muscles muscles) {
+    onPressExercise(muscles);
+    if (selectedMuscles.isEmpty) {
+      showList();
+    }
+  }
+
+  Widget selectedList(List<int> list) {
+    return (Column(
+      children: [
+        AnimatedOpacity(
+            duration: duration,
+            opacity: openButtonOpacity,
+            child: AnimatedContainer(
+              duration: duration,
+              height: openButtonSize,
               child: CustomButton(
-                  onPress: onPressAddPart,
+                  onPress: showList,
                   child: Padding(
                       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: SizedBox(
@@ -245,41 +224,39 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                             children: [
                               Text(
                                 stores.localizationController
-                                    .localiztionExerciseAddScreen()
-                                    .partName,
+                                    .localiztionRoutineAddScreen()
+                                    .exerciseListCheck,
                                 style:
                                     stores.fontController.customFont().bold12,
                               ),
                               Text(
-                                (tempSelectedPart != null &&
-                                        stores.exerciseStateController
-                                                .muscles !=
-                                            null)
-                                    ? stores.exerciseStateController
-                                        .muscles![tempSelectedPart!].name
-                                    : stores.localizationController
-                                        .localiztionExerciseAddScreen()
-                                        .partPlaceholder,
+                                '(${selectedMuscles.length})',
                                 style:
                                     stores.fontController.customFont().bold12,
                               )
                             ],
                           )))),
-            ),
-            SizedBox(
-                child: ListView.builder(
+            )),
+        AnimatedOpacity(
+          duration: duration,
+          opacity: muscleListOpacity,
+          child: AnimatedContainer(
+            duration: duration,
+            height: muscleListSize,
+            child: ListView.builder(
               primary: false,
               shrinkWrap: true,
-              itemCount: selectedPart.length,
-              itemExtent: 48,
+              itemCount: selectedMuscles.length,
+              itemExtent: 32,
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               itemBuilder: (BuildContext context, int index) {
                 final String? name = stores.exerciseStateController.muscles
-                    ?.firstWhere((element) => element.id == selectedPart[index])
+                    ?.firstWhere(
+                        (element) => element.id == selectedMuscles[index])
                     .name;
                 return (partListItem(
                     context,
-                    selectedPart[index],
+                    selectedMuscles[index],
                     onPressDelete,
                     Icon(
                       CupertinoIcons.clear,
@@ -288,11 +265,104 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                           .bottomTabBarActiveItem,
                       size: 16,
                     ),
-                    name ?? '',
+                    name ?? '123',
                     stores.fontController.customFont().medium12));
               },
-            )),
-          ]),
+            ),
+          ),
+        )
+      ],
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return safeAreaView(context,
+        stores.localizationController.localiztionExerciseAddScreen().title,
+        rightText:
+            stores.localizationController.localiztionExerciseScreen().add,
+        isRightInActive: checkCanSave(),
+        onPressRight: () => onPressAdd(context),
+        stickyWidget: Column(
+          children: [
+            Column(children: [
+              addButton(
+                  context,
+                  () => onPressAdd(context),
+                  stores.localizationController
+                      .localiztionExerciseScreen()
+                      .addPart),
+              Padding(
+                padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
+                child: SizedBox(
+                    height: 32,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        stores.localizationController
+                            .localiztionExerciseAddScreen()
+                            .inputTitle,
+                        style: stores.fontController.customFont().bold12,
+                      ),
+                    )),
+              ),
+              SizedBox(
+                  child: customTextInput(
+                context,
+                controller: _textController,
+                maxLength: 20,
+                counterText: '',
+                placeholder: stores.localizationController
+                    .localiztionExerciseAddScreen()
+                    .inputTitlePlaceholder,
+                title: stores.localizationController
+                    .localiztionExerciseAddScreen()
+                    .inputTitle,
+                onChangedTitle,
+              )),
+              TwoTextInput(
+                  stores: stores,
+                  textController1: _nowWeightController,
+                  textController2: _targetWeightController,
+                  title: stores.localizationController
+                      .localiztionExerciseAddScreen()
+                      .weight,
+                  placeholder1: stores.localizationController
+                      .localiztionExerciseAddScreen()
+                      .nowWeight,
+                  placeholder2: stores.localizationController
+                      .localiztionExerciseAddScreen()
+                      .targetWeight,
+                  onChanged1: onChangeNowWegiht,
+                  onChanged2: onChangeTargetWegiht),
+              SizedBox(
+                height: 12,
+              ),
+              selectedList(selectedMuscles),
+              SizedBox(
+                height: 12,
+              ),
+            ]),
+          ],
+        ),
+        children: [
+          Obx(() {
+            return ListView.separated(
+              primary: false,
+              shrinkWrap: true,
+              itemCount: stores.exerciseStateController.muscles?.length ?? 0,
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+              separatorBuilder: (BuildContext context, int index) =>
+                  const SizedBox(
+                height: 20,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return MuscleListItem(
+                    onPress: onPressExercise,
+                    item: stores.exerciseStateController.muscles![index]);
+              },
+            );
+          })
         ]);
   }
 }

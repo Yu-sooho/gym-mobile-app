@@ -217,11 +217,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         )));
   }
 
-  Widget addButton(BuildContext context) {
+  Widget addButton(BuildContext context, Function() onPress, String text) {
     return (Padding(
-        padding: EdgeInsets.only(top: 24),
+        padding: EdgeInsets.only(top: 12),
         child: CustomButton(
-          onPress: () => onPressAdd(context),
+          onPress: onPress,
           child: SizedBox(
             height: 48,
             width: stores.appStateController.logicalWidth.value,
@@ -232,9 +232,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        stores.localizationController
-                            .localiztionExerciseScreen()
-                            .addExercise,
+                        text,
                         style: stores.fontController.customFont().bold12,
                       ),
                       Icon(
@@ -254,12 +252,20 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     return (TabAreaView(
         openDuration: duration,
         closeDuration: duration,
-        minHeaderSize: sortBarHeight + 64,
-        maxHeaderSize: sortBarHeight + 64,
+        minHeaderSize: sortBarHeight + 64 - 12,
+        maxHeaderSize: sortBarHeight + 64 - 12,
         onRefresh: onRefresh,
         scrollController: _controller,
         paddingTop: 12,
-        header: Column(children: [addButton(context), sortBar(context)]),
+        header: Column(children: [
+          addButton(
+              context,
+              () => onPressAdd(context),
+              stores.localizationController
+                  .localiztionExerciseScreen()
+                  .addExercise),
+          sortBar(context)
+        ]),
         headerSize: headerHeight,
         children: [
           stores.exerciseStateController.exerciseList == null &&

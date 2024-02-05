@@ -4,11 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
+import 'package:gym_calendar/screens/home/package_home.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
-
-const buttonMaxSize = 48.0;
-const listMaxSize = 120.0;
 
 class RoutineAddScreen extends StatefulWidget {
   RoutineAddScreen({super.key});
@@ -47,6 +45,9 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   List<String> selectExercise = [];
   List<Exercise> selectExerciseDetail = [];
+
+  final buttonMaxSize = 48.0;
+  final listMaxSize = 120.0;
 
   late List<String> sortMethod = [
     stores.localizationController.localiztionExerciseScreen().latestSort
@@ -394,6 +395,47 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     });
   }
 
+  void onPressExerciseAdd(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ExerciseAddScreen(),
+          settings: RouteSettings(name: 'exerciseAdd')),
+    );
+  }
+
+  Widget addButton(BuildContext context) {
+    return (Padding(
+        padding: EdgeInsets.only(top: 12),
+        child: CustomButton(
+          onPress: () => onPressExerciseAdd(context),
+          child: SizedBox(
+            height: 48,
+            width: stores.appStateController.logicalWidth.value,
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        stores.localizationController
+                            .localiztionExerciseScreen()
+                            .addExercise,
+                        style: stores.fontController.customFont().bold12,
+                      ),
+                      Icon(
+                        Icons.arrow_right,
+                        color: stores.colorController
+                            .customColor()
+                            .bottomTabBarActiveItem,
+                        size: 24,
+                      ),
+                    ])),
+          ),
+        )));
+  }
+
   @override
   Widget build(BuildContext context) {
     return safeAreaView(context,
@@ -407,6 +449,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         onRefresh: onRefresh,
         stickyWidget: Column(
           children: [
+            addButton(context),
             Padding(
               padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
               child: SizedBox(
