@@ -17,17 +17,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // ];
 
 class Muscles {
-  int id;
+  String id;
+  String? uid;
+  Timestamp? createdAt;
   String name;
   String? imageURL;
-  Muscles({required this.id, required this.name, required this.imageURL});
+  Muscles(
+      {required this.id,
+      required this.name,
+      required this.imageURL,
+      this.createdAt,
+      this.uid});
 }
 
 class Exercise {
   String id;
   String uid;
   String name;
-  List<dynamic> musclesId;
+  List<dynamic> musclesNames;
   Timestamp createdAt;
   int? weight;
   int? targetWeight;
@@ -35,7 +42,7 @@ class Exercise {
       {required this.id,
       required this.uid,
       required this.name,
-      required this.musclesId,
+      required this.musclesNames,
       required this.createdAt,
       this.weight,
       this.targetWeight});
@@ -45,12 +52,20 @@ class Exercise {
       name: json['name'] as String,
       id: json['id'] as String,
       uid: json['uid'] as String,
-      musclesId: json['musclesId'] as List<dynamic>,
+      musclesNames: json['musclesNames'] as List<dynamic>,
       createdAt: json['createdAt'] as Timestamp,
       weight: json['weight'] as int,
       targetWeight: json['targetWeight'] as int,
     );
   }
+}
+
+class MuscleList {
+  List<Muscles> list;
+  QueryDocumentSnapshot<Object?>? lastDoc;
+  int length;
+
+  MuscleList({this.lastDoc, required this.list, required this.length});
 }
 
 class ExerciseList {

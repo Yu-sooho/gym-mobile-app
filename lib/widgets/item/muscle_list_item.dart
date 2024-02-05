@@ -9,12 +9,14 @@ class MuscleListItem extends StatefulWidget {
   late final Function(Muscles item)? onPress;
   late final Function(BuildContext context, Muscles item)? onPressDelete;
   final bool? isSelected;
+  final bool disabledDelete;
 
   MuscleListItem(
       {super.key,
       required this.item,
       this.onPress,
       this.onPressDelete,
+      this.disabledDelete = false,
       this.isSelected});
 
   @override
@@ -25,6 +27,7 @@ class _MuscleListItem extends State<MuscleListItem> {
   final Stores stores = Get.put(Stores());
 
   void onPress(BuildContext context) {
+    print(widget.disabledDelete);
     if (widget.onPress == null) return;
     widget.onPress!(widget.item);
   }
@@ -54,6 +57,7 @@ class _MuscleListItem extends State<MuscleListItem> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: stores.colorController.customColor().buttonActiveText),
           child: Slidable(
+              enabled: !widget.disabledDelete,
               key: const ValueKey(0),
               endActionPane: ActionPane(
                 extentRatio: 0.2,

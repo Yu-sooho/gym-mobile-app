@@ -114,6 +114,7 @@ class ExerciseAddScreenText {
   final String addExercise;
   final String add;
   final String success;
+  final String muscleSuccess;
   final String latestSort;
   final String alreadyPart;
   final String maxPart;
@@ -123,6 +124,7 @@ class ExerciseAddScreenText {
   final String weight;
   final String nowWeight;
   final String targetWeight;
+  final String addMucsle;
 
   ExerciseAddScreenText(
       {required this.title,
@@ -133,6 +135,7 @@ class ExerciseAddScreenText {
       required this.addExercise,
       required this.add,
       required this.success,
+      required this.muscleSuccess,
       required this.latestSort,
       required this.alreadyPart,
       required this.maxPart,
@@ -141,7 +144,8 @@ class ExerciseAddScreenText {
       required this.errorDelete,
       required this.weight,
       required this.nowWeight,
-      required this.targetWeight});
+      required this.targetWeight,
+      required this.addMucsle});
 }
 
 class InquiryScreenText {
@@ -588,7 +592,9 @@ class LocalizationController extends GetxController {
           errorDelete: ExerciseAddScreenTextEn().errorDelete,
           weight: ExerciseAddScreenTextEn().weight,
           nowWeight: ExerciseAddScreenTextEn().nowWeight,
-          targetWeight: ExerciseAddScreenTextEn().targetWeight);
+          targetWeight: ExerciseAddScreenTextEn().targetWeight,
+          addMucsle: ExerciseAddScreenTextEn().addMucsle,
+          muscleSuccess: ExerciseAddScreenTextEn().muscleSuccess);
       return exerciseAddScreenText;
     } else {
       ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
@@ -609,7 +615,9 @@ class LocalizationController extends GetxController {
           errorDelete: ExerciseAddScreenTextKr().errorDelete,
           weight: ExerciseAddScreenTextKr().weight,
           nowWeight: ExerciseAddScreenTextKr().nowWeight,
-          targetWeight: ExerciseAddScreenTextKr().targetWeight);
+          targetWeight: ExerciseAddScreenTextKr().targetWeight,
+          addMucsle: ExerciseAddScreenTextKr().addMucsle,
+          muscleSuccess: ExerciseAddScreenTextKr().muscleSuccess);
       return exerciseAddScreenText;
     }
   }

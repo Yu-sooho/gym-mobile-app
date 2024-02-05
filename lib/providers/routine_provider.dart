@@ -9,7 +9,7 @@ class RoutineProvider {
   Future<RoutineList> getRoutineList(
       {DocumentSnapshot<Object?>? startAfter,
       int? limit,
-      int? musclesId}) async {
+      int? musclesNames}) async {
     String uid = stores.firebaseAuthController.uid!.value;
     Query query = firestore
         .collection('user_routine')

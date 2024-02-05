@@ -17,10 +17,18 @@ class ExerciseProvider {
           .getCollectionData(collectionName: collectionName);
       List<Muscles> list = [];
       for (var element in res.docs) {
-        final id = element.get('id');
-        final name = element.get('name');
-        final imageURL = element.get('imageURL');
-        final muscle = Muscles(id: id, name: name, imageURL: imageURL);
+        final data = element.data() as Map<String, dynamic>;
+        final name = data['name'];
+        final imageURL = data['imageURL'];
+        final createdAt = data['createdAt'];
+        final uid = data['uid'];
+        final id = element.id;
+        final muscle = Muscles(
+            id: id,
+            uid: uid,
+            name: name,
+            imageURL: imageURL,
+            createdAt: createdAt);
         list.add(muscle);
       }
       stores.exerciseStateController.muscles = list.obs;
@@ -31,15 +39,64 @@ class ExerciseProvider {
     }
   }
 
+  Future<MuscleList> getUserMuscleList({
+    DocumentSnapshot<Object?>? startAfter,
+    int? limit,
+  }) async {
+    try {
+      const collectionName = 'user_muscles';
+
+      String uid = stores.firebaseAuthController.uid!.value;
+      Query query = firestore
+          .collection(collectionName)
+          .where('uid', isEqualTo: uid)
+          .orderBy('createdAt')
+          .limit(limit ?? 20);
+
+      if (startAfter != null) {
+        query = firestore
+            .collection('user_muscles')
+            .where('uid', isEqualTo: uid)
+            .orderBy('createdAt')
+            .startAfterDocument(startAfter)
+            .limit(limit ?? 20);
+      }
+
+      List<Muscles> list = [];
+      final res = await stores.firebaseFirestoreController
+          .getCollectionData(query: query);
+      final last = res.docs.lastOrNull;
+      for (var element in res.docs) {
+        final data = element.data() as Map<String, dynamic>;
+        final name = data['name'];
+        final imageURL = data['imageURL'];
+        final createdAt = data['createdAt'];
+        final uid = data['uid'];
+        final id = element.id;
+        final exercise = Muscles(
+            id: id,
+            uid: uid,
+            name: name,
+            imageURL: imageURL,
+            createdAt: createdAt);
+        list.add(exercise);
+      }
+      return MuscleList(list: list, lastDoc: last, length: res.docs.length);
+    } catch (error) {
+      print('ExerciseProvider getMuscleList error: $error');
+      rethrow;
+    }
+  }
+
   Future<ExerciseList> getExerciseList(
       {DocumentSnapshot<Object?>? startAfter,
       int? limit,
-      int? musclesId}) async {
+      int? musclesNames}) async {
     String uid = stores.firebaseAuthController.uid!.value;
     Query query = firestore
         .collection('user_exercise')
         .where('uid', isEqualTo: uid)
-        .where('musclesId', arrayContains: musclesId)
+        .where('musclesNamess', arrayContains: musclesNames)
         .orderBy('createdAt', descending: true)
         .limit(limit ?? 4);
 
@@ -47,7 +104,7 @@ class ExerciseProvider {
       query = firestore
           .collection('user_exercise')
           .where('uid', isEqualTo: uid)
-          .where('musclesId', arrayContains: musclesId)
+          .where('musclesNamess', arrayContains: musclesNames)
           .orderBy('createdAt', descending: true)
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
@@ -58,21 +115,46 @@ class ExerciseProvider {
         .getCollectionData(query: query);
     final last = res.docs.lastOrNull;
     for (var element in res.docs) {
+      final data = element.data() as Map<String, dynamic>;
+      final name = data['name'];
+      final musclesNames = data['musclesNamess'];
+      final createdAt = data['createdAt'];
+      final uid = data['uid'];
       final id = element.id;
-      final uid = element.get('uid');
-      final name = element.get('name');
-      final musclesId = element.get('musclesId');
-      final createdAt = element.get('createdAt');
       final exercise = Exercise(
           id: id,
           uid: uid,
           name: name,
-          musclesId: musclesId,
+          musclesNames: musclesNames ?? [],
           createdAt: createdAt);
       list.add(exercise);
     }
 
     return ExerciseList(list: list, lastDoc: last, length: res.docs.length);
+  }
+
+  Future postCustomMuscle(Map<String, dynamic> data) async {
+    try {
+      data['uid'] = stores.firebaseAuthController.uid?.value;
+      data['createdAt'] = Timestamp.now();
+      await stores.firebaseFirestoreController
+          .postCollectionDataSet(collectionName: 'user_muscles', obj: data);
+      return true;
+    } catch (error) {
+      print('ExerciseProvider postCustomMuscle error: $error');
+      rethrow;
+    }
+  }
+
+  Future deleteCustomMuscle(String docName) async {
+    try {
+      await stores.firebaseFirestoreController.deleteCollectionDataSet(
+          collectionName: 'user_muscles', docName: docName);
+      return true;
+    } catch (error) {
+      print('ExerciseProvider deleteCustomMuscle error: $error');
+      rethrow;
+    }
   }
 
   Future postCustomExercise(Map<String, dynamic> data) async {
@@ -94,7 +176,7 @@ class ExerciseProvider {
           collectionName: 'user_exercise', docName: docName);
       return true;
     } catch (error) {
-      print('ExerciseProvider postCustomExercise error: $error');
+      print('ExerciseProvider deleteCustomExercise error: $error');
       rethrow;
     }
   }

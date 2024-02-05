@@ -57,15 +57,15 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   void initState() {
     super.initState();
 
-    if (stores.exerciseStateController.exerciseList == null) {
+    if (stores.exerciseStateController.exerciseList.isEmpty) {
       getExerciseList();
     }
-    if (stores.exerciseStateController.muscles == null) {
+    if (stores.exerciseStateController.muscles.isEmpty) {
       getMuscleList();
     } else {
-      stores.exerciseStateController.muscles?.forEach((element) {
+      for (var element in stores.exerciseStateController.muscles) {
         sortMethod.add(element.name);
-      });
+      }
     }
 
     _controller.addListener(() {
@@ -76,7 +76,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         bool isTop = _controller.position.pixels == 0;
         if (isTop) {
           print('At the top');
-        } else {
+        } else if (_controller.position.pixels >=
+            _controller.position.maxScrollExtent - 20) {
           getExerciseList();
         }
       }
@@ -94,48 +95,37 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   }
 
   void getMuscleList() async {
-    if (stores.exerciseStateController.muscles == null) {
+    if (stores.exerciseStateController.muscles.isEmpty) {
       await networkProviders.exerciseProvider.getMuscleList();
     }
-    stores.exerciseStateController.muscles?.forEach((element) {
+    for (var element in stores.exerciseStateController.muscles) {
       sortMethod.add(element.name);
-    });
+    }
   }
 
   Future<bool> getExerciseList() async {
     if (stores.exerciseStateController.endExerciseList || exerciseLoading) {
       return false;
     }
-    setStateifMounted(() {
+    setState(() {
       exerciseLoading = true;
     });
-    var musclesId = selectedSort != 0 ? selectedSort - 1 : null;
+    var musclesNames = selectedSort != 0 ? selectedSort - 1 : null;
     final result = await networkProviders.exerciseProvider.getExerciseList(
         startAfter: stores.exerciseStateController.startAfter,
         limit: limit,
-        musclesId: musclesId);
-    setStateifMounted(() {
+        musclesNames: musclesNames);
+    setState(() {
       exerciseLoading = false;
     });
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
-        setStateifMounted(() {
-          stores.exerciseStateController.endExerciseList = true;
-        });
+        stores.exerciseStateController.endExerciseList = true;
       }
-      setState(() {
-        stores.exerciseStateController.startAfter = result.lastDoc;
-        if (stores.exerciseStateController.exerciseList != null) {
-          setStateifMounted(() {
-            stores.exerciseStateController.exerciseList?.addAll(result.list);
-          });
-        } else if (result.list.isNotEmpty) {
-          setStateifMounted(() {
-            stores.exerciseStateController.exerciseList =
-                RxList<Exercise>.from(result.list);
-          });
-        }
-      });
+      stores.exerciseStateController.startAfter = result.lastDoc;
+      stores.exerciseStateController.exerciseList.addAll(result.list);
+    } else {
+      stores.exerciseStateController.endExerciseList = true;
     }
     return true;
   }
@@ -147,7 +137,10 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     final result = await networkProviders.exerciseProvider
         .deleteCustomExercise(exercise.id);
     if (result) {
-      stores.exerciseStateController.exerciseList?.remove(exercise);
+      stores.exerciseStateController.exerciseList.remove(exercise);
+      if (stores.exerciseStateController.exerciseList.isEmpty) {
+        stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
+      }
       stores.appStateController.showToast(stores.localizationController
           .localiztionExerciseScreen()
           .successDelete);
@@ -202,7 +195,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     setState(() {
       isRefresh = true;
       stores.exerciseStateController.startAfter = null;
-      stores.exerciseStateController.exerciseList = null;
+      stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
       stores.exerciseStateController.endExerciseList = false;
       exerciseLoading = false;
       selectExercise = [];
@@ -255,7 +248,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     setState(() {
       selectedSort = tempSelectedSort;
       stores.exerciseStateController.startAfter = null;
-      stores.exerciseStateController.exerciseList = null;
+      stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
       stores.exerciseStateController.endExerciseList = false;
       exerciseLoading = false;
     });
@@ -353,7 +346,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                             ],
                           )))),
             )),
-        stores.exerciseStateController.exerciseList != null
+        stores.exerciseStateController.exerciseList.isEmpty
             ? AnimatedOpacity(
                 duration: duration,
                 opacity: exerciseListOpacity,
@@ -499,60 +492,34 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
           ],
         ),
         children: [
-          stores.exerciseStateController.exerciseList == null &&
-                  exerciseLoading == false
-              ? SizedBox(
-                  height: 120,
-                  child: Align(
-                      child: Text(
-                    stores.localizationController
-                        .localiztionExerciseScreen()
-                        .noExercise,
-                    style: stores.fontController.customFont().medium12,
-                  )),
-                )
-              : stores.exerciseStateController.exerciseList == null &&
-                      exerciseLoading == true &&
-                      !isRefresh
-                  ? SizedBox(
-                      height: 120,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: SpinKitFadingCircle(
-                          size: 24,
-                          color: stores.colorController
-                              .customColor()
-                              .loadingSpinnerColor,
-                        ),
-                      ),
-                    )
-                  : Obx(() {
-                      return ListView.separated(
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount: stores
-                                .exerciseStateController.exerciseList?.length ??
-                            0,
-                        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const SizedBox(
-                          height: 20,
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          bool? isActive = selectExercise.any((element) =>
-                              stores.exerciseStateController
-                                  .exerciseList![index].id ==
-                              element);
-                          return ExerciseListItem(
-                              isSelected: isActive,
-                              onPress: onPressExercise,
-                              onPressDelete: onPressDelete,
-                              key: Key('$index'),
-                              item: stores.exerciseStateController
-                                  .exerciseList![index]);
-                        },
-                      );
-                    })
+          Obx(() {
+            if (stores.exerciseStateController.exerciseList.isEmpty) {
+              return emptyContainer(exerciseLoading, isRefresh);
+            }
+            return (ListView.separated(
+              primary: false,
+              shrinkWrap: true,
+              itemCount: stores.exerciseStateController.exerciseList.length,
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+              separatorBuilder: (BuildContext context, int index) =>
+                  const SizedBox(
+                height: 20,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                bool? isActive = selectExercise.any((element) =>
+                    stores.exerciseStateController.exerciseList[index].id ==
+                    element);
+                return ExerciseListItem(
+                    isSelected: isActive,
+                    disabledDelete: isActive,
+                    onPress: onPressExercise,
+                    onPressDelete: onPressDelete,
+                    key: Key('$index'),
+                    item: stores.exerciseStateController.exerciseList[index]);
+              },
+            ));
+          }),
+          loadingFotter(exerciseLoading, isRefresh),
         ]);
   }
 }

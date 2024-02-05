@@ -23,7 +23,6 @@ class _ExerciseSelectedListItem extends State<ExerciseSelectedListItem> {
   Widget build(BuildContext context) {
     final item = widget.item;
     Stores stores = Stores();
-    print(item.name);
 
     return SizedBox(
       height: 32,
