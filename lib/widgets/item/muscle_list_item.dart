@@ -56,75 +56,81 @@ class _MuscleListItem extends State<MuscleListItem> {
               ],
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: stores.colorController.customColor().buttonActiveText),
-          child: Slidable(
-              enabled: !widget.disabledDelete,
-              key: const ValueKey(0),
-              endActionPane: ActionPane(
-                extentRatio: 0.2,
-                motion: ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: (BuildContext context) => {
-                      if (widget.onPressDelete != null)
-                        widget.onPressDelete!(context, item)
-                    },
-                    backgroundColor:
-                        stores.colorController.customColor().transparent,
-                    foregroundColor:
-                        stores.colorController.customColor().defaultBackground1,
-                    icon: Icons.delete,
-                    iconSize: 20,
-                    // borderRadius: BorderRadius.only(
-                    //   topLeft: Radius.zero,
-                    //   topRight: Radius.circular(20.0),
-                    //   bottomLeft: Radius.zero,
-                    //   bottomRight: Radius.circular(20.0),
-                    // ),
-                    // label: 'Save',
-                  ),
-                ],
-              ),
-              child: Container(
-                height: 100,
-                width: stores.appStateController.logicalWidth.value,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: isSelected
-                        ? stores.colorController.customColor().buttonActiveColor
-                        : stores.colorController
-                            .customColor()
-                            .buttonActiveText),
-                child: Column(
+          child: SlidableAutoCloseBehavior(
+            closeWhenOpened: true,
+            child: Slidable(
+                enabled: !widget.disabledDelete,
+                key: const ValueKey(0),
+                endActionPane: ActionPane(
+                  extentRatio: 0.2,
+                  motion: ScrollMotion(),
                   children: [
-                    SizedBox(
-                      height: 24,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          item.name,
-                          style: TextStyle(
-                              fontFamily: stores.fontController
-                                  .customFont()
-                                  .bold12
-                                  .fontFamily,
-                              fontWeight: stores.fontController
-                                  .customFont()
-                                  .bold12
-                                  .fontWeight,
-                              fontSize: stores.fontController
-                                  .customFont()
-                                  .bold12
-                                  .fontSize),
-                        ),
-                      ),
+                    SlidableAction(
+                      onPressed: (BuildContext context) => {
+                        if (widget.onPressDelete != null)
+                          widget.onPressDelete!(context, item)
+                      },
+                      backgroundColor:
+                          stores.colorController.customColor().transparent,
+                      foregroundColor: stores.colorController
+                          .customColor()
+                          .defaultBackground1,
+                      icon: Icons.delete,
+                      iconSize: 20,
+                      // borderRadius: BorderRadius.only(
+                      //   topLeft: Radius.zero,
+                      //   topRight: Radius.circular(20.0),
+                      //   bottomLeft: Radius.zero,
+                      //   bottomRight: Radius.circular(20.0),
+                      // ),
+                      // label: 'Save',
                     ),
-                    SizedBox(
-                      height: 32,
-                      width: 340,
-                    )
                   ],
                 ),
-              )))),
+                child: Container(
+                  height: 100,
+                  width: stores.appStateController.logicalWidth.value,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: isSelected
+                          ? stores.colorController
+                              .customColor()
+                              .buttonActiveColor
+                          : stores.colorController
+                              .customColor()
+                              .buttonActiveText),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 24,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            item.name,
+                            style: TextStyle(
+                                fontFamily: stores.fontController
+                                    .customFont()
+                                    .bold12
+                                    .fontFamily,
+                                fontWeight: stores.fontController
+                                    .customFont()
+                                    .bold12
+                                    .fontWeight,
+                                fontSize: stores.fontController
+                                    .customFont()
+                                    .bold12
+                                    .fontSize),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 32,
+                        width: 340,
+                      )
+                    ],
+                  ),
+                )),
+          ))),
     );
   }
 }

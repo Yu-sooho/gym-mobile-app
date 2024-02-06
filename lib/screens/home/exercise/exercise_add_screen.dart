@@ -612,7 +612,8 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                       element);
                   return MuscleListItem(
                       disabledDelete: index <
-                          (stores.exerciseStateController.muscles.length),
+                              (stores.exerciseStateController.muscles.length) ||
+                          isActive,
                       isSelected: isActive,
                       onPress: onPressSelectedList,
                       onPressDelete: onPressDeleteMuscle,
