@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gym_calendar/models/routine_models.dart';
+import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/screens/home/routine/package_routine.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -14,13 +16,17 @@ class RoutineScreen extends StatefulWidget {
 }
 
 class _RoutineScreenState extends State<RoutineScreen> {
+  final GlobalKey _containerkey = GlobalKey();
+  NetworkProviders networkProviders = NetworkProviders();
   Stores stores = Stores();
-  QueryDocumentSnapshot<Object?>? startAfter;
+  final _controller = ScrollController();
+  QueryDocumentSnapshot<Object?>? startAfterRoutine;
   List<Routine>? routineList;
   bool endRoutineList = false;
+  bool isRefresh = false;
   bool routineLoading = false;
 
-  final _controller = ScrollController();
+  int limit = 10;
 
   double headerHeight = 48 + 16;
   double sortBarHeight = 40;
@@ -36,6 +42,55 @@ class _RoutineScreenState extends State<RoutineScreen> {
 
   Future onRefresh() async {}
 
+  @override
+  void initState() {
+    super.initState();
+    getRoutineList();
+
+    _controller.addListener(() {
+      double maxScroll = _controller.position.maxScrollExtent;
+      double currentScroll = _controller.position.pixels;
+      double delta = 200.0;
+      if (maxScroll - currentScroll <= delta) {
+        bool isTop = _controller.position.pixels == 0;
+        if (isTop) {
+          print('At the top');
+        } else if (_controller.position.pixels >=
+            _controller.position.maxScrollExtent - 20) {
+          if (routineLoading || isRefresh) return;
+          getRoutineList();
+        }
+      }
+    });
+  }
+
+  Future<bool> getRoutineList() async {
+    if (stores.routineStateController.endRoutineList || routineLoading) {
+      return false;
+    }
+    setState(() {
+      routineLoading = true;
+    });
+    var musclesNames = selectedSort != 0 ? selectedSort - 1 : null;
+    final result = await networkProviders.routineProvider.getRoutineList(
+        startAfter: stores.routineStateController.startAfterRoutine,
+        limit: limit,
+        musclesNames: musclesNames);
+    setState(() {
+      routineLoading = false;
+    });
+    if (result.list.isNotEmpty) {
+      if (result.length < limit) {
+        stores.routineStateController.endRoutineList = true;
+      }
+      stores.routineStateController.startAfterRoutine = result.lastDoc;
+      stores.routineStateController.routineList.addAll(result.list);
+    } else {
+      stores.routineStateController.endRoutineList = true;
+    }
+    return true;
+  }
+
   void onChangedSortMethod(int selectedItem) async {
     tempSelectedSort = selectedItem;
   }
@@ -43,7 +98,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
   void onPressSortMethodOk() async {
     setState(() {
       selectedSort = tempSelectedSort;
-      startAfter = null;
+      startAfterRoutine = null;
       routineList = null;
       endRoutineList = false;
       routineLoading = false;
@@ -141,6 +196,28 @@ class _RoutineScreenState extends State<RoutineScreen> {
         scrollController: _controller,
         headerSize: headerHeight,
         header: Column(children: [addButton(context), sortBar(context)]),
-        children: [RoutineListItem(), RoutineListItem(), RoutineListItem()]));
+        children: [
+          Obx(() {
+            if (stores.routineStateController.routineList.isEmpty) {
+              return emptyContainer(routineLoading, isRefresh);
+            }
+            return (ListView.separated(
+              primary: false,
+              shrinkWrap: true,
+              itemCount: stores.routineStateController.routineList.length,
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+              separatorBuilder: (BuildContext context, int index) =>
+                  const SizedBox(
+                height: 20,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return RoutineListItem(
+                  item: stores.routineStateController.routineList[index],
+                );
+              },
+            ));
+          }),
+          loadingFotter(routineLoading, isRefresh),
+        ]));
   }
 }

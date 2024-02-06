@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/models/routine_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 
@@ -31,20 +32,22 @@ class RoutineProvider {
         .getCollectionData(query: query);
     final last = res.docs.lastOrNull;
     for (var element in res.docs) {
+      final data = element.data() as Map<String, dynamic>;
+      final name = data['name'];
+      final date = data['date'];
+      final cycle = data['cycle'];
+      final createdAt = data['createdAt'];
+      List<dynamic> dynamicList = data['exercises'];
+      List<String> stringList = dynamicList.cast<String>();
+      final uid = data['uid'];
       final id = element.id;
-      final uid = element.get('uid');
-      final name = element.get('name');
-      final cycle = element.get('cycle');
-      final date = element.get('date');
-      final exercises = element.get('exercises');
-      final createdAt = element.get('createdAt');
       final routine = Routine(
           id: id,
           uid: uid,
           name: name,
           cycle: cycle,
           date: date,
-          exercises: exercises,
+          exercises: stringList,
           createdAt: createdAt);
       list.add(routine);
     }

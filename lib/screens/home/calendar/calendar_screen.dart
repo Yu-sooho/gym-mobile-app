@@ -72,9 +72,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ],
         ),
         children: [
-          RoutineListItem(),
-          RoutineListItem(),
-          RoutineListItem()
+          // RoutineListItem(),
+          // RoutineListItem(),
+          // RoutineListItem()
           // calendarHeight > 0
           //     ? Column(
           //         children: [

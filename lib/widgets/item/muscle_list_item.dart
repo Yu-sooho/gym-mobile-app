@@ -77,13 +77,6 @@ class _MuscleListItem extends State<MuscleListItem> {
                           .defaultBackground1,
                       icon: Icons.delete,
                       iconSize: 20,
-                      // borderRadius: BorderRadius.only(
-                      //   topLeft: Radius.zero,
-                      //   topRight: Radius.circular(20.0),
-                      //   bottomLeft: Radius.zero,
-                      //   bottomRight: Radius.circular(20.0),
-                      // ),
-                      // label: 'Save',
                     ),
                   ],
                 ),
