@@ -155,7 +155,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   }
 
   onPressExercise(Exercise exercise) {
-    print(exercise.name);
     if (selectExercise.isEmpty) {
       setState(() {
         selectExercise.add(exercise.id);
@@ -175,6 +174,9 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         setState(() {
           openButtonSize = 0.0;
           openButtonOpacity = 0.0;
+          isShow = false;
+          exerciseListSize = 0;
+          exerciseListOpacity = 0;
         });
       }
       setState(() {
@@ -298,11 +300,19 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   }
 
   showList() {
-    setState(() {
-      isShow = !isShow;
-      exerciseListSize = isShow ? 0 : listMaxSize;
-      exerciseListOpacity = isShow ? 0.0 : 1.0;
-    });
+    if (isShow) {
+      setState(() {
+        isShow = false;
+        exerciseListSize = 0;
+        exerciseListOpacity = 0;
+      });
+    } else {
+      setState(() {
+        isShow = true;
+        exerciseListSize = listMaxSize;
+        exerciseListOpacity = 1.0;
+      });
+    }
   }
 
   onPressSelectedList(Exercise exercise) {
@@ -346,7 +356,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                             ],
                           )))),
             )),
-        stores.exerciseStateController.exerciseList.isEmpty
+        stores.exerciseStateController.exerciseList.isNotEmpty
             ? AnimatedOpacity(
                 duration: duration,
                 opacity: exerciseListOpacity,

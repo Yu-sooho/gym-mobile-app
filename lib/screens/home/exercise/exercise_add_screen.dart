@@ -187,7 +187,11 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       selectedMuscles.remove(selectedItem);
     });
     if (selectedMuscles.isEmpty) {
-      showList();
+      setState(() {
+        isShow = false;
+        muscleListSize = 0;
+        muscleListOpacity = 0;
+      });
     }
   }
 
@@ -272,17 +276,29 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   }
 
   showList() {
-    setState(() {
-      isShow = !isShow;
-      muscleListSize = isShow ? 0 : listMaxSize;
-      muscleListOpacity = isShow ? 0.0 : 1.0;
-    });
+    if (isShow) {
+      setState(() {
+        isShow = false;
+        muscleListSize = 0;
+        muscleListOpacity = 0;
+      });
+    } else {
+      setState(() {
+        isShow = true;
+        muscleListSize = listMaxSize;
+        muscleListOpacity = 1;
+      });
+    }
   }
 
   onPressSelectedList(Muscles muscles) {
     onPressExercise(muscles);
-    if (selectedMuscles.isEmpty && !isShow) {
-      showList();
+    if (selectedMuscles.isEmpty) {
+      setState(() {
+        isShow = false;
+        muscleListSize = 0;
+        muscleListOpacity = 0;
+      });
     }
   }
 
