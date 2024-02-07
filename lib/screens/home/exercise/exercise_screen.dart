@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
@@ -16,7 +15,6 @@ class ExerciseScreen extends StatefulWidget {
 }
 
 class _ExerciseScreenState extends State<ExerciseScreen> {
-  final GlobalKey _containerkey = GlobalKey();
   NetworkProviders networkProviders = NetworkProviders();
   Stores stores = Stores();
   final _controller = ScrollController();
@@ -45,9 +43,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   }
 
   void getMuscleList() async {
-    if (stores.exerciseStateController.muscles.isEmpty) {
-      await networkProviders.exerciseProvider.getMuscleList();
-    }
     for (var element in stores.exerciseStateController.muscles) {
       sortMethod.add(element.name);
     }
@@ -144,16 +139,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         }
       }
     });
-  }
-
-  Size? getSize() {
-    if (_containerkey.currentContext != null) {
-      final RenderBox renderBox =
-          _containerkey.currentContext!.findRenderObject() as RenderBox;
-      Size size = renderBox.size;
-      return size;
-    }
-    return null;
   }
 
   void onPress(Exercise item) {}
@@ -284,7 +269,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
               },
             ));
           }),
-          loadingFotter(exerciseLoading, isRefresh),
+          loadingFotter(exerciseLoading, isRefresh,
+              stores.exerciseStateController.exerciseList.isNotEmpty),
         ]));
   }
 }

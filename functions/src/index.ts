@@ -23,4 +23,5 @@ exports.kakaoAuth = functions
 exports.naverAuth = functions
   .runWith({ secrets: ['service_account_key'] })
   .https.onRequest(naverAuth)
+
 exports.createUser = createUser

@@ -16,7 +16,6 @@ class RoutineScreen extends StatefulWidget {
 }
 
 class _RoutineScreenState extends State<RoutineScreen> {
-  final GlobalKey _containerkey = GlobalKey();
   NetworkProviders networkProviders = NetworkProviders();
   Stores stores = Stores();
   final _controller = ScrollController();
@@ -40,7 +39,19 @@ class _RoutineScreenState extends State<RoutineScreen> {
 
   final Duration duration = Duration(milliseconds: 250);
 
-  Future onRefresh() async {}
+  Future onRefresh() async {
+    setState(() {
+      isRefresh = true;
+      stores.routineStateController.startAfterRoutine = null;
+      stores.routineStateController.routineList = RxList<Routine>.empty();
+      stores.routineStateController.endRoutineList = false;
+      routineLoading = false;
+    });
+    await getRoutineList();
+    setState(() {
+      isRefresh = false;
+    });
+  }
 
   @override
   void initState() {
@@ -199,7 +210,10 @@ class _RoutineScreenState extends State<RoutineScreen> {
         children: [
           Obx(() {
             if (stores.routineStateController.routineList.isEmpty) {
-              return emptyContainer(routineLoading, isRefresh);
+              return emptyContainer(routineLoading, isRefresh,
+                  text: stores.localizationController
+                      .localiztionRoutineScreen()
+                      .noRoutine);
             }
             return (ListView.separated(
               primary: false,
@@ -217,7 +231,8 @@ class _RoutineScreenState extends State<RoutineScreen> {
               },
             ));
           }),
-          loadingFotter(routineLoading, isRefresh),
+          loadingFotter(routineLoading, isRefresh,
+              stores.routineStateController.routineList.isNotEmpty),
         ]));
   }
 }

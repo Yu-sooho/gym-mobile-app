@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gym_calendar/models/package_models.dart';
 
 class Routine {
   String id;
@@ -6,7 +7,7 @@ class Routine {
   String name;
   String cycle;
   String date;
-  List<String> exercises;
+  List<Exercise> exercises;
   Timestamp createdAt;
   Routine(
       {required this.id,

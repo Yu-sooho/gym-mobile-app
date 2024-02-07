@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
@@ -58,6 +57,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   @override
   void initState() {
     super.initState();
+    getMuscle();
 
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
@@ -78,6 +78,15 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void getMuscle() async {
+    if (stores.exerciseStateController.muscles.isEmpty) {
+      final result = await networkProviders.exerciseProvider.getMuscleList();
+      if (result.list.isNotEmpty) {
+        stores.exerciseStateController.muscles.addAll(result.list);
+      }
+    }
   }
 
   void setStateifMounted(Function() afterFunc) {
@@ -154,7 +163,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       stores.appStateController.setIsLoading(true, context);
       await networkProviders.exerciseProvider.postCustomExercise({
         'name': exerciseName,
-        'musclesNamess': selectedMuscles,
+        'musclesNames': selectedMuscles,
         'weight': weight,
         'targetWeight': targetWeight
       });
@@ -324,7 +333,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                               Text(
                                 stores.localizationController
                                     .localiztionExerciseAddScreen()
-                                    .addMucsle,
+                                    .addMuscle,
                                 style:
                                     stores.fontController.customFont().bold12,
                               ),
@@ -454,7 +463,9 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   @override
   Widget build(BuildContext context) {
     return KeyboardDismisser(
-      child: safeAreaView(context,
+      child: safeAreaView(
+          context,
+          physics: AlwaysScrollableScrollPhysics(),
           stores.localizationController.localiztionExerciseAddScreen().title,
           rightText:
               stores.localizationController.localiztionExerciseScreen().add,
@@ -606,6 +617,13 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
           ),
           children: [
             Obx(() {
+              if (stores.exerciseStateController.muscleList.isEmpty &&
+                  stores.exerciseStateController.muscles.isEmpty) {
+                return emptyContainer(muscleLoading, isRefresh,
+                    text: stores.localizationController
+                        .localiztionExerciseAddScreen()
+                        .noMuscle);
+              }
               return ListView.separated(
                 primary: false,
                 shrinkWrap: true,
@@ -640,7 +658,8 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                 },
               );
             }),
-            loadingFotter(muscleLoading, isRefresh),
+            loadingFotter(muscleLoading, isRefresh,
+                stores.exerciseStateController.muscles.isNotEmpty),
           ],
           scrollController: _controller,
           onRefresh: onRefresh),

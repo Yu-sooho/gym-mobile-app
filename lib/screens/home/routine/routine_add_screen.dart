@@ -232,6 +232,11 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'date': date,
         'exercises': selectExercise,
       });
+      final result =
+          await networkProviders.routineProvider.getRoutineList(limit: 1);
+      if (result.list.isNotEmpty) {
+        stores.routineStateController.routineList.insertAll(0, result.list);
+      }
       if (!context.mounted) return;
       stores.appStateController.setIsLoading(false, context);
       stores.appStateController.showToast(
@@ -529,7 +534,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
               },
             ));
           }),
-          loadingFotter(exerciseLoading, isRefresh),
+          loadingFotter(exerciseLoading, isRefresh,
+              stores.exerciseStateController.exerciseList.isNotEmpty),
         ]);
   }
 }

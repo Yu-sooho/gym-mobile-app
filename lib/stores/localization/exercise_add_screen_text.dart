@@ -16,8 +16,9 @@ class ExerciseAddScreenTextKr {
   String weight = '중량';
   String nowWeight = '현재 중량';
   String targetWeight = '목표 중량';
-  String addMucsle = '추가된 근육';
-  String muscleSuccess = '근육이 추가되었습니다';
+  String addMuscle = '추가된 근육';
+  String muscleSuccess = '근육이 추가되었습니다.';
+  String noMuscle = '추가된 근육이 없습니다.';
 }
 
 class ExerciseAddScreenTextEn {
@@ -38,6 +39,7 @@ class ExerciseAddScreenTextEn {
   String weight = '중량';
   String nowWeight = '현재 중량';
   String targetWeight = '목표 중량';
-  String addMucsle = '추가된 근육';
-  String muscleSuccess = '근육이 추가되었습니다';
+  String addMuscle = '추가된 근육';
+  String muscleSuccess = '근육이 추가되었습니다.';
+  String noMuscle = '추가된 근육이 없습니다.';
 }

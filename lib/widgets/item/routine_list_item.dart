@@ -132,7 +132,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                             ),
                             itemBuilder: (BuildContext context, int index) {
                               return (Text(
-                                '${item.exercises[index]}',
+                                item.exercises[index].name,
                                 style: TextStyle(
                                     fontFamily: stores.fontController
                                         .customFont()

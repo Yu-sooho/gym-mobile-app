@@ -6,6 +6,7 @@ class RoutineScreenTextKr {
   String routineCycle = '루틴 주기';
   String latestSort = '최신순';
   String date = '일';
+  String noRoutine = '루틴이 없습니다.';
 }
 
 class RoutineScreenTextEn {
@@ -16,4 +17,5 @@ class RoutineScreenTextEn {
   String routineCycle = '루틴 주기';
   String latestSort = '최신순';
   String date = '일';
+  String noRoutine = '루틴이 없습니다.';
 }

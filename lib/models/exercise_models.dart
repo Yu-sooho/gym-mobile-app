@@ -36,8 +36,8 @@ class Exercise {
   String name;
   List<dynamic> musclesNames;
   Timestamp createdAt;
-  int? weight;
-  int? targetWeight;
+  String? weight;
+  String? targetWeight;
   Exercise(
       {required this.id,
       required this.uid,
@@ -47,15 +47,15 @@ class Exercise {
       this.weight,
       this.targetWeight});
 
-  factory Exercise.fromJson(Map<String, dynamic> json) {
+  factory Exercise.fromJson(Map<String, dynamic> json, id) {
     return Exercise(
       name: json['name'] as String,
-      id: json['id'] as String,
+      id: id ?? json['id'] as String,
       uid: json['uid'] as String,
       musclesNames: json['musclesNames'] as List<dynamic>,
       createdAt: json['createdAt'] as Timestamp,
-      weight: json['weight'] as int,
-      targetWeight: json['targetWeight'] as int,
+      weight: json['weight'] as String,
+      targetWeight: json['targetWeight'] as String,
     );
   }
 }
@@ -74,4 +74,10 @@ class ExerciseList {
   int length;
 
   ExerciseList({this.lastDoc, required this.list, required this.length});
+
+  factory ExerciseList.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> exercisesJson = json['exercises'] ?? [];
+    final List<Exercise> exercises = exercisesJson.cast<Exercise>().toList();
+    return ExerciseList(list: exercises, length: exercises.length);
+  }
 }

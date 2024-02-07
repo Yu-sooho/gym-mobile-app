@@ -124,7 +124,8 @@ class ExerciseAddScreenText {
   final String weight;
   final String nowWeight;
   final String targetWeight;
-  final String addMucsle;
+  final String addMuscle;
+  final String noMuscle;
 
   ExerciseAddScreenText(
       {required this.title,
@@ -145,7 +146,8 @@ class ExerciseAddScreenText {
       required this.weight,
       required this.nowWeight,
       required this.targetWeight,
-      required this.addMucsle});
+      required this.addMuscle,
+      required this.noMuscle});
 }
 
 class InquiryScreenText {
@@ -235,6 +237,7 @@ class RoutineScreenText {
   final String latestSort;
   final String routineCycle;
   final String date;
+  final String noRoutine;
 
   RoutineScreenText(
       {required this.inputTitle,
@@ -243,7 +246,8 @@ class RoutineScreenText {
       required this.routineName,
       required this.routineCycle,
       required this.latestSort,
-      required this.date});
+      required this.date,
+      required this.noRoutine});
 }
 
 class RoutineAddScreenText {
@@ -593,8 +597,9 @@ class LocalizationController extends GetxController {
           weight: ExerciseAddScreenTextEn().weight,
           nowWeight: ExerciseAddScreenTextEn().nowWeight,
           targetWeight: ExerciseAddScreenTextEn().targetWeight,
-          addMucsle: ExerciseAddScreenTextEn().addMucsle,
-          muscleSuccess: ExerciseAddScreenTextEn().muscleSuccess);
+          addMuscle: ExerciseAddScreenTextEn().addMuscle,
+          muscleSuccess: ExerciseAddScreenTextEn().muscleSuccess,
+          noMuscle: ExerciseAddScreenTextEn().noMuscle);
       return exerciseAddScreenText;
     } else {
       ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
@@ -616,8 +621,9 @@ class LocalizationController extends GetxController {
           weight: ExerciseAddScreenTextKr().weight,
           nowWeight: ExerciseAddScreenTextKr().nowWeight,
           targetWeight: ExerciseAddScreenTextKr().targetWeight,
-          addMucsle: ExerciseAddScreenTextKr().addMucsle,
-          muscleSuccess: ExerciseAddScreenTextKr().muscleSuccess);
+          addMuscle: ExerciseAddScreenTextKr().addMuscle,
+          muscleSuccess: ExerciseAddScreenTextKr().muscleSuccess,
+          noMuscle: ExerciseAddScreenTextKr().noMuscle);
       return exerciseAddScreenText;
     }
   }
@@ -631,7 +637,8 @@ class LocalizationController extends GetxController {
           routineName: RoutineScreenTextEn().routineName,
           latestSort: RoutineScreenTextEn().latestSort,
           routineCycle: RoutineScreenTextEn().routineCycle,
-          date: RoutineScreenTextEn().date);
+          date: RoutineScreenTextEn().date,
+          noRoutine: RoutineScreenTextEn().noRoutine);
       return routineScreenText;
     } else {
       RoutineScreenText routineScreenText = RoutineScreenText(
@@ -641,7 +648,8 @@ class LocalizationController extends GetxController {
           routineName: RoutineScreenTextKr().routineName,
           latestSort: RoutineScreenTextKr().latestSort,
           routineCycle: RoutineScreenTextKr().routineCycle,
-          date: RoutineScreenTextKr().date);
+          date: RoutineScreenTextKr().date,
+          noRoutine: RoutineScreenTextKr().noRoutine);
       return routineScreenText;
     }
   }

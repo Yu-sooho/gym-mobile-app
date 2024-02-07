@@ -7,7 +7,7 @@ class ExerciseProvider {
   Stores stores = Stores();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<bool> getMuscleList() async {
+  Future<MuscleList> getMuscleList() async {
     try {
       final collectionName = stores.localizationController.language.value == 1
           ? 'muscles_kr'
@@ -15,6 +15,7 @@ class ExerciseProvider {
 
       final res = await stores.firebaseFirestoreController
           .getCollectionData(collectionName: collectionName);
+      final last = res.docs.lastOrNull;
       List<Muscles> list = [];
       for (var element in res.docs) {
         final data = element.data() as Map<String, dynamic>;
@@ -31,8 +32,7 @@ class ExerciseProvider {
             createdAt: createdAt);
         list.add(muscle);
       }
-      stores.exerciseStateController.muscles = list.obs;
-      return true;
+      return MuscleList(list: list, lastDoc: last, length: res.docs.length);
     } catch (error) {
       print('ExerciseProvider getMuscleList error: $error');
       rethrow;
@@ -96,7 +96,7 @@ class ExerciseProvider {
     Query query = firestore
         .collection('user_exercise')
         .where('uid', isEqualTo: uid)
-        .where('musclesNamess', arrayContains: musclesNames)
+        .where('musclesNames', arrayContains: musclesNames)
         .orderBy('createdAt', descending: true)
         .limit(limit ?? 4);
 
@@ -104,7 +104,7 @@ class ExerciseProvider {
       query = firestore
           .collection('user_exercise')
           .where('uid', isEqualTo: uid)
-          .where('musclesNamess', arrayContains: musclesNames)
+          .where('musclesNames', arrayContains: musclesNames)
           .orderBy('createdAt', descending: true)
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
@@ -117,7 +117,7 @@ class ExerciseProvider {
     for (var element in res.docs) {
       final data = element.data() as Map<String, dynamic>;
       final name = data['name'];
-      final musclesNames = data['musclesNamess'];
+      final musclesNames = data['musclesNames'];
       final createdAt = data['createdAt'];
       final uid = data['uid'];
       final id = element.id;
