@@ -24,12 +24,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   bool exerciseLoading = false;
   bool isRefresh = false;
   double sortBarHeight = 40;
-  int selectedSort = 0;
   int tempSelectedSort = 0;
   double itemExtent = 32.0;
-  late List<String> sortMethod = [
-    stores.localizationController.localiztionExerciseScreen().latestSort
-  ];
 
   final Duration duration = Duration(milliseconds: 250);
 
@@ -40,12 +36,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           builder: (context) => ExerciseAddScreen(),
           settings: RouteSettings(name: 'exerciseAdd')),
     );
-  }
-
-  void getMuscleList() async {
-    for (var element in stores.exerciseStateController.muscles) {
-      sortMethod.add(element.name);
-    }
   }
 
   void setStateifMounted(Function() afterFunc) {
@@ -60,11 +50,12 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     setState(() {
       exerciseLoading = true;
     });
-    var musclesNames = selectedSort != 0 ? selectedSort - 1 : null;
     final result = await networkProviders.exerciseProvider.getExerciseList(
-        startAfter: stores.exerciseStateController.startAfter,
-        limit: limit,
-        musclesNames: musclesNames);
+      sort: stores.exerciseStateController.exerciseSortMethod[
+          stores.exerciseStateController.exerciseSort.value],
+      startAfter: stores.exerciseStateController.startAfter,
+      limit: limit,
+    );
     setState(() {
       exerciseLoading = false;
     });
@@ -121,7 +112,6 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   @override
   void initState() {
     super.initState();
-    getMuscleList();
     getExerciseList();
 
     _controller.addListener(() {
@@ -149,7 +139,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   void onPressSortMethodOk() async {
     setState(() {
-      selectedSort = tempSelectedSort;
+      stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
       stores.exerciseStateController.startAfter = null;
       stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
       stores.exerciseStateController.endExerciseList = false;
@@ -172,12 +162,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                       useMagnifier: true,
                       itemExtent: itemExtent,
                       scrollController: FixedExtentScrollController(
-                        initialItem: selectedSort,
+                        initialItem:
+                            stores.exerciseStateController.exerciseSort.value,
                       ),
                       onSelectedItemChanged: onChangedSortMethod,
-                      children:
-                          List<Widget>.generate(sortMethod.length, (int index) {
-                        return Center(child: Text(sortMethod[index]));
+                      children: List<Widget>.generate(
+                          stores.exerciseStateController.exerciseSortMethod
+                              .length, (int index) {
+                        return Center(
+                            child: Text(stores.exerciseStateController
+                                .exerciseSortMethod[index]));
                       }),
                     ),
                     context,
@@ -190,7 +184,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                   width: 72,
                   alignment: Alignment.centerRight,
                   child: Text(
-                    sortMethod[selectedSort],
+                    stores.exerciseStateController.exerciseSortMethod[
+                        stores.exerciseStateController.exerciseSort.value],
                     style: stores.fontController.customFont().medium12,
                   ))),
         )));

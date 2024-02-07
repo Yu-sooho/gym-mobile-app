@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
@@ -32,7 +31,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   bool exerciseLoading = false;
   bool isRefresh = false;
   double sortBarHeight = 40;
-  int selectedSort = 0;
   int tempSelectedSort = 0;
   double itemExtent = 32.0;
 
@@ -49,10 +47,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   final buttonMaxSize = 48.0;
   final listMaxSize = 120.0;
 
-  late List<String> sortMethod = [
-    stores.localizationController.localiztionExerciseScreen().latestSort
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -62,10 +56,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     }
     if (stores.exerciseStateController.muscles.isEmpty) {
       getMuscleList();
-    } else {
-      for (var element in stores.exerciseStateController.muscles) {
-        sortMethod.add(element.name);
-      }
     }
 
     _controller.addListener(() {
@@ -98,9 +88,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     if (stores.exerciseStateController.muscles.isEmpty) {
       await networkProviders.exerciseProvider.getMuscleList();
     }
-    for (var element in stores.exerciseStateController.muscles) {
-      sortMethod.add(element.name);
-    }
   }
 
   Future<bool> getExerciseList() async {
@@ -110,11 +97,11 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     setState(() {
       exerciseLoading = true;
     });
-    var musclesNames = selectedSort != 0 ? selectedSort - 1 : null;
     final result = await networkProviders.exerciseProvider.getExerciseList(
         startAfter: stores.exerciseStateController.startAfter,
         limit: limit,
-        musclesNames: musclesNames);
+        sort: stores.exerciseStateController.exerciseSortMethod[
+            stores.exerciseStateController.exerciseSort.value]);
     setState(() {
       exerciseLoading = false;
     });
@@ -253,7 +240,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   void onPressSortMethodOk() async {
     setState(() {
-      selectedSort = tempSelectedSort;
+      stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
       stores.exerciseStateController.startAfter = null;
       stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
       stores.exerciseStateController.endExerciseList = false;
@@ -267,41 +254,48 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   }
 
   Widget sortBar(BuildContext context) {
-    return (Container(
-        height: sortBarHeight,
-        alignment: Alignment.centerRight,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
-          child: CustomButton(
-              onPress: () => stores.appStateController.showDialog(
-                    CupertinoPicker(
-                      magnification: 1.22,
-                      squeeze: 1.2,
-                      useMagnifier: true,
-                      itemExtent: itemExtent,
-                      scrollController: FixedExtentScrollController(
-                        initialItem: selectedSort,
+    return Obx(() {
+      return (Container(
+          height: sortBarHeight,
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
+            child: CustomButton(
+                onPress: () => stores.appStateController.showDialog(
+                      CupertinoPicker(
+                        magnification: 1.22,
+                        squeeze: 1.2,
+                        useMagnifier: true,
+                        itemExtent: itemExtent,
+                        scrollController: FixedExtentScrollController(
+                          initialItem:
+                              stores.exerciseStateController.exerciseSort.value,
+                        ),
+                        onSelectedItemChanged: onChangedSortMethod,
+                        children: List<Widget>.generate(
+                            stores.exerciseStateController.exerciseSortMethod
+                                .length, (int index) {
+                          return Center(
+                              child: Text(stores.exerciseStateController
+                                  .exerciseSortMethod[index]));
+                        }),
                       ),
-                      onSelectedItemChanged: onChangedSortMethod,
-                      children:
-                          List<Widget>.generate(sortMethod.length, (int index) {
-                        return Center(child: Text(sortMethod[index]));
-                      }),
+                      context,
+                      isHaveButton: true,
+                      onPressOk: onPressSortMethodOk,
                     ),
-                    context,
-                    isHaveButton: true,
-                    onPressOk: onPressSortMethodOk,
-                  ),
-              highlightColor: Colors.transparent,
-              child: Container(
-                  height: 24,
-                  width: 72,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    sortMethod[selectedSort],
-                    style: stores.fontController.customFont().medium12,
-                  ))),
-        )));
+                highlightColor: Colors.transparent,
+                child: Container(
+                    height: 24,
+                    width: 72,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      stores.exerciseStateController.exerciseSortMethod[
+                          stores.exerciseStateController.exerciseSort.value],
+                      style: stores.fontController.customFont().medium12,
+                    ))),
+          )));
+    });
   }
 
   showList() {

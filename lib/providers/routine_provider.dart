@@ -1,28 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gym_calendar/models/package_models.dart';
-import 'package:gym_calendar/models/routine_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 
 class RoutineProvider {
   Stores stores = Stores();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  orderBy(order) {
+    final name =
+        stores.localizationController.localiztionComponentButton().name;
+    final oldest =
+        stores.localizationController.localiztionComponentButton().oldest;
+    if (order == name) {
+      return {'text': 'name', 'descending': false};
+    } else if (order == oldest) {
+      return {'text': 'createdAt', 'descending': false};
+    } else {
+      return {'text': 'createdAt', 'descending': true};
+    }
+  }
+
   Future<RoutineList> getRoutineList(
-      {DocumentSnapshot<Object?>? startAfter,
-      int? limit,
-      int? musclesNames}) async {
+      {DocumentSnapshot<Object?>? startAfter, int? limit, String? sort}) async {
     String uid = stores.firebaseAuthController.uid!.value;
-    Query query = firestore
+    late Query query;
+    final order = orderBy(sort);
+
+    query = firestore
         .collection('user_routine')
         .where('uid', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
+        .orderBy(order['text'], descending: order['descending'])
         .limit(limit ?? 4);
 
     if (startAfter != null) {
       query = firestore
           .collection('user_routine')
           .where('uid', isEqualTo: uid)
-          .orderBy('createdAt', descending: true)
+          .orderBy(order['text'], descending: order['descending'])
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
     }

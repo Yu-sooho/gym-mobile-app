@@ -45,8 +45,16 @@ class ComponentErrorText {
 class ComponentButtonText {
   final String save;
   final String inquiry;
+  final String latest;
+  final String oldest;
+  final String name;
 
-  ComponentButtonText({required this.save, required this.inquiry});
+  ComponentButtonText(
+      {required this.save,
+      required this.inquiry,
+      required this.latest,
+      required this.oldest,
+      required this.name});
 }
 
 class SettingScreenText {
@@ -115,7 +123,6 @@ class ExerciseAddScreenText {
   final String add;
   final String success;
   final String muscleSuccess;
-  final String latestSort;
   final String alreadyPart;
   final String maxPart;
   final String noExercise;
@@ -137,7 +144,6 @@ class ExerciseAddScreenText {
       required this.add,
       required this.success,
       required this.muscleSuccess,
-      required this.latestSort,
       required this.alreadyPart,
       required this.maxPart,
       required this.noExercise,
@@ -234,7 +240,6 @@ class RoutineScreenText {
   final String inputTitlePlaceholder;
   final String addRoutine;
   final String routineName;
-  final String latestSort;
   final String routineCycle;
   final String date;
   final String noRoutine;
@@ -245,7 +250,6 @@ class RoutineScreenText {
       required this.addRoutine,
       required this.routineName,
       required this.routineCycle,
-      required this.latestSort,
       required this.date,
       required this.noRoutine});
 }
@@ -257,7 +261,6 @@ class RoutineAddScreenText {
   final String exercisePlaceholder;
   final String add;
   final String success;
-  final String latestSort;
   final String maxExercise;
   final String noRoutine;
   final String successDelete;
@@ -274,7 +277,6 @@ class RoutineAddScreenText {
       required this.exercisePlaceholder,
       required this.add,
       required this.success,
-      required this.latestSort,
       required this.maxExercise,
       required this.noRoutine,
       required this.successDelete,
@@ -292,7 +294,6 @@ class ExerciseScreenText {
   final String addPart;
   final String add;
 
-  final String latestSort;
   final String noExercise;
   final String maxPart;
 
@@ -304,7 +305,6 @@ class ExerciseScreenText {
     required this.addExercise,
     required this.addPart,
     required this.add,
-    required this.latestSort,
     required this.noExercise,
     required this.maxPart,
     required this.errorDelete,
@@ -496,12 +496,19 @@ class LocalizationController extends GetxController {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
         save: ComponentButtonTextEn().save,
         inquiry: ComponentButtonTextEn().inquiry,
+        latest: ComponentButtonTextEn().latest,
+        oldest: ComponentButtonTextEn().oldest,
+        name: ComponentButtonTextEn().name,
       );
       return localiztionButtonText;
     } else {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
-          save: ComponentButtonTextKr().save,
-          inquiry: ComponentButtonTextKr().inquiry);
+        save: ComponentButtonTextKr().save,
+        inquiry: ComponentButtonTextKr().inquiry,
+        latest: ComponentButtonTextKr().latest,
+        oldest: ComponentButtonTextKr().oldest,
+        name: ComponentButtonTextKr().name,
+      );
       return localiztionButtonText;
     }
   }
@@ -555,7 +562,6 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseScreenTextEn().addExercise,
           addPart: ExerciseScreenTextEn().addPart,
           add: ExerciseScreenTextEn().add,
-          latestSort: ExerciseScreenTextEn().latestSort,
           noExercise: ExerciseScreenTextKr().noExercise,
           maxPart: ExerciseScreenTextEn().maxPart,
           errorDelete: ExerciseScreenTextEn().errorDelete,
@@ -567,7 +573,6 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseScreenTextKr().addExercise,
           addPart: ExerciseScreenTextKr().addPart,
           add: ExerciseScreenTextKr().add,
-          latestSort: ExerciseScreenTextKr().latestSort,
           noExercise: ExerciseScreenTextKr().noExercise,
           maxPart: ExerciseScreenTextKr().maxPart,
           errorDelete: ExerciseScreenTextEn().errorDelete,
@@ -588,7 +593,6 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseAddScreenTextEn().addExercise,
           add: ExerciseAddScreenTextEn().add,
           success: ExerciseAddScreenTextEn().success,
-          latestSort: ExerciseAddScreenTextEn().latestSort,
           alreadyPart: ExerciseAddScreenTextEn().alreadyPart,
           maxPart: ExerciseAddScreenTextEn().maxPart,
           noExercise: ExerciseAddScreenTextEn().noExercise,
@@ -612,7 +616,6 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseAddScreenTextKr().addExercise,
           add: ExerciseAddScreenTextKr().add,
           success: ExerciseAddScreenTextKr().success,
-          latestSort: ExerciseAddScreenTextKr().latestSort,
           alreadyPart: ExerciseAddScreenTextKr().alreadyPart,
           maxPart: ExerciseAddScreenTextKr().maxPart,
           noExercise: ExerciseAddScreenTextKr().noExercise,
@@ -635,7 +638,6 @@ class LocalizationController extends GetxController {
           inputTitlePlaceholder: RoutineScreenTextEn().inputTitlePlaceholder,
           addRoutine: RoutineScreenTextEn().addRoutine,
           routineName: RoutineScreenTextEn().routineName,
-          latestSort: RoutineScreenTextEn().latestSort,
           routineCycle: RoutineScreenTextEn().routineCycle,
           date: RoutineScreenTextEn().date,
           noRoutine: RoutineScreenTextEn().noRoutine);
@@ -646,7 +648,6 @@ class LocalizationController extends GetxController {
           inputTitlePlaceholder: RoutineScreenTextKr().inputTitlePlaceholder,
           addRoutine: RoutineScreenTextKr().addRoutine,
           routineName: RoutineScreenTextKr().routineName,
-          latestSort: RoutineScreenTextKr().latestSort,
           routineCycle: RoutineScreenTextKr().routineCycle,
           date: RoutineScreenTextKr().date,
           noRoutine: RoutineScreenTextKr().noRoutine);
@@ -663,7 +664,6 @@ class LocalizationController extends GetxController {
           exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
           add: RoutineAddScreenTextEn().add,
           success: RoutineAddScreenTextEn().success,
-          latestSort: RoutineAddScreenTextEn().latestSort,
           maxExercise: RoutineAddScreenTextEn().maxExercise,
           noRoutine: RoutineAddScreenTextEn().noRoutine,
           successDelete: RoutineAddScreenTextEn().successDelete,
@@ -681,7 +681,6 @@ class LocalizationController extends GetxController {
           exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
           add: RoutineAddScreenTextKr().add,
           success: RoutineAddScreenTextKr().success,
-          latestSort: RoutineAddScreenTextKr().latestSort,
           maxExercise: RoutineAddScreenTextKr().maxExercise,
           noRoutine: RoutineAddScreenTextKr().noRoutine,
           successDelete: RoutineAddScreenTextKr().successDelete,

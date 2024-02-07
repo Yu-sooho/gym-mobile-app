@@ -7,6 +7,20 @@ class ExerciseProvider {
   Stores stores = Stores();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  orderBy(order) {
+    final name =
+        stores.localizationController.localiztionComponentButton().name;
+    final oldest =
+        stores.localizationController.localiztionComponentButton().oldest;
+    if (order == name) {
+      return {'text': 'name', 'descending': false};
+    } else if (order == oldest) {
+      return {'text': 'createdAt', 'descending': false};
+    } else {
+      return {'text': 'createdAt', 'descending': true};
+    }
+  }
+
   Future<MuscleList> getMuscleList() async {
     try {
       final collectionName = stores.localizationController.language.value == 1
@@ -89,23 +103,22 @@ class ExerciseProvider {
   }
 
   Future<ExerciseList> getExerciseList(
-      {DocumentSnapshot<Object?>? startAfter,
-      int? limit,
-      int? musclesNames}) async {
+      {DocumentSnapshot<Object?>? startAfter, int? limit, String? sort}) async {
     String uid = stores.firebaseAuthController.uid!.value;
-    Query query = firestore
+    late Query query;
+    final order = orderBy(sort);
+
+    query = firestore
         .collection('user_exercise')
         .where('uid', isEqualTo: uid)
-        .where('musclesNames', arrayContains: musclesNames)
-        .orderBy('createdAt', descending: true)
+        .orderBy(order['text'], descending: order['descending'])
         .limit(limit ?? 4);
 
     if (startAfter != null) {
       query = firestore
           .collection('user_exercise')
           .where('uid', isEqualTo: uid)
-          .where('musclesNames', arrayContains: musclesNames)
-          .orderBy('createdAt', descending: true)
+          .orderBy(order['text'], descending: order['descending'])
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
     }

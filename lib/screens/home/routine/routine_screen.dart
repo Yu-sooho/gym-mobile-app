@@ -19,9 +19,6 @@ class _RoutineScreenState extends State<RoutineScreen> {
   NetworkProviders networkProviders = NetworkProviders();
   Stores stores = Stores();
   final _controller = ScrollController();
-  QueryDocumentSnapshot<Object?>? startAfterRoutine;
-  List<Routine>? routineList;
-  bool endRoutineList = false;
   bool isRefresh = false;
   bool routineLoading = false;
 
@@ -31,12 +28,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
   double sortBarHeight = 40;
 
   double itemExtent = 32.0;
-  int selectedSort = 0;
   int tempSelectedSort = 0;
-  late List<String> sortMethod = [
-    stores.localizationController.localiztionRoutineScreen().latestSort
-  ];
-
   final Duration duration = Duration(milliseconds: 250);
 
   Future onRefresh() async {
@@ -82,11 +74,11 @@ class _RoutineScreenState extends State<RoutineScreen> {
     setState(() {
       routineLoading = true;
     });
-    var musclesNames = selectedSort != 0 ? selectedSort - 1 : null;
     final result = await networkProviders.routineProvider.getRoutineList(
         startAfter: stores.routineStateController.startAfterRoutine,
         limit: limit,
-        musclesNames: musclesNames);
+        sort: stores.routineStateController.routineSortMethod[
+            stores.routineStateController.routineSort.value]);
     setState(() {
       routineLoading = false;
     });
@@ -108,12 +100,13 @@ class _RoutineScreenState extends State<RoutineScreen> {
 
   void onPressSortMethodOk() async {
     setState(() {
-      selectedSort = tempSelectedSort;
-      startAfterRoutine = null;
-      routineList = null;
-      endRoutineList = false;
+      stores.routineStateController.routineSort = tempSelectedSort.obs;
+      stores.routineStateController.startAfterRoutine = null;
+      stores.routineStateController.routineList = RxList<Routine>.empty();
+      stores.routineStateController.endRoutineList = false;
       routineLoading = false;
     });
+    getRoutineList();
   }
 
   Widget sortBar(BuildContext context) {
@@ -130,12 +123,16 @@ class _RoutineScreenState extends State<RoutineScreen> {
                       useMagnifier: true,
                       itemExtent: itemExtent,
                       scrollController: FixedExtentScrollController(
-                        initialItem: selectedSort,
+                        initialItem:
+                            stores.routineStateController.routineSort.value,
                       ),
                       onSelectedItemChanged: onChangedSortMethod,
-                      children:
-                          List<Widget>.generate(sortMethod.length, (int index) {
-                        return Center(child: Text(sortMethod[index]));
+                      children: List<Widget>.generate(
+                          stores.routineStateController.routineSortMethod
+                              .length, (int index) {
+                        return Center(
+                            child: Text(stores.routineStateController
+                                .routineSortMethod[index]));
                       }),
                     ),
                     context,
@@ -148,7 +145,8 @@ class _RoutineScreenState extends State<RoutineScreen> {
                   width: 72,
                   alignment: Alignment.centerRight,
                   child: Text(
-                    sortMethod[selectedSort],
+                    stores.routineStateController.routineSortMethod[
+                        stores.routineStateController.routineSort.value],
                     style: stores.fontController.customFont().medium12,
                   ))),
         )));
