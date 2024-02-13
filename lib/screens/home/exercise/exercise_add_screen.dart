@@ -435,6 +435,8 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
         stores.exerciseStateController.muscleList.addAll(result.list);
       }
 
+      stores.exerciseStateController.startAfterMuscle = result.lastDoc;
+
       if (!context.mounted) return;
       stores.appStateController.setIsLoading(false, context);
       stores.appStateController.showToast(stores.localizationController
