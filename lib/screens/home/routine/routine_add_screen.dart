@@ -210,8 +210,26 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     return true;
   }
 
+  bool checkCycle() {
+    num? now = num.tryParse(cycle);
+    num? target = num.tryParse(date);
+
+    if (now != null && target != null) {
+      if (now > target) return false;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void onPressAdd(BuildContext context) async {
     try {
+      if (!checkCycle()) {
+        stores.appStateController.showToast(stores.localizationController
+            .localiztionRoutineAddScreen()
+            .errorCycle);
+        return;
+      }
       stores.appStateController.setIsLoading(true, context);
       await networkProviders.routineProvider.postCustomRoutine({
         'name': routineName,

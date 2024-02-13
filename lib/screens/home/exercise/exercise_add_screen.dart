@@ -158,8 +158,26 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     });
   }
 
+  bool checkWeight() {
+    num? now = num.tryParse(weight);
+    num? target = num.tryParse(targetWeight);
+
+    if (now != null && target != null) {
+      if (now > target) return false;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void onPressAdd(BuildContext context) async {
     try {
+      if (!checkWeight()) {
+        stores.appStateController.showToast(stores.localizationController
+            .localiztionExerciseAddScreen()
+            .errorWeight);
+        return;
+      }
       stores.appStateController.setIsLoading(true, context);
       await networkProviders.exerciseProvider.postCustomExercise({
         'name': exerciseName,

@@ -41,7 +41,6 @@ class _ExerciseListItem extends State<ExerciseListItem> {
     return InkWell(
       onTap: () => onPress(context),
       child: (Container(
-          height: 64,
           width: stores.appStateController.logicalWidth.value,
           decoration: BoxDecoration(
               boxShadow: [
@@ -82,7 +81,6 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                     ],
                   ),
                   child: Container(
-                    height: 100,
                     width: stores.appStateController.logicalWidth.value,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -117,8 +115,25 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                             ),
                           ),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                                width: 170,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(widget.item.weight ?? ''),
+                                )),
+                            SizedBox(
+                                width: 170,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(widget.item.targetWeight ?? ''),
+                                )),
+                          ],
+                        ),
                         SizedBox(
-                          height: 32,
+                          height: 18,
                           width: 340,
                           child: ListView.separated(
                             primary: false,
@@ -149,7 +164,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                               ));
                             },
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ))))),

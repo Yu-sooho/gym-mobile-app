@@ -133,13 +133,17 @@ class ExerciseProvider {
       final musclesNames = data['musclesNames'];
       final createdAt = data['createdAt'];
       final uid = data['uid'];
+      final weight = data['weight'];
+      final targetWeight = data['targetWeight'];
       final id = element.id;
       final exercise = Exercise(
           id: id,
           uid: uid,
           name: name,
           musclesNames: musclesNames ?? [],
-          createdAt: createdAt);
+          createdAt: createdAt,
+          weight: weight,
+          targetWeight: targetWeight);
       list.add(exercise);
     }
 

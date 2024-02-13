@@ -14,11 +14,12 @@ class ExerciseAddScreenTextKr {
   String successDelete = '삭제되었습니다.';
   String errorDelete = '이미 삭제된 운동입니다.';
   String weight = '중량';
-  String nowWeight = '현재 중량';
-  String targetWeight = '목표 중량';
+  String nowWeight = '현재 중량 (kg)';
+  String targetWeight = '목표 중량 (kg)';
   String addMuscle = '추가된 근육';
   String muscleSuccess = '근육이 추가되었습니다.';
   String noMuscle = '추가된 근육이 없습니다.';
+  String errorWeight = '현재 중량이 목표 중량보다 높을 수 없습니다.';
 }
 
 class ExerciseAddScreenTextEn {
@@ -37,9 +38,10 @@ class ExerciseAddScreenTextEn {
   String successDelete = '삭제되었습니다.';
   String errorDelete = '이미 삭제된 운동입니다.';
   String weight = '중량';
-  String nowWeight = '현재 중량';
-  String targetWeight = '목표 중량';
+  String nowWeight = '현재 중량 (kg)';
+  String targetWeight = '목표 중량 (kg)';
   String addMuscle = '추가된 근육';
   String muscleSuccess = '근육이 추가되었습니다.';
   String noMuscle = '추가된 근육이 없습니다.';
+  String errorWeight = '현재 중량이 목표 중량보다 높을 수 없습니다.';
 }

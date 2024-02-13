@@ -48,7 +48,7 @@ class CustomHeader extends StatelessWidget {
                                     color: stores.colorController
                                         .customColor()
                                         .defaultTextColor,
-                                    size: 24),
+                                    size: 20),
                               ))),
                   InkWell(
                       child: Container(

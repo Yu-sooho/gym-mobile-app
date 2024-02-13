@@ -74,20 +74,22 @@ class _UserProfileButtonState extends State<UserProfileButton> {
                           fit: BoxFit.cover,
                         )
                       ]))
-                  : CachedNetworkImage(
-                      imageUrl: imageUrl ?? '',
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: 100.0,
-                        height: 100.0,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
-                        ),
-                      ),
-                      placeholder: (context, url) => skeletonBox(),
-                      errorWidget: (context, url, error) => errorBox(),
-                    )),
+                  : imageUrl != null
+                      ? CachedNetworkImage(
+                          imageUrl: imageUrl ?? '',
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: 100.0,
+                            height: 100.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
+                          placeholder: (context, url) => skeletonBox(),
+                          errorWidget: (context, url, error) => errorBox(),
+                        )
+                      : errorBox()),
         )),
       ]),
     );
