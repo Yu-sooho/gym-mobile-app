@@ -376,26 +376,25 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
               itemExtent: 32,
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               itemBuilder: (BuildContext context, int index) {
-                final String name = [
+                final Muscles item = [
                   ...stores.exerciseStateController.muscles,
                   ...stores.exerciseStateController.muscleList,
-                ]
-                    .firstWhere(
-                        (element) => element.name == selectedMuscles[index])
-                    .name;
-                return (partListItem(
-                    context,
-                    selectedMuscles[index],
-                    onPressDelete,
-                    Icon(
-                      CupertinoIcons.clear,
-                      color: stores.colorController
-                          .customColor()
-                          .bottomTabBarActiveItem,
-                      size: 16,
-                    ),
-                    name,
-                    stores.fontController.customFont().medium12));
+                ].firstWhere(
+                    (element) => element.name == selectedMuscles[index]);
+                final String name = item.name;
+                return SelectListItem(
+                  selectedItem: selectedMuscles[index],
+                  onPress: () => onPressSelectedList(item),
+                  icon: Icon(
+                    CupertinoIcons.clear,
+                    color: stores.colorController
+                        .customColor()
+                        .bottomTabBarActiveItem,
+                    size: 16,
+                  ),
+                  title: name,
+                  style: stores.fontController.customFont().medium12,
+                );
               },
             ),
           ),
@@ -683,26 +682,4 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
           onRefresh: onRefresh),
     );
   }
-}
-
-Widget partListItem(BuildContext context, String selectedItem,
-    Function(String) onPress, Widget icon, String title, TextStyle style) {
-  return (SizedBox(
-    height: 32,
-    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(
-        title,
-        style: style,
-      ),
-      CustomButton(
-          onPress: () => {onPress(selectedItem)},
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          child: SizedBox(
-            height: 32,
-            width: 64,
-            child: Align(alignment: Alignment.centerRight, child: icon),
-          ))
-    ]),
-  ));
 }

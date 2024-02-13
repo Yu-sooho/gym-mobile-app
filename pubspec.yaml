@@ -57,6 +57,7 @@ dependencies:
   cached_network_image: ^3.3.0
   skeletonizer: ^0.8.0
   image_picker: ^1.0.4
+  equatable: ^2.0.3
   custom_refresh_indicator: ^3.0.0
   table_calendar:
     git:

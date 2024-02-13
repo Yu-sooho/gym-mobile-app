@@ -332,13 +332,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     }
   }
 
-  onPressSelectedList(Exercise exercise) {
-    onPressExercise(exercise);
-    if (selectExercise.isEmpty) {
-      showList();
-    }
-  }
-
   Widget selectedList(List<String> list) {
     return (Column(
       children: [
@@ -380,21 +373,29 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                 child: AnimatedContainer(
                     duration: duration,
                     height: exerciseListSize,
-                    child: ListView.separated(
+                    child: ListView.builder(
                       primary: false,
                       shrinkWrap: true,
                       itemCount: selectExercise.length,
-                      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        height: 20,
-                      ),
+                      itemExtent: 32,
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       itemBuilder: (BuildContext context, int index) {
-                        return ExerciseSelectedListItem(
-                            onPress: onPressSelectedList,
-                            key: Key('$index'),
-                            item: selectExerciseDetail.firstWhere((element) =>
-                                element.id == selectExercise[index]));
+                        final Exercise item = selectExerciseDetail.firstWhere(
+                            (element) => element.id == selectExercise[index]);
+                        final String name = item.name;
+                        return SelectListItem(
+                          selectedItem: selectExercise[index],
+                          onPress: () => {onPressExercise(item)},
+                          icon: Icon(
+                            CupertinoIcons.clear,
+                            color: stores.colorController
+                                .customColor()
+                                .bottomTabBarActiveItem,
+                            size: 16,
+                          ),
+                          title: name,
+                          style: stores.fontController.customFont().medium12,
+                        );
                       },
                     )),
               )
