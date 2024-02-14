@@ -670,6 +670,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                       isSelected: isActive,
                       onPress: onPressSelectedList,
                       onPressDelete: onPressDeleteMuscle,
+                      isCanSelected: true,
                       item: [
                         ...stores.exerciseStateController.muscles,
                         ...stores.exerciseStateController.muscleList,

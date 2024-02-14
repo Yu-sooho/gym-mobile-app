@@ -9,6 +9,7 @@ class MuscleListItem extends StatelessWidget {
   final Function(Muscles item)? onPress;
   final Function(BuildContext context, Muscles item)? onPressDelete;
   final bool? isSelected;
+  final bool? isCanSelected;
   final bool disabledDelete;
 
   MuscleListItem({
@@ -17,6 +18,7 @@ class MuscleListItem extends StatelessWidget {
     this.onPressDelete,
     this.disabledDelete = false,
     this.isSelected,
+    this.isCanSelected,
     super.key,
   });
 
@@ -33,6 +35,7 @@ class MuscleListItem extends StatelessWidget {
     if (identical(this, other)) return true;
     return other is MuscleListItem &&
         other.isSelected == isSelected &&
+        other.isCanSelected == isCanSelected &&
         other.disabledDelete == disabledDelete &&
         other.item == item;
   }
@@ -40,17 +43,21 @@ class MuscleListItem extends StatelessWidget {
   @override
   // ignore: invalid_override_of_non_virtual_member
   int get hashCode =>
-      isSelected.hashCode ^ disabledDelete.hashCode ^ item.hashCode;
+      isCanSelected.hashCode ^
+      isSelected.hashCode ^
+      disabledDelete.hashCode ^
+      item.hashCode;
 
   @override
   Widget build(BuildContext context) {
     final bool isSelected = this.isSelected ?? false;
+    final bool isCanSelected = this.isCanSelected ?? false;
 
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       onTap: () => onPressed(context),
       child: Container(
-        height: 64,
+        height: 48,
         width: stores.appStateController.logicalWidth.value,
         decoration: BoxDecoration(
           boxShadow: [
@@ -90,44 +97,66 @@ class MuscleListItem extends StatelessWidget {
               ],
             ),
             child: Container(
-              height: 100,
+              height: 48,
               width: stores.appStateController.logicalWidth.value,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: isSelected
-                    ? stores.colorController.customColor().buttonActiveColor
-                    : stores.colorController.customColor().buttonActiveText,
+                color: stores.colorController.customColor().buttonActiveText,
               ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 24,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        item.name,
-                        style: TextStyle(
-                          fontFamily: stores.fontController
-                              .customFont()
-                              .bold12
-                              .fontFamily,
-                          fontWeight: stores.fontController
-                              .customFont()
-                              .bold12
-                              .fontWeight,
-                          fontSize: stores.fontController
-                              .customFont()
-                              .bold12
-                              .fontSize,
+              child: Align(
+                alignment: Alignment.center,
+                child: Row(
+                  children: [
+                    isCanSelected
+                        ? Container(
+                            height: 48,
+                            width: 48,
+                            decoration: BoxDecoration(),
+                            child: Align(
+                              child: isSelected
+                                  ? Icon(
+                                      Icons.check_box,
+                                      color: stores.colorController
+                                          .customColor()
+                                          .defaultBackground1,
+                                      size: 24,
+                                    )
+                                  : Icon(
+                                      Icons.check_box_outline_blank_rounded,
+                                      color: stores.colorController
+                                          .customColor()
+                                          .defaultBackground2,
+                                      size: 24,
+                                    ),
+                            ))
+                        : SizedBox(
+                            width: 18,
+                          ),
+                    SizedBox(
+                      height: 48,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          item.name,
+                          style: TextStyle(
+                            fontFamily: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontFamily,
+                            fontWeight: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontWeight,
+                            fontSize: stores.fontController
+                                .customFont()
+                                .bold12
+                                .fontSize,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 32,
-                    width: 340,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
