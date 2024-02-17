@@ -3,31 +3,29 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gym_calendar/widgets/package_widgets.dart';
 
-class ExerciseListItem extends StatelessWidget {
+class ExerciseListItem extends StatefulWidget {
   final Exercise item;
   final Function(Exercise item)? onPress;
   final Function(BuildContext context, Exercise item)? onPressDelete;
   final bool? isSelected;
+  final bool? isCanSelected;
   final bool disabledDelete;
   final bool disabledButton;
+  final bool? isVisabled;
 
   ExerciseListItem({
     required this.item,
     this.onPress,
     this.onPressDelete,
+    this.isCanSelected,
     this.isSelected,
     this.disabledDelete = false,
     this.disabledButton = false,
+    this.isVisabled = false,
     super.key,
   });
-
-  final Stores stores = Get.put(Stores());
-
-  void onPressed(BuildContext context) {
-    if (disabledButton) return;
-    if (onPress != null) onPress!(item);
-  }
 
   @override
   // ignore: invalid_override_of_non_virtual_member
@@ -36,17 +34,57 @@ class ExerciseListItem extends StatelessWidget {
     return other is ExerciseListItem &&
         other.isSelected == isSelected &&
         other.disabledDelete == disabledDelete &&
-        other.item == item;
+        other.isCanSelected == isCanSelected &&
+        other.item == item &&
+        other.isVisabled == isVisabled;
   }
 
   @override
   // ignore: invalid_override_of_non_virtual_member
   int get hashCode =>
-      isSelected.hashCode ^ disabledDelete.hashCode ^ item.hashCode;
+      isSelected.hashCode ^
+      disabledDelete.hashCode ^
+      isCanSelected.hashCode ^
+      item.hashCode ^
+      isVisabled.hashCode;
+
+  @override
+  State<ExerciseListItem> createState() => _ExerciseListItem();
+}
+
+class _ExerciseListItem extends State<ExerciseListItem> {
+  final Stores stores = Get.put(Stores());
+
+  void onPressed(BuildContext context) {
+    if (widget.disabledButton) return;
+    if (widget.onPress != null) widget.onPress!(widget.item);
+  }
+
+  double isVisiableHeight = 0.0;
+  double isVisiableArrowRotation = 0.25;
+  double isVisiableOpacity = 0.0;
+  Duration duration = Duration(milliseconds: 200);
+
+  void onPressVisiable() {
+    if (isVisiableArrowRotation == 0.25) {
+      setState(() {
+        isVisiableArrowRotation = -0.25;
+        isVisiableHeight = 80.0;
+        isVisiableOpacity = 1.0;
+      });
+    } else {
+      setState(() {
+        isVisiableArrowRotation = 0.25;
+        isVisiableHeight = 0.0;
+        isVisiableOpacity = 0.0;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bool isSelected = this.isSelected ?? false;
+    final bool isSelected = widget.isSelected ?? false;
+    final bool isCanSelected = widget.isCanSelected ?? false;
 
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -72,14 +110,16 @@ class ExerciseListItem extends StatelessWidget {
           closeWhenOpened: true,
           child: Slidable(
             key: const ValueKey(0),
-            enabled: !disabledDelete,
+            enabled: !widget.disabledDelete,
             endActionPane: ActionPane(
               extentRatio: 0.2,
               motion: ScrollMotion(),
               children: [
                 SlidableAction(
                   onPressed: (BuildContext context) {
-                    if (onPressDelete != null) onPressDelete!(context, item);
+                    if (widget.onPressDelete != null) {
+                      widget.onPressDelete!(context, widget.item);
+                    }
                   },
                   backgroundColor:
                       stores.colorController.customColor().transparent,
@@ -94,87 +134,172 @@ class ExerciseListItem extends StatelessWidget {
               width: stores.appStateController.logicalWidth.value,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: isSelected
-                    ? stores.colorController.customColor().buttonActiveColor
-                    : stores.colorController.customColor().buttonActiveText,
+                color: stores.colorController.customColor().buttonActiveText,
               ),
               child: Column(
                 children: [
                   SizedBox(
-                    height: 24,
+                    height: 48,
                     child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        item.name,
-                        style: TextStyle(
-                          fontFamily: stores.fontController
-                              .customFont()
-                              .bold12
-                              .fontFamily,
-                          fontWeight: stores.fontController
-                              .customFont()
-                              .bold12
-                              .fontWeight,
-                          fontSize: stores.fontController
-                              .customFont()
-                              .bold12
-                              .fontSize,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 170,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(item.weight ?? ''),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 170,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(item.targetWeight ?? ''),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 18,
-                    width: 340,
-                    child: ListView.separated(
-                      primary: false,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: item.musclesNames.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        width: 5,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          '${item.musclesNames[index]}',
+                      alignment: Alignment.centerLeft,
+                      child: Row(children: [
+                        isCanSelected
+                            ? Container(
+                                height: 48,
+                                width: 48,
+                                decoration: BoxDecoration(),
+                                child: Align(
+                                  child: isSelected
+                                      ? Icon(
+                                          Icons.check_box,
+                                          color: stores.colorController
+                                              .customColor()
+                                              .defaultBackground1,
+                                          size: 24,
+                                        )
+                                      : Icon(
+                                          Icons.check_box_outline_blank_rounded,
+                                          color: stores.colorController
+                                              .customColor()
+                                              .defaultBackground2,
+                                          size: 24,
+                                        ),
+                                ))
+                            : SizedBox(
+                                width: 18,
+                              ),
+                        Text(
+                          widget.item.name,
                           style: TextStyle(
                             fontFamily: stores.fontController
                                 .customFont()
-                                .medium12
+                                .bold14
                                 .fontFamily,
                             fontWeight: stores.fontController
                                 .customFont()
-                                .medium12
+                                .bold14
                                 .fontWeight,
                             fontSize: stores.fontController
                                 .customFont()
-                                .medium12
+                                .bold14
                                 .fontSize,
                           ),
-                        );
-                      },
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                                onTap: onPressVisiable,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 18),
+                                  child: AnimatedRotation(
+                                    turns: isVisiableArrowRotation,
+                                    duration: duration,
+                                    child: Icon(
+                                      Icons.arrow_right,
+                                      color: stores.colorController
+                                          .customColor()
+                                          .defaultBackground1,
+                                      size: 24,
+                                    ),
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ]),
                     ),
                   ),
+                  AnimatedContainer(
+                      duration: duration,
+                      height: isVisiableHeight,
+                      child: Column(children: [
+                        Expanded(
+                          child: Row(children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              '부위 : ',
+                              style: TextStyle(
+                                fontFamily: stores.fontController
+                                    .customFont()
+                                    .bold12
+                                    .fontFamily,
+                                fontWeight: stores.fontController
+                                    .customFont()
+                                    .bold12
+                                    .fontWeight,
+                                fontSize: stores.fontController
+                                    .customFont()
+                                    .bold12
+                                    .fontSize,
+                              ),
+                            ),
+                            ListView.separated(
+                              primary: false,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: widget.item.musclesNames.length,
+                              separatorBuilder:
+                                  (BuildContext context, int index) =>
+                                      const SizedBox(
+                                width: 5,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Text(
+                                  '${widget.item.musclesNames[index]}',
+                                  style: TextStyle(
+                                    fontFamily: stores.fontController
+                                        .customFont()
+                                        .medium12
+                                        .fontFamily,
+                                    fontWeight: stores.fontController
+                                        .customFont()
+                                        .medium12
+                                        .fontWeight,
+                                    fontSize: stores.fontController
+                                        .customFont()
+                                        .medium12
+                                        .fontSize,
+                                  ),
+                                );
+                              },
+                            ),
+                          ]),
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: 170,
+                                  child: (Row(children: [
+                                    IconBabel1(size: 18),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child:
+                                          Text('${widget.item.weight ?? ''}kg'),
+                                    ),
+                                  ])),
+                                ),
+                                SizedBox(
+                                  width: 170,
+                                  child: (Row(children: [
+                                    IconBabel2(),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                          '${widget.item.targetWeight ?? ''}kg'),
+                                    ),
+                                  ])),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ]))
                 ],
               ),
             ),

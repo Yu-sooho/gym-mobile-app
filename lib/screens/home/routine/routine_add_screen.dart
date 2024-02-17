@@ -538,6 +538,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                     stores.exerciseStateController.exerciseList[index].id ==
                     element);
                 return ExerciseListItem(
+                    isCanSelected: true,
                     isSelected: isActive,
                     disabledDelete: isActive,
                     onPress: onPressExercise,

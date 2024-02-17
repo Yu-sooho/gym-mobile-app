@@ -5,3 +5,4 @@ export 'modal/package_modals.dart';
 export 'text/package_textinputs.dart';
 export 'item/package_items.dart';
 export 'calendar/package_calendars.dart';
+export 'icon/package_icons.dart';
