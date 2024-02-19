@@ -69,7 +69,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
     if (isVisiableArrowRotation == 0.25) {
       setState(() {
         isVisiableArrowRotation = -0.25;
-        isVisiableHeight = 80.0;
+        isVisiableHeight = 68.0;
         isVisiableOpacity = 1.0;
       });
     } else {
@@ -214,86 +214,109 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                       height: isVisiableHeight,
                       child: Column(children: [
                         Expanded(
-                          child: Row(children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              '부위 : ',
-                              style: TextStyle(
-                                fontFamily: stores.fontController
-                                    .customFont()
-                                    .bold12
-                                    .fontFamily,
-                                fontWeight: stores.fontController
-                                    .customFont()
-                                    .bold12
-                                    .fontWeight,
-                                fontSize: stores.fontController
-                                    .customFont()
-                                    .bold12
-                                    .fontSize,
-                              ),
-                            ),
-                            ListView.separated(
-                              primary: false,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: widget.item.musclesNames.length,
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const SizedBox(
-                                width: 5,
-                              ),
-                              itemBuilder: (BuildContext context, int index) {
-                                return Text(
-                                  '${widget.item.musclesNames[index]}',
-                                  style: TextStyle(
-                                    fontFamily: stores.fontController
-                                        .customFont()
-                                        .medium12
-                                        .fontFamily,
-                                    fontWeight: stores.fontController
-                                        .customFont()
-                                        .medium12
-                                        .fontWeight,
-                                    fontSize: stores.fontController
-                                        .customFont()
-                                        .medium12
-                                        .fontSize,
-                                  ),
-                                );
-                              },
-                            ),
-                          ]),
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('부위 : ',
+                                      style: stores.fontController
+                                          .customFont()
+                                          .medium12
+                                          .copyWith(
+                                              color: stores.colorController
+                                                  .customColor()
+                                                  .defaultBackground1)),
+                                  Expanded(
+                                    child: ListView.separated(
+                                      primary: false,
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:
+                                          widget.item.musclesNames.length,
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              const SizedBox(
+                                        width: 5,
+                                      ),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Align(
+                                          child: Text(
+                                              '${widget.item.musclesNames[index]}',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .bold12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .defaultBackground1)),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                ]),
+                          ),
                         ),
                         Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          flex: 2,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(20, 0, 20, 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  width: 170,
-                                  child: (Row(children: [
-                                    IconBabel1(size: 18),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child:
-                                          Text('${widget.item.weight ?? ''}kg'),
-                                    ),
-                                  ])),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '현재 중량 : ',
+                                        style: stores.fontController
+                                            .customFont()
+                                            .medium12
+                                            .copyWith(
+                                                color: stores.colorController
+                                                    .customColor()
+                                                    .defaultBackground1),
+                                      ),
+                                      Text(
+                                          '${widget.item.targetWeight ?? ''}kg',
+                                          style: stores.fontController
+                                              .customFont()
+                                              .bold12
+                                              .copyWith(
+                                                  color: stores.colorController
+                                                      .customColor()
+                                                      .defaultBackground1)),
+                                    ],
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: 170,
-                                  child: (Row(children: [
-                                    IconBabel2(),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                          '${widget.item.targetWeight ?? ''}kg'),
-                                    ),
-                                  ])),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '목표 중량 : ',
+                                        style: stores.fontController
+                                            .customFont()
+                                            .medium12
+                                            .copyWith(
+                                                color: stores.colorController
+                                                    .customColor()
+                                                    .defaultBackground1),
+                                      ),
+                                      Text(
+                                        '${widget.item.targetWeight ?? ''}kg',
+                                        style: stores.fontController
+                                            .customFont()
+                                            .bold12
+                                            .copyWith(
+                                                color: stores.colorController
+                                                    .customColor()
+                                                    .defaultBackground1),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
