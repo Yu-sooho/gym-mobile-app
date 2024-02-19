@@ -277,6 +277,10 @@ class RoutineAddScreenText {
   final String errorCycle;
   final String cycleDes;
   final String repeatDes;
+  final String startDate;
+  final String selectedDate;
+  final String dateFormat;
+  final String executionCount;
 
   RoutineAddScreenText(
       {required this.title,
@@ -296,7 +300,11 @@ class RoutineAddScreenText {
       required this.exerciseListCheck,
       required this.errorCycle,
       required this.cycleDes,
-      required this.repeatDes});
+      required this.repeatDes,
+      required this.startDate,
+      required this.selectedDate,
+      required this.dateFormat,
+      required this.executionCount});
 }
 
 class ExerciseScreenText {
@@ -691,7 +699,11 @@ class LocalizationController extends GetxController {
           exerciseListCheck: RoutineAddScreenTextEn().exerciseListCheck,
           errorCycle: RoutineAddScreenTextEn().errorCycle,
           cycleDes: RoutineAddScreenTextEn().cycleDes,
-          repeatDes: RoutineAddScreenTextEn().repeatDes);
+          repeatDes: RoutineAddScreenTextEn().repeatDes,
+          startDate: RoutineAddScreenTextEn().startDate,
+          selectedDate: RoutineAddScreenTextEn().selectedDate,
+          dateFormat: RoutineAddScreenTextEn().dateFormat,
+          executionCount: RoutineAddScreenTextEn().executionCount);
       return routineAddScreenText;
     } else {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
@@ -712,7 +724,11 @@ class LocalizationController extends GetxController {
           exerciseListCheck: RoutineAddScreenTextKr().exerciseListCheck,
           errorCycle: RoutineAddScreenTextKr().errorCycle,
           cycleDes: RoutineAddScreenTextKr().cycleDes,
-          repeatDes: RoutineAddScreenTextKr().repeatDes);
+          repeatDes: RoutineAddScreenTextKr().repeatDes,
+          startDate: RoutineAddScreenTextKr().startDate,
+          selectedDate: RoutineAddScreenTextKr().selectedDate,
+          dateFormat: RoutineAddScreenTextKr().dateFormat,
+          executionCount: RoutineAddScreenTextKr().executionCount);
       return routineAddScreenText;
     }
   }

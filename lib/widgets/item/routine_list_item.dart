@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gym_calendar/widgets/package_widgets.dart';
+import 'package:intl/intl.dart';
 
 class RoutineListItem extends StatefulWidget {
   final Routine item;
@@ -267,67 +267,158 @@ class _RoutineListItem extends State<RoutineListItem> {
                           ),
                         ),
                         Expanded(
-                          flex: 2,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${stores.localizationController.localiztionRoutineAddScreen().repeat} : ',
-                                        style: stores.fontController
-                                            .customFont()
-                                            .medium12
-                                            .copyWith(
-                                                color: stores.colorController
-                                                    .customColor()
-                                                    .defaultBackground1),
+                            flex: 2,
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 12,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 0, 20, 8),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: SizedBox(
+                                                child: Row(
+                                              children: [
+                                                Text(
+                                                  '${stores.localizationController.localiztionRoutineAddScreen().repeat} : ',
+                                                  style: stores.fontController
+                                                      .customFont()
+                                                      .medium12
+                                                      .copyWith(
+                                                          color: stores
+                                                              .colorController
+                                                              .customColor()
+                                                              .defaultBackground1),
+                                                ),
+                                                Text(
+                                                    '${widget.item.cycle}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
+                                                    style: stores.fontController
+                                                        .customFont()
+                                                        .bold12
+                                                        .copyWith(
+                                                            color: stores
+                                                                .colorController
+                                                                .customColor()
+                                                                .defaultBackground1)),
+                                              ],
+                                            )),
+                                          ),
+                                          Expanded(
+                                              child: SizedBox(
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  '${stores.localizationController.localiztionRoutineAddScreen().cycleDate} : ',
+                                                  style: stores.fontController
+                                                      .customFont()
+                                                      .medium12
+                                                      .copyWith(
+                                                          color: stores
+                                                              .colorController
+                                                              .customColor()
+                                                              .defaultBackground1),
+                                                ),
+                                                Text(
+                                                  '${widget.item.date}${stores.localizationController.localiztionRoutineAddScreen().cycleDes}',
+                                                  style: stores.fontController
+                                                      .customFont()
+                                                      .bold12
+                                                      .copyWith(
+                                                          color: stores
+                                                              .colorController
+                                                              .customColor()
+                                                              .defaultBackground1),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                        ],
                                       ),
-                                      Text(
-                                          '${widget.item.cycle}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
-                                          style: stores.fontController
-                                              .customFont()
-                                              .bold12
-                                              .copyWith(
-                                                  color: stores.colorController
-                                                      .customColor()
-                                                      .defaultBackground1)),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${stores.localizationController.localiztionRoutineAddScreen().cycleDate} : ',
-                                        style: stores.fontController
-                                            .customFont()
-                                            .medium12
-                                            .copyWith(
-                                                color: stores.colorController
-                                                    .customColor()
-                                                    .defaultBackground1),
+                                  Expanded(
+                                    flex: 13,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 0, 20, 8),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  '${stores.localizationController.localiztionRoutineAddScreen().executionCount} : ',
+                                                  style: stores.fontController
+                                                      .customFont()
+                                                      .medium12
+                                                      .copyWith(
+                                                          color: stores
+                                                              .colorController
+                                                              .customColor()
+                                                              .defaultBackground1),
+                                                ),
+                                                Text(
+                                                    '${widget.item.executionCount ?? '0'}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
+                                                    style: stores.fontController
+                                                        .customFont()
+                                                        .bold12
+                                                        .copyWith(
+                                                            color: stores
+                                                                .colorController
+                                                                .customColor()
+                                                                .defaultBackground1)),
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  '${stores.localizationController.localiztionRoutineAddScreen().startDate} : ',
+                                                  style: stores.fontController
+                                                      .customFont()
+                                                      .medium12
+                                                      .copyWith(
+                                                          color: stores
+                                                              .colorController
+                                                              .customColor()
+                                                              .defaultBackground1),
+                                                ),
+                                                Text(
+                                                  widget.item.startDate != null
+                                                      ? DateFormat(stores
+                                                              .localizationController
+                                                              .localiztionRoutineAddScreen()
+                                                              .dateFormat)
+                                                          .format(DateTime
+                                                              .parse(widget.item
+                                                                  .startDate!))
+                                                      : '-',
+                                                  style: stores.fontController
+                                                      .customFont()
+                                                      .bold12
+                                                      .copyWith(
+                                                          color: stores
+                                                              .colorController
+                                                              .customColor()
+                                                              .defaultBackground1),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        '${widget.item.date}${stores.localizationController.localiztionRoutineAddScreen().cycleDes}',
-                                        style: stores.fontController
-                                            .customFont()
-                                            .bold12
-                                            .copyWith(
-                                                color: stores.colorController
-                                                    .customColor()
-                                                    .defaultBackground1),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                                ])),
                       ]))
                 ],
               ),

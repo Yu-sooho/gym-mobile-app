@@ -75,6 +75,7 @@ class RoutineProvider {
       final cycle = data['cycle'];
       final createdAt = data['createdAt'];
       final uid = data['uid'];
+      final startDate = data['startDate'];
       final id = element.id;
       final routine = Routine(
           id: id,
@@ -83,6 +84,7 @@ class RoutineProvider {
           cycle: cycle,
           date: date,
           exercises: userExerciseResult,
+          startDate: startDate,
           createdAt: createdAt);
       list.add(routine);
     }

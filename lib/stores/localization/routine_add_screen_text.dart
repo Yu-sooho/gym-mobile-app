@@ -18,6 +18,10 @@ class RoutineAddScreenTextKr {
   String exercise = '운동';
   String cycleDes = '일';
   String repeatDes = '회';
+  String startDate = '시작일';
+  String selectedDate = '시작일을 선택해주세요';
+  String dateFormat = 'yyyy년 MM월 dd일';
+  String executionCount = '실행 횟수';
 }
 
 class RoutineAddScreenTextEn {
@@ -40,4 +44,8 @@ class RoutineAddScreenTextEn {
   String exercise = '운동';
   String cycleDes = '일';
   String repeatDes = '회';
+  String startDate = '시작일';
+  String selectedDate = '시작일을 선택해주세요';
+  String dateFormat = 'yyyy년 MM월 dd일';
+  String executionCount = '실행 횟수';
 }

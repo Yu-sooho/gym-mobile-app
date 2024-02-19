@@ -6,6 +6,7 @@ import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/screens/home/package_home.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
+import 'package:intl/intl.dart';
 
 class RoutineAddScreen extends StatefulWidget {
   RoutineAddScreen({super.key});
@@ -40,6 +41,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   double exerciseListOpacity = 0.0;
   bool isShow = false;
   Duration duration = Duration(milliseconds: 250);
+
+  DateTime? _selectedDate;
 
   List<String> selectExercise = [];
   List<Exercise> selectExerciseDetail = [];
@@ -236,6 +239,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'cycle': cycle,
         'date': date,
         'exercises': selectExercise,
+        'startDate': '${_selectedDate ?? ''}'
       });
       final result =
           await networkProviders.routineProvider.getRoutineList(limit: 1);
@@ -328,6 +332,20 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         isShow = true;
         exerciseListSize = listMaxSize;
         exerciseListOpacity = 1.0;
+      });
+    }
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
       });
     }
   }
@@ -511,6 +529,57 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                   .cycleDate,
               onChanged1: onChangedCycle,
               onChanged2: onChangedDate,
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
+              child: SizedBox(
+                  height: 32,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      stores.localizationController
+                          .localiztionRoutineAddScreen()
+                          .startDate,
+                      style: stores.fontController.customFont().bold12,
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: InkWell(
+                onTap: () => selectDate(context),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                          width: 1,
+                          color: stores.colorController
+                              .customColor()
+                              .buttonActiveText),
+                    ),
+                  ),
+                  width: double.infinity,
+                  height: 40,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 12),
+                    child: Align(
+                      child: Text(
+                        _selectedDate != null
+                            ? DateFormat(stores.localizationController
+                                    .localiztionRoutineAddScreen()
+                                    .dateFormat)
+                                .format(_selectedDate!)
+                            : stores.localizationController
+                                .localiztionRoutineAddScreen()
+                                .selectedDate,
+                        style: _selectedDate != null
+                            ? stores.fontController.customFont().bold12
+                            : stores.fontController.customFont().medium12,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: 24,
