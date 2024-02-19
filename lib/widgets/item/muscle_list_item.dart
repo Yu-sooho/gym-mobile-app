@@ -136,23 +136,14 @@ class MuscleListItem extends StatelessWidget {
                       height: 48,
                       child: Align(
                         alignment: Alignment.center,
-                        child: Text(
-                          item.name,
-                          style: TextStyle(
-                            fontFamily: stores.fontController
+                        child: Text(item.name,
+                            style: stores.fontController
                                 .customFont()
                                 .bold12
-                                .fontFamily,
-                            fontWeight: stores.fontController
-                                .customFont()
-                                .bold12
-                                .fontWeight,
-                            fontSize: stores.fontController
-                                .customFont()
-                                .bold12
-                                .fontSize,
-                          ),
-                        ),
+                                .copyWith(
+                                    color: stores.colorController
+                                        .customColor()
+                                        .defaultBackground1)),
                       ),
                     ),
                   ],

@@ -160,22 +160,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         stores.localizationController
                             .localiztionProfileScreen()
                             .edit,
-                        style: TextStyle(
-                            fontFamily: stores.fontController
-                                .customFont()
-                                .bold12
-                                .fontFamily,
-                            fontWeight: stores.fontController
-                                .customFont()
-                                .bold12
-                                .fontWeight,
-                            color: stores.colorController
-                                .customColor()
-                                .buttonActiveText,
-                            fontSize: stores.fontController
-                                .customFont()
-                                .bold12
-                                .fontSize))
+                        style: stores.fontController
+                            .customFont()
+                            .bold12
+                            .copyWith(
+                                color: stores.colorController
+                                    .customColor()
+                                    .buttonActiveText))
                   ]),
             )),
         SizedBox(

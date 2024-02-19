@@ -15,6 +15,9 @@ class RoutineAddScreenTextKr {
   String cycleDate = '기준 일수';
   String exerciseListCheck = '추가된 운동';
   String errorCycle = '반복 횟수는 기준 일수보다 많을 수 없습니다.';
+  String exercise = '운동';
+  String cycleDes = '일';
+  String repeatDes = '회';
 }
 
 class RoutineAddScreenTextEn {
@@ -34,4 +37,7 @@ class RoutineAddScreenTextEn {
   String cycleDate = '기준 일수';
   String exerciseListCheck = '추가된 운동';
   String errorCycle = '반복 횟수는 기준 일수보다 많을 수 없습니다.';
+  String exercise = '운동';
+  String cycleDes = '일';
+  String repeatDes = '회';
 }

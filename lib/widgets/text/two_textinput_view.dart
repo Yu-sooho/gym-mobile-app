@@ -60,14 +60,12 @@ class TwoTextInput extends StatelessWidget {
                 decoration: InputDecoration(
                   counterStyle: stores.fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 10),
-                  hintStyle: TextStyle(
-                      color: stores.colorController.customColor().placeholder,
-                      fontFamily: stores.fontController
-                          .customFont()
-                          .medium12
-                          .fontFamily,
-                      fontSize:
-                          stores.fontController.customFont().medium12.fontSize),
+                  hintStyle: stores.fontController
+                      .customFont()
+                      .medium12
+                      .copyWith(
+                        color: stores.colorController.customColor().placeholder,
+                      ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
@@ -100,14 +98,12 @@ class TwoTextInput extends StatelessWidget {
                 decoration: InputDecoration(
                   counterStyle: stores.fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 10),
-                  hintStyle: TextStyle(
-                      color: stores.colorController.customColor().placeholder,
-                      fontFamily: stores.fontController
-                          .customFont()
-                          .medium12
-                          .fontFamily,
-                      fontSize:
-                          stores.fontController.customFont().medium12.fontSize),
+                  hintStyle: stores.fontController
+                      .customFont()
+                      .medium12
+                      .copyWith(
+                        color: stores.colorController.customColor().placeholder,
+                      ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,

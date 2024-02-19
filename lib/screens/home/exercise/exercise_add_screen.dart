@@ -525,18 +525,14 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                               hintText: stores.localizationController
                                   .localiztionExerciseAddScreen()
                                   .partName,
-                              hintStyle: TextStyle(
-                                  color: stores.colorController
-                                      .customColor()
-                                      .placeholder,
-                                  fontFamily: stores.fontController
-                                      .customFont()
-                                      .medium12
-                                      .fontFamily,
-                                  fontSize: stores.fontController
-                                      .customFont()
-                                      .medium12
-                                      .fontSize),
+                              hintStyle: stores.fontController
+                                  .customFont()
+                                  .medium12
+                                  .copyWith(
+                                    color: stores.colorController
+                                        .customColor()
+                                        .placeholder,
+                                  ),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 1,
@@ -616,12 +612,10 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                     title: stores.localizationController
                         .localiztionExerciseAddScreen()
                         .weight,
-                    placeholder1: stores.localizationController
-                        .localiztionExerciseAddScreen()
-                        .nowWeight,
-                    placeholder2: stores.localizationController
-                        .localiztionExerciseAddScreen()
-                        .targetWeight,
+                    placeholder1:
+                        '${stores.localizationController.localiztionExerciseAddScreen().nowWeight}  (kg)',
+                    placeholder2:
+                        '${stores.localizationController.localiztionExerciseAddScreen().targetWeight}  (kg)',
                     onChanged1: onChangeNowWegiht,
                     onChanged2: onChangeTargetWegiht),
                 SizedBox(

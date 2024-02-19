@@ -40,11 +40,9 @@ Widget customTextInput(BuildContext context, Function(String) onChanged,
             counterText: counterText,
             isDense: true,
             hintText: placeholder,
-            hintStyle: TextStyle(
-                color: stores.colorController.customColor().placeholder,
-                fontFamily:
-                    stores.fontController.customFont().medium12.fontFamily,
-                fontSize: stores.fontController.customFont().medium12.fontSize),
+            hintStyle: stores.fontController.customFont().medium12.copyWith(
+                  color: stores.colorController.customColor().placeholder,
+                ),
             enabledBorder: enabledBorder ??
                 UnderlineInputBorder(
                   borderSide: BorderSide(

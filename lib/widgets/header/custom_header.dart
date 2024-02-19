@@ -68,24 +68,20 @@ class CustomHeader extends StatelessWidget {
                           width: screenSize / 6,
                           height: 32,
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                            child: Text(rightText!,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontFamily: stores.fontController
-                                        .customFont()
-                                        .bold12
-                                        .fontFamily,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: isRightInActive
-                                        ? stores.colorController
-                                            .customColor()
-                                            .buttonInActiveText
-                                        : stores.colorController
-                                            .customColor()
-                                            .buttonActiveText)),
-                          ))),
+                              padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+                              child: Text(rightText!,
+                                  textAlign: TextAlign.right,
+                                  style: stores.fontController
+                                      .customFont()
+                                      .bold12
+                                      .copyWith(
+                                          color: isRightInActive
+                                              ? stores.colorController
+                                                  .customColor()
+                                                  .buttonInActiveText
+                                              : stores.colorController
+                                                  .customColor()
+                                                  .buttonActiveText))))),
                 ],
               )),
         ));

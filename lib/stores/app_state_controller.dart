@@ -117,23 +117,15 @@ class AppStateController extends GetxController {
                                     alignment: Alignment.center,
                                     child: Text(
                                       '취소',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: colorController
-                                              .customColor()
-                                              .defaultBackground1,
-                                          fontFamily: fontController
-                                              .customFont()
-                                              .bold14
-                                              .fontFamily,
-                                          fontWeight: fontController
-                                              .customFont()
-                                              .bold14
-                                              .fontWeight,
-                                          fontSize: fontController
-                                              .customFont()
-                                              .bold14
-                                              .fontSize),
+                                      style: fontController
+                                          .customFont()
+                                          .bold14
+                                          .copyWith(
+                                            decoration: TextDecoration.none,
+                                            color: colorController
+                                                .customColor()
+                                                .defaultBackground1,
+                                          ),
                                     )),
                               )),
                           CustomButton(
@@ -148,26 +140,16 @@ class AppStateController extends GetxController {
                                 width: 48,
                                 child: Align(
                                     alignment: Alignment.center,
-                                    child: Text(
-                                      '확인',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          color: colorController
-                                              .customColor()
-                                              .defaultBackground1,
-                                          fontFamily: fontController
-                                              .customFont()
-                                              .bold14
-                                              .fontFamily,
-                                          fontWeight: fontController
-                                              .customFont()
-                                              .bold14
-                                              .fontWeight,
-                                          fontSize: fontController
-                                              .customFont()
-                                              .bold14
-                                              .fontSize),
-                                    )),
+                                    child: Text('확인',
+                                        style: fontController
+                                            .customFont()
+                                            .bold14
+                                            .copyWith(
+                                              decoration: TextDecoration.none,
+                                              color: colorController
+                                                  .customColor()
+                                                  .defaultBackground1,
+                                            ))),
                               ))
                         ])
                   : SizedBox(),

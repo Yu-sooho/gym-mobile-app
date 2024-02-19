@@ -156,32 +156,24 @@ Widget inquiryContainer(BuildContext context,
                       color: stores.colorController.customColor().errorText,
                     ),
                   ),
-                  errorStyle: TextStyle(
-                      fontSize:
-                          stores.fontController.customFont().regular12.fontSize,
-                      fontFamily: stores.fontController
-                          .customFont()
-                          .regular12
-                          .fontFamily,
-                      fontWeight: stores.fontController
-                          .customFont()
-                          .regular12
-                          .fontWeight,
-                      color: stores.colorController.customColor().errorText),
+                  errorStyle: stores.fontController
+                      .customFont()
+                      .regular12
+                      .copyWith(
+                          color:
+                              stores.colorController.customColor().errorText),
                   counterStyle: stores.fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                   isDense: true,
                   hintText: stores.localizationController
                       .localiztionInquiryScreen()
                       .inquiryTitlePlaceholder,
-                  hintStyle: TextStyle(
-                      color: stores.colorController.customColor().placeholder,
-                      fontFamily: stores.fontController
-                          .customFont()
-                          .medium12
-                          .fontFamily,
-                      fontSize:
-                          stores.fontController.customFont().medium12.fontSize),
+                  hintStyle: stores.fontController
+                      .customFont()
+                      .medium12
+                      .copyWith(
+                          color:
+                              stores.colorController.customColor().placeholder),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
@@ -226,32 +218,24 @@ Widget inquiryContainer(BuildContext context,
                       color: stores.colorController.customColor().errorText,
                     ),
                   ),
-                  errorStyle: TextStyle(
-                      fontSize:
-                          stores.fontController.customFont().regular12.fontSize,
-                      fontFamily: stores.fontController
-                          .customFont()
-                          .regular12
-                          .fontFamily,
-                      fontWeight: stores.fontController
-                          .customFont()
-                          .regular12
-                          .fontWeight,
-                      color: stores.colorController.customColor().errorText),
+                  errorStyle: stores.fontController
+                      .customFont()
+                      .regular12
+                      .copyWith(
+                          color:
+                              stores.colorController.customColor().errorText),
                   counterStyle: stores.fontController.customFont().medium12,
                   contentPadding: EdgeInsets.fromLTRB(0, 12, 0, 12),
                   isDense: true,
                   hintText: stores.localizationController
                       .localiztionInquiryScreen()
                       .inquiryContentPlaceholder,
-                  hintStyle: TextStyle(
-                      color: stores.colorController.customColor().placeholder,
-                      fontFamily: stores.fontController
-                          .customFont()
-                          .medium12
-                          .fontFamily,
-                      fontSize:
-                          stores.fontController.customFont().medium12.fontSize),
+                  hintStyle: stores.fontController
+                      .customFont()
+                      .medium12
+                      .copyWith(
+                        color: stores.colorController.customColor().placeholder,
+                      ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1,
@@ -291,15 +275,15 @@ Widget inquiryContainer(BuildContext context,
                 stores.localizationController
                     .localiztionComponentButton()
                     .inquiry,
-                style: TextStyle(
-                  fontFamily:
-                      stores.fontController.customFont().bold12.fontFamily,
-                  fontWeight:
-                      stores.fontController.customFont().bold12.fontWeight,
-                  color: isReady
-                      ? stores.colorController.customColor().buttonActiveText
-                      : stores.colorController.customColor().buttonInActiveText,
-                ),
+                style: stores.fontController.customFont().bold12.copyWith(
+                      color: isReady
+                          ? stores.colorController
+                              .customColor()
+                              .buttonActiveText
+                          : stores.colorController
+                              .customColor()
+                              .buttonInActiveText,
+                    ),
               )),
         ))
   ]));

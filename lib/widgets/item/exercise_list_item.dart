@@ -168,23 +168,14 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                             : SizedBox(
                                 width: 18,
                               ),
-                        Text(
-                          widget.item.name,
-                          style: TextStyle(
-                            fontFamily: stores.fontController
+                        Text(widget.item.name,
+                            style: stores.fontController
                                 .customFont()
                                 .bold14
-                                .fontFamily,
-                            fontWeight: stores.fontController
-                                .customFont()
-                                .bold14
-                                .fontWeight,
-                            fontSize: stores.fontController
-                                .customFont()
-                                .bold14
-                                .fontSize,
-                          ),
-                        ),
+                                .copyWith(
+                                    color: stores.colorController
+                                        .customColor()
+                                        .defaultBackground1)),
                         Expanded(
                           child: Align(
                             alignment: Alignment.centerRight,
@@ -220,7 +211,8 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                             child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('부위 : ',
+                                  Text(
+                                      '${stores.localizationController.localiztionExerciseAddScreen().part} : ',
                                       style: stores.fontController
                                           .customFont()
                                           .medium12
@@ -271,7 +263,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        '현재 중량 : ',
+                                        '${stores.localizationController.localiztionExerciseAddScreen().nowWeight} : ',
                                         style: stores.fontController
                                             .customFont()
                                             .medium12
@@ -296,7 +288,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        '목표 중량 : ',
+                                        '${stores.localizationController.localiztionExerciseAddScreen().targetWeight} : ',
                                         style: stores.fontController
                                             .customFont()
                                             .medium12
