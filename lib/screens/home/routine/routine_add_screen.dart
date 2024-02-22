@@ -239,7 +239,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'cycle': cycle,
         'date': date,
         'exercises': selectExercise,
-        'startDate': '${_selectedDate ?? ''}'
+        'startDate': _selectedDate != null ? '$_selectedDate' : null
       });
       final result =
           await networkProviders.routineProvider.getRoutineList(limit: 1);
@@ -504,15 +504,14 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                   )),
             ),
             SizedBox(
-                child: customTextInput(
-              context,
+                child: CustomTextInput(
               controller: _titleController,
               maxLength: 20,
               counterText: '',
               placeholder: stores.localizationController
                   .localiztionRoutineAddScreen()
                   .inputTitlePlaceholder,
-              onChangedTitle,
+              onChanged: onChangedTitle,
             )),
             TwoTextInput(
               stores: stores,
@@ -555,7 +554,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                           width: 1,
                           color: stores.colorController
                               .customColor()
-                              .buttonActiveText),
+                              .buttonDefaultColor),
                     ),
                   ),
                   width: double.infinity,

@@ -134,7 +134,7 @@ class _RoutineListItem extends State<RoutineListItem> {
               width: stores.appStateController.logicalWidth.value,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: stores.colorController.customColor().buttonActiveText,
+                color: stores.colorController.customColor().buttonDefaultColor,
               ),
               child: Column(
                 children: [

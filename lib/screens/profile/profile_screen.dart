@@ -182,10 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: stores.fontController
                             .customFont()
                             .bold12
-                            .copyWith(
-                                color: stores.colorController
-                                    .customColor()
-                                    .buttonActiveText))
+                            .copyWith())
                   ]),
             )),
         SizedBox(

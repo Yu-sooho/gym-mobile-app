@@ -47,6 +47,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   double muscleListOpacity = 0.0;
   bool isShow = false;
   Duration duration = Duration(milliseconds: 250);
+  String searchKeyword = '';
 
   final muscleTextInputMaxSize = 32.0;
   final buttonMaxSize = 48.0;
@@ -57,7 +58,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   @override
   void initState() {
     super.initState();
-    getMuscle();
+    onRefresh();
 
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
@@ -78,15 +79,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   @override
   void dispose() {
     super.dispose();
-  }
-
-  void getMuscle() async {
-    if (stores.exerciseStateController.muscles.isEmpty) {
-      final result = await networkProviders.exerciseProvider.getMuscleList();
-      if (result.list.isNotEmpty) {
-        stores.exerciseStateController.muscles.addAll(result.list);
-      }
-    }
+    searchKeyword = '';
   }
 
   void setStateifMounted(Function() afterFunc) {
@@ -116,9 +109,11 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       muscleLoading = true;
     });
     final result = await networkProviders.exerciseProvider.getUserMuscleList(
-      startAfter: stores.exerciseStateController.startAfterMuscle,
-      limit: limit,
-    );
+        sort: stores.exerciseStateController.exerciseSortMethod[
+            stores.exerciseStateController.muscleSort.value],
+        startAfter: stores.exerciseStateController.startAfterMuscle,
+        limit: limit,
+        searchKeyword: searchKeyword);
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
         stores.exerciseStateController.endMuscleList = true;
@@ -187,8 +182,23 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       });
       final result =
           await networkProviders.exerciseProvider.getExerciseList(limit: 1);
+
       if (result.list.isNotEmpty) {
-        stores.exerciseStateController.exerciseList.insertAll(0, result.list);
+        if (stores.exerciseStateController.exerciseSort.value == 0) {
+          stores.exerciseStateController.exerciseList.insertAll(0, result.list);
+        } else if (stores.exerciseStateController.exerciseSort.value == 1) {
+          stores.exerciseStateController.exerciseList.addAll(result.list);
+        } else {
+          int index = 0;
+          while (index < stores.exerciseStateController.exerciseList.length &&
+              stores.exerciseStateController.exerciseList[index].name
+                      .compareTo(result.list[0].name) <
+                  0) {
+            index++;
+          }
+          stores.exerciseStateController.exerciseList
+              .insert(index, result.list[0]);
+        }
       }
       if (!context.mounted) return;
       stores.appStateController.setIsLoading(false, context);
@@ -376,10 +386,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
               itemExtent: 32,
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               itemBuilder: (BuildContext context, int index) {
-                final Muscles item = [
-                  ...stores.exerciseStateController.muscles,
-                  ...stores.exerciseStateController.muscleList,
-                ].firstWhere(
+                final Muscles item = selectedMusclesDetail.firstWhere(
                     (element) => element.name == selectedMuscles[index]);
                 final String name = item.name;
                 return SelectListItem(
@@ -421,18 +428,61 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   }
 
   void onPressAddMuscle(BuildContext context) async {
+    // stores.appStateController.setIsLoading(true, context);
+    // await networkProviders.exerciseProvider.postCustomExercise({
+    //   'name': exerciseName,
+    //   'musclesNames': selectedMuscles,
+    //   'weight': weight,
+    //   'targetWeight': targetWeight
+    // });
+    // final result =
+    //     await networkProviders.exerciseProvider.getExerciseList(limit: 1);
+
+    // if (result.list.isNotEmpty) {
+    //   if (stores.exerciseStateController.exerciseSort.value == 0) {
+    //     stores.exerciseStateController.exerciseList.insertAll(0, result.list);
+    //   } else if (stores.exerciseStateController.exerciseSort.value == 1) {
+    //     stores.exerciseStateController.exerciseList.addAll(result.list);
+    //   } else {
+    //     int index = 0;
+    //     while (index < stores.exerciseStateController.exerciseList.length &&
+    //         stores.exerciseStateController.exerciseList[index].name
+    //                 .compareTo(result.list[0].name) <
+    //             0) {
+    //       index++;
+    //     }
+    //     stores.exerciseStateController.exerciseList
+    //         .insert(index, result.list[0]);
+    //   }
+    // }
+
     try {
       stores.appStateController.setIsLoading(true, context);
       await networkProviders.exerciseProvider.postCustomMuscle({
         'name': muscleName,
       });
 
-      final result = await networkProviders.exerciseProvider.getUserMuscleList(
-          limit: 1,
-          startAfter: stores.exerciseStateController.startAfterMuscle);
+      final result =
+          await networkProviders.exerciseProvider.getUserMuscleList(limit: 1);
+
+      print(stores.exerciseStateController.startAfterMuscle);
 
       if (result.list.isNotEmpty) {
-        stores.exerciseStateController.muscleList.addAll(result.list);
+        if (stores.exerciseStateController.muscleSort.value == 0) {
+          stores.exerciseStateController.muscleList.insertAll(0, result.list);
+        } else if (stores.exerciseStateController.muscleSort.value == 1) {
+          stores.exerciseStateController.muscleList.addAll(result.list);
+        } else {
+          int index = 0;
+          while (index < stores.exerciseStateController.muscleList.length &&
+              stores.exerciseStateController.muscleList[index].name
+                      .compareTo(result.list[0].name) <
+                  0) {
+            index++;
+          }
+          stores.exerciseStateController.muscleList
+              .insert(index, result.list[0]);
+        }
       }
 
       stores.exerciseStateController.startAfterMuscle = result.lastDoc;
@@ -477,6 +527,35 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     setState(() {
       muscleLoading = false;
     });
+  }
+
+  int tempSelectedSort = 0;
+
+  void onChangedSortMethod(int selectedItem) async {
+    tempSelectedSort = selectedItem;
+  }
+
+  void onPressSortMethodOk() async {
+    setState(() {
+      stores.exerciseStateController.muscleSort = tempSelectedSort.obs;
+      stores.exerciseStateController.startAfterMuscle = null;
+      stores.exerciseStateController.muscleList = RxList<Muscles>.empty();
+      stores.exerciseStateController.endMuscleList = false;
+      muscleLoading = false;
+    });
+    getMuscleList();
+  }
+
+  onChanged(String value) {
+    stores.exerciseStateController.muscleSort = tempSelectedSort.obs;
+    stores.exerciseStateController.startAfterMuscle = null;
+    stores.exerciseStateController.muscleList = RxList<Muscles>.empty();
+    stores.exerciseStateController.endMuscleList = false;
+    setState(() {
+      searchKeyword = value;
+    });
+
+    getMuscleList();
   }
 
   @override
@@ -592,8 +671,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                       )),
                 ),
                 SizedBox(
-                    child: customTextInput(
-                  context,
+                    child: CustomTextInput(
                   controller: _titleTextController,
                   maxLength: 20,
                   counterText: '',
@@ -603,7 +681,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                   title: stores.localizationController
                       .localiztionExerciseAddScreen()
                       .inputTitle,
-                  onChangedTitle,
+                  onChanged: onChangedTitle,
                 )),
                 TwoTextInput(
                     stores: stores,
@@ -623,7 +701,20 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                 ),
                 selectedList(selectedMuscles),
                 SizedBox(
-                  height: 12,
+                  height: 4,
+                ),
+                CustomSortBar(
+                    sortValue: stores.exerciseStateController.muscleSort.value,
+                    initialItem:
+                        stores.exerciseStateController.muscleSort.value,
+                    onChangedSortMethod: onChangedSortMethod,
+                    onPressSortMethodOk: onPressSortMethodOk,
+                    isSearch: true,
+                    itemExtent: 32,
+                    sortBarHeight: 40,
+                    onChanged: onChanged),
+                SizedBox(
+                  height: 6,
                 ),
               ]),
             ],

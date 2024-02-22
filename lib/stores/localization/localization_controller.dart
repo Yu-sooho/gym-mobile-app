@@ -1,6 +1,6 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:gym_calendar/stores/localization/component_button_text.dart';
 import 'package:gym_calendar/stores/localization/exercise_add_screen_text.dart';
 import 'package:gym_calendar/stores/localization/exercise_screen_text.dart';
@@ -48,13 +48,17 @@ class ComponentButtonText {
   final String latest;
   final String oldest;
   final String name;
+  final String addToday;
+  final String searchPlaceholder;
 
   ComponentButtonText(
       {required this.save,
       required this.inquiry,
       required this.latest,
       required this.oldest,
-      required this.name});
+      required this.addToday,
+      required this.name,
+      required this.searchPlaceholder});
 }
 
 class SettingScreenText {
@@ -524,6 +528,8 @@ class LocalizationController extends GetxController {
         latest: ComponentButtonTextEn().latest,
         oldest: ComponentButtonTextEn().oldest,
         name: ComponentButtonTextEn().name,
+        addToday: ComponentButtonTextEn().addToday,
+        searchPlaceholder: ComponentButtonTextEn().searchPlaceholder,
       );
       return localiztionButtonText;
     } else {
@@ -533,6 +539,8 @@ class LocalizationController extends GetxController {
         latest: ComponentButtonTextKr().latest,
         oldest: ComponentButtonTextKr().oldest,
         name: ComponentButtonTextKr().name,
+        addToday: ComponentButtonTextKr().addToday,
+        searchPlaceholder: ComponentButtonTextKr().searchPlaceholder,
       );
       return localiztionButtonText;
     }

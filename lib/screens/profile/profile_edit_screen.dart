@@ -51,10 +51,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final formKey2 = GlobalKey<FormState>();
 
   void onChangedName(String name) {
-    setState(() {
-      nickName = name;
-      formKey.currentState?.validate();
-    });
+    // setState(() {
+    //   nickName = name;
+    //   formKey.currentState?.validate();
+    // });
   }
 
   String? validateNickName(value) {
@@ -139,15 +139,16 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             ),
           )),
           SizedBox(height: 16),
-          customTextInput(context, onChangedName,
+          CustomTextInput(
+              onChanged: onChangedName,
+              keyboardType: TextInputType.text,
               title: stores.localizationController
                   .localiztionProfileEditScreen()
                   .nickName,
               placeholder: nickName,
               maxLength: 8,
               count: nickName.length,
-              validator: validateNickName,
-              key: formKey),
+              validator: validateNickName)
         ]);
   }
 }

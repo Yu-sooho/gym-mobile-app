@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class TabAreaView extends StatefulWidget {
   late final List<Widget>? children;

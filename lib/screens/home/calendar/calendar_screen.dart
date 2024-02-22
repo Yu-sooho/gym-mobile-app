@@ -51,6 +51,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
   }
 
+  onPressAdd() {}
+
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
@@ -69,10 +71,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
               onChangedLength: onChangedLength,
             ),
             header(selectedDay ?? DateTime.now(), dateTextSize),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: routineAddButton(onPressAdd),
+            ),
           ],
         ),
         children: [
-          routineAddButton(),
           // RoutineListItem(),
           // RoutineListItem(),
           // RoutineListItem()
@@ -89,9 +94,50 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 }
 
-Widget routineAddButton() {
+Widget routineAddButton(Function() onPress) {
+  Stores stores = Stores();
   return (InkWell(
-    child: SizedBox(child: Text('123')),
+    onTap: onPress,
+    child: Container(
+        height: 48,
+        width: stores.appStateController.logicalWidth.value,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: stores.colorController
+                  .customColor()
+                  .defaultBackground1
+                  .withOpacity(0.8),
+              blurRadius: 5.0,
+              spreadRadius: 0.0,
+              offset: const Offset(5, 7),
+            ),
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: stores.colorController.customColor().deleteButtonColor,
+        ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                stores.localizationController
+                    .localiztionComponentButton()
+                    .addToday,
+                style: stores.fontController.customFont().bold12.copyWith(
+                    color:
+                        stores.colorController.customColor().buttonActiveText),
+              ),
+              Icon(
+                Icons.add,
+                color: stores.colorController.customColor().buttonActiveColor,
+                size: 20,
+              ),
+            ],
+          ),
+        )),
   ));
 }
 

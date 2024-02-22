@@ -271,8 +271,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                                     .customColor()
                                                     .buttonActiveColor),
                                       ),
-                                      Text(
-                                          '${widget.item.targetWeight ?? ''}kg',
+                                      Text('${widget.item.weight ?? ''}kg',
                                           style: stores.fontController
                                               .customFont()
                                               .bold12

@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions'
-import { kakaoAuth, naverAuth, createUser } from './auth'
+import { kakaoAuth, naverAuth, createUser, createDefaultMuscles } from './auth'
 import { initializeApp } from 'firebase-admin/app'
 import { firestore } from 'firebase-admin'
 
@@ -25,3 +25,4 @@ exports.naverAuth = functions
   .https.onRequest(naverAuth)
 
 exports.createUser = createUser
+exports.createDefaultMuscles = createDefaultMuscles

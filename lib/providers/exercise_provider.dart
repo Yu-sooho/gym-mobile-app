@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:gym_calendar/models/exercise_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 
@@ -53,27 +52,50 @@ class ExerciseProvider {
     }
   }
 
-  Future<MuscleList> getUserMuscleList({
-    DocumentSnapshot<Object?>? startAfter,
-    int? limit,
-  }) async {
+  Future<MuscleList> getUserMuscleList(
+      {DocumentSnapshot<Object?>? startAfter,
+      int? limit,
+      String? sort,
+      String? searchKeyword}) async {
     try {
       const collectionName = 'user_muscles';
+      final order = orderBy(sort);
 
       String uid = stores.firebaseAuthController.uid!.value;
       Query query = firestore
           .collection(collectionName)
           .where('uid', isEqualTo: uid)
-          .orderBy('createdAt')
+          .orderBy(order['text'], descending: order['descending'])
           .limit(limit ?? 20);
 
       if (startAfter != null) {
         query = firestore
             .collection('user_muscles')
             .where('uid', isEqualTo: uid)
-            .orderBy('createdAt')
+            .orderBy(order['text'], descending: order['descending'])
             .startAfterDocument(startAfter)
             .limit(limit ?? 20);
+      }
+
+      if (searchKeyword != null && searchKeyword != '') {
+        query = firestore
+            .collection('user_muscles')
+            .where('uid', isEqualTo: uid)
+            .where('name', isGreaterThanOrEqualTo: searchKeyword)
+            .where('name', isLessThanOrEqualTo: '$searchKeyword\uf8ff')
+            .orderBy('name')
+            .limit(limit ?? 4);
+      }
+
+      if (searchKeyword != null && searchKeyword != '' && startAfter != null) {
+        query = firestore
+            .collection('user_muscles')
+            .where('uid', isEqualTo: uid)
+            .where('name', isGreaterThanOrEqualTo: searchKeyword)
+            .where('name', isLessThanOrEqualTo: '$searchKeyword\uf8ff')
+            .orderBy('name')
+            .startAfterDocument(startAfter)
+            .limit(limit ?? 4);
       }
 
       List<Muscles> list = [];
@@ -103,7 +125,10 @@ class ExerciseProvider {
   }
 
   Future<ExerciseList> getExerciseList(
-      {DocumentSnapshot<Object?>? startAfter, int? limit, String? sort}) async {
+      {DocumentSnapshot<Object?>? startAfter,
+      int? limit,
+      String? sort,
+      String? searchKeyword}) async {
     String uid = stores.firebaseAuthController.uid!.value;
     late Query query;
     final order = orderBy(sort);
@@ -119,6 +144,27 @@ class ExerciseProvider {
           .collection('user_exercise')
           .where('uid', isEqualTo: uid)
           .orderBy(order['text'], descending: order['descending'])
+          .startAfterDocument(startAfter)
+          .limit(limit ?? 4);
+    }
+
+    if (searchKeyword != null && searchKeyword != '') {
+      query = firestore
+          .collection('user_exercise')
+          .where('uid', isEqualTo: uid)
+          .where('name', isGreaterThanOrEqualTo: searchKeyword)
+          .where('name', isLessThanOrEqualTo: '$searchKeyword\uf8ff')
+          .orderBy('name')
+          .limit(limit ?? 4);
+    }
+
+    if (searchKeyword != null && searchKeyword != '' && startAfter != null) {
+      query = firestore
+          .collection('user_exercise')
+          .where('uid', isEqualTo: uid)
+          .where('name', isGreaterThanOrEqualTo: searchKeyword)
+          .where('name', isLessThanOrEqualTo: '$searchKeyword\uf8ff')
+          .orderBy('name')
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
     }

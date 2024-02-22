@@ -33,7 +33,7 @@ class CustomColorMode1 {
   Color bottomTabBarItem = const Color(0xff171F21);
 
   Color buttonInActiveText = const Color(0xffA9AABC);
-  Color buttonActiveText = const Color(0xffffffff);
+  Color buttonActiveText = const Color(0xff292e49);
   Color buttonInActiveColor = const Color(0xff536976);
   Color buttonActiveColor = const Color(0xff292e49);
   Color buttonDefaultColor = const Color(0xffffffff);

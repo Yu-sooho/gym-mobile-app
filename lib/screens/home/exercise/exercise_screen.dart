@@ -6,6 +6,7 @@ import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/screens/home/exercise/exercise_add_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class ExerciseScreen extends StatefulWidget {
   ExerciseScreen({super.key});
@@ -26,6 +27,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   double sortBarHeight = 40;
   int tempSelectedSort = 0;
   double itemExtent = 32.0;
+  String searchKeyword = '';
 
   final Duration duration = Duration(milliseconds: 250);
 
@@ -51,11 +53,11 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       exerciseLoading = true;
     });
     final result = await networkProviders.exerciseProvider.getExerciseList(
-      sort: stores.exerciseStateController.exerciseSortMethod[
-          stores.exerciseStateController.exerciseSort.value],
-      startAfter: stores.exerciseStateController.startAfter,
-      limit: limit,
-    );
+        sort: stores.exerciseStateController.exerciseSortMethod[
+            stores.exerciseStateController.exerciseSort.value],
+        startAfter: stores.exerciseStateController.startAfter,
+        limit: limit,
+        searchKeyword: searchKeyword);
     setState(() {
       exerciseLoading = false;
     });
@@ -148,47 +150,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     getExerciseList();
   }
 
-  Widget sortBar(BuildContext context) {
-    return (Container(
-        height: sortBarHeight,
-        alignment: Alignment.centerRight,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
-          child: CustomButton(
-              onPress: () => stores.appStateController.showDialog(
-                    CupertinoPicker(
-                      magnification: 1.22,
-                      squeeze: 1.2,
-                      useMagnifier: true,
-                      itemExtent: itemExtent,
-                      scrollController: FixedExtentScrollController(
-                        initialItem:
-                            stores.exerciseStateController.exerciseSort.value,
-                      ),
-                      onSelectedItemChanged: onChangedSortMethod,
-                      children: List<Widget>.generate(
-                          stores.exerciseStateController.exerciseSortMethod
-                              .length, (int index) {
-                        return Center(
-                            child: Text(stores.exerciseStateController
-                                .exerciseSortMethod[index]));
-                      }),
-                    ),
-                    context,
-                    isHaveButton: true,
-                    onPressOk: onPressSortMethodOk,
-                  ),
-              highlightColor: Colors.transparent,
-              child: Container(
-                  height: 24,
-                  width: 72,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    stores.exerciseStateController.exerciseSortMethod[
-                        stores.exerciseStateController.exerciseSort.value],
-                    style: stores.fontController.customFont().medium12,
-                  ))),
-        )));
+  void onChanged(String value) {
+    stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
+    stores.exerciseStateController.startAfter = null;
+    stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
+    stores.exerciseStateController.endExerciseList = false;
+    setState(() {
+      searchKeyword = value;
+    });
+
+    getExerciseList();
   }
 
   Widget addButton(BuildContext context, Function() onPress, String text) {
@@ -223,49 +194,62 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return (TabAreaView(
-        openDuration: duration,
-        closeDuration: duration,
-        minHeaderSize: sortBarHeight + 64 - 12,
-        maxHeaderSize: sortBarHeight + 64 - 12,
-        onRefresh: onRefresh,
-        scrollController: _controller,
-        paddingTop: 12,
-        header: Column(children: [
-          addButton(
-              context,
-              () => onPressAdd(context),
-              stores.localizationController
-                  .localiztionExerciseScreen()
-                  .addExercise),
-          sortBar(context)
-        ]),
-        headerSize: headerHeight,
-        children: [
-          Obx(() {
-            if (stores.exerciseStateController.exerciseList.isEmpty) {
-              return emptyContainer(exerciseLoading, isRefresh);
-            }
-            return (ListView.separated(
-              primary: false,
-              shrinkWrap: true,
-              itemCount: stores.exerciseStateController.exerciseList.length,
-              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-              separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(
-                height: 20,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return ExerciseListItem(
-                    onPress: onPress,
-                    onPressDelete: onPressDelete,
-                    key: Key('$index'),
-                    item: stores.exerciseStateController.exerciseList[index]);
-              },
-            ));
-          }),
-          loadingFotter(exerciseLoading, isRefresh,
-              stores.exerciseStateController.exerciseList.isNotEmpty),
-        ]));
+    return KeyboardDismisser(
+      child: (TabAreaView(
+          openDuration: duration,
+          closeDuration: duration,
+          minHeaderSize: sortBarHeight + 64 - 12,
+          maxHeaderSize: sortBarHeight + 64 - 12,
+          onRefresh: onRefresh,
+          scrollController: _controller,
+          paddingTop: 12,
+          header: Column(children: [
+            addButton(
+                context,
+                () => onPressAdd(context),
+                stores.localizationController
+                    .localiztionExerciseScreen()
+                    .addExercise),
+            CustomSortBar(
+                sortValue: stores.exerciseStateController.exerciseSort.value,
+                initialItem: stores.exerciseStateController.exerciseSort.value,
+                onChangedSortMethod: onChangedSortMethod,
+                onPressSortMethodOk: onPressSortMethodOk,
+                isSearch: true,
+                itemExtent: itemExtent,
+                sortBarHeight: sortBarHeight,
+                onChanged: onChanged),
+            SizedBox(
+              height: 4,
+            )
+          ]),
+          headerSize: headerHeight,
+          children: [
+            Obx(() {
+              if (stores.exerciseStateController.exerciseList.isEmpty) {
+                return emptyContainer(exerciseLoading, isRefresh);
+              }
+              return (ListView.separated(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: stores.exerciseStateController.exerciseList.length,
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(
+                  height: 20,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return ExerciseListItem(
+                      onPress: onPress,
+                      onPressDelete: onPressDelete,
+                      key: Key('$index'),
+                      item: stores.exerciseStateController.exerciseList[index]);
+                },
+              ));
+            }),
+            loadingFotter(exerciseLoading, isRefresh,
+                stores.exerciseStateController.exerciseList.isNotEmpty),
+          ])),
+    );
   }
 }

@@ -279,7 +279,7 @@ Widget inquiryContainer(BuildContext context,
                       color: isReady
                           ? stores.colorController
                               .customColor()
-                              .buttonActiveText
+                              .buttonDefaultColor
                           : stores.colorController
                               .customColor()
                               .buttonInActiveText,

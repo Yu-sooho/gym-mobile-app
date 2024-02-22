@@ -172,6 +172,18 @@ class FirebaseAuthController extends GetxController {
   Future<void> signOut() async {
     return FirebaseAuth.instance.signOut().whenComplete(() {
       print("SignOut Done");
+      docId = null;
+      uid = null;
+      currentUserData.disabled = null;
+      currentUserData.emailVerified = null;
+      currentUserData.photoURL = null;
+      currentUserData.displayName = null;
+      currentUserData.creationTime = null;
+      currentUserData.email = null;
+      currentUserData.phoneNumber = null;
+      currentUserData.fcmToken = null;
+      currentUserData.notification1 = null;
+      currentUserData.notification2 = null;
     }).catchError((error) {
       print("error in signout $error");
     });

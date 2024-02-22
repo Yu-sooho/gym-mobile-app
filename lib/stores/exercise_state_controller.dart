@@ -10,6 +10,7 @@ class ExerciseStateController extends GetxController {
   RxList<Muscles> muscleList = RxList<Muscles>.empty();
   QueryDocumentSnapshot<Object?>? startAfterMuscle;
   bool endMuscleList = false;
+  RxInt muscleSort = 0.obs;
 
   RxList<Exercise> exerciseList = RxList<Exercise>.empty();
   QueryDocumentSnapshot<Object?>? startAfter;
