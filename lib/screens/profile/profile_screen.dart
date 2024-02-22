@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/main.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -14,6 +15,24 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final Stores stores = Get.put(Stores());
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future getUserData() async {
+    final uid = stores.firebaseAuthController.uid;
+    if (uid == null) {
+      Main.navigatorKey.currentState!.pop();
+    }
+    final result = await stores.firebaseAuthController.getUser();
+    if (!result) {
+      Main.navigatorKey.currentState!.pop();
+    }
+    return true;
+  }
 
   late OverlayEntry overlayPhoto = OverlayEntry(
       builder: (_) => photoScreen(

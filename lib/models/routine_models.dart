@@ -8,7 +8,9 @@ class Routine {
   String cycle;
   String date;
   String? startDate;
+  String? endDate;
   int? executionCount;
+  int? allCount;
   List<Exercise> exercises;
   Timestamp createdAt;
   Routine({
@@ -19,7 +21,10 @@ class Routine {
     required this.date,
     required this.exercises,
     required this.createdAt,
+    this.executionCount,
+    this.allCount,
     this.startDate,
+    this.endDate,
   });
 }
 

@@ -278,33 +278,38 @@ class RoutineAddScreenText {
   final String cycleDes;
   final String repeatDes;
   final String startDate;
+  final String endDate;
   final String selectedDate;
   final String dateFormat;
   final String executionCount;
+  final String allCount;
 
-  RoutineAddScreenText(
-      {required this.title,
-      required this.inputTitle,
-      required this.inputTitlePlaceholder,
-      required this.exercisePlaceholder,
-      required this.add,
-      required this.success,
-      required this.maxExercise,
-      required this.noRoutine,
-      required this.successDelete,
-      required this.errorDelete,
-      required this.cycle,
-      required this.repeat,
-      required this.exercise,
-      required this.cycleDate,
-      required this.exerciseListCheck,
-      required this.errorCycle,
-      required this.cycleDes,
-      required this.repeatDes,
-      required this.startDate,
-      required this.selectedDate,
-      required this.dateFormat,
-      required this.executionCount});
+  RoutineAddScreenText({
+    required this.title,
+    required this.inputTitle,
+    required this.inputTitlePlaceholder,
+    required this.exercisePlaceholder,
+    required this.add,
+    required this.success,
+    required this.maxExercise,
+    required this.noRoutine,
+    required this.successDelete,
+    required this.errorDelete,
+    required this.cycle,
+    required this.repeat,
+    required this.exercise,
+    required this.cycleDate,
+    required this.exerciseListCheck,
+    required this.errorCycle,
+    required this.cycleDes,
+    required this.repeatDes,
+    required this.startDate,
+    required this.endDate,
+    required this.selectedDate,
+    required this.dateFormat,
+    required this.executionCount,
+    required this.allCount,
+  });
 }
 
 class ExerciseScreenText {
@@ -701,9 +706,11 @@ class LocalizationController extends GetxController {
           cycleDes: RoutineAddScreenTextEn().cycleDes,
           repeatDes: RoutineAddScreenTextEn().repeatDes,
           startDate: RoutineAddScreenTextEn().startDate,
+          endDate: RoutineAddScreenTextEn().endDate,
           selectedDate: RoutineAddScreenTextEn().selectedDate,
           dateFormat: RoutineAddScreenTextEn().dateFormat,
-          executionCount: RoutineAddScreenTextEn().executionCount);
+          executionCount: RoutineAddScreenTextEn().executionCount,
+          allCount: RoutineAddScreenTextEn().allCount);
       return routineAddScreenText;
     } else {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
@@ -726,9 +733,11 @@ class LocalizationController extends GetxController {
           cycleDes: RoutineAddScreenTextKr().cycleDes,
           repeatDes: RoutineAddScreenTextKr().repeatDes,
           startDate: RoutineAddScreenTextKr().startDate,
+          endDate: RoutineAddScreenTextKr().endDate,
           selectedDate: RoutineAddScreenTextKr().selectedDate,
           dateFormat: RoutineAddScreenTextKr().dateFormat,
-          executionCount: RoutineAddScreenTextKr().executionCount);
+          executionCount: RoutineAddScreenTextKr().executionCount,
+          allCount: RoutineAddScreenTextKr().allCount);
       return routineAddScreenText;
     }
   }

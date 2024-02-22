@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class ExerciseListItem extends StatefulWidget {
   final Exercise item;
@@ -104,7 +103,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
             )
           ],
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: stores.colorController.customColor().buttonActiveText,
+          color: stores.colorController.customColor().deleteButtonColor,
         ),
         child: SlidableAutoCloseBehavior(
           closeWhenOpened: true,
@@ -124,7 +123,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                   backgroundColor:
                       stores.colorController.customColor().transparent,
                   foregroundColor:
-                      stores.colorController.customColor().defaultBackground1,
+                      stores.colorController.customColor().buttonActiveColor,
                   icon: Icons.delete,
                   iconSize: 20,
                 ),
@@ -134,7 +133,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
               width: stores.appStateController.logicalWidth.value,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: stores.colorController.customColor().buttonActiveText,
+                color: stores.colorController.customColor().buttonDefaultColor,
               ),
               child: Column(
                 children: [
@@ -154,14 +153,14 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                           Icons.check_box,
                                           color: stores.colorController
                                               .customColor()
-                                              .defaultBackground1,
+                                              .buttonActiveColor,
                                           size: 24,
                                         )
                                       : Icon(
                                           Icons.check_box_outline_blank_rounded,
                                           color: stores.colorController
                                               .customColor()
-                                              .defaultBackground2,
+                                              .buttonInActiveColor,
                                           size: 24,
                                         ),
                                 ))
@@ -175,7 +174,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                 .copyWith(
                                     color: stores.colorController
                                         .customColor()
-                                        .defaultBackground1)),
+                                        .buttonActiveColor)),
                         Expanded(
                           child: Align(
                             alignment: Alignment.centerRight,
@@ -190,7 +189,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                       Icons.arrow_right,
                                       color: stores.colorController
                                           .customColor()
-                                          .defaultBackground1,
+                                          .buttonActiveColor,
                                       size: 24,
                                     ),
                                   ),
@@ -219,7 +218,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                           .copyWith(
                                               color: stores.colorController
                                                   .customColor()
-                                                  .defaultBackground1)),
+                                                  .buttonActiveColor)),
                                   Expanded(
                                     child: ListView.separated(
                                       primary: false,
@@ -244,7 +243,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                                       color: stores
                                                           .colorController
                                                           .customColor()
-                                                          .defaultBackground1)),
+                                                          .buttonActiveColor)),
                                         );
                                       },
                                     ),
@@ -270,7 +269,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                             .copyWith(
                                                 color: stores.colorController
                                                     .customColor()
-                                                    .defaultBackground1),
+                                                    .buttonActiveColor),
                                       ),
                                       Text(
                                           '${widget.item.targetWeight ?? ''}kg',
@@ -280,7 +279,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                               .copyWith(
                                                   color: stores.colorController
                                                       .customColor()
-                                                      .defaultBackground1)),
+                                                      .buttonActiveColor)),
                                     ],
                                   ),
                                 ),
@@ -295,7 +294,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                             .copyWith(
                                                 color: stores.colorController
                                                     .customColor()
-                                                    .defaultBackground1),
+                                                    .buttonActiveColor),
                                       ),
                                       Text(
                                         '${widget.item.targetWeight ?? ''}kg',
@@ -305,7 +304,7 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                                             .copyWith(
                                                 color: stores.colorController
                                                     .customColor()
-                                                    .defaultBackground1),
+                                                    .buttonActiveColor),
                                       ),
                                     ],
                                   ),

@@ -34,8 +34,10 @@ class CustomColorMode1 {
 
   Color buttonInActiveText = const Color(0xffA9AABC);
   Color buttonActiveText = const Color(0xffffffff);
-  Color buttonInActiveColor = const Color(0x80444655);
-  Color buttonActiveColor = const Color(0x80171F21);
+  Color buttonInActiveColor = const Color(0xff536976);
+  Color buttonActiveColor = const Color(0xff292e49);
+  Color buttonDefaultColor = const Color(0xffffffff);
+  Color deleteButtonColor = const Color(0xffffffff);
 }
 
 class CustomColorMode2 {
@@ -68,9 +70,11 @@ class CustomColorMode2 {
   Color bottomTabBarActiveItem = const Color(0xffffffff);
   Color bottomTabBarItem = const Color(0xff444442);
   Color buttonInActiveText = const Color(0xff444442);
-  Color buttonActiveText = const Color(0xffffffff);
+  Color buttonActiveText = const Color(0xff292e49);
   Color buttonInActiveColor = const Color(0xff444442);
-  Color buttonActiveColor = const Color(0xffffffff);
+  Color buttonActiveColor = const Color(0xff292e49);
+  Color buttonDefaultColor = const Color(0xffffffff);
+  Color deleteButtonColor = const Color(0xffffffff);
 }
 
 class CustomColorMode3 {
@@ -106,4 +110,6 @@ class CustomColorMode3 {
   Color buttonActiveText = const Color(0xffffffff);
   Color buttonInActiveColor = const Color(0xff444442);
   Color buttonActiveColor = const Color(0xffffffff);
+  Color buttonDefaultColor = const Color(0xffffffff);
+  Color deleteButtonColor = const Color(0xffffffff);
 }

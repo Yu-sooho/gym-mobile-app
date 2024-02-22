@@ -76,6 +76,8 @@ class RoutineProvider {
       final createdAt = data['createdAt'];
       final uid = data['uid'];
       final startDate = data['startDate'];
+      final endDate = data['endDate'];
+      final allCount = data['allCount'];
       final id = element.id;
       final routine = Routine(
           id: id,
@@ -85,6 +87,8 @@ class RoutineProvider {
           date: date,
           exercises: userExerciseResult,
           startDate: startDate,
+          endDate: endDate,
+          allCount: allCount,
           createdAt: createdAt);
       list.add(routine);
     }

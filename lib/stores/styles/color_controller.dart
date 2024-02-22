@@ -40,36 +40,41 @@ class CustomColor {
 
   final Color buttonActiveColor;
   final Color buttonInActiveColor;
+  final Color buttonDefaultColor;
+  final Color deleteButtonColor;
 
-  CustomColor(
-      {required this.toastBackground,
-      required this.toastText,
-      required this.defaultBackground1,
-      required this.defaultBackground2,
-      required this.loadingSpinnerOpacity,
-      required this.loadingSpinnerColor,
-      required this.defaultTextColor,
-      required this.skeletonColor,
-      required this.skeletonColor2,
-      required this.buttonOpacity,
-      required this.buttonBorder,
-      required this.switchActiveColor,
-      required this.switchTrackColor,
-      required this.transparent,
-      required this.modalBackground,
-      required this.modalText,
-      required this.modalOk,
-      required this.modalCancel,
-      required this.errorText,
-      required this.textInputCursor,
-      required this.textInputFocusCursor,
-      required this.placeholder,
-      required this.bottomTabBarActiveItem,
-      required this.bottomTabBarItem,
-      required this.buttonActiveText,
-      required this.buttonInActiveText,
-      required this.buttonActiveColor,
-      required this.buttonInActiveColor});
+  CustomColor({
+    required this.toastBackground,
+    required this.toastText,
+    required this.defaultBackground1,
+    required this.defaultBackground2,
+    required this.loadingSpinnerOpacity,
+    required this.loadingSpinnerColor,
+    required this.defaultTextColor,
+    required this.skeletonColor,
+    required this.skeletonColor2,
+    required this.buttonOpacity,
+    required this.buttonBorder,
+    required this.switchActiveColor,
+    required this.switchTrackColor,
+    required this.transparent,
+    required this.modalBackground,
+    required this.modalText,
+    required this.modalOk,
+    required this.modalCancel,
+    required this.errorText,
+    required this.textInputCursor,
+    required this.textInputFocusCursor,
+    required this.placeholder,
+    required this.bottomTabBarActiveItem,
+    required this.bottomTabBarItem,
+    required this.buttonActiveText,
+    required this.buttonInActiveText,
+    required this.buttonActiveColor,
+    required this.buttonInActiveColor,
+    required this.buttonDefaultColor,
+    required this.deleteButtonColor,
+  });
 }
 
 class CustomColorController extends GetxController {
@@ -117,7 +122,9 @@ class CustomColorController extends GetxController {
           buttonInActiveText: CustomColorMode1().buttonInActiveText,
           buttonActiveText: CustomColorMode1().buttonActiveText,
           buttonInActiveColor: CustomColorMode1().buttonInActiveColor,
-          buttonActiveColor: CustomColorMode1().buttonActiveColor);
+          buttonActiveColor: CustomColorMode1().buttonActiveColor,
+          buttonDefaultColor: CustomColorMode1().buttonDefaultColor,
+          deleteButtonColor: CustomColorMode1().deleteButtonColor);
       return customColor;
     } else if (colorType.value == 1) {
       CustomColor customColor = CustomColor(
@@ -148,7 +155,9 @@ class CustomColorController extends GetxController {
           buttonInActiveText: CustomColorMode2().buttonInActiveText,
           buttonActiveText: CustomColorMode2().buttonActiveText,
           buttonInActiveColor: CustomColorMode2().buttonInActiveColor,
-          buttonActiveColor: CustomColorMode2().buttonActiveColor);
+          buttonActiveColor: CustomColorMode2().buttonActiveColor,
+          buttonDefaultColor: CustomColorMode2().buttonDefaultColor,
+          deleteButtonColor: CustomColorMode2().deleteButtonColor);
       return customColor;
     } else {
       CustomColor customColor = CustomColor(
@@ -179,7 +188,9 @@ class CustomColorController extends GetxController {
           buttonInActiveText: CustomColorMode3().buttonInActiveText,
           buttonActiveText: CustomColorMode3().buttonActiveText,
           buttonInActiveColor: CustomColorMode3().buttonInActiveColor,
-          buttonActiveColor: CustomColorMode3().buttonActiveColor);
+          buttonActiveColor: CustomColorMode3().buttonActiveColor,
+          buttonDefaultColor: CustomColorMode3().buttonDefaultColor,
+          deleteButtonColor: CustomColorMode3().deleteButtonColor);
       return customColor;
     }
   }

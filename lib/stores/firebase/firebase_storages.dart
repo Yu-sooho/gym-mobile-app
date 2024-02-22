@@ -15,15 +15,15 @@ class FirebaseStorageController extends GetxController {
       var storageRef =
           FirebaseStorage.instance.ref('users/profilePicture/$docId/$fileName');
       final file = File(filePath);
-      await storageRef.putFile(file).timeout(Duration(seconds: 30));
+      await storageRef.putFile(file).timeout(Duration(seconds: 20));
       final url = await storageRef.getDownloadURL();
       return url;
-    } on TimeoutException catch (_) {
-      print('TimeoutException');
+    } on TimeoutException catch (error) {
+      print('TimeoutException $error');
       appStateController.showToast(
           localizationController.localiztionComponentError().networkError);
-    } on SocketException catch (_) {
-      print('SocketException');
+    } on SocketException catch (error) {
+      print('SocketException $error');
       appStateController.showToast(
           localizationController.localiztionComponentError().networkError);
     } catch (error) {

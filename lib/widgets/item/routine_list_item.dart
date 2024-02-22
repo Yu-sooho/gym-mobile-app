@@ -69,7 +69,7 @@ class _RoutineListItem extends State<RoutineListItem> {
     if (isVisiableArrowRotation == 0.25) {
       setState(() {
         isVisiableArrowRotation = -0.25;
-        isVisiableHeight = 68.0;
+        isVisiableHeight = 98.0;
         isVisiableOpacity = 1.0;
       });
     } else {
@@ -96,7 +96,7 @@ class _RoutineListItem extends State<RoutineListItem> {
             BoxShadow(
               color: stores.colorController
                   .customColor()
-                  .defaultBackground1
+                  .buttonActiveColor
                   .withOpacity(0.8),
               blurRadius: 5.0,
               spreadRadius: 0.0,
@@ -104,7 +104,7 @@ class _RoutineListItem extends State<RoutineListItem> {
             )
           ],
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: stores.colorController.customColor().buttonActiveText,
+          color: stores.colorController.customColor().deleteButtonColor,
         ),
         child: SlidableAutoCloseBehavior(
           closeWhenOpened: true,
@@ -124,7 +124,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                   backgroundColor:
                       stores.colorController.customColor().transparent,
                   foregroundColor:
-                      stores.colorController.customColor().defaultBackground1,
+                      stores.colorController.customColor().buttonActiveColor,
                   icon: Icons.delete,
                   iconSize: 20,
                 ),
@@ -154,14 +154,14 @@ class _RoutineListItem extends State<RoutineListItem> {
                                           Icons.check_box,
                                           color: stores.colorController
                                               .customColor()
-                                              .defaultBackground1,
+                                              .buttonActiveColor,
                                           size: 24,
                                         )
                                       : Icon(
                                           Icons.check_box_outline_blank_rounded,
                                           color: stores.colorController
                                               .customColor()
-                                              .defaultBackground2,
+                                              .buttonInActiveColor,
                                           size: 24,
                                         ),
                                 ))
@@ -175,7 +175,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                 .copyWith(
                                     color: stores.colorController
                                         .customColor()
-                                        .defaultBackground1)),
+                                        .buttonActiveColor)),
                         Expanded(
                           child: Align(
                             alignment: Alignment.centerRight,
@@ -190,7 +190,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                       Icons.arrow_right,
                                       color: stores.colorController
                                           .customColor()
-                                          .defaultBackground1,
+                                          .buttonActiveColor,
                                       size: 24,
                                     ),
                                   ),
@@ -219,7 +219,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                           .copyWith(
                                               color: stores.colorController
                                                   .customColor()
-                                                  .defaultBackground1)),
+                                                  .buttonActiveColor)),
                                   widget.item.exercises.isEmpty
                                       ? Expanded(
                                           child: SizedBox(
@@ -231,7 +231,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                           color: stores
                                                               .colorController
                                                               .customColor()
-                                                              .defaultBackground1))))
+                                                              .buttonActiveColor))))
                                       : Expanded(
                                           child: ListView.separated(
                                             primary: false,
@@ -258,7 +258,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                             color: stores
                                                                 .colorController
                                                                 .customColor()
-                                                                .defaultBackground1)),
+                                                                .buttonActiveColor)),
                                               );
                                             },
                                           ),
@@ -268,157 +268,219 @@ class _RoutineListItem extends State<RoutineListItem> {
                         ),
                         Expanded(
                             flex: 2,
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    flex: 12,
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.fromLTRB(20, 0, 20, 8),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: SizedBox(
-                                                child: Row(
-                                              children: [
-                                                Text(
-                                                  '${stores.localizationController.localiztionRoutineAddScreen().repeat} : ',
-                                                  style: stores.fontController
-                                                      .customFont()
-                                                      .medium12
-                                                      .copyWith(
-                                                          color: stores
-                                                              .colorController
-                                                              .customColor()
-                                                              .defaultBackground1),
-                                                ),
-                                                Text(
-                                                    '${widget.item.cycle}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
-                                                    style: stores.fontController
-                                                        .customFont()
-                                                        .bold12
-                                                        .copyWith(
-                                                            color: stores
-                                                                .colorController
-                                                                .customColor()
-                                                                .defaultBackground1)),
-                                              ],
+                            child: Row(children: [
+                              Expanded(
+                                flex: 12,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 0, 0, 8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: SizedBox(
+                                            child: Row(
+                                          children: [
+                                            Text(
+                                              '${stores.localizationController.localiztionRoutineAddScreen().repeat} : ',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .medium12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                            Text(
+                                                '${widget.item.cycle}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
+                                                style: stores.fontController
+                                                    .customFont()
+                                                    .bold12
+                                                    .copyWith(
+                                                        color: stores
+                                                            .colorController
+                                                            .customColor()
+                                                            .buttonActiveColor)),
+                                          ],
+                                        )),
+                                      ),
+                                      Expanded(
+                                          child: SizedBox(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              '${stores.localizationController.localiztionRoutineAddScreen().cycleDate} : ',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .medium12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                            Text(
+                                              '${widget.item.date}${stores.localizationController.localiztionRoutineAddScreen().cycleDes}',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .bold12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                      Expanded(
+                                        child: SizedBox(
+                                            child: Row(
+                                          children: [
+                                            Text(
+                                              '${stores.localizationController.localiztionRoutineAddScreen().startDate} : ',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .medium12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                            Flexible(
+                                                child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              widget.item.startDate != null
+                                                  ? DateFormat(stores
+                                                          .localizationController
+                                                          .localiztionRoutineAddScreen()
+                                                          .dateFormat)
+                                                      .format(DateTime.parse(
+                                                          widget
+                                                              .item.startDate!))
+                                                  : '-',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .bold12
+                                                  .copyWith(
+                                                    color: stores
+                                                        .colorController
+                                                        .customColor()
+                                                        .buttonActiveColor,
+                                                  ),
                                             )),
-                                          ),
-                                          Expanded(
-                                              child: SizedBox(
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  '${stores.localizationController.localiztionRoutineAddScreen().cycleDate} : ',
-                                                  style: stores.fontController
-                                                      .customFont()
-                                                      .medium12
-                                                      .copyWith(
-                                                          color: stores
-                                                              .colorController
-                                                              .customColor()
-                                                              .defaultBackground1),
-                                                ),
-                                                Text(
-                                                  '${widget.item.date}${stores.localizationController.localiztionRoutineAddScreen().cycleDes}',
-                                                  style: stores.fontController
-                                                      .customFont()
-                                                      .bold12
-                                                      .copyWith(
-                                                          color: stores
-                                                              .colorController
-                                                              .customColor()
-                                                              .defaultBackground1),
-                                                ),
-                                              ],
-                                            ),
-                                          )),
-                                        ],
+                                          ],
+                                        )),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    flex: 13,
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.fromLTRB(20, 0, 20, 8),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  '${stores.localizationController.localiztionRoutineAddScreen().executionCount} : ',
-                                                  style: stores.fontController
-                                                      .customFont()
-                                                      .medium12
-                                                      .copyWith(
-                                                          color: stores
-                                                              .colorController
-                                                              .customColor()
-                                                              .defaultBackground1),
-                                                ),
-                                                Text(
-                                                    '${widget.item.executionCount ?? '0'}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
-                                                    style: stores.fontController
-                                                        .customFont()
-                                                        .bold12
-                                                        .copyWith(
-                                                            color: stores
-                                                                .colorController
-                                                                .customColor()
-                                                                .defaultBackground1)),
-                                              ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 10,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 20, 8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              '${stores.localizationController.localiztionRoutineAddScreen().executionCount} : ',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .medium12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
                                             ),
-                                          ),
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  '${stores.localizationController.localiztionRoutineAddScreen().startDate} : ',
-                                                  style: stores.fontController
-                                                      .customFont()
-                                                      .medium12
-                                                      .copyWith(
-                                                          color: stores
-                                                              .colorController
-                                                              .customColor()
-                                                              .defaultBackground1),
-                                                ),
-                                                Text(
-                                                  widget.item.startDate != null
-                                                      ? DateFormat(stores
-                                                              .localizationController
-                                                              .localiztionRoutineAddScreen()
-                                                              .dateFormat)
-                                                          .format(DateTime
-                                                              .parse(widget.item
-                                                                  .startDate!))
-                                                      : '-',
-                                                  style: stores.fontController
-                                                      .customFont()
-                                                      .bold12
-                                                      .copyWith(
-                                                          color: stores
-                                                              .colorController
-                                                              .customColor()
-                                                              .defaultBackground1),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
+                                            Text(
+                                                '${widget.item.executionCount ?? '0'}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
+                                                style: stores.fontController
+                                                    .customFont()
+                                                    .bold12
+                                                    .copyWith(
+                                                        color: stores
+                                                            .colorController
+                                                            .customColor()
+                                                            .buttonActiveColor)),
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                      Expanded(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              '${stores.localizationController.localiztionRoutineAddScreen().allCount} : ',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .medium12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                            Text(
+                                                '${widget.item.allCount ?? '0'}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
+                                                style: stores.fontController
+                                                    .customFont()
+                                                    .bold12
+                                                    .copyWith(
+                                                        color: stores
+                                                            .colorController
+                                                            .customColor()
+                                                            .buttonActiveColor)),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: SizedBox(
+                                            child: Row(
+                                          children: [
+                                            Text(
+                                              '${stores.localizationController.localiztionRoutineAddScreen().endDate} : ',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .medium12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                            Text(
+                                              widget.item.endDate != null
+                                                  ? DateFormat(stores
+                                                          .localizationController
+                                                          .localiztionRoutineAddScreen()
+                                                          .dateFormat)
+                                                      .format(DateTime.parse(
+                                                          widget.item.endDate!))
+                                                  : '-',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .bold12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                    ],
                                   ),
-                                ])),
+                                ),
+                              ),
+                            ])),
                       ]))
                 ],
               ),

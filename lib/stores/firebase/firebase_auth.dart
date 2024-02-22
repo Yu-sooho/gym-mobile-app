@@ -43,10 +43,10 @@ class FirebaseAuthController extends GetxController {
   UserData currentUserData = UserData();
 
   void addAuthEventListener() async {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user != null) {
         uid = user.uid.obs;
-        getUser(user);
+        await getUser(user: user);
         print('FirebaseAuthController addAuthEventListener login $user');
         return;
       }
@@ -55,11 +55,13 @@ class FirebaseAuthController extends GetxController {
     });
   }
 
-  void getUser(User user) async {
+  Future<bool> getUser({User? user}) async {
     try {
+      final id = user?.uid ?? uid?.value;
+      if (id == null) return false;
       final res = await FirebaseFirestore.instance
           .collection('users')
-          .where('uid', isEqualTo: user.uid)
+          .where('uid', isEqualTo: id)
           .get();
 
       for (var doc in res.docs) {
@@ -94,8 +96,10 @@ class FirebaseAuthController extends GetxController {
             docName: docId?.value,
             obj: {'fcmToken': fcmToken});
       }
+      return true;
     } catch (error) {
       print('getUser error $error');
+      return false;
     }
   }
 

@@ -59,9 +59,9 @@ class _TitleButtonState extends State<TitleButton>
                       Text(widget.title,
                           style: stores.fontController.customFont().bold12),
                       RotationTransition(
-                        turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
+                        turns: Tween(begin: 0.5, end: 1.0).animate(_controller),
                         child: Icon(
-                          Icons.arrow_drop_up,
+                          Icons.arrow_drop_down,
                           color: stores.colorController
                               .customColor()
                               .bottomTabBarActiveItem,

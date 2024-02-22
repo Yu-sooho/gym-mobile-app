@@ -23,12 +23,14 @@ void main() async {
 
 class Main extends StatelessWidget {
   final Stores stores = Get.put(Stores());
+  static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return MaterialApp(
       title: "GymCalendar",
+      navigatorKey: navigatorKey,
       navigatorObservers: [CommonRouteObserver()],
       initialRoute:
           stores.firebaseAuthController.uid != null ? '/home' : '/login',

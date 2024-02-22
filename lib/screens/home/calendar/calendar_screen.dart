@@ -72,6 +72,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ],
         ),
         children: [
+          routineAddButton(),
           // RoutineListItem(),
           // RoutineListItem(),
           // RoutineListItem()
@@ -86,6 +87,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
           //     : SizedBox()
         ]));
   }
+}
+
+Widget routineAddButton() {
+  return (InkWell(
+    child: SizedBox(child: Text('123')),
+  ));
 }
 
 Widget header(DateTime date, double size) {

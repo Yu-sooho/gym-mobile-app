@@ -72,7 +72,7 @@ class MuscleListItem extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: stores.colorController.customColor().buttonActiveText,
+          color: stores.colorController.customColor().deleteButtonColor,
         ),
         child: SlidableAutoCloseBehavior(
           closeWhenOpened: true,
@@ -90,7 +90,7 @@ class MuscleListItem extends StatelessWidget {
                   backgroundColor:
                       stores.colorController.customColor().transparent,
                   foregroundColor:
-                      stores.colorController.customColor().defaultBackground1,
+                      stores.colorController.customColor().buttonInActiveColor,
                   icon: Icons.delete,
                   iconSize: 20,
                 ),
@@ -101,7 +101,7 @@ class MuscleListItem extends StatelessWidget {
               width: stores.appStateController.logicalWidth.value,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: stores.colorController.customColor().buttonActiveText,
+                color: stores.colorController.customColor().buttonDefaultColor,
               ),
               child: Align(
                 alignment: Alignment.center,
@@ -118,14 +118,14 @@ class MuscleListItem extends StatelessWidget {
                                       Icons.check_box,
                                       color: stores.colorController
                                           .customColor()
-                                          .defaultBackground1,
+                                          .buttonActiveColor,
                                       size: 24,
                                     )
                                   : Icon(
                                       Icons.check_box_outline_blank_rounded,
                                       color: stores.colorController
                                           .customColor()
-                                          .defaultBackground2,
+                                          .buttonInActiveColor,
                                       size: 24,
                                     ),
                             ))
@@ -143,7 +143,7 @@ class MuscleListItem extends StatelessWidget {
                                 .copyWith(
                                     color: stores.colorController
                                         .customColor()
-                                        .defaultBackground1)),
+                                        .buttonActiveColor)),
                       ),
                     ),
                   ],
