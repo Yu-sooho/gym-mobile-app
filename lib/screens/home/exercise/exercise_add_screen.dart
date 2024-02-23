@@ -731,8 +731,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
           ),
           children: [
             Obx(() {
-              if (stores.exerciseStateController.muscleList.isEmpty &&
-                  stores.exerciseStateController.muscles.isEmpty) {
+              if (stores.exerciseStateController.muscleList.isEmpty) {
                 return emptyContainer(muscleLoading, isRefresh,
                     text: searchKeyword.isNotEmpty
                         ? stores.localizationController
@@ -745,10 +744,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
               return ListView.separated(
                 primary: false,
                 shrinkWrap: true,
-                itemCount: [
-                  ...stores.exerciseStateController.muscles,
-                  ...stores.exerciseStateController.muscleList,
-                ].length,
+                itemCount: stores.exerciseStateController.muscleList.length,
                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 separatorBuilder: (BuildContext context, int index) =>
                     const SizedBox(
@@ -756,29 +752,19 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   bool? isActive = selectedMuscles.any((element) =>
-                      [
-                        ...stores.exerciseStateController.muscles,
-                        ...stores.exerciseStateController.muscleList,
-                      ][index]
-                          .name ==
+                      stores.exerciseStateController.muscleList[index].name ==
                       element);
                   return MuscleListItem(
-                      disabledDelete: index <
-                              (stores.exerciseStateController.muscles.length) ||
-                          isActive,
                       isSelected: isActive,
                       onPress: onPressSelectedList,
                       onPressDelete: onPressDeleteMuscle,
                       isCanSelected: true,
-                      item: [
-                        ...stores.exerciseStateController.muscles,
-                        ...stores.exerciseStateController.muscleList,
-                      ][index]);
+                      item: stores.exerciseStateController.muscleList[index]);
                 },
               );
             }),
             loadingFotter(muscleLoading, isRefresh,
-                stores.exerciseStateController.muscles.isNotEmpty),
+                stores.exerciseStateController.muscleList.isNotEmpty),
           ],
           scrollController: _controller,
           onRefresh: onRefresh),

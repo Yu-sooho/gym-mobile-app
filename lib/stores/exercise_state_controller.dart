@@ -6,7 +6,6 @@ import 'package:gym_calendar/stores/localization/localization_controller.dart';
 class ExerciseStateController extends GetxController {
   final LocalizationController localizationController =
       Get.put(LocalizationController());
-  RxList<Muscles> muscles = RxList<Muscles>.empty();
   RxList<Muscles> muscleList = RxList<Muscles>.empty();
   QueryDocumentSnapshot<Object?>? startAfterMuscle;
   bool endMuscleList = false;

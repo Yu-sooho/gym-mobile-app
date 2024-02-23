@@ -93,12 +93,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     afterFunc();
   }
 
-  void getMuscleList() async {
-    if (stores.exerciseStateController.muscles.isEmpty) {
-      await networkProviders.exerciseProvider.getMuscleList();
-    }
-  }
-
   Future<bool> getExerciseList() async {
     if (stores.exerciseStateController.endExerciseList || exerciseLoading) {
       return false;
