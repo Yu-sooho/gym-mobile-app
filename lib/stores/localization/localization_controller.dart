@@ -38,8 +38,9 @@ class LoginScreenText {
 
 class ComponentErrorText {
   final String networkError;
+  final String noSearchData;
 
-  ComponentErrorText({required this.networkError});
+  ComponentErrorText({required this.networkError, required this.noSearchData});
 }
 
 class ComponentButtonText {
@@ -510,12 +511,14 @@ class LocalizationController extends GetxController {
 
   ComponentErrorText localiztionComponentError() {
     if (language.value == 0) {
-      ComponentErrorText settingScreenText =
-          ComponentErrorText(networkError: ComponentErrorTextEn().networkError);
+      ComponentErrorText settingScreenText = ComponentErrorText(
+          networkError: ComponentErrorTextEn().networkError,
+          noSearchData: ComponentErrorTextEn().noSearchData);
       return settingScreenText;
     } else {
-      ComponentErrorText settingScreenText =
-          ComponentErrorText(networkError: ComponentErrorTextKr().networkError);
+      ComponentErrorText settingScreenText = ComponentErrorText(
+          networkError: ComponentErrorTextKr().networkError,
+          noSearchData: ComponentErrorTextKr().noSearchData);
       return settingScreenText;
     }
   }

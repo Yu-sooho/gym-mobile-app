@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
@@ -114,8 +113,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   @override
   void initState() {
     super.initState();
-    getExerciseList();
-
+    init();
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
       double currentScroll = _controller.position.pixels;
@@ -131,6 +129,16 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
         }
       }
     });
+  }
+
+  Future init() async {
+    setState(() {
+      stores.exerciseStateController.startAfter = null;
+      stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
+      stores.exerciseStateController.endExerciseList = false;
+      exerciseLoading = false;
+    });
+    await getExerciseList();
   }
 
   void onPress(Exercise item) {}
@@ -227,7 +235,12 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           children: [
             Obx(() {
               if (stores.exerciseStateController.exerciseList.isEmpty) {
-                return emptyContainer(exerciseLoading, isRefresh);
+                return emptyContainer(exerciseLoading, isRefresh,
+                    text: searchKeyword.isNotEmpty
+                        ? stores.localizationController
+                            .localiztionComponentError()
+                            .noSearchData
+                        : null);
               }
               return (ListView.separated(
                 primary: false,

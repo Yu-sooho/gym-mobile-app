@@ -27,14 +27,8 @@ class _UserProfileButtonState extends State<UserProfileButton> {
   @override
   Widget build(BuildContext context) {
     final onPressImage = widget.onPressImage;
-    File? image;
-
-    String? imageUrl;
-
-    setState(() {
-      imageUrl = widget.imageUrl;
-      image = widget.image;
-    });
+    final File? image = widget.image;
+    final String? imageUrl = widget.imageUrl;
 
     final Stores stores = Get.put(Stores());
 

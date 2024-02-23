@@ -58,7 +58,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   @override
   void initState() {
     super.initState();
-    onRefresh();
+    init();
 
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
@@ -74,6 +74,16 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
         }
       }
     });
+  }
+
+  Future init() async {
+    setState(() {
+      stores.exerciseStateController.startAfterMuscle = null;
+      stores.exerciseStateController.muscleList = RxList<Muscles>.empty();
+      stores.exerciseStateController.endMuscleList = false;
+      muscleLoading = false;
+    });
+    await getMuscleList();
   }
 
   @override
@@ -724,9 +734,13 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
               if (stores.exerciseStateController.muscleList.isEmpty &&
                   stores.exerciseStateController.muscles.isEmpty) {
                 return emptyContainer(muscleLoading, isRefresh,
-                    text: stores.localizationController
-                        .localiztionExerciseAddScreen()
-                        .noMuscle);
+                    text: searchKeyword.isNotEmpty
+                        ? stores.localizationController
+                            .localiztionComponentError()
+                            .noSearchData
+                        : stores.localizationController
+                            .localiztionExerciseAddScreen()
+                            .noMuscle);
               }
               return ListView.separated(
                 primary: false,

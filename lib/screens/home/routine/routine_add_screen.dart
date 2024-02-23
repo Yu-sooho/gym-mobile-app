@@ -27,6 +27,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   String routineName = '';
   String cycle = '';
   String date = '';
+  String searchKeyword = '';
 
   int limit = 10;
   bool exerciseLoading = false;
@@ -53,14 +54,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   @override
   void initState() {
     super.initState();
-
-    if (stores.exerciseStateController.exerciseList.isEmpty) {
-      getExerciseList();
-    }
-    if (stores.exerciseStateController.muscles.isEmpty) {
-      getMuscleList();
-    }
-
+    init();
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
       double currentScroll = _controller.position.pixels;
@@ -80,6 +74,18 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future init() async {
+    setState(() {
+      stores.exerciseStateController.startAfter = null;
+      stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
+      stores.exerciseStateController.endExerciseList = false;
+      exerciseLoading = false;
+      selectExercise = [];
+      selectExerciseDetail = [];
+    });
+    await getExerciseList();
   }
 
   void setStateifMounted(Function() afterFunc) {
@@ -103,6 +109,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     final result = await networkProviders.exerciseProvider.getExerciseList(
         startAfter: stores.exerciseStateController.startAfter,
         limit: limit,
+        searchKeyword: searchKeyword,
         sort: stores.exerciseStateController.exerciseSortMethod[
             stores.exerciseStateController.exerciseSort.value]);
     setState(() {
@@ -275,51 +282,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     tempSelectedSort = selectedItem;
   }
 
-  Widget sortBar(BuildContext context) {
-    return Obx(() {
-      return (Container(
-          height: sortBarHeight,
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
-            child: CustomButton(
-                onPress: () => stores.appStateController.showDialog(
-                      CupertinoPicker(
-                        magnification: 1.22,
-                        squeeze: 1.2,
-                        useMagnifier: true,
-                        itemExtent: itemExtent,
-                        scrollController: FixedExtentScrollController(
-                          initialItem:
-                              stores.exerciseStateController.exerciseSort.value,
-                        ),
-                        onSelectedItemChanged: onChangedSortMethod,
-                        children: List<Widget>.generate(
-                            stores.exerciseStateController.exerciseSortMethod
-                                .length, (int index) {
-                          return Center(
-                              child: Text(stores.exerciseStateController
-                                  .exerciseSortMethod[index]));
-                        }),
-                      ),
-                      context,
-                      isHaveButton: true,
-                      onPressOk: onPressSortMethodOk,
-                    ),
-                highlightColor: Colors.transparent,
-                child: Container(
-                    height: 24,
-                    width: 72,
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      stores.exerciseStateController.exerciseSortMethod[
-                          stores.exerciseStateController.exerciseSort.value],
-                      style: stores.fontController.customFont().medium12,
-                    ))),
-          )));
-    });
-  }
-
   showList() {
     if (isShow) {
       setState(() {
@@ -475,6 +437,18 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         )));
   }
 
+  void onChanged(String value) {
+    stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
+    stores.exerciseStateController.startAfter = null;
+    stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
+    stores.exerciseStateController.endExerciseList = false;
+    setState(() {
+      searchKeyword = value;
+    });
+
+    getExerciseList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return safeAreaView(context,
@@ -584,13 +558,29 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
               height: 24,
             ),
             selectedList(selectExercise),
-            sortBar(context),
+            CustomSortBar(
+                sortValue: stores.exerciseStateController.exerciseSort.value,
+                initialItem: stores.exerciseStateController.exerciseSort.value,
+                onChangedSortMethod: onChangedSortMethod,
+                onPressSortMethodOk: onPressSortMethodOk,
+                isSearch: true,
+                itemExtent: itemExtent,
+                sortBarHeight: sortBarHeight,
+                onChanged: onChanged),
+            SizedBox(
+              height: 6,
+            ),
           ],
         ),
         children: [
           Obx(() {
             if (stores.exerciseStateController.exerciseList.isEmpty) {
-              return emptyContainer(exerciseLoading, isRefresh);
+              return emptyContainer(exerciseLoading, isRefresh,
+                  text: searchKeyword.isNotEmpty
+                      ? stores.localizationController
+                          .localiztionComponentError()
+                          .noSearchData
+                      : null);
             }
             return (ListView.separated(
               primary: false,

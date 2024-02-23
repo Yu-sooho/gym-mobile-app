@@ -21,7 +21,10 @@ class RoutineProvider {
   }
 
   Future<RoutineList> getRoutineList(
-      {DocumentSnapshot<Object?>? startAfter, int? limit, String? sort}) async {
+      {DocumentSnapshot<Object?>? startAfter,
+      int? limit,
+      String? sort,
+      String? searchKeyword}) async {
     String uid = stores.firebaseAuthController.uid!.value;
     late Query query;
     final order = orderBy(sort);
@@ -37,6 +40,27 @@ class RoutineProvider {
           .collection('user_routine')
           .where('uid', isEqualTo: uid)
           .orderBy(order['text'], descending: order['descending'])
+          .startAfterDocument(startAfter)
+          .limit(limit ?? 4);
+    }
+
+    if (searchKeyword != null && searchKeyword != '') {
+      query = firestore
+          .collection('user_routine')
+          .where('uid', isEqualTo: uid)
+          .where('name', isGreaterThanOrEqualTo: searchKeyword)
+          .where('name', isLessThanOrEqualTo: '$searchKeyword\uf8ff')
+          .orderBy('name')
+          .limit(limit ?? 4);
+    }
+
+    if (searchKeyword != null && searchKeyword != '' && startAfter != null) {
+      query = firestore
+          .collection('user_routine')
+          .where('uid', isEqualTo: uid)
+          .where('name', isGreaterThanOrEqualTo: searchKeyword)
+          .where('name', isLessThanOrEqualTo: '$searchKeyword\uf8ff')
+          .orderBy('name')
           .startAfterDocument(startAfter)
           .limit(limit ?? 4);
     }

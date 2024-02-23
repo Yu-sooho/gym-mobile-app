@@ -15,6 +15,7 @@ class ProfileEditScreen extends StatefulWidget {
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final Stores stores = Get.put(Stores());
+  TextEditingController _nameController = TextEditingController(text: '');
 
   XFile? pickedFile;
   File? image;
@@ -51,10 +52,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final formKey2 = GlobalKey<FormState>();
 
   void onChangedName(String name) {
-    // setState(() {
-    //   nickName = name;
-    //   formKey.currentState?.validate();
-    // });
+    setState(() {
+      nickName = name;
+      formKey.currentState?.validate();
+    });
   }
 
   String? validateNickName(value) {
@@ -140,6 +141,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           )),
           SizedBox(height: 16),
           CustomTextInput(
+              controller: _nameController,
               onChanged: onChangedName,
               keyboardType: TextInputType.text,
               title: stores.localizationController

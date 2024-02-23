@@ -21,6 +21,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
   final _controller = ScrollController();
   bool isRefresh = false;
   bool routineLoading = false;
+  String searchKeyword = '';
 
   int limit = 10;
 
@@ -76,6 +77,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
     });
     final result = await networkProviders.routineProvider.getRoutineList(
         startAfter: stores.routineStateController.startAfterRoutine,
+        searchKeyword: searchKeyword,
         limit: limit,
         sort: stores.routineStateController.routineSortMethod[
             stores.routineStateController.routineSort.value]);
@@ -193,6 +195,17 @@ class _RoutineScreenState extends State<RoutineScreen> {
         )));
   }
 
+  void onChanged(String value) {
+    stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
+    stores.routineStateController.startAfterRoutine = null;
+    stores.routineStateController.routineList = RxList<Routine>.empty();
+    stores.routineStateController.endRoutineList = false;
+    setState(() {
+      searchKeyword = value;
+    });
+    getRoutineList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
@@ -204,14 +217,32 @@ class _RoutineScreenState extends State<RoutineScreen> {
         onRefresh: onRefresh,
         scrollController: _controller,
         headerSize: headerHeight,
-        header: Column(children: [addButton(context), sortBar(context)]),
+        header: Column(children: [
+          addButton(context),
+          CustomSortBar(
+              sortValue: stores.routineStateController.routineSort.value,
+              initialItem: stores.routineStateController.routineSort.value,
+              onChangedSortMethod: onChangedSortMethod,
+              onPressSortMethodOk: onPressSortMethodOk,
+              isSearch: true,
+              itemExtent: itemExtent,
+              sortBarHeight: sortBarHeight,
+              onChanged: onChanged),
+          SizedBox(
+            height: 6,
+          )
+        ]),
         children: [
           Obx(() {
             if (stores.routineStateController.routineList.isEmpty) {
               return emptyContainer(routineLoading, isRefresh,
-                  text: stores.localizationController
-                      .localiztionRoutineScreen()
-                      .noRoutine);
+                  text: searchKeyword.isNotEmpty
+                      ? stores.localizationController
+                          .localiztionComponentError()
+                          .noSearchData
+                      : stores.localizationController
+                          .localiztionRoutineScreen()
+                          .noRoutine);
             }
             return (ListView.separated(
               primary: false,
