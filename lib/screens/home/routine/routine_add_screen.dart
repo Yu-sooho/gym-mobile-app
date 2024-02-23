@@ -48,6 +48,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   List<String> selectExercise = [];
   List<Exercise> selectExerciseDetail = [];
 
+  late String standard;
+
   final buttonMaxSize = 48.0;
   final listMaxSize = 120.0;
 
@@ -55,6 +57,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   void initState() {
     super.initState();
     init();
+    standard = stores.localizationController.localiztionRoutineAddScreen().day;
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
       double currentScroll = _controller.position.pixels;
@@ -218,11 +221,21 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     num? now = num.tryParse(cycle);
     num? target = num.tryParse(date);
 
-    if (now != null && target != null) {
-      if (now > target) return false;
-      return true;
+    if (standard ==
+        stores.localizationController.localiztionRoutineAddScreen().day) {
+      if (now != null && target != null) {
+        if (now > target) return false;
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      if (now != null && target != null) {
+        if (now > target * 7) return false;
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
@@ -240,6 +253,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'cycle': cycle,
         'date': date,
         'exercises': selectExercise,
+        'standard': standard,
         'startDate': _selectedDate != null ? '$_selectedDate' : null
       });
       final result =
@@ -443,6 +457,12 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     getExerciseList();
   }
 
+  onChangedDropdown(value) {
+    setState(() {
+      standard = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return safeAreaView(context,
@@ -482,21 +502,30 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
               onChanged: onChangedTitle,
             )),
             TwoTextInput(
-              stores: stores,
-              textController1: _dateController,
-              textController2: _cycleController,
-              title: stores.localizationController
-                  .localiztionRoutineAddScreen()
-                  .cycle,
-              placeholder1: stores.localizationController
-                  .localiztionRoutineAddScreen()
-                  .repeat,
-              placeholder2: stores.localizationController
-                  .localiztionRoutineAddScreen()
-                  .cycleDate,
-              onChanged1: onChangedCycle,
-              onChanged2: onChangedDate,
-            ),
+                stores: stores,
+                textController1: _cycleController,
+                textController2: _dateController,
+                title: stores.localizationController
+                    .localiztionRoutineAddScreen()
+                    .cycle,
+                placeholder1: stores.localizationController
+                    .localiztionRoutineAddScreen()
+                    .cycleDate,
+                placeholder2: stores.localizationController
+                    .localiztionRoutineAddScreen()
+                    .repeat,
+                onChanged1: onChangedDate,
+                onChanged2: onChangedCycle,
+                dropdownValue: standard,
+                onChangedDropdown: onChangedDropdown,
+                dropdownItems: [
+                  stores.localizationController
+                      .localiztionRoutineAddScreen()
+                      .day,
+                  stores.localizationController
+                      .localiztionRoutineAddScreen()
+                      .week
+                ]),
             Padding(
               padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
               child: SizedBox(

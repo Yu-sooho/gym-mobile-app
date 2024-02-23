@@ -97,6 +97,7 @@ class RoutineProvider {
       final name = data['name'];
       final date = data['date'];
       final cycle = data['cycle'];
+      final standard = data['standard'];
       final createdAt = data['createdAt'];
       final uid = data['uid'];
       final startDate = data['startDate'];
@@ -108,6 +109,7 @@ class RoutineProvider {
           uid: uid,
           name: name,
           cycle: cycle,
+          standard: standard,
           date: date,
           exercises: userExerciseResult,
           startDate: startDate,

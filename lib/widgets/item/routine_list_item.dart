@@ -282,6 +282,35 @@ class _RoutineListItem extends State<RoutineListItem> {
                                             child: Row(
                                           children: [
                                             Text(
+                                              '${stores.localizationController.localiztionRoutineAddScreen().cycleDate} : ',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .medium12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                            Text(
+                                              '${widget.item.date}${widget.item.standard}',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .bold12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+                                      Expanded(
+                                          child: SizedBox(
+                                        child: Row(
+                                          children: [
+                                            Text(
                                               '${stores.localizationController.localiztionRoutineAddScreen().repeat} : ',
                                               style: stores.fontController
                                                   .customFont()
@@ -302,35 +331,6 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                             .colorController
                                                             .customColor()
                                                             .buttonActiveColor)),
-                                          ],
-                                        )),
-                                      ),
-                                      Expanded(
-                                          child: SizedBox(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              '${stores.localizationController.localiztionRoutineAddScreen().cycleDate} : ',
-                                              style: stores.fontController
-                                                  .customFont()
-                                                  .medium12
-                                                  .copyWith(
-                                                      color: stores
-                                                          .colorController
-                                                          .customColor()
-                                                          .buttonActiveColor),
-                                            ),
-                                            Text(
-                                              '${widget.item.date}${stores.localizationController.localiztionRoutineAddScreen().cycleDes}',
-                                              style: stores.fontController
-                                                  .customFont()
-                                                  .bold12
-                                                  .copyWith(
-                                                      color: stores
-                                                          .colorController
-                                                          .customColor()
-                                                          .buttonActiveColor),
-                                            ),
                                           ],
                                         ),
                                       )),

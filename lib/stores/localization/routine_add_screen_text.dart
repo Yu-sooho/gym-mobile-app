@@ -12,9 +12,9 @@ class RoutineAddScreenTextKr {
   String errorDelete = '이미 삭제된 루틴입니다.';
   String cycle = '루틴 주기';
   String repeat = '반복 횟수';
-  String cycleDate = '기준 일수';
+  String cycleDate = '기준';
   String exerciseListCheck = '추가된 운동';
-  String errorCycle = '반복 횟수는 기준 일수보다 많을 수 없습니다.';
+  String errorCycle = '반복 횟수는 기준보다 많을 수 없습니다.';
   String exercise = '운동';
   String cycleDes = '일';
   String repeatDes = '회';
@@ -24,6 +24,8 @@ class RoutineAddScreenTextKr {
   String dateFormat = 'yyyy년 MM월 dd일';
   String executionCount = '실행 횟수';
   String allCount = '운동 횟수';
+  String day = '일';
+  String week = '주';
 }
 
 class RoutineAddScreenTextEn {
@@ -40,9 +42,9 @@ class RoutineAddScreenTextEn {
   String errorDelete = '이미 삭제된 루틴입니다.';
   String cycle = '루틴 주기';
   String repeat = '반복 횟수';
-  String cycleDate = '기준 일수';
+  String cycleDate = '기준';
   String exerciseListCheck = '추가된 운동';
-  String errorCycle = '반복 횟수는 기준 일수보다 많을 수 없습니다.';
+  String errorCycle = '반복 횟수는 기준보다 많을 수 없습니다.';
   String exercise = '운동';
   String cycleDes = '일';
   String repeatDes = '회';
@@ -52,4 +54,6 @@ class RoutineAddScreenTextEn {
   String dateFormat = 'yyyy년 MM월 dd일';
   String executionCount = '실행 횟수';
   String allCount = '운동 횟수';
+  String day = '일';
+  String week = '주';
 }

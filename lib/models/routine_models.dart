@@ -6,6 +6,7 @@ class Routine {
   String uid;
   String name;
   String cycle;
+  String standard;
   String date;
   String? startDate;
   String? endDate;
@@ -18,6 +19,7 @@ class Routine {
     required this.uid,
     required this.name,
     required this.cycle,
+    required this.standard,
     required this.date,
     required this.exercises,
     required this.createdAt,
