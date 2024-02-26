@@ -47,6 +47,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   List<String> selectExercise = [];
   List<Exercise> selectExerciseDetail = [];
+  List<List>? routineCycle;
 
   late String standard;
 
@@ -540,8 +541,21 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     });
   }
 
-  onPressCycle() {
-    print('123');
+  void onPressSaveCycle(BuildContext context, List<List> list) {
+    setState(() {
+      routineCycle = list;
+    });
+    Navigator.pop(context);
+  }
+
+  onPressCycle(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => RoutineCycleScreen(
+        onPress: onPressSaveCycle,
+        initRoutine: routineCycle,
+      ),
+    );
   }
 
   @override
@@ -603,7 +617,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                 hoverColor: stores.colorController.customColor().buttonOpacity,
                 onTap: () {},
                 child: CustomButton(
-                  onPress: onPressCycle,
+                  onPress: () => {onPressCycle(context)},
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border(
@@ -620,7 +634,9 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                       padding: EdgeInsets.only(bottom: 12),
                       child: Align(
                         child: Text(
-                          '123',
+                          routineCycle != null
+                              ? '${routineCycle}'
+                              : '루틴 주기를 선택해주세요',
                           style: stores.fontController.customFont().medium12,
                         ),
                       ),

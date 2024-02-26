@@ -48,7 +48,8 @@ class CustomButton extends StatelessWidget {
           child: Obx(() => InkWell(
                 onTap: onTap,
                 borderRadius: borderRadius,
-                highlightColor: highlightColor,
+                highlightColor: highlightColor ??
+                    stores.colorController.customColor().transparent,
                 splashColor: splashColor ??
                     stores.colorController.customColor().transparent,
                 hoverColor: stores.colorController.customColor().buttonOpacity,
