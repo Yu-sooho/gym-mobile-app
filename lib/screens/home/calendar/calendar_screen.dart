@@ -106,7 +106,7 @@ Widget routineAddButton(Function() onPress) {
             BoxShadow(
               color: stores.colorController
                   .customColor()
-                  .defaultBackground1
+                  .buttonShadowColor
                   .withOpacity(0.8),
               blurRadius: 5.0,
               spreadRadius: 0.0,

@@ -96,7 +96,7 @@ class _RoutineListItem extends State<RoutineListItem> {
             BoxShadow(
               color: stores.colorController
                   .customColor()
-                  .buttonActiveColor
+                  .buttonShadowColor
                   .withOpacity(0.8),
               blurRadius: 5.0,
               spreadRadius: 0.0,
@@ -292,17 +292,17 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                           .customColor()
                                                           .buttonActiveColor),
                                             ),
-                                            Text(
-                                              '${widget.item.date}${widget.item.standard}',
-                                              style: stores.fontController
-                                                  .customFont()
-                                                  .bold12
-                                                  .copyWith(
-                                                      color: stores
-                                                          .colorController
-                                                          .customColor()
-                                                          .buttonActiveColor),
-                                            ),
+                                            // Text(
+                                            //   '${widget.item.date}${widget.item.standard}',
+                                            //   style: stores.fontController
+                                            //       .customFont()
+                                            //       .bold12
+                                            //       .copyWith(
+                                            //           color: stores
+                                            //               .colorController
+                                            //               .customColor()
+                                            //               .buttonActiveColor),
+                                            // ),
                                           ],
                                         )),
                                       ),
@@ -321,16 +321,16 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                           .customColor()
                                                           .buttonActiveColor),
                                             ),
-                                            Text(
-                                                '${widget.item.cycle}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
-                                                style: stores.fontController
-                                                    .customFont()
-                                                    .bold12
-                                                    .copyWith(
-                                                        color: stores
-                                                            .colorController
-                                                            .customColor()
-                                                            .buttonActiveColor)),
+                                            // Text(
+                                            //     '${widget.item.cycle}${stores.localizationController.localiztionRoutineAddScreen().repeatDes}',
+                                            //     style: stores.fontController
+                                            //         .customFont()
+                                            //         .bold12
+                                            //         .copyWith(
+                                            //             color: stores
+                                            //                 .colorController
+                                            //                 .customColor()
+                                            //                 .buttonActiveColor)),
                                           ],
                                         ),
                                       )),

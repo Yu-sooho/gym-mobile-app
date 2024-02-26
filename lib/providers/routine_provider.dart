@@ -95,8 +95,6 @@ class RoutineProvider {
     for (var element in res.docs) {
       final data = element.data() as Map<String, dynamic>;
       final name = data['name'];
-      final date = data['date'];
-      final cycle = data['cycle'];
       final standard = data['standard'];
       final createdAt = data['createdAt'];
       final uid = data['uid'];
@@ -108,9 +106,7 @@ class RoutineProvider {
           id: id,
           uid: uid,
           name: name,
-          cycle: cycle,
           standard: standard,
-          date: date,
           exercises: userExerciseResult,
           startDate: startDate,
           endDate: endDate,

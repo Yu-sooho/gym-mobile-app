@@ -308,11 +308,88 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2101),
+        locale: stores.localizationController.language.value == 0
+            ? Locale('en', 'US')
+            : Locale('ko', 'KR'),
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: stores.colorController
+                    .customColor()
+                    .defaultBackground1, // 커서 색상
+                // selectionColor: stores.colorController
+                //     .customColor()
+                //     .defaultBackground1
+                //     .withAlpha(100), // 선택 영역 색상
+              ),
+              textTheme: TextTheme(
+                titleLarge: TextStyle(
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground1),
+                titleSmall: TextStyle(
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground1),
+                bodyLarge: TextStyle(
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground1),
+                bodySmall: TextStyle(
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground1),
+                bodyMedium: TextStyle(
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground1),
+                titleMedium: TextStyle(
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground1), // 입력창 텍스트 색상
+              ),
+              inputDecorationTheme: InputDecorationTheme(
+                labelStyle: TextStyle(
+                    color: stores.colorController
+                        .customColor()
+                        .defaultBackground1), // 레이블 텍스트 색상
+                hintStyle: TextStyle(color: Colors.grey), // 힌트 텍스트 색상
+              ),
+              colorScheme: ColorScheme.dark(
+                primary: stores.colorController
+                    .customColor()
+                    .defaultBackground1, // header background color
+                onPrimary: stores.colorController
+                    .customColor()
+                    .buttonDefaultColor, // header text color
+                surface: stores.colorController
+                    .customColor()
+                    .buttonDefaultColor, // calendar background color
+                onSurface: stores.colorController
+                    .customColor()
+                    .defaultBackground1, // calendar text color
+              ),
+              textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                    foregroundColor:
+                        stores.colorController.customColor().defaultBackground1,
+                    backgroundColor: stores.colorController
+                        .customColor()
+                        .buttonDefaultColor // Background color of the buttons
+                    ),
+              ),
+              dialogBackgroundColor: stores.colorController
+                  .customColor()
+                  .buttonDefaultColor, // overall background color
+            ),
+            child: child!,
+          );
+        });
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
@@ -463,6 +540,10 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     });
   }
 
+  onPressCycle() {
+    print('123');
+  }
+
   @override
   Widget build(BuildContext context) {
     return safeAreaView(context,
@@ -501,31 +582,53 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                   .inputTitlePlaceholder,
               onChanged: onChangedTitle,
             )),
-            TwoTextInput(
-                stores: stores,
-                textController1: _cycleController,
-                textController2: _dateController,
-                title: stores.localizationController
-                    .localiztionRoutineAddScreen()
-                    .cycle,
-                placeholder1: stores.localizationController
-                    .localiztionRoutineAddScreen()
-                    .cycleDate,
-                placeholder2: stores.localizationController
-                    .localiztionRoutineAddScreen()
-                    .repeat,
-                onChanged1: onChangedDate,
-                onChanged2: onChangedCycle,
-                dropdownValue: standard,
-                onChangedDropdown: onChangedDropdown,
-                dropdownItems: [
-                  stores.localizationController
-                      .localiztionRoutineAddScreen()
-                      .day,
-                  stores.localizationController
-                      .localiztionRoutineAddScreen()
-                      .week
-                ]),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
+              child: SizedBox(
+                  height: 32,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      stores.localizationController
+                          .localiztionRoutineAddScreen()
+                          .cycle,
+                      style: stores.fontController.customFont().bold12,
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: InkWell(
+                splashColor: stores.colorController.customColor().transparent,
+                hoverColor: stores.colorController.customColor().buttonOpacity,
+                onTap: () {},
+                child: CustomButton(
+                  onPress: onPressCycle,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                            width: 1,
+                            color: stores.colorController
+                                .customColor()
+                                .buttonDefaultColor),
+                      ),
+                    ),
+                    width: double.infinity,
+                    height: 40,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: Align(
+                        child: Text(
+                          '123',
+                          style: stores.fontController.customFont().medium12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
               child: SizedBox(
