@@ -9,17 +9,17 @@ class Routine {
   String? endDate;
   int? executionCount;
   int? allCount;
+  String? routineCycle;
   List<Exercise> exercises;
   Timestamp createdAt;
-  List<String> standard;
   Routine({
     required this.id,
     required this.uid,
     required this.name,
-    required this.standard,
     required this.exercises,
     required this.createdAt,
     this.executionCount,
+    this.routineCycle,
     this.allCount,
     this.startDate,
     this.endDate,

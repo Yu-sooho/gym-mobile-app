@@ -21,12 +21,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   final _controller = ScrollController();
   NetworkProviders networkProviders = NetworkProviders();
   TextEditingController _titleController = TextEditingController(text: '');
-  TextEditingController _dateController = TextEditingController(text: '');
-  TextEditingController _cycleController = TextEditingController(text: '');
   var isOpen = false;
   String routineName = '';
-  String cycle = '';
-  String date = '';
   String searchKeyword = '';
 
   int limit = 10;
@@ -49,8 +45,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   List<Exercise> selectExerciseDetail = [];
   List<List>? routineCycle;
 
-  late String standard;
-
   final buttonMaxSize = 48.0;
   final listMaxSize = 120.0;
 
@@ -58,7 +52,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   void initState() {
     super.initState();
     init();
-    standard = stores.localizationController.localiztionRoutineAddScreen().day;
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
       double currentScroll = _controller.position.pixels;
@@ -213,48 +206,20 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   checkCanSave() {
     if (routineName != '' &&
         selectExercise.isNotEmpty &&
-        date != '' &&
-        cycle != '') return false;
-    return true;
-  }
-
-  bool checkCycle() {
-    num? now = num.tryParse(cycle);
-    num? target = num.tryParse(date);
-
-    if (standard ==
-        stores.localizationController.localiztionRoutineAddScreen().day) {
-      if (now != null && target != null) {
-        if (now > target) return false;
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (now != null && target != null) {
-        if (now > target * 7) return false;
-        return true;
-      } else {
-        return false;
-      }
+        routineCycle != null) {
+      return false;
     }
+    return true;
   }
 
   void onPressAdd(BuildContext context) async {
     try {
-      if (!checkCycle()) {
-        stores.appStateController.showToast(stores.localizationController
-            .localiztionRoutineAddScreen()
-            .errorCycle);
-        return;
-      }
       stores.appStateController.setIsLoading(true, context);
+
       await networkProviders.routineProvider.postCustomRoutine({
         'name': routineName,
-        'cycle': cycle,
-        'date': date,
+        'routineCycle': '$routineCycle',
         'exercises': selectExercise,
-        'standard': standard,
         'startDate': _selectedDate != null ? '$_selectedDate' : null
       });
       final result =
@@ -470,18 +435,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     ));
   }
 
-  onChangedCycle(String value) {
-    setState(() {
-      cycle = value;
-    });
-  }
-
-  onChangedDate(String value) {
-    setState(() {
-      date = value;
-    });
-  }
-
   void onPressExerciseAdd(BuildContext context) {
     Navigator.push(
       context,
@@ -533,12 +486,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     });
 
     getExerciseList();
-  }
-
-  onChangedDropdown(value) {
-    setState(() {
-      standard = value;
-    });
   }
 
   void onPressSaveCycle(BuildContext context, List<List> list) {
@@ -632,14 +579,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                     height: 40,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 12),
-                      child: Align(
-                        child: Text(
-                          routineCycle != null
-                              ? '${routineCycle}'
-                              : '루틴 주기를 선택해주세요',
-                          style: stores.fontController.customFont().medium12,
-                        ),
-                      ),
+                      child:
+                          Align(child: routineCycleItem(stores, routineCycle)),
                     ),
                   ),
                 ),
@@ -752,4 +693,25 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
               stores.exerciseStateController.exerciseList.isNotEmpty),
         ]);
   }
+}
+
+Widget routineCycleItem(Stores stores, List<List>? routineCycle) {
+  final totalItems = routineCycle?.expand((innerList) => innerList).length;
+
+  if (routineCycle != null) {
+    return (SizedBox(
+      child: Text(
+        '${routineCycle.length}${stores.localizationController.localiztionRoutineAddScreen().week} $totalItems${stores.localizationController.localiztionRoutineAddScreen().count} ${stores.localizationController.localiztionRoutineAddScreen().routineCycle}',
+        style: stores.fontController.customFont().medium12,
+      ),
+    ));
+  }
+  return (SizedBox(
+    child: Text(
+      stores.localizationController
+          .localiztionRoutineAddScreen()
+          .startDateHintText,
+      style: stores.fontController.customFont().medium12,
+    ),
+  ));
 }

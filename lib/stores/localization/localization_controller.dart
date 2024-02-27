@@ -288,8 +288,11 @@ class RoutineAddScreenText {
   final String dateFormat;
   final String executionCount;
   final String allCount;
+  final String count;
   final String day;
   final String week;
+  final String startDateHintText;
+  final String routineCycle;
 
   RoutineAddScreenText(
       {required this.title,
@@ -316,8 +319,11 @@ class RoutineAddScreenText {
       required this.dateFormat,
       required this.executionCount,
       required this.allCount,
+      required this.count,
       required this.day,
-      required this.week});
+      required this.week,
+      required this.startDateHintText,
+      required this.routineCycle});
 }
 
 class ExerciseScreenText {
@@ -725,8 +731,11 @@ class LocalizationController extends GetxController {
           dateFormat: RoutineAddScreenTextEn().dateFormat,
           executionCount: RoutineAddScreenTextEn().executionCount,
           allCount: RoutineAddScreenTextEn().allCount,
+          count: RoutineAddScreenTextEn().count,
           day: RoutineAddScreenTextEn().day,
-          week: RoutineAddScreenTextEn().week);
+          week: RoutineAddScreenTextEn().week,
+          startDateHintText: RoutineAddScreenTextEn().startDateHintText,
+          routineCycle: RoutineAddScreenTextEn().routineCycle);
       return routineAddScreenText;
     } else {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
@@ -754,8 +763,11 @@ class LocalizationController extends GetxController {
           dateFormat: RoutineAddScreenTextKr().dateFormat,
           executionCount: RoutineAddScreenTextKr().executionCount,
           allCount: RoutineAddScreenTextKr().allCount,
+          count: RoutineAddScreenTextKr().count,
           day: RoutineAddScreenTextKr().day,
-          week: RoutineAddScreenTextKr().week);
+          week: RoutineAddScreenTextKr().week,
+          startDateHintText: RoutineAddScreenTextKr().startDateHintText,
+          routineCycle: RoutineAddScreenTextKr().routineCycle);
       return routineAddScreenText;
     }
   }

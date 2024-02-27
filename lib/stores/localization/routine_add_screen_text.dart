@@ -24,8 +24,11 @@ class RoutineAddScreenTextKr {
   String dateFormat = 'yyyy년 MM월 dd일';
   String executionCount = '실행 횟수';
   String allCount = '운동 횟수';
+  String count = '회';
   String day = '일';
   String week = '주';
+  String startDateHintText = '루틴 주기를 선택해주세요';
+  String routineCycle = '루틴';
 }
 
 class RoutineAddScreenTextEn {
@@ -54,6 +57,9 @@ class RoutineAddScreenTextEn {
   String dateFormat = 'yyyy년 MM월 dd일';
   String executionCount = '실행 횟수';
   String allCount = '운동 횟수';
+  String count = '회';
   String day = '일';
   String week = '주';
+  String startDateHintText = '루틴 주기를 선택해주세요';
+  String routineCycle = '루틴';
 }

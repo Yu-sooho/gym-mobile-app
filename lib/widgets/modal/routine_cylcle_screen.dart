@@ -28,6 +28,15 @@ class _RoutineCycleScreen extends State<RoutineCycleScreen> {
       setState(() {
         selected = widget.initRoutine!;
       });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_controller.hasClients) {
+          _controller.animateTo(
+            _controller.position.maxScrollExtent,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+          );
+        }
+      });
     }
   }
 
