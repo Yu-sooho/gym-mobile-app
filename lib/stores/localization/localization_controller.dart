@@ -209,13 +209,23 @@ class ModalScreenText {
   final String themeChangeTitle;
   final String themeChangeText;
 
+  final String deleteRoutine;
+  final String deleteExercise;
+  final String deleteMuscle;
+
+  final String delete;
+
   ModalScreenText(
       {required this.ok,
       required this.cancel,
       required this.logoutTitle,
       required this.logoutText,
       required this.themeChangeText,
-      required this.themeChangeTitle});
+      required this.themeChangeTitle,
+      required this.delete,
+      required this.deleteRoutine,
+      required this.deleteExercise,
+      required this.deleteMuscle});
 }
 
 class ThemeScreenText {
@@ -561,21 +571,31 @@ class LocalizationController extends GetxController {
   ModalScreenText localiztionModalScreenText() {
     if (language.value == 0) {
       ModalScreenText modalScreenText = ModalScreenText(
-          ok: ModalScreenTextEn().ok,
-          cancel: ModalScreenTextEn().cancel,
-          logoutText: ModalScreenTextEn().logoutText,
-          logoutTitle: ModalScreenTextEn().logoutTitle,
-          themeChangeTitle: ModalScreenTextEn().themeChangeTitle,
-          themeChangeText: ModalScreenTextEn().themeChangeText);
+        ok: ModalScreenTextEn().ok,
+        cancel: ModalScreenTextEn().cancel,
+        logoutText: ModalScreenTextEn().logoutText,
+        logoutTitle: ModalScreenTextEn().logoutTitle,
+        themeChangeTitle: ModalScreenTextEn().themeChangeTitle,
+        themeChangeText: ModalScreenTextEn().themeChangeText,
+        delete: ModalScreenTextEn().delete,
+        deleteExercise: ModalScreenTextEn().deleteExercise,
+        deleteMuscle: ModalScreenTextEn().deleteMuscle,
+        deleteRoutine: ModalScreenTextEn().deleteRoutine,
+      );
       return modalScreenText;
     } else {
       ModalScreenText modalScreenText = ModalScreenText(
-          ok: ModalScreenTextKr().ok,
-          cancel: ModalScreenTextKr().cancel,
-          logoutText: ModalScreenTextKr().logoutText,
-          logoutTitle: ModalScreenTextKr().logoutTitle,
-          themeChangeTitle: ModalScreenTextKr().themeChangeTitle,
-          themeChangeText: ModalScreenTextKr().themeChangeText);
+        ok: ModalScreenTextKr().ok,
+        cancel: ModalScreenTextKr().cancel,
+        logoutText: ModalScreenTextKr().logoutText,
+        logoutTitle: ModalScreenTextKr().logoutTitle,
+        themeChangeTitle: ModalScreenTextKr().themeChangeTitle,
+        themeChangeText: ModalScreenTextKr().themeChangeText,
+        delete: ModalScreenTextKr().delete,
+        deleteExercise: ModalScreenTextKr().deleteExercise,
+        deleteMuscle: ModalScreenTextKr().deleteMuscle,
+        deleteRoutine: ModalScreenTextKr().deleteRoutine,
+      );
       return modalScreenText;
     }
   }

@@ -229,19 +229,6 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     }
   }
 
-  void onPressDelete(String selectedItem) {
-    setState(() {
-      selectedMuscles.remove(selectedItem);
-    });
-    if (selectedMuscles.isEmpty) {
-      setState(() {
-        isShow = false;
-        muscleListSize = 0;
-        muscleListOpacity = 0;
-      });
-    }
-  }
-
   bool checkCanSave() {
     if (exerciseName.isEmpty) {
       return true;
@@ -519,24 +506,43 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   }
 
   onPressDeleteMuscle(BuildContext context, Muscles muscles) async {
-    setState(() {
-      muscleLoading = true;
-    });
-    final result =
-        await networkProviders.exerciseProvider.deleteCustomMuscle(muscles.id);
-    if (result) {
-      stores.exerciseStateController.muscleList.remove(muscles);
-      stores.appStateController.showToast(stores.localizationController
-          .localiztionExerciseScreen()
-          .successDelete);
-    } else {
-      stores.appStateController.showToast(stores.localizationController
-          .localiztionExerciseScreen()
-          .errorDelete);
-    }
-    setState(() {
-      muscleLoading = false;
-    });
+    showDialog(
+        context: context,
+        builder: (context) => CustomModalScreen(
+            description: stores.localizationController
+                .localiztionModalScreenText()
+                .deleteMuscle,
+            okText: stores.localizationController
+                .localiztionModalScreenText()
+                .delete,
+            okTextStyle: stores.fontController.customFont().bold12.copyWith(
+                color: stores.colorController.customColor().errorText),
+            onPressCancel: () {
+              Navigator.pop(context);
+            },
+            onPressOk: () async {
+              setState(() {
+                muscleLoading = true;
+              });
+              final result = await networkProviders.exerciseProvider
+                  .deleteCustomMuscle(muscles.id);
+              if (result) {
+                stores.exerciseStateController.muscleList.remove(muscles);
+                stores.appStateController.showToast(stores
+                    .localizationController
+                    .localiztionExerciseScreen()
+                    .successDelete);
+              } else {
+                stores.appStateController.showToast(stores
+                    .localizationController
+                    .localiztionExerciseScreen()
+                    .errorDelete);
+              }
+              setState(() {
+                muscleLoading = false;
+              });
+              Get.back();
+            }));
   }
 
   int tempSelectedSort = 0;

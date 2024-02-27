@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/main.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
+import 'package:gym_calendar/stores/firebase/firebase_auth.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
@@ -34,33 +35,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return true;
   }
 
-  late OverlayEntry overlayPhoto = OverlayEntry(
-      builder: (_) => photoScreen(
-          onPress: () => onPressImage(context),
-          imageUri:
-              stores.firebaseAuthController.currentUserData.photoURL?.value ??
-                  ''));
-  late OverlayEntry overlayLogout = OverlayEntry(
-      builder: (_) => customModalScreen(
-          title: stores.localizationController
-              .localiztionModalScreenText()
-              .logoutTitle,
-          description: stores.localizationController
-              .localiztionModalScreenText()
-              .logoutText,
-          onPressCancel: logoutCancel,
-          onPressOk: () => {logout(context)}));
-
   void onPressImage(BuildContext context) {
     if (stores.firebaseAuthController.currentUserData.photoURL?.value == null) {
       return;
     }
-    if (overlayPhoto.mounted) {
-      overlayPhoto.remove();
-      return;
-    }
-    OverlayState overlayState = Overlay.of(context);
-    overlayState.insert(overlayPhoto);
+
+    showDialog(
+        context: context,
+        builder: (context) => PhotoScreen(
+            onPress: () => {Navigator.pop(context)},
+            imageUri:
+                stores.firebaseAuthController.currentUserData.photoURL?.value ??
+                    ''));
   }
 
   void onPressTheme() {
@@ -100,36 +86,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void onPressLogout(BuildContext context) {
-    if (overlayLogout.mounted) {
-      overlayLogout.remove();
-      return;
-    }
-    OverlayState overlayState = Overlay.of(context);
-    overlayState.insert(overlayLogout);
+    showDialog(
+        context: context,
+        builder: (context) => CustomModalScreen(
+            title: stores.localizationController
+                .localiztionModalScreenText()
+                .logoutTitle,
+            description: stores.localizationController
+                .localiztionModalScreenText()
+                .logoutText,
+            onPressCancel: logoutCancel,
+            onPressOk: () => {logout(context)}));
   }
 
   void logoutCancel() {
-    if (overlayLogout.mounted) {
-      overlayLogout.remove();
-      return;
-    }
+    Navigator.pop(context);
   }
 
   void logout(BuildContext context) async {
-    if (overlayLogout.mounted) {
-      overlayLogout.remove();
-    }
     await stores.localizationController.changeLanguage(1);
     await stores.fontController.changeFontMode(0);
     await stores.colorController.changeColorMode(0);
     await stores.firebaseAuthController.signOut();
+    stores.firebaseAuthController.currentUserData = UserData();
     if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = stores.firebaseAuthController.currentUserData;
     return safeAreaView(
       context,
       stores.localizationController.localiztionProfileScreen().title,
@@ -140,7 +125,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Obx(() => UserProfileButton(
                 skeletonColor:
                     stores.colorController.customColor().skeletonColor,
-                imageUrl: user.photoURL?.value,
+                imageUrl: stores
+                    .firebaseAuthController.currentUserData.photoURL?.value,
                 onPressImage: onPressImage,
               )),
         )),
@@ -152,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: stores.appStateController.width2,
             child: Obx(() => Column(children: [
                   Text(
-                    '${user.displayName}',
+                    '${stores.firebaseAuthController.currentUserData.displayName}',
                     style: stores.fontController.customFont().bold12,
                     textAlign: TextAlign.center,
                   ),

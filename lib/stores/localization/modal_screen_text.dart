@@ -7,6 +7,11 @@ class ModalScreenTextKr {
 
   String themeChangeTitle = '테마 변경';
   String themeChangeText = '테마를 변경하면 앱이 재시작됩니다.\n변경하시겠습니까?';
+
+  String delete = '삭제';
+  String deleteExercise = '운동을 삭제하면 영구적으로 제거됩니다.\n계속하시겠습니까?';
+  String deleteMuscle = '근육을 삭제하면 영구적으로 제거됩니다.\n계속하시겠습니까?';
+  String deleteRoutine = '루틴을 삭제하면 영구적으로 제거됩니다.\n계속하시겠습니까?';
 }
 
 class ModalScreenTextEn {
@@ -18,4 +23,9 @@ class ModalScreenTextEn {
 
   String themeChangeTitle = 'Change Theme';
   String themeChangeText = 'If you will change Theme, restat app';
+
+  String delete = '삭제';
+  String deleteExercise = '운동을 삭제하면 영구적으로 제거됩니다.\n계속하시겠습니까?';
+  String deleteMuscle = '근육을 삭제하면 영구적으로 제거됩니다.\n계속하시겠습니까?';
+  String deleteRoutine = '루틴을 삭제하면 영구적으로 제거됩니다.\n계속하시겠습니까?';
 }

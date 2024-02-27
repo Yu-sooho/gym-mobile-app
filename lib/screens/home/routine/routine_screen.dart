@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,7 +48,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
   @override
   void initState() {
     super.initState();
-    getRoutineList();
+    init();
 
     _controller.addListener(() {
       double maxScroll = _controller.position.maxScrollExtent;
@@ -66,6 +65,16 @@ class _RoutineScreenState extends State<RoutineScreen> {
         }
       }
     });
+  }
+
+  Future init() async {
+    setState(() {
+      stores.routineStateController.startAfterRoutine = null;
+      stores.routineStateController.routineList = RxList<Routine>.empty();
+      stores.routineStateController.endRoutineList = false;
+      routineLoading = false;
+    });
+    await getRoutineList();
   }
 
   Future<bool> getRoutineList() async {
@@ -206,6 +215,50 @@ class _RoutineScreenState extends State<RoutineScreen> {
     getRoutineList();
   }
 
+  void onPressDelete(BuildContext context, Routine routine) {
+    showDialog(
+        context: context,
+        builder: (context) => CustomModalScreen(
+            description: stores.localizationController
+                .localiztionModalScreenText()
+                .deleteRoutine,
+            okText: stores.localizationController
+                .localiztionModalScreenText()
+                .delete,
+            okTextStyle: stores.fontController.customFont().bold12.copyWith(
+                color: stores.colorController.customColor().errorText),
+            onPressCancel: () {
+              Navigator.pop(context);
+            },
+            onPressOk: () async {
+              setState(() {
+                routineLoading = true;
+              });
+              final result = await networkProviders.routineProvider
+                  .deleteCustomRoutine(routine.id);
+              if (result) {
+                stores.routineStateController.routineList.remove(routine);
+                if (stores.routineStateController.routineList.isEmpty) {
+                  stores.routineStateController.routineList =
+                      RxList<Routine>.empty();
+                }
+                stores.appStateController.showToast(stores
+                    .localizationController
+                    .localiztionExerciseScreen()
+                    .successDelete);
+              } else {
+                stores.appStateController.showToast(stores
+                    .localizationController
+                    .localiztionExerciseScreen()
+                    .errorDelete);
+              }
+              setState(() {
+                routineLoading = false;
+              });
+              Get.back();
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
@@ -229,7 +282,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
               sortBarHeight: sortBarHeight,
               onChanged: onChanged),
           SizedBox(
-            height: 6,
+            height: 4,
           )
         ]),
         children: [
@@ -256,6 +309,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
               itemBuilder: (BuildContext context, int index) {
                 return RoutineListItem(
                   item: stores.routineStateController.routineList[index],
+                  onPressDelete: onPressDelete,
                 );
               },
             ));

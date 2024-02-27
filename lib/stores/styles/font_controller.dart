@@ -13,23 +13,15 @@ class CustomFont {
   final TextStyle bold16;
   final TextStyle bold18;
 
-  final TextStyle modalText;
-  final TextStyle modalTitle;
-  final TextStyle modalOk;
-  final TextStyle modalCancel;
-
-  CustomFont(
-      {required this.regular12,
-      required this.medium12,
-      required this.medium14,
-      required this.bold12,
-      required this.bold14,
-      required this.bold16,
-      required this.bold18,
-      required this.modalText,
-      required this.modalTitle,
-      required this.modalOk,
-      required this.modalCancel});
+  CustomFont({
+    required this.regular12,
+    required this.medium12,
+    required this.medium14,
+    required this.bold12,
+    required this.bold14,
+    required this.bold16,
+    required this.bold18,
+  });
 }
 
 class CustomFontController extends GetxController {
@@ -50,45 +42,36 @@ class CustomFontController extends GetxController {
   CustomFont customFont() {
     if (fontType.value == 0) {
       CustomFont customFont = CustomFont(
-          regular12: CustomFont1().regular12,
-          medium12: CustomFont1().medium12,
-          medium14: CustomFont1().medium14,
-          bold12: CustomFont1().bold12,
-          bold14: CustomFont1().bold14,
-          bold16: CustomFont1().bold16,
-          bold18: CustomFont1().bold18,
-          modalText: CustomFont1().modalText,
-          modalTitle: CustomFont1().modalTitle,
-          modalOk: CustomFont1().modalOk,
-          modalCancel: CustomFont1().modalCancel);
+        regular12: CustomFont1().regular12,
+        medium12: CustomFont1().medium12,
+        medium14: CustomFont1().medium14,
+        bold12: CustomFont1().bold12,
+        bold14: CustomFont1().bold14,
+        bold16: CustomFont1().bold16,
+        bold18: CustomFont1().bold18,
+      );
       return customFont;
     } else if (fontType.value == 1) {
       CustomFont customFont = CustomFont(
-          regular12: CustomFont2().regular12,
-          medium12: CustomFont2().medium12,
-          medium14: CustomFont2().medium14,
-          bold12: CustomFont2().bold12,
-          bold14: CustomFont2().bold14,
-          bold16: CustomFont2().bold16,
-          bold18: CustomFont2().bold18,
-          modalText: CustomFont2().modalText,
-          modalTitle: CustomFont2().modalTitle,
-          modalOk: CustomFont2().modalOk,
-          modalCancel: CustomFont2().modalCancel);
+        regular12: CustomFont2().regular12,
+        medium12: CustomFont2().medium12,
+        medium14: CustomFont2().medium14,
+        bold12: CustomFont2().bold12,
+        bold14: CustomFont2().bold14,
+        bold16: CustomFont2().bold16,
+        bold18: CustomFont2().bold18,
+      );
       return customFont;
     } else {
       CustomFont customFont = CustomFont(
-          regular12: CustomFont3().regular12,
-          medium12: CustomFont3().medium12,
-          medium14: CustomFont3().medium14,
-          bold12: CustomFont1().bold12,
-          bold14: CustomFont3().bold14,
-          bold16: CustomFont3().bold16,
-          bold18: CustomFont3().bold18,
-          modalText: CustomFont3().modalText,
-          modalTitle: CustomFont3().modalTitle,
-          modalOk: CustomFont3().modalOk,
-          modalCancel: CustomFont3().modalCancel);
+        regular12: CustomFont3().regular12,
+        medium12: CustomFont3().medium12,
+        medium14: CustomFont3().medium14,
+        bold12: CustomFont1().bold12,
+        bold14: CustomFont3().bold14,
+        bold16: CustomFont3().bold16,
+        bold18: CustomFont3().bold18,
+      );
       return customFont;
     }
   }

@@ -19,8 +19,6 @@ class _ThemeScreenState extends State<ThemeScreen>
 
   final Stores stores = Get.put(Stores());
 
-  late OverlayEntry overlayPopup;
-
   bool colorOpen = false;
   bool fontOpen = false;
   bool languageOpen = false;
@@ -96,30 +94,26 @@ class _ThemeScreenState extends State<ThemeScreen>
   }
 
   void changeTheme() {
-    overlayPopup = OverlayEntry(
-        builder: (_) => customModalScreen(
+    showDialog(
+        context: context,
+        builder: (context) => CustomModalScreen(
             title: stores.localizationController
                 .localiztionModalScreenText()
                 .themeChangeTitle,
             description: stores.localizationController
                 .localiztionModalScreenText()
                 .themeChangeText,
-            onPressCancel: () {
-              overlayPopup.remove();
-            },
+            onPressCancel: () {},
             onPressOk: () async {
-              overlayPopup.remove();
               await stores.localizationController.changeLanguage(language);
               await stores.fontController.changeFontMode(nowFont);
               await stores.colorController.changeColorMode(nowColor);
               await stores.appStateController.changeFontSize(fontSize);
               if (context.mounted) {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/home', (_) => false);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/home', (route) => false);
               }
             }));
-    OverlayState overlayState = Overlay.of(context);
-    overlayState.insert(overlayPopup);
   }
 
   bool checkCanSave() {

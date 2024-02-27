@@ -90,7 +90,7 @@ class MuscleListItem extends StatelessWidget {
                   backgroundColor:
                       stores.colorController.customColor().transparent,
                   foregroundColor:
-                      stores.colorController.customColor().buttonInActiveColor,
+                      stores.colorController.customColor().buttonActiveColor,
                   icon: Icons.delete,
                   iconSize: 20,
                 ),

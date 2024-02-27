@@ -119,27 +119,47 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   }
 
   Future onPressDelete(BuildContext context, Exercise exercise) async {
-    setState(() {
-      exerciseLoading = true;
-    });
-    final result = await networkProviders.exerciseProvider
-        .deleteCustomExercise(exercise.id);
-    if (result) {
-      stores.exerciseStateController.exerciseList.remove(exercise);
-      if (stores.exerciseStateController.exerciseList.isEmpty) {
-        stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
-      }
-      stores.appStateController.showToast(stores.localizationController
-          .localiztionExerciseScreen()
-          .successDelete);
-    } else {
-      stores.appStateController.showToast(stores.localizationController
-          .localiztionExerciseScreen()
-          .errorDelete);
-    }
-    setState(() {
-      exerciseLoading = false;
-    });
+    showDialog(
+        context: context,
+        builder: (context) => CustomModalScreen(
+            description: stores.localizationController
+                .localiztionModalScreenText()
+                .deleteExercise,
+            okText: stores.localizationController
+                .localiztionModalScreenText()
+                .delete,
+            okTextStyle: stores.fontController.customFont().bold12.copyWith(
+                color: stores.colorController.customColor().errorText),
+            onPressCancel: () {
+              Navigator.pop(context);
+            },
+            onPressOk: () async {
+              setState(() {
+                exerciseLoading = true;
+              });
+              final result = await networkProviders.exerciseProvider
+                  .deleteCustomExercise(exercise.id);
+              if (result) {
+                stores.exerciseStateController.exerciseList.remove(exercise);
+                if (stores.exerciseStateController.exerciseList.isEmpty) {
+                  stores.exerciseStateController.exerciseList =
+                      RxList<Exercise>.empty();
+                }
+                stores.appStateController.showToast(stores
+                    .localizationController
+                    .localiztionExerciseScreen()
+                    .successDelete);
+              } else {
+                stores.appStateController.showToast(stores
+                    .localizationController
+                    .localiztionExerciseScreen()
+                    .errorDelete);
+              }
+              setState(() {
+                exerciseLoading = false;
+              });
+              Get.back();
+            }));
   }
 
   onPressExercise(Exercise exercise) {
