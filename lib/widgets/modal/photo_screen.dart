@@ -5,51 +5,71 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
-Widget photoScreen(
-    {BuildContext? context,
-    Color? backgroundColor,
-    Color? highlightColor,
-    Color? splashColor,
-    Function()? onPress,
-    String imageUri = ''}) {
-  final Stores stores = Get.put(Stores());
-  return Scaffold(
-      backgroundColor: backgroundColor ??
-          stores.colorController.customColor().loadingSpinnerOpacity,
+class PhotoScreen extends StatelessWidget {
+  final Color? backgroundColor;
+  final Color? highlightColor;
+  final Color? splashColor;
+  final Function()? onPress;
+  final String imageUri;
+
+  const PhotoScreen({
+    super.key,
+    this.backgroundColor,
+    this.highlightColor,
+    this.splashColor,
+    this.onPress,
+    required this.imageUri,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Stores stores = Get.put(Stores());
+    return Scaffold(
+      backgroundColor:
+          backgroundColor ?? stores.colorController.customColor().transparent,
       body: CustomButton(
-          highlightColor: highlightColor ??
-              stores.colorController.customColor().transparent,
-          splashColor:
-              splashColor ?? stores.colorController.customColor().transparent,
-          onPress: onPress,
-          child: CachedNetworkImage(
-            imageUrl: imageUri,
-            placeholder: (context, url) => skeletonBox(),
-            errorWidget: (context, url, error) => errorBox(),
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                image: DecorationImage(
-                  image: imageProvider,
-                ),
+        highlightColor:
+            highlightColor ?? stores.colorController.customColor().transparent,
+        splashColor:
+            splashColor ?? stores.colorController.customColor().transparent,
+        onPress: onPress,
+        child: CachedNetworkImage(
+          imageUrl: imageUri,
+          placeholder: (context, url) => SkeletonBox(),
+          errorWidget: (context, url, error) => ErrorBox(),
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                image: imageProvider,
               ),
             ),
-          )));
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-Widget skeletonBox() {
-  final Stores stores = Get.put(Stores());
-
-  return Obx(() => SpinKitThreeBounce(
+class SkeletonBox extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final Stores stores = Get.put(Stores());
+    return Obx(
+      () => SpinKitThreeBounce(
         color: stores.colorController.customColor().loadingSpinnerColor,
         size: 15,
-      ));
+      ),
+    );
+  }
 }
 
-Widget errorBox() {
-  final Stores stores = Get.put(Stores());
-
-  return Obx(() => Container(
+class ErrorBox extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final Stores stores = Get.put(Stores());
+    return Obx(
+      () => Container(
         decoration: BoxDecoration(
           color: stores.colorController.customColor().loadingSpinnerOpacity,
         ),
@@ -57,16 +77,19 @@ Widget errorBox() {
         height: double.infinity,
         alignment: Alignment.center,
         child: Container(
-            width: double.infinity,
-            height: 400,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: stores.colorController.customColor().skeletonColor,
-            ),
-            child: Icon(
-              Icons.photo,
-              color: stores.colorController.customColor().skeletonColor2,
-              size: 100,
-            )),
-      ));
+          width: double.infinity,
+          height: 400,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: stores.colorController.customColor().skeletonColor,
+          ),
+          child: Icon(
+            Icons.photo,
+            color: stores.colorController.customColor().skeletonColor2,
+            size: 100,
+          ),
+        ),
+      ),
+    );
+  }
 }
