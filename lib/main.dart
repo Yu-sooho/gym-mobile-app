@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
@@ -18,7 +19,7 @@ void main() async {
   await firebaseLoginCheck();
   await firebaseMessagingInit();
   KakaoSdk.init(nativeAppKey: 'd3c9e4923a1864904073b797a2de34d1');
-  runApp(GetMaterialApp(home: Main()));
+  runApp(Main());
 }
 
 class Main extends StatelessWidget {
@@ -28,23 +29,32 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-    return MaterialApp(
+    return GetMaterialApp(
       title: "GymCalendar",
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ko', 'KR'),
+        const Locale('en', 'US'),
+      ],
       navigatorKey: navigatorKey,
       navigatorObservers: [CommonRouteObserver()],
       initialRoute:
           stores.firebaseAuthController.uid != null ? '/home' : '/login',
-      routes: {
-        '/login': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
-        '/profile': (context) => ProfileScreen(),
-        '/profile_edit': (context) => ProfileEditScreen(),
-        '/setting': (context) => SettingScreen(),
-        '/theme': (context) => ThemeScreen(),
-        '/inquriy': (context) => InquiryScreen(),
-        '/exerciseAdd': (context) => ExerciseAddScreen(),
-        '/routineAdd': (context) => RoutineAddScreen(),
-      },
+      getPages: [
+        GetPage(name: '/login', page: () => LoginScreen()),
+        GetPage(name: '/home', page: () => HomeScreen()),
+        GetPage(name: '/profile', page: () => ProfileScreen()),
+        GetPage(name: '/profile_edit', page: () => ProfileEditScreen()),
+        GetPage(name: '/setting', page: () => SettingScreen()),
+        GetPage(name: '/theme', page: () => ThemeScreen()),
+        GetPage(name: '/inquriy', page: () => InquiryScreen()),
+        GetPage(name: '/exerciseAdd', page: () => ExerciseAddScreen()),
+        GetPage(name: '/routineAdd', page: () => RoutineAddScreen()),
+      ],
     );
   }
 }
