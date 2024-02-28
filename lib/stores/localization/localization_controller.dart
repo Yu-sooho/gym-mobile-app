@@ -51,6 +51,9 @@ class ComponentButtonText {
   final String name;
   final String addToday;
   final String searchPlaceholder;
+  final String add;
+  final String delete;
+  final String edit;
 
   ComponentButtonText(
       {required this.save,
@@ -59,7 +62,10 @@ class ComponentButtonText {
       required this.oldest,
       required this.addToday,
       required this.name,
-      required this.searchPlaceholder});
+      required this.searchPlaceholder,
+      required this.add,
+      required this.delete,
+      required this.edit});
 }
 
 class SettingScreenText {
@@ -275,11 +281,12 @@ class RoutineScreenText {
 
 class RoutineAddScreenText {
   final String title;
+  final String editTitle;
   final String inputTitle;
   final String inputTitlePlaceholder;
   final String exercisePlaceholder;
-  final String add;
   final String success;
+  final String editSuccess;
   final String maxExercise;
   final String noRoutine;
   final String successDelete;
@@ -306,11 +313,12 @@ class RoutineAddScreenText {
 
   RoutineAddScreenText(
       {required this.title,
+      required this.editTitle,
       required this.inputTitle,
       required this.inputTitlePlaceholder,
       required this.exercisePlaceholder,
-      required this.add,
       required this.success,
+      required this.editSuccess,
       required this.maxExercise,
       required this.noRoutine,
       required this.successDelete,
@@ -545,25 +553,29 @@ class LocalizationController extends GetxController {
   ComponentButtonText localiztionComponentButton() {
     if (language.value == 0) {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
-        save: ComponentButtonTextEn().save,
-        inquiry: ComponentButtonTextEn().inquiry,
-        latest: ComponentButtonTextEn().latest,
-        oldest: ComponentButtonTextEn().oldest,
-        name: ComponentButtonTextEn().name,
-        addToday: ComponentButtonTextEn().addToday,
-        searchPlaceholder: ComponentButtonTextEn().searchPlaceholder,
-      );
+          save: ComponentButtonTextEn().save,
+          inquiry: ComponentButtonTextEn().inquiry,
+          latest: ComponentButtonTextEn().latest,
+          oldest: ComponentButtonTextEn().oldest,
+          name: ComponentButtonTextEn().name,
+          addToday: ComponentButtonTextEn().addToday,
+          searchPlaceholder: ComponentButtonTextEn().searchPlaceholder,
+          add: ComponentButtonTextEn().add,
+          edit: ComponentButtonTextEn().edit,
+          delete: ComponentButtonTextEn().delete);
       return localiztionButtonText;
     } else {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
-        save: ComponentButtonTextKr().save,
-        inquiry: ComponentButtonTextKr().inquiry,
-        latest: ComponentButtonTextKr().latest,
-        oldest: ComponentButtonTextKr().oldest,
-        name: ComponentButtonTextKr().name,
-        addToday: ComponentButtonTextKr().addToday,
-        searchPlaceholder: ComponentButtonTextKr().searchPlaceholder,
-      );
+          save: ComponentButtonTextKr().save,
+          inquiry: ComponentButtonTextKr().inquiry,
+          latest: ComponentButtonTextKr().latest,
+          oldest: ComponentButtonTextKr().oldest,
+          name: ComponentButtonTextKr().name,
+          addToday: ComponentButtonTextKr().addToday,
+          searchPlaceholder: ComponentButtonTextKr().searchPlaceholder,
+          add: ComponentButtonTextKr().add,
+          edit: ComponentButtonTextKr().edit,
+          delete: ComponentButtonTextKr().delete);
       return localiztionButtonText;
     }
   }
@@ -728,11 +740,12 @@ class LocalizationController extends GetxController {
     if (language.value == 0) {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
           title: RoutineAddScreenTextEn().title,
+          editTitle: RoutineAddScreenTextEn().editTitle,
           inputTitle: RoutineAddScreenTextEn().inputTitle,
           inputTitlePlaceholder: RoutineAddScreenTextEn().inputTitlePlaceholder,
           exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
-          add: RoutineAddScreenTextEn().add,
           success: RoutineAddScreenTextEn().success,
+          editSuccess: RoutineAddScreenTextEn().editSuccess,
           maxExercise: RoutineAddScreenTextEn().maxExercise,
           noRoutine: RoutineAddScreenTextEn().noRoutine,
           successDelete: RoutineAddScreenTextEn().successDelete,
@@ -760,11 +773,12 @@ class LocalizationController extends GetxController {
     } else {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
           title: RoutineAddScreenTextKr().title,
+          editTitle: RoutineAddScreenTextKr().editTitle,
           inputTitle: RoutineAddScreenTextKr().inputTitle,
           inputTitlePlaceholder: RoutineAddScreenTextKr().inputTitlePlaceholder,
           exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
-          add: RoutineAddScreenTextKr().add,
           success: RoutineAddScreenTextKr().success,
+          editSuccess: RoutineAddScreenTextKr().editSuccess,
           maxExercise: RoutineAddScreenTextKr().maxExercise,
           noRoutine: RoutineAddScreenTextKr().noRoutine,
           successDelete: RoutineAddScreenTextKr().successDelete,

@@ -103,15 +103,17 @@ class RoutineProvider {
       final routineCycle = data['routineCycle'];
       final id = element.id;
       final routine = Routine(
-          id: id,
-          uid: uid,
-          name: name,
-          exercises: userExerciseResult,
-          routineCycle: routineCycle,
-          startDate: startDate,
-          endDate: endDate,
-          allCount: allCount,
-          createdAt: createdAt);
+        id: id,
+        uid: uid,
+        name: name,
+        exercises: userExerciseResult,
+        routineCycle: routineCycle,
+        startDate: startDate,
+        endDate: endDate,
+        docName: element.id,
+        allCount: allCount,
+        createdAt: createdAt,
+      );
       list.add(routine);
     }
 
@@ -127,6 +129,19 @@ class RoutineProvider {
       return true;
     } catch (error) {
       print('RoutineProvider postCustomRoutine error: $error');
+      rethrow;
+    }
+  }
+
+  Future putCustomRoutine(Map<String, dynamic> data, String docName) async {
+    try {
+      data['uid'] = stores.firebaseAuthController.uid?.value;
+      data['createdAt'] = Timestamp.now();
+      await stores.firebaseFirestoreController.putCollectionDataSet(
+          collectionName: 'user_routine', obj: data, docName: docName);
+      return true;
+    } catch (error) {
+      print('RoutineProvider putCustomRoutine error: $error');
       rethrow;
     }
   }
