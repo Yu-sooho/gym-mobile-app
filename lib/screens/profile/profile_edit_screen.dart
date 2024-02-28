@@ -123,8 +123,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     final user = stores.firebaseAuthController.currentUserData;
-    return safeAreaView(context,
-        stores.localizationController.localiztionProfileEditScreen().title,
+    return SafeAreaView(
+        title:
+            stores.localizationController.localiztionProfileEditScreen().title,
         rightText:
             stores.localizationController.localiztionProfileEditScreen().save,
         isRightInActive: checkCanSave(),

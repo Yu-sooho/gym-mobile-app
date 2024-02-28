@@ -115,9 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return safeAreaView(
-      context,
-      stores.localizationController.localiztionProfileScreen().title,
+    return SafeAreaView(
+      title: stores.localizationController.localiztionProfileScreen().title,
       children: [
         SizedBox(
             child: Padding(

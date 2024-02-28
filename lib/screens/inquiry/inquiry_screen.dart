@@ -84,8 +84,8 @@ class _InquiryScreenState extends State<InquiryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return (safeAreaView(
-        context, stores.localizationController.localiztionInquiryScreen().title,
+    return (SafeAreaView(
+        title: stores.localizationController.localiztionInquiryScreen().title,
         children: [
           SizedBox(
             height: 24,

@@ -577,10 +577,11 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   @override
   Widget build(BuildContext context) {
     return KeyboardDismisser(
-      child: safeAreaView(
-          context,
+      child: SafeAreaView(
           physics: AlwaysScrollableScrollPhysics(),
-          stores.localizationController.localiztionExerciseAddScreen().title,
+          title: stores.localizationController
+              .localiztionExerciseAddScreen()
+              .title,
           rightText:
               stores.localizationController.localiztionExerciseScreen().add,
           isRightInActive: checkCanSave(),
@@ -735,6 +736,8 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
               ]),
             ],
           ),
+          scrollController: _controller,
+          onRefresh: onRefresh,
           children: [
             Obx(() {
               if (stores.exerciseStateController.muscleList.isEmpty) {
@@ -771,9 +774,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
             }),
             loadingFotter(muscleLoading, isRefresh,
                 stores.exerciseStateController.muscleList.isNotEmpty),
-          ],
-          scrollController: _controller,
-          onRefresh: onRefresh),
+          ]),
     );
   }
 }

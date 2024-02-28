@@ -9,7 +9,8 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:intl/intl.dart';
 
 class RoutineAddScreen extends StatefulWidget {
-  RoutineAddScreen({super.key});
+  final Routine? routine;
+  RoutineAddScreen({super.key, this.routine});
 
   @override
   State<RoutineAddScreen> createState() => _RoutineAddScreenState();
@@ -82,7 +83,44 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       selectExercise = [];
       selectExerciseDetail = [];
     });
+    if (widget.routine != null) {
+      isEditSetting();
+    }
     await getExerciseList();
+  }
+
+  void isEditSetting() {
+    _titleController.text = widget.routine!.name;
+    print(widget.routine!.routineCycle);
+
+    List<List<dynamic>> cycle = widget.routine!.routineCycle!
+        .split("#")
+        .map((string) => string
+            .replaceAll("[", "")
+            .replaceAll("]", "")
+            .split(",")
+            .map(int.parse)
+            .toList())
+        .toList();
+
+    if (widget.routine!.startDate != null) {
+      setState(() {
+        _selectedDate = DateTime.parse(widget.routine!.startDate ?? '');
+      });
+    }
+    print(widget.routine?.exercises);
+    if (widget.routine?.exercises != null) {
+      widget.routine?.exercises.forEach((element) =>
+          {selectExercise.add(element.id), selectExerciseDetail.add(element)});
+      setState(() {
+        openButtonSize = buttonMaxSize;
+        openButtonOpacity = 1.0;
+      });
+    }
+    setState(() {
+      routineName = widget.routine!.name;
+      routineCycle = cycle;
+    });
   }
 
   void setStateifMounted(Function() afterFunc) {
@@ -261,6 +299,43 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     }
   }
 
+  void onPressEdit(BuildContext context) async {
+    final docName = widget.routine?.docName;
+    if (docName == null) return;
+    try {
+      stores.appStateController.setIsLoading(true, context);
+
+      await networkProviders.routineProvider.putCustomRoutine({
+        'name': routineName,
+        'routineCycle': '$routineCycle',
+        'exercises': selectExercise,
+        'startDate': _selectedDate != null ? '$_selectedDate' : null
+      }, docName);
+      final result =
+          await networkProviders.routineProvider.getRoutineList(limit: 1);
+      print(result);
+      if (result.list.isNotEmpty) {
+        final temp = stores.routineStateController.routineList
+            .indexWhere((element) => element.id == widget.routine?.id);
+        if (temp >= 0) {
+          stores.routineStateController.routineList[temp] = result.list[0];
+        }
+      }
+      if (!context.mounted) return;
+      stores.appStateController.setIsLoading(false, context);
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionRoutineAddScreen()
+          .editSuccess);
+      Navigator.pop(context);
+    } catch (error) {
+      print('routine_add_screen onPressEdit error:$error');
+      stores.appStateController.setIsLoading(false, context);
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionComponentError()
+          .networkError);
+    }
+  }
+
   void onPressSortMethodOk() async {
     setState(() {
       stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
@@ -305,13 +380,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
           return Theme(
             data: ThemeData.dark().copyWith(
               textSelectionTheme: TextSelectionThemeData(
-                cursorColor: stores.colorController
-                    .customColor()
-                    .defaultBackground1, // 커서 색상
-                // selectionColor: stores.colorController
-                //     .customColor()
-                //     .defaultBackground1
-                //     .withAlpha(100), // 선택 영역 색상
+                cursorColor:
+                    stores.colorController.customColor().defaultBackground1,
               ),
               textTheme: TextTheme(
                 titleLarge: TextStyle(
@@ -527,13 +597,19 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return safeAreaView(context,
-        stores.localizationController.localiztionRoutineAddScreen().title,
+    return SafeAreaView(
+        title: widget.routine != null
+            ? stores.localizationController
+                .localiztionRoutineAddScreen()
+                .editTitle
+            : stores.localizationController.localiztionRoutineAddScreen().title,
         physics: AlwaysScrollableScrollPhysics(),
-        rightText:
-            stores.localizationController.localiztionRoutineAddScreen().add,
+        rightText: widget.routine != null
+            ? stores.localizationController.localiztionComponentButton().edit
+            : stores.localizationController.localiztionComponentButton().add,
         isRightInActive: checkCanSave(),
-        onPressRight: () => onPressAdd(context),
+        onPressRight: () =>
+            widget.routine != null ? onPressEdit(context) : onPressAdd(context),
         scrollController: _controller,
         onRefresh: onRefresh,
         stickyWidget: Column(
@@ -558,9 +634,10 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
               controller: _titleController,
               maxLength: 20,
               counterText: '',
-              placeholder: stores.localizationController
-                  .localiztionRoutineAddScreen()
-                  .inputTitlePlaceholder,
+              placeholder: widget.routine?.name ??
+                  stores.localizationController
+                      .localiztionRoutineAddScreen()
+                      .inputTitlePlaceholder,
               onChanged: onChangedTitle,
             )),
             Padding(

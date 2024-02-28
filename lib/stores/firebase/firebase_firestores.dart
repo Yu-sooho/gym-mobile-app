@@ -22,7 +22,8 @@ class FirebaseFirestoreController extends GetxController {
       if (obj == null) {
         throw {'error': 'no obj'};
       }
-      print('firebase_firestores getCollectionData success $collectionName');
+      print(
+          'firebase_firestores postCollectionDataSet success $collectionName');
       return firebaseController.firebaseVoid(() async {
         return await firestore
             .collection(collectionName)
@@ -30,7 +31,32 @@ class FirebaseFirestoreController extends GetxController {
             .set(obj, SetOptions(merge: true));
       });
     } catch (error) {
-      print('firebase_firestores getCollectionData error $error');
+      print('firebase_firestores postCollectionDataSet error $error');
+      rethrow;
+    }
+  }
+
+  /// 컬렉션 네임으로 문서 자동 Id 및 하나의 데이터 셋
+  Future putCollectionDataSet(
+      {required String collectionName,
+      required String docName,
+      Map<String, dynamic>? obj}) async {
+    try {
+      if (collectionName.isEmpty) {
+        throw {'error': 'no collectionName'};
+      }
+      if (obj == null) {
+        throw {'error': 'no obj'};
+      }
+      print('firebase_firestores putCollectionDataSet success $collectionName');
+      return firebaseController.firebaseVoid(() async {
+        return await firestore
+            .collection(collectionName)
+            .doc(docName)
+            .update(obj);
+      });
+    } catch (error) {
+      print('firebase_firestores putCollectionDataSet error $error');
       rethrow;
     }
   }

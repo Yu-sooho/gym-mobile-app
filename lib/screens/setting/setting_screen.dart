@@ -38,8 +38,8 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return safeAreaView(
-        context, stores.localizationController.localiztionSettingScreen().title,
+    return SafeAreaView(
+        title: stores.localizationController.localiztionSettingScreen().title,
         children: [
           SizedBox(
             height: 24,

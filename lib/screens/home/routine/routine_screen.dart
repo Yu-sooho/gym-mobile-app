@@ -259,6 +259,13 @@ class _RoutineScreenState extends State<RoutineScreen> {
             }));
   }
 
+  void onPressEdit(BuildContext context, Routine routine, int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => RoutineAddScreen(routine: routine)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return (TabAreaView(
@@ -308,9 +315,10 @@ class _RoutineScreenState extends State<RoutineScreen> {
               ),
               itemBuilder: (BuildContext context, int index) {
                 return RoutineListItem(
-                  item: stores.routineStateController.routineList[index],
-                  onPressDelete: onPressDelete,
-                );
+                    index: index,
+                    item: stores.routineStateController.routineList[index],
+                    onPressDelete: onPressDelete,
+                    onPressEdit: onPressEdit);
               },
             ));
           }),

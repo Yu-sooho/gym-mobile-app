@@ -155,8 +155,8 @@ class _ThemeScreenState extends State<ThemeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return safeAreaView(
-        context, stores.localizationController.localiztionThemeScreen().title,
+    return SafeAreaView(
+        title: stores.localizationController.localiztionThemeScreen().title,
         rightText:
             stores.localizationController.localiztionComponentButton().save,
         isRightInActive: checkCanSave(),
