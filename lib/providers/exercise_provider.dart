@@ -169,7 +169,32 @@ class ExerciseProvider {
           .limit(limit ?? 4);
     }
 
+    // final userRoutineQuerySnapshot = await stores.firebaseFirestoreController
+    //     .getCollectionData(query: query);
+    final userExerciseQuerySnapshot = await stores.firebaseFirestoreController
+        .getCollectionData(query: query);
+    final muscleNames = userExerciseQuerySnapshot.docs
+        .map((doc) => (doc.data() as Map<String, dynamic>)['musclesNames']
+            as List<dynamic>)
+        .expand((muscles) => muscles)
+        .cast<String>()
+        .toList();
+
+    var userMusclesResult = <Muscles>[];
+    if (muscleNames.isEmpty) {
+      userMusclesResult = [];
+    } else {
+      final userMuscelsQuerySnapshot = await firestore
+          .collection('user_muscles')
+          .where('name', whereIn: muscleNames)
+          .get();
+      userMusclesResult = userMuscelsQuerySnapshot.docs
+          .map((doc) => Muscles.fromJson(doc.data(), doc.id))
+          .toList();
+    }
+
     List<Exercise> list = [];
+
     final res = await stores.firebaseFirestoreController
         .getCollectionData(query: query);
     final last = res.docs.lastOrNull;
@@ -187,6 +212,8 @@ class ExerciseProvider {
           uid: uid,
           name: name,
           musclesNames: musclesNames ?? [],
+          docName: element.id,
+          muscles: userMusclesResult,
           createdAt: createdAt,
           weight: weight,
           targetWeight: targetWeight);
@@ -200,9 +227,15 @@ class ExerciseProvider {
     try {
       data['uid'] = stores.firebaseAuthController.uid?.value;
       data['createdAt'] = Timestamp.now();
-      await stores.firebaseFirestoreController
-          .postCollectionDataSet(collectionName: 'user_muscles', obj: data);
-      return true;
+      bool isUnique = await stores.firebaseFirestoreController.isUniqueData(
+          text: data['name'], collection: 'user_muscles', field: 'name');
+      if (isUnique) {
+        await stores.firebaseFirestoreController
+            .postCollectionDataSet(collectionName: 'user_muscles', obj: data);
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       print('ExerciseProvider postCustomMuscle error: $error');
       rethrow;
@@ -220,7 +253,9 @@ class ExerciseProvider {
     }
   }
 
-  Future postCustomExercise(Map<String, dynamic> data) async {
+  Future postCustomExercise(
+    Map<String, dynamic> data,
+  ) async {
     try {
       data['uid'] = stores.firebaseAuthController.uid?.value;
       data['createdAt'] = Timestamp.now();
@@ -229,6 +264,19 @@ class ExerciseProvider {
       return true;
     } catch (error) {
       print('ExerciseProvider postCustomExercise error: $error');
+      rethrow;
+    }
+  }
+
+  Future putCustomExercise(Map<String, dynamic> data, String docName) async {
+    try {
+      data['uid'] = stores.firebaseAuthController.uid?.value;
+      data['updatedAt'] = Timestamp.now();
+      await stores.firebaseFirestoreController.putCollectionDataSet(
+          collectionName: 'user_exercise', obj: data, docName: docName);
+      return true;
+    } catch (error) {
+      print('RoutineProvider putCustomRoutine error: $error');
       rethrow;
     }
   }

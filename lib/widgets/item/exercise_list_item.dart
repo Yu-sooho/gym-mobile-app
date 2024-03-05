@@ -6,8 +6,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ExerciseListItem extends StatefulWidget {
   final Exercise item;
+  final int index;
   final Function(Exercise item)? onPress;
   final Function(BuildContext context, Exercise item)? onPressDelete;
+  final Function(BuildContext context, Exercise item, int index)? onPressEdit;
   final bool? isSelected;
   final bool? isCanSelected;
   final bool disabledDelete;
@@ -16,8 +18,10 @@ class ExerciseListItem extends StatefulWidget {
 
   ExerciseListItem({
     required this.item,
+    required this.index,
     this.onPress,
     this.onPressDelete,
+    this.onPressEdit,
     this.isCanSelected,
     this.isSelected,
     this.disabledDelete = false,
@@ -111,9 +115,22 @@ class _ExerciseListItem extends State<ExerciseListItem> {
             key: const ValueKey(0),
             enabled: !widget.disabledDelete,
             endActionPane: ActionPane(
-              extentRatio: 0.2,
+              extentRatio: 0.3,
               motion: ScrollMotion(),
               children: [
+                SlidableAction(
+                  onPressed: (BuildContext context) {
+                    if (widget.onPressEdit != null) {
+                      widget.onPressEdit!(context, widget.item, widget.index);
+                    }
+                  },
+                  backgroundColor:
+                      stores.colorController.customColor().transparent,
+                  foregroundColor:
+                      stores.colorController.customColor().buttonActiveColor,
+                  icon: Icons.edit,
+                  iconSize: 20,
+                ),
                 SlidableAction(
                   onPressed: (BuildContext context) {
                     if (widget.onPressDelete != null) {

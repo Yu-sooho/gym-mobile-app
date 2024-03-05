@@ -28,6 +28,16 @@ class Muscles {
       required this.imageURL,
       this.createdAt,
       this.uid});
+
+  factory Muscles.fromJson(Map<String, dynamic> json, id) {
+    return Muscles(
+      name: json['name'] as String,
+      id: id ?? json['id'] as String,
+      uid: json['uid'] as String,
+      createdAt: json['createdAt'] as Timestamp,
+      imageURL: json['imageURL'] != null ? json['imageURL'] as String : null,
+    );
+  }
 }
 
 class Exercise {
@@ -36,27 +46,34 @@ class Exercise {
   String name;
   List<dynamic> musclesNames;
   Timestamp createdAt;
+  Timestamp? updatedAt;
   String? weight;
   String? targetWeight;
+  List<Muscles>? muscles;
+  String? docName;
   Exercise(
       {required this.id,
       required this.uid,
       required this.name,
       required this.musclesNames,
       required this.createdAt,
+      this.updatedAt,
       this.weight,
-      this.targetWeight});
+      this.muscles,
+      this.targetWeight,
+      this.docName});
 
   factory Exercise.fromJson(Map<String, dynamic> json, id) {
     return Exercise(
-      name: json['name'] as String,
-      id: id ?? json['id'] as String,
-      uid: json['uid'] as String,
-      musclesNames: json['musclesNames'] as List<dynamic>,
-      createdAt: json['createdAt'] as Timestamp,
-      weight: json['weight'] as String,
-      targetWeight: json['targetWeight'] as String,
-    );
+        name: json['name'] as String,
+        id: id ?? json['id'] as String,
+        uid: json['uid'] as String,
+        musclesNames: json['musclesNames'] as List<dynamic>,
+        createdAt: json['createdAt'] as Timestamp,
+        weight: json['weight'] as String,
+        targetWeight: json['targetWeight'] as String,
+        muscles:
+            json['muscles'] != null ? json['muscles'] as List<Muscles> : null);
   }
 }
 

@@ -101,4 +101,14 @@ class FirebaseFirestoreController extends GetxController {
       rethrow;
     }
   }
+
+  ///중복 체크
+  Future<bool> isUniqueData(
+      {String text = '', String collection = '', String field = ''}) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection(collection)
+        .where(field, isEqualTo: text)
+        .get();
+    return snapshot.docs.isEmpty;
+  }
 }

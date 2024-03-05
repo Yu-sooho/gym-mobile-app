@@ -48,18 +48,22 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
     if (stores.exerciseStateController.endExerciseList || exerciseLoading) {
       return false;
     }
-    setState(() {
-      exerciseLoading = true;
-    });
+    if (mounted) {
+      setState(() {
+        exerciseLoading = true;
+      });
+    }
     final result = await networkProviders.exerciseProvider.getExerciseList(
         sort: stores.exerciseStateController.exerciseSortMethod[
             stores.exerciseStateController.exerciseSort.value],
         startAfter: stores.exerciseStateController.startAfter,
         limit: limit,
         searchKeyword: searchKeyword);
-    setState(() {
-      exerciseLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        exerciseLoading = false;
+      });
+    }
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
         stores.exerciseStateController.endExerciseList = true;
@@ -114,6 +118,13 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
               });
               Get.back();
             }));
+  }
+
+  void onPressEdit(BuildContext context, Exercise exercise, int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => ExerciseAddScreen(exercise: exercise)),
+    );
   }
 
   Future onRefresh() async {
@@ -273,7 +284,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return ExerciseListItem(
+                      index: index,
                       onPress: onPress,
+                      onPressEdit: onPressEdit,
                       onPressDelete: onPressDelete,
                       key: Key('$index'),
                       item: stores.exerciseStateController.exerciseList[index]);

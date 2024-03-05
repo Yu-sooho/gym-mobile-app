@@ -12,13 +12,16 @@ class Routine {
   String? routineCycle;
   List<Exercise> exercises;
   Timestamp createdAt;
+  Timestamp? updatedAt;
   String? docName;
+
   Routine(
       {required this.id,
       required this.uid,
       required this.name,
       required this.exercises,
       required this.createdAt,
+      this.updatedAt,
       this.executionCount,
       this.routineCycle,
       this.allCount,

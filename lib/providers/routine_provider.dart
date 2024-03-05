@@ -136,7 +136,7 @@ class RoutineProvider {
   Future putCustomRoutine(Map<String, dynamic> data, String docName) async {
     try {
       data['uid'] = stores.firebaseAuthController.uid?.value;
-      data['createdAt'] = Timestamp.now();
+      data['updatedAt'] = Timestamp.now();
       await stores.firebaseFirestoreController.putCollectionDataSet(
           collectionName: 'user_routine', obj: data, docName: docName);
       return true;

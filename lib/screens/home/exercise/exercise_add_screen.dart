@@ -8,7 +8,8 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class ExerciseAddScreen extends StatefulWidget {
-  ExerciseAddScreen({super.key});
+  final Exercise? exercise;
+  ExerciseAddScreen({super.key, this.exercise});
 
   @override
   State<ExerciseAddScreen> createState() => _ExerciseAddScreenState();
@@ -21,7 +22,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   final _controller = ScrollController();
 
   TextEditingController _muscleTextController = TextEditingController(text: '');
-  TextEditingController _titleTextController = TextEditingController(text: '');
+  TextEditingController _titleController = TextEditingController(text: '');
   TextEditingController _nowWeightController = TextEditingController(text: '');
   TextEditingController _targetWeightController =
       TextEditingController(text: '');
@@ -83,7 +84,38 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       stores.exerciseStateController.endMuscleList = false;
       muscleLoading = false;
     });
+    if (widget.exercise != null) {
+      isEditSetting();
+    }
     await getMuscleList();
+  }
+
+  void isEditSetting() {
+    _titleController.text = widget.exercise!.name;
+    _nowWeightController.text = widget.exercise!.weight!;
+    _targetWeightController.text = widget.exercise!.targetWeight!;
+
+    exerciseName = widget.exercise!.name;
+    targetWeight = widget.exercise!.targetWeight!;
+    weight = widget.exercise!.weight!;
+
+    print(widget.exercise?.muscles);
+
+    if (widget.exercise?.musclesNames != null) {
+      widget.exercise?.musclesNames.forEach((element) {
+        selectedMuscles.add(element);
+      });
+    }
+
+    if (widget.exercise?.muscles != null) {
+      widget.exercise?.muscles?.forEach((element) {
+        selectedMusclesDetail.add(element);
+      });
+      setState(() {
+        openButtonSize = buttonMaxSize;
+        openButtonOpacity = 1.0;
+      });
+    }
   }
 
   @override
@@ -214,7 +246,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       stores.appStateController.setIsLoading(false, context);
       setState(() {
         selectedMuscles = [];
-        _titleTextController.text = '';
+        _titleController.text = '';
         exerciseName = '';
       });
       stores.appStateController.showToast(
@@ -222,6 +254,42 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       Navigator.pop(context);
     } catch (error) {
       print('exercise_add_screen onPressAdd error:$error');
+      stores.appStateController.setIsLoading(false, context);
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionComponentError()
+          .networkError);
+    }
+  }
+
+  void onPressEdit(BuildContext context) async {
+    final docName = widget.exercise?.docName;
+    if (docName == null) return;
+    try {
+      stores.appStateController.setIsLoading(true, context);
+      await networkProviders.exerciseProvider.putCustomExercise({
+        'name': exerciseName,
+        'musclesNames': selectedMuscles,
+        'weight': weight,
+        'targetWeight': targetWeight
+      }, docName);
+      final result =
+          await networkProviders.exerciseProvider.getExerciseList(limit: 1);
+      print(result);
+      if (result.list.isNotEmpty) {
+        final temp = stores.exerciseStateController.exerciseList
+            .indexWhere((element) => element.id == widget.exercise?.id);
+        if (temp >= 0) {
+          stores.exerciseStateController.exerciseList[temp] = result.list[0];
+        }
+      }
+      if (!context.mounted) return;
+      stores.appStateController.setIsLoading(false, context);
+      stores.appStateController.showToast(stores.localizationController
+          .localiztionExerciseAddScreen()
+          .editSuccess);
+      Navigator.pop(context);
+    } catch (error) {
+      print('exercise_add_screen onPressEdit error:$error');
       stores.appStateController.setIsLoading(false, context);
       stores.appStateController.showToast(stores.localizationController
           .localiztionComponentError()
@@ -455,14 +523,21 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
 
     try {
       stores.appStateController.setIsLoading(true, context);
-      await networkProviders.exerciseProvider.postCustomMuscle({
+      final post = await networkProviders.exerciseProvider.postCustomMuscle({
         'name': muscleName,
       });
 
+      if (!post) {
+        stores.appStateController.showToast(stores.localizationController
+            .localiztionExerciseAddScreen()
+            .alreadyPart);
+        if (!context.mounted) return;
+        stores.appStateController.setIsLoading(false, context);
+        return;
+      }
+
       final result =
           await networkProviders.exerciseProvider.getUserMuscleList(limit: 1);
-
-      print(stores.exerciseStateController.startAfterMuscle);
 
       if (result.list.isNotEmpty) {
         if (stores.exerciseStateController.muscleSort.value == 0) {
@@ -562,7 +637,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     getMuscleList();
   }
 
-  onChanged(String value) {
+  onChangedSearchKeyword(String value) {
     stores.exerciseStateController.muscleSort = tempSelectedSort.obs;
     stores.exerciseStateController.startAfterMuscle = null;
     stores.exerciseStateController.muscleList = RxList<Muscles>.empty();
@@ -585,7 +660,9 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
           rightText:
               stores.localizationController.localiztionExerciseScreen().add,
           isRightInActive: checkCanSave(),
-          onPressRight: () => onPressAdd(context),
+          onPressRight: () => widget.exercise != null
+              ? onPressEdit(context)
+              : onPressAdd(context),
           stickyWidget: Column(
             children: [
               Column(children: [
@@ -689,7 +766,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                 ),
                 SizedBox(
                     child: CustomTextInput(
-                  controller: _titleTextController,
+                  controller: _titleController,
                   maxLength: 20,
                   counterText: '',
                   placeholder: stores.localizationController
@@ -729,7 +806,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                     isSearch: true,
                     itemExtent: 32,
                     sortBarHeight: 40,
-                    onChanged: onChanged),
+                    onChanged: onChangedSearchKeyword),
                 SizedBox(
                   height: 6,
                 ),

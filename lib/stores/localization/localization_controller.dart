@@ -146,6 +146,7 @@ class ExerciseAddScreenText {
   final String noMuscle;
   final String errorWeight;
   final String part;
+  final String editSuccess;
 
   ExerciseAddScreenText(
       {required this.title,
@@ -168,7 +169,8 @@ class ExerciseAddScreenText {
       required this.addMuscle,
       required this.noMuscle,
       required this.errorWeight,
-      required this.part});
+      required this.part,
+      required this.editSuccess});
 }
 
 class InquiryScreenText {
@@ -682,7 +684,8 @@ class LocalizationController extends GetxController {
           muscleSuccess: ExerciseAddScreenTextEn().muscleSuccess,
           noMuscle: ExerciseAddScreenTextEn().noMuscle,
           errorWeight: ExerciseAddScreenTextEn().errorWeight,
-          part: ExerciseAddScreenTextEn().part);
+          part: ExerciseAddScreenTextEn().part,
+          editSuccess: ExerciseAddScreenTextEn().editSuccess);
       return exerciseAddScreenText;
     } else {
       ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
@@ -707,7 +710,8 @@ class LocalizationController extends GetxController {
           muscleSuccess: ExerciseAddScreenTextKr().muscleSuccess,
           noMuscle: ExerciseAddScreenTextKr().noMuscle,
           errorWeight: ExerciseAddScreenTextKr().errorWeight,
-          part: ExerciseAddScreenTextKr().part);
+          part: ExerciseAddScreenTextKr().part,
+          editSuccess: ExerciseAddScreenTextKr().editSuccess);
       return exerciseAddScreenText;
     }
   }

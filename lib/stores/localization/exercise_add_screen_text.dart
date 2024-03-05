@@ -21,6 +21,7 @@ class ExerciseAddScreenTextKr {
   String noMuscle = '추가된 근육이 없습니다.';
   String errorWeight = '현재 중량이 목표 중량보다 높을 수 없습니다.';
   String part = '부위';
+  String editSuccess = '운동이 수정되었습니다.';
 }
 
 class ExerciseAddScreenTextEn {
@@ -46,4 +47,5 @@ class ExerciseAddScreenTextEn {
   String noMuscle = '추가된 근육이 없습니다.';
   String errorWeight = '현재 중량이 목표 중량보다 높을 수 없습니다.';
   String part = '부위';
+  String editSuccess = '운동이 수정되었습니다.';
 }

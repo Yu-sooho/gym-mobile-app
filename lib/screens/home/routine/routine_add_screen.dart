@@ -108,7 +108,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         _selectedDate = DateTime.parse(widget.routine!.startDate ?? '');
       });
     }
-    print(widget.routine?.exercises);
     if (widget.routine?.exercises != null) {
       widget.routine?.exercises.forEach((element) =>
           {selectExercise.add(element.id), selectExerciseDetail.add(element)});
@@ -776,6 +775,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                     stores.exerciseStateController.exerciseList[index].id ==
                     element);
                 return ExerciseListItem(
+                    index: index,
                     isCanSelected: true,
                     isSelected: isActive,
                     disabledDelete: isActive,

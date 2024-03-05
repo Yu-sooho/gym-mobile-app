@@ -81,18 +81,22 @@ class _RoutineScreenState extends State<RoutineScreen> {
     if (stores.routineStateController.endRoutineList || routineLoading) {
       return false;
     }
-    setState(() {
-      routineLoading = true;
-    });
+    if (mounted) {
+      setState(() {
+        routineLoading = true;
+      });
+    }
     final result = await networkProviders.routineProvider.getRoutineList(
         startAfter: stores.routineStateController.startAfterRoutine,
         searchKeyword: searchKeyword,
         limit: limit,
         sort: stores.routineStateController.routineSortMethod[
             stores.routineStateController.routineSort.value]);
-    setState(() {
-      routineLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        routineLoading = false;
+      });
+    }
     if (result.list.isNotEmpty) {
       if (result.length < limit) {
         stores.routineStateController.endRoutineList = true;
