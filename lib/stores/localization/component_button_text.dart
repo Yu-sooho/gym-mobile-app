@@ -9,6 +9,8 @@ class ComponentButtonTextKr {
   String add = '추가';
   String edit = '수정';
   String delete = '삭제';
+  String endDatest = '종료일순';
+  String startDatest = '시작일순';
 }
 
 class ComponentButtonTextEn {
@@ -22,4 +24,6 @@ class ComponentButtonTextEn {
   String add = '추가';
   String edit = '수정';
   String delete = '삭제';
+  String endDatest = '종료일순';
+  String startDatest = '시작일순';
 }

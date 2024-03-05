@@ -13,9 +13,11 @@ class CustomSortBar extends StatefulWidget {
   final String? placeholder;
   final int initialItem;
   final int sortValue;
+  final List<String>? sortMethod;
 
   CustomSortBar(
       {super.key,
+      this.sortMethod,
       this.sortBarHeight = 40,
       this.itemExtent = 32,
       this.placeholder,
@@ -111,11 +113,16 @@ class _CustomSortBar extends State<CustomSortBar> {
                   ),
                   onSelectedItemChanged: widget.onChangedSortMethod,
                   children: List<Widget>.generate(
-                    stores.exerciseStateController.exerciseSortMethod.length,
+                    widget.sortMethod != null
+                        ? widget.sortMethod!.length
+                        : stores
+                            .exerciseStateController.exerciseSortMethod.length,
                     (int index) {
                       return Center(
-                        child: Text(stores
-                            .exerciseStateController.exerciseSortMethod[index]),
+                        child: Text(widget.sortMethod != null
+                            ? widget.sortMethod![index]
+                            : stores.exerciseStateController
+                                .exerciseSortMethod[index]),
                       );
                     },
                   ),
@@ -132,8 +139,10 @@ class _CustomSortBar extends State<CustomSortBar> {
                   width: 64,
                   alignment: Alignment.centerRight,
                   child: Text(
-                    stores.exerciseStateController
-                        .exerciseSortMethod[widget.sortValue],
+                    widget.sortMethod != null
+                        ? widget.sortMethod![widget.sortValue]
+                        : stores.exerciseStateController
+                            .exerciseSortMethod[widget.sortValue],
                     style: stores.fontController.customFont().medium12,
                   ),
                 ),

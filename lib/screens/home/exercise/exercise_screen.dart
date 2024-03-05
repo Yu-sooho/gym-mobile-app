@@ -163,6 +163,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   }
 
   Future init() async {
+    if (stores.exerciseStateController.exerciseList.isNotEmpty) return;
     setState(() {
       stores.exerciseStateController.startAfter = null;
       stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();

@@ -11,8 +11,16 @@ class RoutineProvider {
         stores.localizationController.localiztionComponentButton().name;
     final oldest =
         stores.localizationController.localiztionComponentButton().oldest;
+    final startDatest =
+        stores.localizationController.localiztionComponentButton().startDatest;
+    final endDatest =
+        stores.localizationController.localiztionComponentButton().endDatest;
     if (order == name) {
       return {'text': 'name', 'descending': false};
+    } else if (order == endDatest) {
+      return {'text': 'endDate', 'descending': false};
+    } else if (order == startDatest) {
+      return {'text': 'startDate', 'descending': false};
     } else if (order == oldest) {
       return {'text': 'createdAt', 'descending': false};
     } else {
@@ -27,6 +35,7 @@ class RoutineProvider {
       String? searchKeyword}) async {
     String uid = stores.firebaseAuthController.uid!.value;
     late Query query;
+    print(orderBy(sort));
     final order = orderBy(sort);
 
     query = firestore

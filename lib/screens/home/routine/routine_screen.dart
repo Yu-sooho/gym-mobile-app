@@ -68,6 +68,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
   }
 
   Future init() async {
+    if (stores.routineStateController.routineList.isNotEmpty) return;
     setState(() {
       stores.routineStateController.startAfterRoutine = null;
       stores.routineStateController.routineList = RxList<Routine>.empty();
@@ -122,49 +123,6 @@ class _RoutineScreenState extends State<RoutineScreen> {
       routineLoading = false;
     });
     getRoutineList();
-  }
-
-  Widget sortBar(BuildContext context) {
-    return (Container(
-        height: sortBarHeight,
-        alignment: Alignment.centerRight,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(20, 8, 20, 8),
-          child: CustomButton(
-              onPress: () => stores.appStateController.showDialog(
-                    CupertinoPicker(
-                      magnification: 1.22,
-                      squeeze: 1.2,
-                      useMagnifier: true,
-                      itemExtent: itemExtent,
-                      scrollController: FixedExtentScrollController(
-                        initialItem:
-                            stores.routineStateController.routineSort.value,
-                      ),
-                      onSelectedItemChanged: onChangedSortMethod,
-                      children: List<Widget>.generate(
-                          stores.routineStateController.routineSortMethod
-                              .length, (int index) {
-                        return Center(
-                            child: Text(stores.routineStateController
-                                .routineSortMethod[index]));
-                      }),
-                    ),
-                    context,
-                    isHaveButton: true,
-                    onPressOk: onPressSortMethodOk,
-                  ),
-              highlightColor: Colors.transparent,
-              child: Container(
-                  height: 24,
-                  width: 72,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    stores.routineStateController.routineSortMethod[
-                        stores.routineStateController.routineSort.value],
-                    style: stores.fontController.customFont().medium12,
-                  ))),
-        )));
   }
 
   onPressAdd() {
@@ -286,6 +244,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
           CustomSortBar(
               sortValue: stores.routineStateController.routineSort.value,
               initialItem: stores.routineStateController.routineSort.value,
+              sortMethod: stores.routineStateController.routineSortMethod,
               onChangedSortMethod: onChangedSortMethod,
               onPressSortMethodOk: onPressSortMethodOk,
               isSearch: true,

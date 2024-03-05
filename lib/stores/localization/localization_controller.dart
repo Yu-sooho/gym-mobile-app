@@ -48,6 +48,8 @@ class ComponentButtonText {
   final String inquiry;
   final String latest;
   final String oldest;
+  final String startDatest;
+  final String endDatest;
   final String name;
   final String addToday;
   final String searchPlaceholder;
@@ -60,6 +62,8 @@ class ComponentButtonText {
       required this.inquiry,
       required this.latest,
       required this.oldest,
+      required this.endDatest,
+      required this.startDatest,
       required this.addToday,
       required this.name,
       required this.searchPlaceholder,
@@ -555,29 +559,35 @@ class LocalizationController extends GetxController {
   ComponentButtonText localiztionComponentButton() {
     if (language.value == 0) {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
-          save: ComponentButtonTextEn().save,
-          inquiry: ComponentButtonTextEn().inquiry,
-          latest: ComponentButtonTextEn().latest,
-          oldest: ComponentButtonTextEn().oldest,
-          name: ComponentButtonTextEn().name,
-          addToday: ComponentButtonTextEn().addToday,
-          searchPlaceholder: ComponentButtonTextEn().searchPlaceholder,
-          add: ComponentButtonTextEn().add,
-          edit: ComponentButtonTextEn().edit,
-          delete: ComponentButtonTextEn().delete);
+        save: ComponentButtonTextEn().save,
+        inquiry: ComponentButtonTextEn().inquiry,
+        latest: ComponentButtonTextEn().latest,
+        oldest: ComponentButtonTextEn().oldest,
+        name: ComponentButtonTextEn().name,
+        addToday: ComponentButtonTextEn().addToday,
+        searchPlaceholder: ComponentButtonTextEn().searchPlaceholder,
+        add: ComponentButtonTextEn().add,
+        edit: ComponentButtonTextEn().edit,
+        delete: ComponentButtonTextEn().delete,
+        endDatest: ComponentButtonTextEn().endDatest,
+        startDatest: ComponentButtonTextEn().startDatest,
+      );
       return localiztionButtonText;
     } else {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
-          save: ComponentButtonTextKr().save,
-          inquiry: ComponentButtonTextKr().inquiry,
-          latest: ComponentButtonTextKr().latest,
-          oldest: ComponentButtonTextKr().oldest,
-          name: ComponentButtonTextKr().name,
-          addToday: ComponentButtonTextKr().addToday,
-          searchPlaceholder: ComponentButtonTextKr().searchPlaceholder,
-          add: ComponentButtonTextKr().add,
-          edit: ComponentButtonTextKr().edit,
-          delete: ComponentButtonTextKr().delete);
+        save: ComponentButtonTextKr().save,
+        inquiry: ComponentButtonTextKr().inquiry,
+        latest: ComponentButtonTextKr().latest,
+        oldest: ComponentButtonTextKr().oldest,
+        name: ComponentButtonTextKr().name,
+        addToday: ComponentButtonTextKr().addToday,
+        searchPlaceholder: ComponentButtonTextKr().searchPlaceholder,
+        add: ComponentButtonTextKr().add,
+        edit: ComponentButtonTextKr().edit,
+        delete: ComponentButtonTextKr().delete,
+        endDatest: ComponentButtonTextKr().endDatest,
+        startDatest: ComponentButtonTextKr().startDatest,
+      );
       return localiztionButtonText;
     }
   }

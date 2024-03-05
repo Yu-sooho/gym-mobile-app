@@ -15,6 +15,8 @@ class RoutineStateController extends GetxController {
     localizationController.localiztionComponentButton().latest,
     localizationController.localiztionComponentButton().oldest,
     localizationController.localiztionComponentButton().name,
+    localizationController.localiztionComponentButton().startDatest,
+    localizationController.localiztionComponentButton().endDatest,
   ].obs;
   RxInt routineSort = 0.obs;
 }

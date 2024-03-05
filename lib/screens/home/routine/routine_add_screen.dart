@@ -277,7 +277,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'name': routineName,
         'routineCycle': '$routineCycle',
         'exercises': selectExercise,
-        'startDate': _selectedDate != null ? '$_selectedDate' : null
+        'startDate': _selectedDate != null ? '$_selectedDate' : null,
+        'endDate': null
       });
       final result =
           await networkProviders.routineProvider.getRoutineList(limit: 1);
