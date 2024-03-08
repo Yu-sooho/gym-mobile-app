@@ -92,15 +92,6 @@ class _HomeCalendarState extends State<HomeCalendar> {
     return null;
   }
 
-  Map<String, Color> routineColors = {}; // 루틴 이름에 따른 색상을 저장하는 맵
-  List<Color> availableColors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.orange,
-    Colors.purple
-  ]; // 사용 가능한 색상
-
   Widget buildMarker(BuildContext context, DateTime day, List<dynamic> events) {
     final List<Routine>? routines = stores.routineStateController
         .calendarRoutineList['${widget.nowDate.year}']?.list;
@@ -126,7 +117,6 @@ class _HomeCalendarState extends State<HomeCalendar> {
           ? startDate.subtract(Duration(days: startDayOfWeek))
           : startDate.add(Duration(days: 7 - startDayOfWeek));
 
-      // 현재 날짜가 속한 주차 계산
       int weeksSinceStart = ((day.difference(weekStart).inDays) / 7).floor();
       if (weeksSinceStart < 0 || (endDate != null && day.isAfter(endDate))) {
         continue;
@@ -282,25 +272,4 @@ Widget dayWeeks() {
           dayText('SAT'),
         ]),
       )));
-}
-
-String getDayOfWeek(int weekday) {
-  switch (weekday) {
-    case 1:
-      return '월요일';
-    case 2:
-      return '화요일';
-    case 3:
-      return '수요일';
-    case 4:
-      return '목요일';
-    case 5:
-      return '금요일';
-    case 6:
-      return '토요일';
-    case 7:
-      return '일요일';
-    default:
-      return '';
-  }
 }
