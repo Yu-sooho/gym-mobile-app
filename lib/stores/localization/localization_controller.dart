@@ -10,6 +10,7 @@ import 'package:gym_calendar/stores/localization/login_screen_text.dart';
 import 'package:gym_calendar/stores/localization/modal_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_edit_screen_text.dart';
 import 'package:gym_calendar/stores/localization/routine_add_screen_text.dart';
+import 'package:gym_calendar/stores/localization/routine_cycle_screen_text.dart';
 import 'package:gym_calendar/stores/localization/routine_screen_text.dart';
 import 'package:gym_calendar/stores/localization/setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/profile_screen_text.dart';
@@ -56,6 +57,7 @@ class ComponentButtonText {
   final String add;
   final String delete;
   final String edit;
+  final String complete;
 
   ComponentButtonText(
       {required this.save,
@@ -69,7 +71,8 @@ class ComponentButtonText {
       required this.searchPlaceholder,
       required this.add,
       required this.delete,
-      required this.edit});
+      required this.edit,
+      required this.complete});
 }
 
 class SettingScreenText {
@@ -375,6 +378,18 @@ class ExerciseScreenText {
   });
 }
 
+class RoutineCycleScreenText {
+  final String title;
+  final String subTitle;
+  final String week;
+  final List<String> weekday;
+  RoutineCycleScreenText(
+      {required this.title,
+      required this.subTitle,
+      required this.week,
+      required this.weekday});
+}
+
 class LocalizationController extends GetxController {
   final storage = FlutterSecureStorage();
   RxInt language = 1.obs;
@@ -559,35 +574,35 @@ class LocalizationController extends GetxController {
   ComponentButtonText localiztionComponentButton() {
     if (language.value == 0) {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
-        save: ComponentButtonTextEn().save,
-        inquiry: ComponentButtonTextEn().inquiry,
-        latest: ComponentButtonTextEn().latest,
-        oldest: ComponentButtonTextEn().oldest,
-        name: ComponentButtonTextEn().name,
-        addToday: ComponentButtonTextEn().addToday,
-        searchPlaceholder: ComponentButtonTextEn().searchPlaceholder,
-        add: ComponentButtonTextEn().add,
-        edit: ComponentButtonTextEn().edit,
-        delete: ComponentButtonTextEn().delete,
-        endDatest: ComponentButtonTextEn().endDatest,
-        startDatest: ComponentButtonTextEn().startDatest,
-      );
+          save: ComponentButtonTextEn().save,
+          inquiry: ComponentButtonTextEn().inquiry,
+          latest: ComponentButtonTextEn().latest,
+          oldest: ComponentButtonTextEn().oldest,
+          name: ComponentButtonTextEn().name,
+          addToday: ComponentButtonTextEn().addToday,
+          searchPlaceholder: ComponentButtonTextEn().searchPlaceholder,
+          add: ComponentButtonTextEn().add,
+          edit: ComponentButtonTextEn().edit,
+          delete: ComponentButtonTextEn().delete,
+          endDatest: ComponentButtonTextEn().endDatest,
+          startDatest: ComponentButtonTextEn().startDatest,
+          complete: ComponentButtonTextEn().complete);
       return localiztionButtonText;
     } else {
       ComponentButtonText localiztionButtonText = ComponentButtonText(
-        save: ComponentButtonTextKr().save,
-        inquiry: ComponentButtonTextKr().inquiry,
-        latest: ComponentButtonTextKr().latest,
-        oldest: ComponentButtonTextKr().oldest,
-        name: ComponentButtonTextKr().name,
-        addToday: ComponentButtonTextKr().addToday,
-        searchPlaceholder: ComponentButtonTextKr().searchPlaceholder,
-        add: ComponentButtonTextKr().add,
-        edit: ComponentButtonTextKr().edit,
-        delete: ComponentButtonTextKr().delete,
-        endDatest: ComponentButtonTextKr().endDatest,
-        startDatest: ComponentButtonTextKr().startDatest,
-      );
+          save: ComponentButtonTextKr().save,
+          inquiry: ComponentButtonTextKr().inquiry,
+          latest: ComponentButtonTextKr().latest,
+          oldest: ComponentButtonTextKr().oldest,
+          name: ComponentButtonTextKr().name,
+          addToday: ComponentButtonTextKr().addToday,
+          searchPlaceholder: ComponentButtonTextKr().searchPlaceholder,
+          add: ComponentButtonTextKr().add,
+          edit: ComponentButtonTextKr().edit,
+          delete: ComponentButtonTextKr().delete,
+          endDatest: ComponentButtonTextKr().endDatest,
+          startDatest: ComponentButtonTextKr().startDatest,
+          complete: ComponentButtonTextKr().complete);
       return localiztionButtonText;
     }
   }
@@ -817,6 +832,26 @@ class LocalizationController extends GetxController {
           startDateHintText: RoutineAddScreenTextKr().startDateHintText,
           routineCycle: RoutineAddScreenTextKr().routineCycle);
       return routineAddScreenText;
+    }
+  }
+
+  RoutineCycleScreenText localiztionRoutineCycleScreen() {
+    if (language.value == 0) {
+      RoutineCycleScreenText routineCycleScreenText = RoutineCycleScreenText(
+        title: RoutineCycleScreenTextEn().title,
+        subTitle: RoutineCycleScreenTextEn().subTitle,
+        week: RoutineCycleScreenTextEn().week,
+        weekday: RoutineCycleScreenTextEn().weekday,
+      );
+      return routineCycleScreenText;
+    } else {
+      RoutineCycleScreenText routineCycleScreenText = RoutineCycleScreenText(
+        title: RoutineCycleScreenTextKr().title,
+        subTitle: RoutineCycleScreenTextKr().subTitle,
+        week: RoutineCycleScreenTextKr().week,
+        weekday: RoutineCycleScreenTextKr().weekday,
+      );
+      return routineCycleScreenText;
     }
   }
 }

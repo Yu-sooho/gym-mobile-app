@@ -11,6 +11,8 @@ class RoutineStateController extends GetxController {
   QueryDocumentSnapshot<Object?>? startAfterRoutine;
   bool endRoutineList = false;
 
+  RxMap<String, RoutineList> calendarRoutineList = RxMap<String, RoutineList>();
+
   late RxList<String> routineSortMethod = [
     localizationController.localiztionComponentButton().latest,
     localizationController.localiztionComponentButton().oldest,

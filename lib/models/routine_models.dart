@@ -5,8 +5,8 @@ class Routine {
   String id;
   String uid;
   String name;
-  String? startDate;
-  String? endDate;
+  Timestamp? startDate;
+  Timestamp? endDate;
   int? executionCount;
   int? allCount;
   String? routineCycle;
@@ -14,6 +14,7 @@ class Routine {
   Timestamp createdAt;
   Timestamp? updatedAt;
   String? docName;
+  List<Timestamp>? executionDate;
 
   Routine(
       {required this.id,
@@ -21,6 +22,7 @@ class Routine {
       required this.name,
       required this.exercises,
       required this.createdAt,
+      this.executionDate,
       this.updatedAt,
       this.executionCount,
       this.routineCycle,

@@ -68,7 +68,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       if (maxScroll - currentScroll <= delta) {
         bool isTop = _controller.position.pixels == 0;
         if (isTop) {
-          print('At the top');
+          // print('At the top');
         } else if (_controller.position.pixels >=
             _controller.position.maxScrollExtent - 20) {
           getMuscleList();
@@ -274,7 +274,6 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
       }, docName);
       final result =
           await networkProviders.exerciseProvider.getExerciseList(limit: 1);
-      print(result);
       if (result.list.isNotEmpty) {
         final temp = stores.exerciseStateController.exerciseList
             .indexWhere((element) => element.id == widget.exercise?.id);

@@ -5,6 +5,7 @@ import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/screens/home/package_home.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/utils/package_util.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -91,21 +92,10 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   void isEditSetting() {
     _titleController.text = widget.routine!.name;
-    print(widget.routine!.routineCycle);
-
-    List<List<dynamic>> cycle = widget.routine!.routineCycle!
-        .split("#")
-        .map((string) => string
-            .replaceAll("[", "")
-            .replaceAll("]", "")
-            .split(",")
-            .map(int.parse)
-            .toList())
-        .toList();
 
     if (widget.routine!.startDate != null) {
       setState(() {
-        _selectedDate = DateTime.parse(widget.routine!.startDate ?? '');
+        _selectedDate = widget.routine!.startDate?.toDate();
       });
     }
     if (widget.routine?.exercises != null) {
@@ -118,7 +108,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     }
     setState(() {
       routineName = widget.routine!.name;
-      routineCycle = cycle;
+      routineCycle =
+          Math().convertedRecycle(widget.routine?.routineCycle ?? '');
     });
   }
 
@@ -272,13 +263,17 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   void onPressAdd(BuildContext context) async {
     try {
       stores.appStateController.setIsLoading(true, context);
+      print('$routineCycle fufufu');
 
       await networkProviders.routineProvider.postCustomRoutine({
         'name': routineName,
         'routineCycle': '$routineCycle',
         'exercises': selectExercise,
-        'startDate': _selectedDate != null ? '$_selectedDate' : null,
-        'endDate': null
+        'startDate':
+            _selectedDate != null ? DateTime.parse('$_selectedDate') : null,
+        'endDate': null,
+        'isEnded': null,
+        'executionDate': null,
       });
       final result =
           await networkProviders.routineProvider.getRoutineList(limit: 1);
@@ -309,7 +304,11 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'name': routineName,
         'routineCycle': '$routineCycle',
         'exercises': selectExercise,
-        'startDate': _selectedDate != null ? '$_selectedDate' : null
+        'startDate':
+            _selectedDate != null ? DateTime.parse('$_selectedDate') : null,
+        'endDate': null,
+        'isEnded': null,
+        'executionDate': null,
       }, docName);
       final result =
           await networkProviders.routineProvider.getRoutineList(limit: 1);
@@ -582,6 +581,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     setState(() {
       routineCycle = list;
     });
+
     Navigator.pop(context);
   }
 

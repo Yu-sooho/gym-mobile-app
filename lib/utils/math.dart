@@ -34,4 +34,25 @@ class Math {
 
     return payloadMap;
   }
+
+  List<List<int?>> convertedRecycle(String str) {
+    String cleanedString = str.replaceAll(' ', '');
+    List<String> subLists =
+        cleanedString.substring(1, cleanedString.length - 1).split("],[");
+    List<List<int?>> result = subLists.map((subList) {
+      List<int?> sublistValues = subList
+          .split(",")
+          .map((item) {
+            String trimmedItem = item.replaceAll('[', '').replaceAll(']', '');
+            if (trimmedItem.isNotEmpty) {
+              return int.parse(trimmedItem);
+            }
+          })
+          .where((item) => item != null)
+          .toList(); // null이 아닌 요소만 필터링하여 리스트 생성
+      return sublistValues;
+    }).toList();
+
+    return result;
+  }
 }

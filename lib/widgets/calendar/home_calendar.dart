@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/models/routine_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/utils/package_util.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -10,10 +15,15 @@ class HomeCalendar extends StatefulWidget {
   final Function(DateTime?) onChangedSelectedDate;
   final Function(double)? onChangedSize;
   final Function(int)? onChangedLength;
+  final Function(DateTime)? onPageChanged;
+  final DateTime nowDate;
+
   HomeCalendar(
       {super.key,
       required this.onChangedSelectedDate,
+      required this.nowDate,
       this.onChangedSize,
+      this.onPageChanged,
       this.onChangedLength});
 
   @override
@@ -33,6 +43,9 @@ class _HomeCalendarState extends State<HomeCalendar> {
   final GlobalKey calendarkey = GlobalKey();
 
   onPageChanged(DateTime dateTime) {
+    if (widget.onPageChanged != null) {
+      widget.onPageChanged!(dateTime);
+    }
     setState(() {
       focusedDay = dateTime;
     });
@@ -79,6 +92,72 @@ class _HomeCalendarState extends State<HomeCalendar> {
     return null;
   }
 
+  Map<String, Color> routineColors = {}; // 루틴 이름에 따른 색상을 저장하는 맵
+  List<Color> availableColors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.purple
+  ]; // 사용 가능한 색상
+
+  Widget buildMarker(BuildContext context, DateTime day, List<dynamic> events) {
+    final List<Routine>? routines = stores.routineStateController
+        .calendarRoutineList['${widget.nowDate.year}']?.list;
+
+    if (routines == null) return SizedBox();
+
+    List<Widget> markers = [];
+
+    for (var routine in routines) {
+      if (routine.routineCycle == null || routine.startDate == null) continue;
+
+      final startDate = routine.startDate!.toDate();
+      final DateTime? endDate =
+          routine.endDate != null ? routine.endDate!.toDate() : null;
+      final List<List<int?>> cycleArray =
+          Math().convertedRecycle(routine.routineCycle!);
+
+      if (cycleArray.isEmpty) continue;
+
+      int startDayOfWeek = startDate.weekday - 1;
+      bool sameWeekStart = cycleArray[0].contains(startDayOfWeek);
+      DateTime weekStart = sameWeekStart
+          ? startDate.subtract(Duration(days: startDayOfWeek))
+          : startDate.add(Duration(days: 7 - startDayOfWeek));
+
+      // 현재 날짜가 속한 주차 계산
+      int weeksSinceStart = ((day.difference(weekStart).inDays) / 7).floor();
+      if (weeksSinceStart < 0 || (endDate != null && day.isAfter(endDate))) {
+        continue;
+      }
+
+      int cycleWeekIndex = weeksSinceStart % cycleArray.length;
+      int dayOfWeekIndex = day.weekday - 1;
+
+      if (cycleArray[cycleWeekIndex].contains(dayOfWeekIndex)) {
+        markers.add(Container(
+          margin: EdgeInsets.symmetric(horizontal: 1),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: _getRoutineColor(routine),
+          ),
+          width: 7,
+          height: 7,
+        ));
+      }
+    }
+
+    return Row(mainAxisSize: MainAxisSize.min, children: markers);
+  }
+
+  Color _getRoutineColor(Routine routine) {
+    int hash = routine.id.hashCode;
+    Random random = Random(hash);
+    return Color.fromARGB(
+        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+  }
+
   @override
   Widget build(BuildContext context) {
     return (Stack(
@@ -98,7 +177,14 @@ class _HomeCalendarState extends State<HomeCalendar> {
             onPageChanged: onPageChanged,
             headerVisible: false,
             daysOfWeekVisible: false,
+            calendarBuilders: CalendarBuilders(
+              markerBuilder: buildMarker,
+            ),
             calendarStyle: CalendarStyle(
+                markerDecoration: BoxDecoration(
+                  color: Colors.blue, // 점의 색상 설정
+                  shape: BoxShape.circle, // 점의 모양 설정
+                ),
                 todayDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: stores.colorController
@@ -196,4 +282,25 @@ Widget dayWeeks() {
           dayText('SAT'),
         ]),
       )));
+}
+
+String getDayOfWeek(int weekday) {
+  switch (weekday) {
+    case 1:
+      return '월요일';
+    case 2:
+      return '화요일';
+    case 3:
+      return '수요일';
+    case 4:
+      return '목요일';
+    case 5:
+      return '금요일';
+    case 6:
+      return '토요일';
+    case 7:
+      return '일요일';
+    default:
+      return '';
+  }
 }

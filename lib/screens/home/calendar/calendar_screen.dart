@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:intl/intl.dart';
@@ -14,9 +15,11 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   Stores stores = Stores();
+  NetworkProviders networkProviders = NetworkProviders();
 
   final _controller = ScrollController();
   DateTime? selectedDay;
+  DateTime nowDate = DateTime.now();
 
   Future onRefresh() async {}
 
@@ -35,8 +38,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
+    init();
     calendarMinHeight = calendarMinHeight + insetSize + dateTextSize;
     calendarMaxHeight = calendarMaxHeight + insetSize + dateTextSize;
+  }
+
+  init() async {
+    final result = await networkProviders.routineProvider
+        .getRoutineInCalendar(year: DateTime.now().year);
+    if (stores.routineStateController.calendarRoutineList.isEmpty &&
+        result != null) {
+      stores.routineStateController.calendarRoutineList.value = {
+        '${DateTime.now().year}': result,
+      };
+    }
   }
 
   onChangedLength(int length) {
@@ -52,6 +67,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   onPressAdd() {}
+
+  onPageChanged(DateTime dateTime) {
+    // print(dateTime);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +88,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               onChangedSelectedDate: onChangedSelectedDate,
               onChangedSize: onChangedSize,
               onChangedLength: onChangedLength,
+              onPageChanged: onPageChanged,
+              nowDate: nowDate,
             ),
             header(selectedDay ?? DateTime.now(), dateTextSize),
             Padding(

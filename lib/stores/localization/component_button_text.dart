@@ -11,6 +11,7 @@ class ComponentButtonTextKr {
   String delete = '삭제';
   String endDatest = '종료일순';
   String startDatest = '시작일순';
+  String complete = '완료';
 }
 
 class ComponentButtonTextEn {
@@ -26,4 +27,5 @@ class ComponentButtonTextEn {
   String delete = '삭제';
   String endDatest = '종료일순';
   String startDatest = '시작일순';
+  String complete = '완료';
 }

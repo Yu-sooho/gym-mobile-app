@@ -55,7 +55,7 @@ class _RoutineCycleScreen extends State<RoutineCycleScreen> {
 
   onPressAdd() {
     setState(() {
-      selected.add([]);
+      selected.add(<int>[]);
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_controller.hasClients) {
@@ -89,7 +89,9 @@ class _RoutineCycleScreen extends State<RoutineCycleScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '루틴 주기',
+                  stores.localizationController
+                      .localiztionRoutineCycleScreen()
+                      .title,
                   style: stores.fontController.customFont().bold14.copyWith(
                       color: stores.colorController
                           .customColor()
@@ -109,7 +111,10 @@ class _RoutineCycleScreen extends State<RoutineCycleScreen> {
               ],
             ),
             SizedBox(height: 4),
-            Text('루틴 시행 요일을 선택하세요',
+            Text(
+                stores.localizationController
+                    .localiztionRoutineCycleScreen()
+                    .subTitle,
                 style: stores.fontController.customFont().medium12.copyWith(
                     color: stores.colorController
                         .customColor()
@@ -171,7 +176,9 @@ class _RoutineCycleScreen extends State<RoutineCycleScreen> {
                           width: 68,
                           height: 32,
                           child: Text(
-                            '완료',
+                            stores.localizationController
+                                .localiztionComponentButton()
+                                .complete,
                             style: stores.fontController
                                 .customFont()
                                 .bold12
@@ -204,14 +211,15 @@ class HorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = ['월', '화', '수', '목', '금', '토', '일'];
-    print(selected);
+    final data =
+        stores.localizationController.localiztionRoutineCycleScreen().weekday;
     return (SizedBox(
       height: 54,
       child: Column(children: [
         SizedBox(
           width: double.infinity,
-          child: Text('${week + 1}주차',
+          child: Text(
+              '${week + 1}${stores.localizationController.localiztionRoutineCycleScreen().week}',
               style: stores.fontController.customFont().bold12.copyWith(
                   color:
                       stores.colorController.customColor().defaultBackground1)),

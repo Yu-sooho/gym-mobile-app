@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gym_calendar/utils/package_util.dart';
 import 'package:intl/intl.dart';
 
 class RoutineListItem extends StatefulWidget {
@@ -94,15 +95,9 @@ class _RoutineListItem extends State<RoutineListItem> {
     final bool isSelected = widget.isSelected ?? false;
     final bool isCanSelected = widget.isCanSelected ?? false;
 
-    List<List<int>> routineCycle = widget.item.routineCycle!
-        .split("#")
-        .map((string) => string
-            .replaceAll("[", "")
-            .replaceAll("]", "")
-            .split(",")
-            .map(int.parse)
-            .toList())
-        .toList();
+    List<List<int?>> routineCycle =
+        Math().convertedRecycle(widget.item.routineCycle ?? '');
+
     final totalItems = routineCycle.expand((innerList) => innerList).length;
 
     return Material(
@@ -412,9 +407,9 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                             .localizationController
                                                             .localiztionRoutineAddScreen()
                                                             .dateFormat)
-                                                        .format(DateTime.parse(
-                                                            widget.item
-                                                                .startDate!))
+                                                        .format(widget
+                                                            .item.startDate!
+                                                            .toDate())
                                                     : '-',
                                                 style: stores.fontController
                                                     .customFont()
@@ -489,9 +484,9 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                             .localizationController
                                                             .localiztionRoutineAddScreen()
                                                             .dateFormat)
-                                                        .format(DateTime.parse(
-                                                            widget
-                                                                .item.endDate!))
+                                                        .format(widget
+                                                            .item.endDate!
+                                                            .toDate())
                                                     : '-',
                                                 style: stores.fontController
                                                     .customFont()
