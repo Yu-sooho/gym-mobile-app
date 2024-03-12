@@ -200,14 +200,28 @@ class _RoutineListItem extends State<RoutineListItem> {
                               : SizedBox(
                                   width: 18,
                                 ),
-                          Text(widget.item.name,
-                              style: stores.fontController
-                                  .customFont()
-                                  .bold14
-                                  .copyWith(
-                                      color: stores.colorController
-                                          .customColor()
-                                          .buttonActiveColor)),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 6),
+                                child: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: stringToColor(widget.item.color)),
+                                ),
+                              ),
+                              Text(widget.item.name,
+                                  style: stores.fontController
+                                      .customFont()
+                                      .bold14
+                                      .copyWith(
+                                          color: stores.colorController
+                                              .customColor()
+                                              .buttonActiveColor)),
+                            ],
+                          ),
                           Expanded(
                             child: Align(
                               alignment: Alignment.centerRight,

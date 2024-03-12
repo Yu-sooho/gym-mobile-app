@@ -2,6 +2,7 @@ class RoutineAddScreenTextKr {
   String title = '루틴 추가';
   String editTitle = '루틴 수정';
   String inputTitle = '루틴 이름';
+  String colorTitle = '루틴 색상';
   String inputTitlePlaceholder = '20자 이하';
   String exercisePlaceholder = '선택';
   String success = '루틴이 추가되었습니다.';
@@ -36,6 +37,7 @@ class RoutineAddScreenTextEn {
   String title = '루틴 추가';
   String editTitle = '루틴 수정';
   String inputTitle = '루틴 이름';
+  String colorTitle = '루틴 색상';
   String inputTitlePlaceholder = '20자 이하';
   String exercisePlaceholder = '선택';
   String success = '루틴이 추가되었습니다.';

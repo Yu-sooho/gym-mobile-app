@@ -26,6 +26,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   var isOpen = false;
   String routineName = '';
   String searchKeyword = '';
+  late Color selectedColor;
 
   int limit = 10;
   bool exerciseLoading = false;
@@ -83,6 +84,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       exerciseLoading = false;
       selectExercise = [];
       selectExerciseDetail = [];
+      selectedColor = stores.colorController.customColor().routineColors[0];
     });
     if (widget.routine != null) {
       isEditSetting();
@@ -92,6 +94,11 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   void isEditSetting() {
     _titleController.text = widget.routine!.name;
+    if (widget.routine?.color != null) {
+      setState(() {
+        selectedColor = stringToColor(widget.routine!.color);
+      });
+    }
 
     if (widget.routine!.startDate != null) {
       setState(() {
@@ -263,12 +270,12 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   void onPressAdd(BuildContext context) async {
     try {
       stores.appStateController.setIsLoading(true, context);
-      print('$routineCycle fufufu');
 
       await networkProviders.routineProvider.postCustomRoutine({
         'name': routineName,
         'routineCycle': '$routineCycle',
         'exercises': selectExercise,
+        'color': colorToString(selectedColor),
         'startDate':
             _selectedDate != null ? DateTime.parse('$_selectedDate') : null,
         'endDate': null,
@@ -304,6 +311,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'name': routineName,
         'routineCycle': '$routineCycle',
         'exercises': selectExercise,
+        'color': colorToString(selectedColor),
         'startDate':
             _selectedDate != null ? DateTime.parse('$_selectedDate') : null,
         'endDate': null,
@@ -524,12 +532,60 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     ));
   }
 
-  void onPressExerciseAdd(BuildContext context) {
+  onPressExerciseAdd(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => ExerciseAddScreen(),
           settings: RouteSettings(name: 'exerciseAdd')),
+    );
+  }
+
+  onChanged(String value) {
+    stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
+    stores.exerciseStateController.startAfter = null;
+    stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
+    stores.exerciseStateController.endExerciseList = false;
+    setState(() {
+      searchKeyword = value;
+    });
+
+    getExerciseList();
+  }
+
+  onPressSaveCycle(BuildContext context, List<List> list) {
+    setState(() {
+      routineCycle = list;
+    });
+
+    Navigator.pop(context);
+  }
+
+  onPressCycle(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => RoutineCycleScreen(
+        onPress: onPressSaveCycle,
+        initRoutine: routineCycle,
+      ),
+    );
+  }
+
+  onPressSaveColor(BuildContext context, Color color) {
+    setState(() {
+      selectedColor = color;
+    });
+
+    Navigator.pop(context);
+  }
+
+  onPressColor() {
+    showDialog(
+      context: context,
+      builder: (context) => RoutineColorScreen(
+        onPress: onPressSaveColor,
+        initColor: selectedColor,
+      ),
     );
   }
 
@@ -565,36 +621,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         )));
   }
 
-  void onChanged(String value) {
-    stores.exerciseStateController.exerciseSort = tempSelectedSort.obs;
-    stores.exerciseStateController.startAfter = null;
-    stores.exerciseStateController.exerciseList = RxList<Exercise>.empty();
-    stores.exerciseStateController.endExerciseList = false;
-    setState(() {
-      searchKeyword = value;
-    });
-
-    getExerciseList();
-  }
-
-  void onPressSaveCycle(BuildContext context, List<List> list) {
-    setState(() {
-      routineCycle = list;
-    });
-
-    Navigator.pop(context);
-  }
-
-  onPressCycle(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => RoutineCycleScreen(
-        onPress: onPressSaveCycle,
-        initRoutine: routineCycle,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeAreaView(
@@ -616,30 +642,81 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
           children: [
             addButton(context),
             Padding(
-              padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
-              child: SizedBox(
-                  height: 32,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      stores.localizationController
-                          .localiztionRoutineAddScreen()
-                          .inputTitle,
-                      style: stores.fontController.customFont().bold12,
-                    ),
+              padding: EdgeInsets.only(right: 20),
+              child: Row(
+                children: [
+                  Flexible(
+                      child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(16, 8, 0, 0),
+                        child: SizedBox(
+                            height: 32,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                stores.localizationController
+                                    .localiztionRoutineAddScreen()
+                                    .inputTitle,
+                                style:
+                                    stores.fontController.customFont().bold12,
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                          child: CustomTextInput(
+                        controller: _titleController,
+                        maxLength: 20,
+                        counterText: '',
+                        placeholder: widget.routine?.name ??
+                            stores.localizationController
+                                .localiztionRoutineAddScreen()
+                                .inputTitlePlaceholder,
+                        onChanged: onChangedTitle,
+                      )),
+                    ],
                   )),
+                  SizedBox(
+                      child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+                        child: SizedBox(
+                            height: 32,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                stores.localizationController
+                                    .localiztionRoutineAddScreen()
+                                    .colorTitle,
+                                style:
+                                    stores.fontController.customFont().bold12,
+                              ),
+                            )),
+                      ),
+                      CustomButton(
+                          onPress: onPressColor,
+                          child: SizedBox(
+                              width: 48,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
+                                child: Align(
+                                    // 여기 Align 위젯을 추가합니다.
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: selectedColor,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      width: 10,
+                                      height: 10,
+                                    )),
+                              )))
+                    ],
+                  ))
+                ],
+              ),
             ),
-            SizedBox(
-                child: CustomTextInput(
-              controller: _titleController,
-              maxLength: 20,
-              counterText: '',
-              placeholder: widget.routine?.name ??
-                  stores.localizationController
-                      .localiztionRoutineAddScreen()
-                      .inputTitlePlaceholder,
-              onChanged: onChangedTitle,
-            )),
             Padding(
               padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
               child: SizedBox(

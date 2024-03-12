@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/routine_models.dart';
+import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/utils/package_util.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
@@ -32,6 +31,7 @@ class HomeCalendar extends StatefulWidget {
 
 class _HomeCalendarState extends State<HomeCalendar> {
   final Stores stores = Get.put(Stores());
+  NetworkProviders networkProviders = NetworkProviders();
 
   DateTime now = DateTime.now();
   DateTime last = DateTime(DateTime.now().year + 20, 12, 31);
@@ -41,6 +41,23 @@ class _HomeCalendarState extends State<HomeCalendar> {
   DateTime? selectedDay;
 
   final GlobalKey calendarkey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    final result = await networkProviders.routineProvider
+        .getRoutineInCalendar(year: DateTime.now().year);
+    if (stores.routineStateController.calendarRoutineList.isEmpty &&
+        result != null) {
+      stores.routineStateController.calendarRoutineList.value = {
+        '${DateTime.now().year}': result,
+      };
+    }
+  }
 
   onPageChanged(DateTime dateTime) {
     if (widget.onPageChanged != null) {
@@ -89,7 +106,15 @@ class _HomeCalendarState extends State<HomeCalendar> {
       selectedDay = DateTime.now();
       widget.onChangedSelectedDate(DateTime.now());
     });
-    return null;
+    stores.appStateController.isLoading.value = true;
+    final result = await networkProviders.routineProvider
+        .getRoutineInCalendar(year: DateTime.now().year);
+    if (result != null) {
+      stores.routineStateController.calendarRoutineList.value = {
+        '${DateTime.now().year}': result,
+      };
+    }
+    stores.appStateController.isLoading.value = false;
   }
 
   Widget buildMarker(BuildContext context, DateTime day, List<dynamic> events) {
@@ -129,9 +154,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
         markers.add(Container(
           margin: EdgeInsets.symmetric(horizontal: 1),
           decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: _getRoutineColor(routine),
-          ),
+              shape: BoxShape.circle, color: stringToColor(routine.color)),
           width: 7,
           height: 7,
         ));
@@ -139,13 +162,6 @@ class _HomeCalendarState extends State<HomeCalendar> {
     }
 
     return Row(mainAxisSize: MainAxisSize.min, children: markers);
-  }
-
-  Color _getRoutineColor(Routine routine) {
-    int hash = routine.id.hashCode;
-    Random random = Random(hash);
-    return Color.fromARGB(
-        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
   }
 
   @override

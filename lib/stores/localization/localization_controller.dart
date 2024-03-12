@@ -292,6 +292,7 @@ class RoutineAddScreenText {
   final String title;
   final String editTitle;
   final String inputTitle;
+  final String colorTitle;
   final String inputTitlePlaceholder;
   final String exercisePlaceholder;
   final String success;
@@ -324,6 +325,7 @@ class RoutineAddScreenText {
       {required this.title,
       required this.editTitle,
       required this.inputTitle,
+      required this.colorTitle,
       required this.inputTitlePlaceholder,
       required this.exercisePlaceholder,
       required this.success,
@@ -771,6 +773,7 @@ class LocalizationController extends GetxController {
           title: RoutineAddScreenTextEn().title,
           editTitle: RoutineAddScreenTextEn().editTitle,
           inputTitle: RoutineAddScreenTextEn().inputTitle,
+          colorTitle: RoutineAddScreenTextEn().colorTitle,
           inputTitlePlaceholder: RoutineAddScreenTextEn().inputTitlePlaceholder,
           exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
           success: RoutineAddScreenTextEn().success,
@@ -804,6 +807,7 @@ class LocalizationController extends GetxController {
           title: RoutineAddScreenTextKr().title,
           editTitle: RoutineAddScreenTextKr().editTitle,
           inputTitle: RoutineAddScreenTextKr().inputTitle,
+          colorTitle: RoutineAddScreenTextKr().colorTitle,
           inputTitlePlaceholder: RoutineAddScreenTextKr().inputTitlePlaceholder,
           exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
           success: RoutineAddScreenTextKr().success,

@@ -53,8 +53,26 @@ class Main extends StatelessWidget {
         GetPage(name: '/theme', page: () => ThemeScreen()),
         GetPage(name: '/inquriy', page: () => InquiryScreen()),
         GetPage(name: '/exerciseAdd', page: () => ExerciseAddScreen()),
-        GetPage(name: '/routineAdd', page: () => RoutineAddScreen()),
+        GetPage(name: '/nnnnnAdd', page: () => RoutineAddScreen()),
       ],
+      builder: (context, child) {
+        return Stack(
+          children: [
+            child ?? SizedBox.shrink(),
+            Obx(() => stores.appStateController.isLoading.value
+                ? Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.black.withOpacity(0.5),
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.white,
+                    )),
+                  )
+                : SizedBox.shrink()),
+          ],
+        );
+      },
     );
   }
 }

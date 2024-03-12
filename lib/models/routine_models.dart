@@ -5,6 +5,7 @@ class Routine {
   String id;
   String uid;
   String name;
+  String color;
   Timestamp? startDate;
   Timestamp? endDate;
   int? executionCount;
@@ -22,6 +23,7 @@ class Routine {
       required this.name,
       required this.exercises,
       required this.createdAt,
+      required this.color,
       this.executionDate,
       this.updatedAt,
       this.executionCount,

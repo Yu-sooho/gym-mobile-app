@@ -38,20 +38,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
-    init();
     calendarMinHeight = calendarMinHeight + insetSize + dateTextSize;
     calendarMaxHeight = calendarMaxHeight + insetSize + dateTextSize;
-  }
-
-  init() async {
-    final result = await networkProviders.routineProvider
-        .getRoutineInCalendar(year: DateTime.now().year);
-    if (stores.routineStateController.calendarRoutineList.isEmpty &&
-        result != null) {
-      stores.routineStateController.calendarRoutineList.value = {
-        '${DateTime.now().year}': result,
-      };
-    }
   }
 
   onChangedLength(int length) {
