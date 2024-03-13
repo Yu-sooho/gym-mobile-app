@@ -134,13 +134,13 @@ class _HomeCalendarState extends State<HomeCalendar> {
       final List<List<int?>> cycleArray =
           Math().convertedRecycle(routine.routineCycle!);
 
-      if (cycleArray.isEmpty) continue;
+      if (cycleArray.isEmpty || cycleArray[0].isEmpty) continue;
 
-      int startDayOfWeek = startDate.weekday - 1;
-      bool sameWeekStart = cycleArray[0].contains(startDayOfWeek);
-      DateTime weekStart = sameWeekStart
-          ? startDate.subtract(Duration(days: startDayOfWeek))
-          : startDate.add(Duration(days: 7 - startDayOfWeek));
+      DateTime weekStart =
+          startDate.subtract(Duration(days: startDate.weekday - 1));
+      if (cycleArray[0].first! < startDate.weekday - 1) {
+        weekStart = weekStart.add(Duration(days: 7));
+      }
 
       int weeksSinceStart = ((day.difference(weekStart).inDays) / 7).floor();
       if (weeksSinceStart < 0 || (endDate != null && day.isAfter(endDate))) {
