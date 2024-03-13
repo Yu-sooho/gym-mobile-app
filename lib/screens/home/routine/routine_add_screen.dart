@@ -11,7 +11,8 @@ import 'package:intl/intl.dart';
 
 class RoutineAddScreen extends StatefulWidget {
   final Routine? routine;
-  RoutineAddScreen({super.key, this.routine});
+  final Function? updateRoutineInMap;
+  RoutineAddScreen({super.key, this.routine, this.updateRoutineInMap});
 
   @override
   State<RoutineAddScreen> createState() => _RoutineAddScreenState();
@@ -320,7 +321,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       }, docName);
       final result =
           await networkProviders.routineProvider.getRoutineList(limit: 1);
-      print(result);
       if (result.list.isNotEmpty) {
         final temp = stores.routineStateController.routineList
             .indexWhere((element) => element.id == widget.routine?.id);
@@ -333,6 +333,9 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       stores.appStateController.showToast(stores.localizationController
           .localiztionRoutineAddScreen()
           .editSuccess);
+      if (widget.updateRoutineInMap != null) {
+        widget.updateRoutineInMap!(result.list[0]);
+      }
       Navigator.pop(context);
     } catch (error) {
       print('routine_add_screen onPressEdit error:$error');
