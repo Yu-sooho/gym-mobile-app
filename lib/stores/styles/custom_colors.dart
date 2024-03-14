@@ -69,21 +69,6 @@ class CustomColorMode1 {
 
   Color buttonDefaultColor = CustomColors1().color01;
   Color deleteButtonColor = CustomColors1().color01;
-
-  List<Color> routineColors = [
-    CustomColors1().color11,
-    CustomColors1().color12,
-    CustomColors1().color13,
-    CustomColors1().color14,
-    CustomColors1().color15,
-    CustomColors1().color16,
-    CustomColors1().color21,
-    CustomColors1().color22,
-    CustomColors1().color23,
-    CustomColors1().color24,
-    CustomColors1().color25,
-    CustomColors1().color26,
-  ];
 }
 
 class CustomColorMode2 {
@@ -131,21 +116,6 @@ class CustomColorMode2 {
 
   Color buttonDefaultColor = CustomColors1().color01;
   Color deleteButtonColor = CustomColors1().color01;
-
-  List<Color> routineColors = [
-    CustomColors1().color11,
-    CustomColors1().color12,
-    CustomColors1().color13,
-    CustomColors1().color14,
-    CustomColors1().color15,
-    CustomColors1().color16,
-    CustomColors1().color21,
-    CustomColors1().color22,
-    CustomColors1().color23,
-    CustomColors1().color24,
-    CustomColors1().color25,
-    CustomColors1().color26,
-  ];
 }
 
 class CustomColorMode3 {
@@ -193,19 +163,4 @@ class CustomColorMode3 {
 
   Color buttonDefaultColor = CustomColors1().color01;
   Color deleteButtonColor = CustomColors1().color01;
-
-  List<Color> routineColors = [
-    CustomColors1().color11,
-    CustomColors1().color12,
-    CustomColors1().color13,
-    CustomColors1().color14,
-    CustomColors1().color15,
-    CustomColors1().color16,
-    CustomColors1().color21,
-    CustomColors1().color22,
-    CustomColors1().color23,
-    CustomColors1().color24,
-    CustomColors1().color25,
-    CustomColors1().color26,
-  ];
 }

@@ -72,8 +72,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
   }
 
-  onPressAdd() {}
-
   onPageChanged(DateTime dateTime) {
     // print(dateTime);
   }
@@ -155,6 +153,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
           builder: (_) => RoutineAddScreen(
                 routine: routine,
                 updateRoutineInMap: updateRoutineInMap,
+              )),
+    );
+  }
+
+  void onPressAddRoutineToday() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => RoutineAddScreen(
+                updateRoutineInMap: updateRoutineInMap,
+                startDate: selectedDay,
               )),
     );
   }
@@ -260,34 +269,33 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       onPageChanged: onPageChanged,
                       nowDate: nowDate,
                     ),
-                    header(selectedDay ?? DateTime.now(), dateTextSize),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      child: routineAddButton(onPressAdd),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    header(selectedDay ?? DateTime.now(), dateTextSize,
+                        routinesForDay.isNotEmpty, onPressAddRoutineToday),
                   ],
                 ),
                 children: [
-                  ListView.separated(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: routinesForDay.length,
-                    padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(
-                      height: 20,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return RoutineListItem(
-                          index: index,
-                          item: routinesForDay[index],
-                          onPressDelete: onPressDelete,
-                          onPressEdit: onPressEdit);
-                    },
-                  ),
+                  routinesForDay.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.fromLTRB(16, 2, 16, 8),
+                          child: routineAddButton(onPressAddRoutineToday),
+                        )
+                      : ListView.separated(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: routinesForDay.length,
+                          padding: EdgeInsets.fromLTRB(16, 2, 16, 0),
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const SizedBox(
+                            height: 20,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return RoutineListItem(
+                                index: index,
+                                item: routinesForDay[index],
+                                onPressDelete: onPressDelete,
+                                onPressEdit: onPressEdit);
+                          },
+                        ),
                 ]))));
   }
 }
@@ -339,18 +347,39 @@ Widget routineAddButton(Function() onPress) {
   ));
 }
 
-Widget header(DateTime date, double size) {
+Widget header(
+    DateTime date, double size, bool isHaveButton, Function()? onPress) {
   final Stores stores = Get.put(Stores());
   String formattedDate = DateFormat("yyyy년 MM월 dd일").format(date);
   return (SizedBox(
     height: size,
     child: Padding(
         padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Text(
-            formattedDate,
-            style: stores.fontController.customFont().medium14,
-          )
-        ])),
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                formattedDate,
+                style: stores.fontController.customFont().medium14,
+              ),
+              isHaveButton
+                  ? CustomButton(
+                      onPress: onPress,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: SizedBox(
+                          width: 32,
+                          child: Icon(
+                            Icons.add,
+                            color: stores.colorController
+                                .customColor()
+                                .defaultTextColor,
+                            size: 18,
+                          ),
+                        ),
+                      ))
+                  : SizedBox()
+            ])),
   ));
 }

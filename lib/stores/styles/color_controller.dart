@@ -44,41 +44,39 @@ class CustomColor {
   final Color deleteButtonColor;
   final Color buttonShadowColor;
 
-  final List<Color> routineColors;
-
-  CustomColor(
-      {required this.toastBackground,
-      required this.toastText,
-      required this.defaultBackground1,
-      required this.defaultBackground2,
-      required this.loadingSpinnerOpacity,
-      required this.loadingSpinnerColor,
-      required this.defaultTextColor,
-      required this.skeletonColor,
-      required this.skeletonColor2,
-      required this.buttonOpacity,
-      required this.buttonBorder,
-      required this.switchActiveColor,
-      required this.switchTrackColor,
-      required this.transparent,
-      required this.modalBackground,
-      required this.modalText,
-      required this.modalOk,
-      required this.modalCancel,
-      required this.errorText,
-      required this.textInputCursor,
-      required this.textInputFocusCursor,
-      required this.placeholder,
-      required this.bottomTabBarActiveItem,
-      required this.bottomTabBarItem,
-      required this.buttonActiveText,
-      required this.buttonInActiveText,
-      required this.buttonActiveColor,
-      required this.buttonInActiveColor,
-      required this.buttonDefaultColor,
-      required this.deleteButtonColor,
-      required this.buttonShadowColor,
-      required this.routineColors});
+  CustomColor({
+    required this.toastBackground,
+    required this.toastText,
+    required this.defaultBackground1,
+    required this.defaultBackground2,
+    required this.loadingSpinnerOpacity,
+    required this.loadingSpinnerColor,
+    required this.defaultTextColor,
+    required this.skeletonColor,
+    required this.skeletonColor2,
+    required this.buttonOpacity,
+    required this.buttonBorder,
+    required this.switchActiveColor,
+    required this.switchTrackColor,
+    required this.transparent,
+    required this.modalBackground,
+    required this.modalText,
+    required this.modalOk,
+    required this.modalCancel,
+    required this.errorText,
+    required this.textInputCursor,
+    required this.textInputFocusCursor,
+    required this.placeholder,
+    required this.bottomTabBarActiveItem,
+    required this.bottomTabBarItem,
+    required this.buttonActiveText,
+    required this.buttonInActiveText,
+    required this.buttonActiveColor,
+    required this.buttonInActiveColor,
+    required this.buttonDefaultColor,
+    required this.deleteButtonColor,
+    required this.buttonShadowColor,
+  });
 }
 
 class CustomColorController extends GetxController {
@@ -130,7 +128,6 @@ class CustomColorController extends GetxController {
         buttonDefaultColor: CustomColorMode1().buttonDefaultColor,
         deleteButtonColor: CustomColorMode1().deleteButtonColor,
         buttonShadowColor: CustomColorMode1().buttonShadowColor,
-        routineColors: CustomColorMode1().routineColors,
       );
       return customColor;
     } else if (colorType.value == 1) {
@@ -166,7 +163,6 @@ class CustomColorController extends GetxController {
         buttonDefaultColor: CustomColorMode2().buttonDefaultColor,
         deleteButtonColor: CustomColorMode2().deleteButtonColor,
         buttonShadowColor: CustomColorMode2().buttonShadowColor,
-        routineColors: CustomColorMode2().routineColors,
       );
       return customColor;
     } else {
@@ -202,7 +198,6 @@ class CustomColorController extends GetxController {
         buttonDefaultColor: CustomColorMode3().buttonDefaultColor,
         deleteButtonColor: CustomColorMode3().deleteButtonColor,
         buttonShadowColor: CustomColorMode3().buttonShadowColor,
-        routineColors: CustomColorMode3().routineColors,
       );
       return customColor;
     }

@@ -7,12 +7,15 @@ import 'package:gym_calendar/screens/home/package_home.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/utils/package_util.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:intl/intl.dart';
 
 class RoutineAddScreen extends StatefulWidget {
   final Routine? routine;
   final Function? updateRoutineInMap;
-  RoutineAddScreen({super.key, this.routine, this.updateRoutineInMap});
+  final DateTime? startDate;
+  RoutineAddScreen(
+      {super.key, this.routine, this.updateRoutineInMap, this.startDate});
 
   @override
   State<RoutineAddScreen> createState() => _RoutineAddScreenState();
@@ -28,6 +31,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   String routineName = '';
   String searchKeyword = '';
   late Color selectedColor;
+  late Color tempColor;
 
   int limit = 10;
   bool exerciseLoading = false;
@@ -63,7 +67,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       if (maxScroll - currentScroll <= delta) {
         bool isTop = _controller.position.pixels == 0;
         if (isTop) {
-          print('At the top');
+          // print('At the top');
         } else if (_controller.position.pixels >=
             _controller.position.maxScrollExtent - 20) {
           getExerciseList();
@@ -85,10 +89,14 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       exerciseLoading = false;
       selectExercise = [];
       selectExerciseDetail = [];
-      selectedColor = stores.colorController.customColor().routineColors[0];
+      selectedColor = stores.colorController.customColor().buttonActiveColor;
+      tempColor = stores.colorController.customColor().buttonActiveColor;
     });
     if (widget.routine != null) {
       isEditSetting();
+    }
+    if (widget.startDate != null) {
+      _selectedDate = widget.startDate;
     }
     await getExerciseList();
   }
@@ -574,9 +582,13 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     );
   }
 
-  onPressSaveColor(BuildContext context, Color color) {
+  onChangedColor(Color color) {
+    tempColor = color;
+  }
+
+  onPressSaveColor(BuildContext context) {
     setState(() {
-      selectedColor = color;
+      selectedColor = tempColor;
     });
 
     Navigator.pop(context);
@@ -585,10 +597,59 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   onPressColor() {
     showDialog(
       context: context,
-      builder: (context) => RoutineColorScreen(
-        onPress: onPressSaveColor,
-        initColor: selectedColor,
-      ),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          titlePadding: EdgeInsets.fromLTRB(24, 16, 16, 0),
+          title: Text(
+            '색상 선택',
+            style: stores.fontController.customFont().regular12.copyWith(
+                color: stores.colorController.customColor().defaultBackground1),
+          ),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: selectedColor,
+              onColorChanged: onChangedColor,
+              pickerAreaHeightPercent: 0.8,
+            ),
+          ),
+          contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+          actionsPadding: EdgeInsets.all(0),
+          actions: <Widget>[
+            CustomButton(
+                onPress: () {
+                  tempColor = selectedColor;
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(24, 16, 16, 16),
+                  child: Text('취소',
+                      style: stores.fontController
+                          .customFont()
+                          .medium14
+                          .copyWith(
+                              color: stores.colorController
+                                  .customColor()
+                                  .defaultBackground1)),
+                )),
+            SizedBox(
+              width: 8,
+            ),
+            CustomButton(
+                onPress: () => onPressSaveColor(context),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(16, 16, 24, 16),
+                  child: Text('확인',
+                      style: stores.fontController
+                          .customFont()
+                          .medium14
+                          .copyWith(
+                              color: stores.colorController
+                                  .customColor()
+                                  .defaultBackground1)),
+                ))
+          ],
+        );
+      },
     );
   }
 

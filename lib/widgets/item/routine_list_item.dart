@@ -228,7 +228,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                               child: InkWell(
                                   onTap: onPressVisiable,
                                   child: Padding(
-                                    padding: EdgeInsets.only(right: 18),
+                                    padding: EdgeInsets.only(right: 13),
                                     child: AnimatedRotation(
                                       turns: isVisiableArrowRotation,
                                       duration: duration,

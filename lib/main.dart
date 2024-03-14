@@ -52,8 +52,8 @@ class Main extends StatelessWidget {
         GetPage(name: '/setting', page: () => SettingScreen()),
         GetPage(name: '/theme', page: () => ThemeScreen()),
         GetPage(name: '/inquriy', page: () => InquiryScreen()),
-        GetPage(name: '/exerciseAdd', page: () => ExerciseAddScreen()),
-        GetPage(name: '/nnnnnAdd', page: () => RoutineAddScreen()),
+        GetPage(name: '/exercise_dd', page: () => ExerciseAddScreen()),
+        GetPage(name: '/routine_add', page: () => RoutineAddScreen()),
       ],
       builder: (context, child) {
         return Stack(
