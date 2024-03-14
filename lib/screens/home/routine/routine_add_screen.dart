@@ -586,9 +586,18 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     tempColor = color;
   }
 
-  onPressSaveColor(BuildContext context) {
+  onPressSaveCustomColor(BuildContext context) {
     setState(() {
       selectedColor = tempColor;
+    });
+
+    Navigator.pop(context);
+  }
+
+  onPressSaveColor(BuildContext context, Color color) {
+    setState(() {
+      selectedColor = color;
+      tempColor = color;
     });
 
     Navigator.pop(context);
@@ -597,13 +606,50 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   onPressColor() {
     showDialog(
       context: context,
+      builder: (context) => RoutineColorScreen(
+        onPress: onPressSaveColor,
+        initColor: selectedColor,
+        onPressCustomColor: () {
+          Navigator.pop(context);
+          onPressCustomColor();
+        },
+      ),
+    );
+  }
+
+  onPressCustomColor() {
+    showDialog(
+      context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           titlePadding: EdgeInsets.fromLTRB(24, 16, 16, 0),
-          title: Text(
-            '색상 선택',
-            style: stores.fontController.customFont().regular12.copyWith(
-                color: stores.colorController.customColor().defaultBackground1),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                  stores.localizationController
+                      .localiztionRoutineAddScreen()
+                      .colorTitle,
+                  style: stores.fontController.customFont().bold14.copyWith(
+                      color: stores.colorController
+                          .customColor()
+                          .defaultBackground1)),
+              CustomButton(
+                onPress: () {
+                  Navigator.pop(context);
+                  onPressColor();
+                },
+                child: Container(
+                  padding: EdgeInsets.only(left: 24),
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 16,
+                    color:
+                        stores.colorController.customColor().defaultBackground1,
+                  ),
+                ),
+              )
+            ],
           ),
           content: SingleChildScrollView(
             child: ColorPicker(
@@ -635,7 +681,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
               width: 8,
             ),
             CustomButton(
-                onPress: () => onPressSaveColor(context),
+                onPress: () => onPressSaveCustomColor(context),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(16, 16, 24, 16),
                   child: Text('확인',

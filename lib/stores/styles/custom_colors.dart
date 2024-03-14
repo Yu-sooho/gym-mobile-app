@@ -22,6 +22,23 @@ class CustomColors1 {
   Color color26 = const Color(0xff292e49);
 
   Color color31 = const Color(0xffea4653);
+
+  Color color41 = const Color(0xff00C6C1);
+  Color color42 = const Color(0xff358380);
+  Color color43 = const Color(0xffD7E5E4);
+  Color color44 = const Color(0xff5DECBF);
+  Color color45 = const Color(0xff444655);
+  Color color46 = const Color(0xff00535B);
+  Color color47 = const Color(0xff00B4C2);
+  Color color48 = const Color(0xff6B8BF5);
+  Color color49 = const Color(0xff757687);
+  Color color50 = const Color(0xff5F4875);
+
+  Color color51 = const Color(0xff4E5270);
+  Color color52 = const Color(0xff080E28);
+  Color color53 = const Color(0xff69456C);
+  Color color54 = const Color(0xff736087);
+  Color color55 = const Color(0xffF8B1DA);
 }
 
 class CustomColorMode1 {
@@ -69,6 +86,24 @@ class CustomColorMode1 {
 
   Color buttonDefaultColor = CustomColors1().color01;
   Color deleteButtonColor = CustomColors1().color01;
+
+  List<Color> routineColors = [
+    CustomColors1().color41,
+    CustomColors1().color42,
+    CustomColors1().color43,
+    CustomColors1().color44,
+    CustomColors1().color45,
+    CustomColors1().color46,
+    CustomColors1().color47,
+    CustomColors1().color48,
+    CustomColors1().color49,
+    CustomColors1().color50,
+    CustomColors1().color51,
+    CustomColors1().color52,
+    CustomColors1().color53,
+    CustomColors1().color54,
+    CustomColors1().color55,
+  ];
 }
 
 class CustomColorMode2 {
@@ -116,6 +151,24 @@ class CustomColorMode2 {
 
   Color buttonDefaultColor = CustomColors1().color01;
   Color deleteButtonColor = CustomColors1().color01;
+
+  List<Color> routineColors = [
+    CustomColors1().color41,
+    CustomColors1().color42,
+    CustomColors1().color43,
+    CustomColors1().color44,
+    CustomColors1().color45,
+    CustomColors1().color46,
+    CustomColors1().color47,
+    CustomColors1().color48,
+    CustomColors1().color49,
+    CustomColors1().color50,
+    CustomColors1().color51,
+    CustomColors1().color52,
+    CustomColors1().color53,
+    CustomColors1().color54,
+    CustomColors1().color55,
+  ];
 }
 
 class CustomColorMode3 {
@@ -163,4 +216,22 @@ class CustomColorMode3 {
 
   Color buttonDefaultColor = CustomColors1().color01;
   Color deleteButtonColor = CustomColors1().color01;
+
+  List<Color> routineColors = [
+    CustomColors1().color41,
+    CustomColors1().color42,
+    CustomColors1().color43,
+    CustomColors1().color44,
+    CustomColors1().color45,
+    CustomColors1().color46,
+    CustomColors1().color47,
+    CustomColors1().color48,
+    CustomColors1().color49,
+    CustomColors1().color50,
+    CustomColors1().color51,
+    CustomColors1().color52,
+    CustomColors1().color53,
+    CustomColors1().color54,
+    CustomColors1().color55,
+  ];
 }
