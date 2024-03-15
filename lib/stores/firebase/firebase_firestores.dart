@@ -61,6 +61,28 @@ class FirebaseFirestoreController extends GetxController {
     }
   }
 
+  /// 문서 이름으로 하나의 데이터 가져오기
+  Future<DocumentSnapshot> getCollectionDocData({
+    String collectionName = '',
+    String docName = '',
+  }) async {
+    try {
+      if (collectionName.isEmpty) {
+        throw {'error': 'no collectionName'};
+      }
+      if (docName.isEmpty) {
+        throw {'error': 'no docName'};
+      }
+      print('firebase_firestores getCollectionDocData success $collectionName');
+      return firebaseController.firebaseDocumentSnapshot(() async {
+        return firestore.collection(collectionName).doc(docName).get();
+      });
+    } catch (error) {
+      print('firebase_firestores getCollectionDocData error $error');
+      rethrow;
+    }
+  }
+
   /// 문서 이름으로 하나의 데이터 삭제
   Future deleteCollectionDataSet({
     String collectionName = '',

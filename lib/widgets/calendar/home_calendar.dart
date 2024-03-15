@@ -14,12 +14,14 @@ class HomeCalendar extends StatefulWidget {
   final Function(double)? onChangedSize;
   final Function(int)? onChangedLength;
   final Function(DateTime)? onPageChanged;
+  final Function()? onRefresh;
   final DateTime nowDate;
 
   HomeCalendar(
       {super.key,
       required this.onChangedSelectedDate,
       required this.nowDate,
+      this.onRefresh,
       this.onChangedSize,
       this.onPageChanged,
       this.onChangedLength});
@@ -113,6 +115,9 @@ class _HomeCalendarState extends State<HomeCalendar> {
       stores.routineStateController.calendarRoutineList.value = {
         '${DateTime.now().year}': result,
       };
+    }
+    if (widget.onRefresh != null) {
+      widget.onRefresh!();
     }
     stores.appStateController.isLoading.value = false;
   }

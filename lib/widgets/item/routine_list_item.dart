@@ -131,7 +131,6 @@ class _RoutineListItem extends State<RoutineListItem> {
                 motion: ScrollMotion(),
                 children: [
                   SlidableAction(
-                    autoClose: false,
                     onPressed: (BuildContext context) {
                       if (widget.onPressEdit != null) {
                         widget.onPressEdit!(context, widget.item, widget.index);
@@ -145,7 +144,6 @@ class _RoutineListItem extends State<RoutineListItem> {
                     iconSize: 20,
                   ),
                   SlidableAction(
-                    autoClose: false,
                     onPressed: (BuildContext context) {
                       if (widget.onPressDelete != null) {
                         widget.onPressDelete!(context, widget.item);

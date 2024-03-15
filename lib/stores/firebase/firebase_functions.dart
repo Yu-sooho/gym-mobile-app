@@ -71,4 +71,27 @@ class FirebaseController extends GetxController {
       rethrow;
     }
   }
+
+  Future<DocumentSnapshot> firebaseDocumentSnapshot(
+      Function networkFunction) async {
+    final LocalizationController localizationController =
+        Get.put(LocalizationController());
+    final AppStateController appStateController = Get.put(AppStateController());
+    try {
+      return await networkFunction();
+    } on TimeoutException catch (_) {
+      print('TimeoutException');
+      appStateController.showToast(
+          localizationController.localiztionComponentError().networkError);
+      rethrow;
+    } on SocketException catch (_) {
+      print('SocketException');
+      appStateController.showToast(
+          localizationController.localiztionComponentError().networkError);
+      rethrow;
+    } catch (error) {
+      print('firebaseQuerySnapshot $error');
+      rethrow;
+    }
+  }
 }

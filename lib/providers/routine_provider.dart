@@ -28,6 +28,52 @@ class RoutineProvider {
     }
   }
 
+  Future<Routine?> getRoutineByDocName(String docName) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await stores.firebaseFirestoreController.getCollectionDocData(
+              collectionName: 'user_routine', docName: docName);
+
+      if (!documentSnapshot.exists) {
+        print("Document with docName $docName not found.");
+        return null;
+      }
+
+      final data = documentSnapshot.data() as Map<String, dynamic>;
+      final exerciseIDs = (data['exercises'] as List<dynamic>).cast<String>();
+
+      List<Exercise> exercises = [];
+      if (exerciseIDs.isNotEmpty) {
+        QuerySnapshot exerciseQuerySnapshot = await firestore
+            .collection('user_exercise')
+            .where(FieldPath.documentId, whereIn: exerciseIDs)
+            .get();
+
+        exercises = exerciseQuerySnapshot.docs
+            .map((doc) =>
+                Exercise.fromJson(doc.data() as Map<String, dynamic>, doc.id))
+            .toList();
+      }
+
+      return Routine(
+        id: documentSnapshot.id,
+        uid: data['uid'],
+        name: data['name'],
+        color: data['color'],
+        exercises: exercises,
+        routineCycle: data['routineCycle'],
+        startDate: data['startDate'],
+        endDate: data['endDate'],
+        docName: documentSnapshot.id,
+        allCount: data['allCount'],
+        createdAt: data['createdAt'],
+      );
+    } catch (e) {
+      print('Error retrieving document: $e');
+      return null;
+    }
+  }
+
   Future<RoutineList> getRoutineList(
       {DocumentSnapshot<Object?>? startAfter,
       int? limit,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:gym_calendar/stores/package_stores.dart';

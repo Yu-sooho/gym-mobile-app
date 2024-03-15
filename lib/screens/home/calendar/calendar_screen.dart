@@ -117,6 +117,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return routinesForSelectedDay;
   }
 
+  void addRoutineInMap(Routine newRoutine) {
+    String yearKey =
+        '${newRoutine.startDate?.toDate().year ?? DateTime.now().year}';
+    if (!stores.routineStateController.calendarRoutineList
+        .containsKey(yearKey)) {
+      stores.routineStateController.calendarRoutineList[yearKey] =
+          RoutineList(list: [newRoutine], length: 1);
+    } else {
+      var existingList =
+          stores.routineStateController.calendarRoutineList[yearKey];
+      if (!existingList!.list.any((routine) => routine.id == newRoutine.id)) {
+        existingList.list.add(newRoutine);
+        existingList.length++;
+        stores.routineStateController.calendarRoutineList[yearKey] =
+            existingList;
+      }
+    }
+
+    if (!stores.routineStateController.routineList
+        .any((routine) => routine.id == newRoutine.id)) {
+      stores.routineStateController.routineList.add(newRoutine);
+    }
+
+    if (!routinesForDay.any((routine) => routine.id == newRoutine.id)) {
+      setState(() {
+        routinesForDay.add(newRoutine);
+      });
+    }
+  }
+
   void updateRoutineInMap(Routine routineToUpdate) {
     for (String key in stores.routineStateController.calendarRoutineList.keys) {
       var routineList = stores.routineStateController.calendarRoutineList[key];
@@ -153,6 +183,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           builder: (_) => RoutineAddScreen(
                 routine: routine,
                 updateRoutineInMap: updateRoutineInMap,
+                addRoutineInMap: addRoutineInMap,
               )),
     );
   }
@@ -163,6 +194,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       MaterialPageRoute(
           builder: (_) => RoutineAddScreen(
                 updateRoutineInMap: updateRoutineInMap,
+                addRoutineInMap: addRoutineInMap,
                 startDate: selectedDay,
               )),
     );
@@ -263,12 +295,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 header: Column(
                   children: [
                     HomeCalendar(
-                      onChangedSelectedDate: onChangedSelectedDate,
-                      onChangedSize: onChangedSize,
-                      onChangedLength: onChangedLength,
-                      onPageChanged: onPageChanged,
-                      nowDate: nowDate,
-                    ),
+                        onChangedSelectedDate: onChangedSelectedDate,
+                        onChangedSize: onChangedSize,
+                        onChangedLength: onChangedLength,
+                        onPageChanged: onPageChanged,
+                        nowDate: nowDate,
+                        onRefresh: onRefresh),
                     header(selectedDay ?? DateTime.now(), dateTextSize,
                         routinesForDay.isNotEmpty, onPressAddRoutineToday),
                   ],

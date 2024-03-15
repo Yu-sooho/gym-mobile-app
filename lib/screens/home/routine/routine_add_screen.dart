@@ -13,9 +13,14 @@ import 'package:intl/intl.dart';
 class RoutineAddScreen extends StatefulWidget {
   final Routine? routine;
   final Function? updateRoutineInMap;
+  final Function? addRoutineInMap;
   final DateTime? startDate;
   RoutineAddScreen(
-      {super.key, this.routine, this.updateRoutineInMap, this.startDate});
+      {super.key,
+      this.routine,
+      this.updateRoutineInMap,
+      this.addRoutineInMap,
+      this.startDate});
 
   @override
   State<RoutineAddScreen> createState() => _RoutineAddScreenState();
@@ -295,7 +300,11 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
           await networkProviders.routineProvider.getRoutineList(limit: 1);
       if (result.list.isNotEmpty) {
         stores.routineStateController.routineList.insertAll(0, result.list);
+        if (widget.addRoutineInMap != null) {
+          widget.addRoutineInMap!(result.list[0]);
+        }
       }
+
       if (!context.mounted) return;
       stores.appStateController.setIsLoading(false, context);
       stores.appStateController.showToast(
@@ -327,13 +336,14 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'isEnded': null,
         'executionDate': null,
       }, docName);
+
       final result =
-          await networkProviders.routineProvider.getRoutineList(limit: 1);
-      if (result.list.isNotEmpty) {
+          await networkProviders.routineProvider.getRoutineByDocName(docName);
+      if (result != null) {
         final temp = stores.routineStateController.routineList
             .indexWhere((element) => element.id == widget.routine?.id);
         if (temp >= 0) {
-          stores.routineStateController.routineList[temp] = result.list[0];
+          stores.routineStateController.routineList[temp] = result;
         }
       }
       if (!context.mounted) return;
@@ -342,7 +352,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
           .localiztionRoutineAddScreen()
           .editSuccess);
       if (widget.updateRoutineInMap != null) {
-        widget.updateRoutineInMap!(result.list[0]);
+        widget.updateRoutineInMap!(result);
       }
       Navigator.pop(context);
     } catch (error) {
