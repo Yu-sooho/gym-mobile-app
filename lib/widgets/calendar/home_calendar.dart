@@ -55,6 +55,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
       stores.routineStateController.calendarRoutineList.value = {
         '${DateTime.now().year}': result,
       };
+      widget.onChangedSelectedDate(DateTime.now());
     }
   }
 
@@ -117,50 +118,52 @@ class _HomeCalendarState extends State<HomeCalendar> {
   }
 
   Widget buildMarker(BuildContext context, DateTime day, List<dynamic> events) {
-    final List<Routine>? routines = stores.routineStateController
-        .calendarRoutineList['${widget.nowDate.year}']?.list;
+    return Obx(() {
+      final List<Routine>? routines = stores.routineStateController
+          .calendarRoutineList['${widget.nowDate.year}']?.list;
 
-    if (routines == null) return SizedBox();
+      if (routines == null) return SizedBox();
 
-    List<Widget> markers = [];
+      List<Widget> markers = [];
 
-    for (var routine in routines) {
-      if (routine.routineCycle == null || routine.startDate == null) continue;
+      for (var routine in routines) {
+        if (routine.routineCycle == null || routine.startDate == null) continue;
 
-      final startDate = routine.startDate!.toDate();
-      final DateTime? endDate =
-          routine.endDate != null ? routine.endDate!.toDate() : null;
-      final List<List<int?>> cycleArray =
-          Math().convertedRecycle(routine.routineCycle!);
+        final startDate = routine.startDate!.toDate();
+        final DateTime? endDate =
+            routine.endDate != null ? routine.endDate!.toDate() : null;
+        final List<List<int?>> cycleArray =
+            Math().convertedRecycle(routine.routineCycle!);
 
-      if (cycleArray.isEmpty || cycleArray[0].isEmpty) continue;
+        if (cycleArray.isEmpty || cycleArray[0].isEmpty) continue;
 
-      DateTime weekStart =
-          startDate.subtract(Duration(days: startDate.weekday - 1));
-      if (cycleArray[0].first! < startDate.weekday - 1) {
-        weekStart = weekStart.add(Duration(days: 7));
+        DateTime weekStart =
+            startDate.subtract(Duration(days: startDate.weekday - 1));
+        if (cycleArray[0].first! < startDate.weekday - 1) {
+          weekStart = weekStart.add(Duration(days: 7));
+        }
+
+        int weeksSinceStart = ((day.difference(weekStart).inDays) / 7).floor();
+        if (weeksSinceStart < 0 || (endDate != null && day.isAfter(endDate))) {
+          continue;
+        }
+
+        int cycleWeekIndex = weeksSinceStart % cycleArray.length;
+        int dayOfWeekIndex = day.weekday - 1;
+
+        if (cycleArray[cycleWeekIndex].contains(dayOfWeekIndex)) {
+          markers.add(Container(
+            margin: EdgeInsets.symmetric(horizontal: 1),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: stringToColor(routine.color)),
+            width: 7,
+            height: 7,
+          ));
+        }
       }
 
-      int weeksSinceStart = ((day.difference(weekStart).inDays) / 7).floor();
-      if (weeksSinceStart < 0 || (endDate != null && day.isAfter(endDate))) {
-        continue;
-      }
-
-      int cycleWeekIndex = weeksSinceStart % cycleArray.length;
-      int dayOfWeekIndex = day.weekday - 1;
-
-      if (cycleArray[cycleWeekIndex].contains(dayOfWeekIndex)) {
-        markers.add(Container(
-          margin: EdgeInsets.symmetric(horizontal: 1),
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: stringToColor(routine.color)),
-          width: 7,
-          height: 7,
-        ));
-      }
-    }
-
-    return Row(mainAxisSize: MainAxisSize.min, children: markers);
+      return Row(mainAxisSize: MainAxisSize.min, children: markers);
+    });
   }
 
   @override
