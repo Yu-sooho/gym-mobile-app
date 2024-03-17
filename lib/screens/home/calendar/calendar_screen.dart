@@ -118,28 +118,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void addRoutineInMap(Routine newRoutine) {
-    String yearKey =
-        '${newRoutine.startDate?.toDate().year ?? DateTime.now().year}';
-    if (!stores.routineStateController.calendarRoutineList
-        .containsKey(yearKey)) {
-      stores.routineStateController.calendarRoutineList[yearKey] =
-          RoutineList(list: [newRoutine], length: 1);
-    } else {
-      var existingList =
-          stores.routineStateController.calendarRoutineList[yearKey];
-      if (!existingList!.list.any((routine) => routine.id == newRoutine.id)) {
-        existingList.list.add(newRoutine);
-        existingList.length++;
-        stores.routineStateController.calendarRoutineList[yearKey] =
-            existingList;
-      }
-    }
-
-    if (!stores.routineStateController.routineList
-        .any((routine) => routine.id == newRoutine.id)) {
-      stores.routineStateController.routineList.add(newRoutine);
-    }
-
+    stores.routineStateController.addRoutineInMap(newRoutine);
     if (!routinesForDay.any((routine) => routine.id == newRoutine.id)) {
       setState(() {
         routinesForDay.add(newRoutine);
@@ -148,25 +127,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void updateRoutineInMap(Routine routineToUpdate) {
-    for (String key in stores.routineStateController.calendarRoutineList.keys) {
-      var routineList = stores.routineStateController.calendarRoutineList[key];
-      var index = routineList?.list
-          .indexWhere((routine) => routine.id == routineToUpdate.id);
-      if (index != null && index != -1) {
-        routineList?.list[index] = routineToUpdate;
-        if (routineList != null) {
-          stores.routineStateController.calendarRoutineList[key] = routineList;
-        }
-      }
-    }
-
-    int routineListIndex = stores.routineStateController.routineList
-        .indexWhere((routine) => routine.id == routineToUpdate.id);
-    if (routineListIndex != -1) {
-      stores.routineStateController.routineList[routineListIndex] =
-          routineToUpdate;
-    }
-
+    stores.routineStateController.updateRoutineInMap(routineToUpdate);
     int dayIndex = routinesForDay
         .indexWhere((routine) => routine.id == routineToUpdate.id);
     if (dayIndex != -1) {

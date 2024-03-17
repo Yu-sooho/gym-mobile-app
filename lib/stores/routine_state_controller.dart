@@ -21,4 +21,43 @@ class RoutineStateController extends GetxController {
     localizationController.localiztionComponentButton().endDatest,
   ].obs;
   RxInt routineSort = 0.obs;
+
+  void addRoutineInMap(Routine newRoutine) {
+    String yearKey =
+        '${newRoutine.startDate?.toDate().year ?? DateTime.now().year}';
+    if (!calendarRoutineList.containsKey(yearKey)) {
+      calendarRoutineList[yearKey] = RoutineList(list: [newRoutine], length: 1);
+    } else {
+      var existingList = calendarRoutineList[yearKey];
+      if (!existingList!.list.any((routine) => routine.id == newRoutine.id)) {
+        existingList.list.add(newRoutine);
+        existingList.length++;
+        calendarRoutineList[yearKey] = existingList;
+      }
+    }
+
+    if (!routineList.any((routine) => routine.id == newRoutine.id)) {
+      routineList.add(newRoutine);
+    }
+  }
+
+  void updateRoutineInMap(Routine routineToUpdate) {
+    for (String key in calendarRoutineList.keys) {
+      var routineList = calendarRoutineList[key];
+      var index = routineList?.list
+          .indexWhere((routine) => routine.id == routineToUpdate.id);
+      if (index != null && index != -1) {
+        routineList?.list[index] = routineToUpdate;
+        if (routineList != null) {
+          calendarRoutineList[key] = routineList;
+        }
+      }
+    }
+
+    int routineListIndex =
+        routineList.indexWhere((routine) => routine.id == routineToUpdate.id);
+    if (routineListIndex != -1) {
+      routineList[routineListIndex] = routineToUpdate;
+    }
+  }
 }

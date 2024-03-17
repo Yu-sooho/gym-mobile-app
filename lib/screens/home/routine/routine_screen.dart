@@ -128,8 +128,11 @@ class _RoutineScreenState extends State<RoutineScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => RoutineAddScreen(),
-          settings: RouteSettings(name: 'routineAdd')),
+          builder: (_) => RoutineAddScreen(
+                updateRoutineInMap:
+                    stores.routineStateController.updateRoutineInMap,
+                addRoutineInMap: stores.routineStateController.addRoutineInMap,
+              )),
     );
   }
 
@@ -223,7 +226,13 @@ class _RoutineScreenState extends State<RoutineScreen> {
   void onPressEdit(BuildContext context, Routine routine, int index) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => RoutineAddScreen(routine: routine)),
+      MaterialPageRoute(
+          builder: (_) => RoutineAddScreen(
+                routine: routine,
+                updateRoutineInMap:
+                    stores.routineStateController.updateRoutineInMap,
+                addRoutineInMap: stores.routineStateController.addRoutineInMap,
+              )),
     );
   }
 
