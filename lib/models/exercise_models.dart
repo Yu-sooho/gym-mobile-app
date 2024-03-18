@@ -49,6 +49,8 @@ class Exercise {
   Timestamp? updatedAt;
   String? weight;
   String? targetWeight;
+  String? count;
+  String? targetCount;
   List<Muscles>? muscles;
   String? docName;
   Exercise(
@@ -61,7 +63,9 @@ class Exercise {
       this.weight,
       this.muscles,
       this.targetWeight,
-      this.docName});
+      this.docName,
+      this.count,
+      this.targetCount});
 
   factory Exercise.fromJson(Map<String, dynamic> json, id) {
     return Exercise(

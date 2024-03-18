@@ -276,55 +276,116 @@ class _ExerciseListItem extends State<ExerciseListItem> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Expanded(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${stores.localizationController.localiztionExerciseAddScreen().nowWeight} : ',
-                                        style: stores.fontController
-                                            .customFont()
-                                            .medium12
-                                            .copyWith(
-                                                color: stores.colorController
-                                                    .customColor()
-                                                    .buttonActiveColor),
+                                    child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${stores.localizationController.localiztionExerciseAddScreen().nowWeight} : ',
+                                            style: stores.fontController
+                                                .customFont()
+                                                .medium12
+                                                .copyWith(
+                                                    color: stores
+                                                        .colorController
+                                                        .customColor()
+                                                        .buttonActiveColor),
+                                          ),
+                                          Text('${widget.item.weight ?? ''}kg',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .bold12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor)),
+                                        ],
                                       ),
-                                      Text('${widget.item.weight ?? ''}kg',
+                                    ),
+                                    Expanded(
+                                        child: Row(
+                                      children: [
+                                        Text(
+                                          '${stores.localizationController.localiztionExerciseAddScreen().nowCount} : ',
                                           style: stores.fontController
                                               .customFont()
-                                              .bold12
+                                              .medium12
                                               .copyWith(
                                                   color: stores.colorController
                                                       .customColor()
-                                                      .buttonActiveColor)),
-                                    ],
-                                  ),
-                                ),
+                                                      .buttonActiveColor),
+                                        ),
+                                        Text(widget.item.weight ?? '',
+                                            style: stores.fontController
+                                                .customFont()
+                                                .bold12
+                                                .copyWith(
+                                                    color: stores
+                                                        .colorController
+                                                        .customColor()
+                                                        .buttonActiveColor)),
+                                      ],
+                                    )),
+                                  ],
+                                )),
                                 Expanded(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${stores.localizationController.localiztionExerciseAddScreen().targetWeight} : ',
-                                        style: stores.fontController
-                                            .customFont()
-                                            .medium12
-                                            .copyWith(
-                                                color: stores.colorController
-                                                    .customColor()
-                                                    .buttonActiveColor),
+                                    child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${stores.localizationController.localiztionExerciseAddScreen().targetWeight} : ',
+                                            style: stores.fontController
+                                                .customFont()
+                                                .medium12
+                                                .copyWith(
+                                                    color: stores
+                                                        .colorController
+                                                        .customColor()
+                                                        .buttonActiveColor),
+                                          ),
+                                          Text(
+                                              '${widget.item.targetWeight ?? ''}kg',
+                                              style: stores.fontController
+                                                  .customFont()
+                                                  .bold12
+                                                  .copyWith(
+                                                      color: stores
+                                                          .colorController
+                                                          .customColor()
+                                                          .buttonActiveColor)),
+                                        ],
                                       ),
-                                      Text(
-                                        '${widget.item.targetWeight ?? ''}kg',
-                                        style: stores.fontController
-                                            .customFont()
-                                            .bold12
-                                            .copyWith(
-                                                color: stores.colorController
-                                                    .customColor()
-                                                    .buttonActiveColor),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                    ),
+                                    Expanded(
+                                        child: Row(
+                                      children: [
+                                        Text(
+                                          '${stores.localizationController.localiztionExerciseAddScreen().targetCount} : ',
+                                          style: stores.fontController
+                                              .customFont()
+                                              .medium12
+                                              .copyWith(
+                                                  color: stores.colorController
+                                                      .customColor()
+                                                      .buttonActiveColor),
+                                        ),
+                                        Text(widget.item.targetCount ?? '',
+                                            style: stores.fontController
+                                                .customFont()
+                                                .bold12
+                                                .copyWith(
+                                                    color: stores
+                                                        .colorController
+                                                        .customColor()
+                                                        .buttonActiveColor)),
+                                      ],
+                                    )),
+                                  ],
+                                )),
                               ],
                             ),
                           ),

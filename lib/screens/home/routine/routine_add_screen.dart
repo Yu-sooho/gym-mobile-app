@@ -288,6 +288,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   }
 
   void onPressAdd(BuildContext context) async {
+    var allCount = 0;
     try {
       if (_selectedEndDate != null && _selectedStartDate != null) {
         if (_selectedEndDate!.isBefore(_selectedStartDate!)) {
@@ -295,6 +296,12 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
               .localiztionRoutineAddScreen()
               .errorOverDate);
           return;
+        }
+
+        if (routineCycle != null) {
+          final count = stores.routineStateController.countRoutinesBetweenDates(
+              _selectedStartDate!, _selectedEndDate!, routineCycle!);
+          allCount = count;
         }
       }
 
@@ -313,6 +320,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
             : null,
         'isEnded': null,
         'executionDate': null,
+        'allCount': allCount,
       });
       final result =
           await networkProviders.routineProvider.getRoutineList(limit: 1);

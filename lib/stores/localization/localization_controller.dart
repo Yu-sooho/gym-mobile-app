@@ -154,6 +154,10 @@ class ExerciseAddScreenText {
   final String errorWeight;
   final String part;
   final String editSuccess;
+  final String count;
+  final String nowCount;
+  final String targetCount;
+  final String errorCount;
 
   ExerciseAddScreenText(
       {required this.title,
@@ -177,7 +181,11 @@ class ExerciseAddScreenText {
       required this.noMuscle,
       required this.errorWeight,
       required this.part,
-      required this.editSuccess});
+      required this.editSuccess,
+      required this.count,
+      required this.nowCount,
+      required this.targetCount,
+      required this.errorCount});
 }
 
 class InquiryScreenText {
@@ -716,7 +724,11 @@ class LocalizationController extends GetxController {
           noMuscle: ExerciseAddScreenTextEn().noMuscle,
           errorWeight: ExerciseAddScreenTextEn().errorWeight,
           part: ExerciseAddScreenTextEn().part,
-          editSuccess: ExerciseAddScreenTextEn().editSuccess);
+          editSuccess: ExerciseAddScreenTextEn().editSuccess,
+          count: ExerciseAddScreenTextEn().count,
+          nowCount: ExerciseAddScreenTextEn().nowCount,
+          targetCount: ExerciseAddScreenTextEn().targetCount,
+          errorCount: ExerciseAddScreenTextEn().errorCount);
       return exerciseAddScreenText;
     } else {
       ExerciseAddScreenText exerciseAddScreenText = ExerciseAddScreenText(
@@ -742,7 +754,11 @@ class LocalizationController extends GetxController {
           noMuscle: ExerciseAddScreenTextKr().noMuscle,
           errorWeight: ExerciseAddScreenTextKr().errorWeight,
           part: ExerciseAddScreenTextKr().part,
-          editSuccess: ExerciseAddScreenTextKr().editSuccess);
+          editSuccess: ExerciseAddScreenTextKr().editSuccess,
+          count: ExerciseAddScreenTextKr().count,
+          nowCount: ExerciseAddScreenTextKr().nowCount,
+          targetCount: ExerciseAddScreenTextKr().targetCount,
+          errorCount: ExerciseAddScreenTextKr().errorCount);
       return exerciseAddScreenText;
     }
   }

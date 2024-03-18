@@ -411,8 +411,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                             .customColor()
                                                             .buttonActiveColor),
                                               ),
-                                              Flexible(
-                                                  child: Text(
+                                              Text(
                                                 overflow: TextOverflow.ellipsis,
                                                 widget.item.startDate != null
                                                     ? DateFormat(stores
@@ -432,7 +431,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                                           .customColor()
                                                           .buttonActiveColor,
                                                     ),
-                                              )),
+                                              ),
                                             ],
                                           )),
                                         ),
@@ -441,7 +440,7 @@ class _RoutineListItem extends State<RoutineListItem> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: 10,
+                                  flex: 11,
                                   child: Padding(
                                     padding: EdgeInsets.fromLTRB(0, 0, 20, 8),
                                     child: Column(

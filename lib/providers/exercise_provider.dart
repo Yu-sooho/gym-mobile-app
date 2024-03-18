@@ -206,6 +206,8 @@ class ExerciseProvider {
       final uid = data['uid'];
       final weight = data['weight'];
       final targetWeight = data['targetWeight'];
+      final count = data['count'];
+      final targetCount = data['targetCount'];
       final id = element.id;
       final exercise = Exercise(
           id: id,
@@ -216,7 +218,9 @@ class ExerciseProvider {
           muscles: userMusclesResult,
           createdAt: createdAt,
           weight: weight,
-          targetWeight: targetWeight);
+          targetWeight: targetWeight,
+          count: count,
+          targetCount: targetCount);
       list.add(exercise);
     }
 

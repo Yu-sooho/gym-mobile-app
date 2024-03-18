@@ -74,4 +74,23 @@ class RoutineStateController extends GetxController {
 
     routineList.removeWhere((routine) => routine.id == routineToDelete.id);
   }
+
+  int countRoutinesBetweenDates(
+      DateTime startDate, DateTime endDate, List<List<dynamic>> routineCycles) {
+    int count = 0;
+
+    for (DateTime date = startDate;
+        date.isBefore(endDate.add(Duration(days: 1)));
+        date = date.add(Duration(days: 1))) {
+      int weekNumber = ((date.difference(startDate).inDays) / 7).floor();
+      List<dynamic> weekCycle =
+          routineCycles[weekNumber % routineCycles.length];
+
+      if (weekCycle.contains(date.weekday - 1)) {
+        count++;
+      }
+    }
+
+    return count;
+  }
 }

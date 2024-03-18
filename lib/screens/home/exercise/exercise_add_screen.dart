@@ -26,6 +26,9 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   TextEditingController _nowWeightController = TextEditingController(text: '');
   TextEditingController _targetWeightController =
       TextEditingController(text: '');
+  TextEditingController _nowCountController = TextEditingController(text: '');
+  TextEditingController _targetCountController =
+      TextEditingController(text: '');
   var isOpen = false;
 
   List<String> selectedMuscles = [];
@@ -34,6 +37,8 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   String exerciseName = '';
   String weight = '';
   String targetWeight = '';
+  String count = '';
+  String targetCount = '';
   String muscleName = '';
 
   bool muscleLoading = false;
@@ -94,6 +99,8 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     _titleController.text = widget.exercise!.name;
     _nowWeightController.text = widget.exercise!.weight!;
     _targetWeightController.text = widget.exercise!.targetWeight!;
+    _nowCountController.text = widget.exercise!.count!;
+    _targetCountController.text = widget.exercise!.targetCount!;
 
     exerciseName = widget.exercise!.name;
     targetWeight = widget.exercise!.targetWeight!;
@@ -195,9 +202,33 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     });
   }
 
+  onChangeNowCount(String value) {
+    setState(() {
+      count = value;
+    });
+  }
+
+  onChangeTargetCount(String value) {
+    setState(() {
+      targetCount = value;
+    });
+  }
+
   bool checkWeight() {
     num? now = num.tryParse(weight);
     num? target = num.tryParse(targetWeight);
+
+    if (now != null && target != null) {
+      if (now > target) return false;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool checkCount() {
+    num? now = num.tryParse(count);
+    num? target = num.tryParse(targetCount);
 
     if (now != null && target != null) {
       if (now > target) return false;
@@ -215,12 +246,20 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
             .errorWeight);
         return;
       }
+      if (!checkCount()) {
+        stores.appStateController.showToast(stores.localizationController
+            .localiztionExerciseAddScreen()
+            .errorCount);
+        return;
+      }
       stores.appStateController.setIsLoading(true, context);
       await networkProviders.exerciseProvider.postCustomExercise({
         'name': exerciseName,
         'musclesNames': selectedMuscles,
         'weight': weight,
-        'targetWeight': targetWeight
+        'targetWeight': targetWeight,
+        'count': count,
+        'targetCount': targetCount
       });
       final result =
           await networkProviders.exerciseProvider.getExerciseList(limit: 1);
@@ -270,7 +309,9 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
         'name': exerciseName,
         'musclesNames': selectedMuscles,
         'weight': weight,
-        'targetWeight': targetWeight
+        'targetWeight': targetWeight,
+        'count': count,
+        'targetCount': targetCount
       }, docName);
       final result =
           await networkProviders.exerciseProvider.getExerciseList(limit: 1);
@@ -492,34 +533,6 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   }
 
   void onPressAddMuscle(BuildContext context) async {
-    // stores.appStateController.setIsLoading(true, context);
-    // await networkProviders.exerciseProvider.postCustomExercise({
-    //   'name': exerciseName,
-    //   'musclesNames': selectedMuscles,
-    //   'weight': weight,
-    //   'targetWeight': targetWeight
-    // });
-    // final result =
-    //     await networkProviders.exerciseProvider.getExerciseList(limit: 1);
-
-    // if (result.list.isNotEmpty) {
-    //   if (stores.exerciseStateController.exerciseSort.value == 0) {
-    //     stores.exerciseStateController.exerciseList.insertAll(0, result.list);
-    //   } else if (stores.exerciseStateController.exerciseSort.value == 1) {
-    //     stores.exerciseStateController.exerciseList.addAll(result.list);
-    //   } else {
-    //     int index = 0;
-    //     while (index < stores.exerciseStateController.exerciseList.length &&
-    //         stores.exerciseStateController.exerciseList[index].name
-    //                 .compareTo(result.list[0].name) <
-    //             0) {
-    //       index++;
-    //     }
-    //     stores.exerciseStateController.exerciseList
-    //         .insert(index, result.list[0]);
-    //   }
-    // }
-
     try {
       stores.appStateController.setIsLoading(true, context);
       final post = await networkProviders.exerciseProvider.postCustomMuscle({
@@ -780,15 +793,31 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                     stores: stores,
                     textController1: _nowWeightController,
                     textController2: _targetWeightController,
-                    title: stores.localizationController
+                    title:
+                        '${stores.localizationController.localiztionExerciseAddScreen().weight} (kg)',
+                    placeholder1: stores.localizationController
                         .localiztionExerciseAddScreen()
-                        .weight,
-                    placeholder1:
-                        '${stores.localizationController.localiztionExerciseAddScreen().nowWeight}  (kg)',
-                    placeholder2:
-                        '${stores.localizationController.localiztionExerciseAddScreen().targetWeight}  (kg)',
+                        .nowWeight,
+                    placeholder2: stores.localizationController
+                        .localiztionExerciseAddScreen()
+                        .targetWeight,
                     onChanged1: onChangeNowWegiht,
                     onChanged2: onChangeTargetWegiht),
+                TwoTextInput(
+                    stores: stores,
+                    textController1: _nowCountController,
+                    textController2: _targetCountController,
+                    title: stores.localizationController
+                        .localiztionExerciseAddScreen()
+                        .count,
+                    placeholder1: stores.localizationController
+                        .localiztionExerciseAddScreen()
+                        .nowCount,
+                    placeholder2: stores.localizationController
+                        .localiztionExerciseAddScreen()
+                        .targetCount,
+                    onChanged1: onChangeNowCount,
+                    onChanged2: onChangeTargetCount),
                 SizedBox(
                   height: 12,
                 ),
