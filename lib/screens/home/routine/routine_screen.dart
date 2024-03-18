@@ -198,6 +198,9 @@ class _RoutineScreenState extends State<RoutineScreen> {
               setState(() {
                 routineLoading = true;
               });
+              stores.routineStateController.deleteRoutineFromMap(
+                  stores.routineStateController.calendarRoutineList, routine);
+
               final result = await networkProviders.routineProvider
                   .deleteCustomRoutine(routine.id);
               if (result) {

@@ -60,4 +60,18 @@ class RoutineStateController extends GetxController {
       routineList[routineListIndex] = routineToUpdate;
     }
   }
+
+  void deleteRoutineFromMap(
+      RxMap<String, RoutineList> routineMap, Routine routineToDelete) {
+    for (String key in routineMap.keys) {
+      var routineList = routineMap[key];
+      routineList?.list
+          .removeWhere((routine) => routine.id == routineToDelete.id);
+      if (routineList != null) {
+        routineMap[key] = routineList;
+      }
+    }
+
+    routineList.removeWhere((routine) => routine.id == routineToDelete.id);
+  }
 }

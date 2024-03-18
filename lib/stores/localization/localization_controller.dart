@@ -312,6 +312,7 @@ class RoutineAddScreenText {
   final String startDate;
   final String endDate;
   final String selectedDate;
+  final String selectedEndDate;
   final String dateFormat;
   final String executionCount;
   final String allCount;
@@ -320,6 +321,7 @@ class RoutineAddScreenText {
   final String week;
   final String startDateHintText;
   final String routineCycle;
+  final String errorOverDate;
 
   RoutineAddScreenText(
       {required this.title,
@@ -345,6 +347,7 @@ class RoutineAddScreenText {
       required this.startDate,
       required this.endDate,
       required this.selectedDate,
+      required this.selectedEndDate,
       required this.dateFormat,
       required this.executionCount,
       required this.allCount,
@@ -352,7 +355,8 @@ class RoutineAddScreenText {
       required this.day,
       required this.week,
       required this.startDateHintText,
-      required this.routineCycle});
+      required this.routineCycle,
+      required this.errorOverDate});
 }
 
 class ExerciseScreenText {
@@ -770,71 +774,77 @@ class LocalizationController extends GetxController {
   RoutineAddScreenText localiztionRoutineAddScreen() {
     if (language.value == 0) {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
-          title: RoutineAddScreenTextEn().title,
-          editTitle: RoutineAddScreenTextEn().editTitle,
-          inputTitle: RoutineAddScreenTextEn().inputTitle,
-          colorTitle: RoutineAddScreenTextEn().colorTitle,
-          inputTitlePlaceholder: RoutineAddScreenTextEn().inputTitlePlaceholder,
-          exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
-          success: RoutineAddScreenTextEn().success,
-          editSuccess: RoutineAddScreenTextEn().editSuccess,
-          maxExercise: RoutineAddScreenTextEn().maxExercise,
-          noRoutine: RoutineAddScreenTextEn().noRoutine,
-          successDelete: RoutineAddScreenTextEn().successDelete,
-          errorDelete: RoutineAddScreenTextEn().errorDelete,
-          cycle: RoutineAddScreenTextEn().cycle,
-          repeat: RoutineAddScreenTextEn().repeat,
-          cycleDate: RoutineAddScreenTextEn().cycleDate,
-          exercise: RoutineAddScreenTextKr().exercise,
-          exerciseListCheck: RoutineAddScreenTextEn().exerciseListCheck,
-          errorCycle: RoutineAddScreenTextEn().errorCycle,
-          cycleDes: RoutineAddScreenTextEn().cycleDes,
-          repeatDes: RoutineAddScreenTextEn().repeatDes,
-          startDate: RoutineAddScreenTextEn().startDate,
-          endDate: RoutineAddScreenTextEn().endDate,
-          selectedDate: RoutineAddScreenTextEn().selectedDate,
-          dateFormat: RoutineAddScreenTextEn().dateFormat,
-          executionCount: RoutineAddScreenTextEn().executionCount,
-          allCount: RoutineAddScreenTextEn().allCount,
-          count: RoutineAddScreenTextEn().count,
-          day: RoutineAddScreenTextEn().day,
-          week: RoutineAddScreenTextEn().week,
-          startDateHintText: RoutineAddScreenTextEn().startDateHintText,
-          routineCycle: RoutineAddScreenTextEn().routineCycle);
+        title: RoutineAddScreenTextEn().title,
+        editTitle: RoutineAddScreenTextEn().editTitle,
+        inputTitle: RoutineAddScreenTextEn().inputTitle,
+        colorTitle: RoutineAddScreenTextEn().colorTitle,
+        inputTitlePlaceholder: RoutineAddScreenTextEn().inputTitlePlaceholder,
+        exercisePlaceholder: RoutineAddScreenTextEn().exercisePlaceholder,
+        success: RoutineAddScreenTextEn().success,
+        editSuccess: RoutineAddScreenTextEn().editSuccess,
+        maxExercise: RoutineAddScreenTextEn().maxExercise,
+        noRoutine: RoutineAddScreenTextEn().noRoutine,
+        successDelete: RoutineAddScreenTextEn().successDelete,
+        errorDelete: RoutineAddScreenTextEn().errorDelete,
+        cycle: RoutineAddScreenTextEn().cycle,
+        repeat: RoutineAddScreenTextEn().repeat,
+        cycleDate: RoutineAddScreenTextEn().cycleDate,
+        exercise: RoutineAddScreenTextKr().exercise,
+        exerciseListCheck: RoutineAddScreenTextEn().exerciseListCheck,
+        errorCycle: RoutineAddScreenTextEn().errorCycle,
+        cycleDes: RoutineAddScreenTextEn().cycleDes,
+        repeatDes: RoutineAddScreenTextEn().repeatDes,
+        startDate: RoutineAddScreenTextEn().startDate,
+        endDate: RoutineAddScreenTextEn().endDate,
+        selectedDate: RoutineAddScreenTextEn().selectedDate,
+        selectedEndDate: RoutineAddScreenTextEn().selectedEndDate,
+        dateFormat: RoutineAddScreenTextEn().dateFormat,
+        executionCount: RoutineAddScreenTextEn().executionCount,
+        allCount: RoutineAddScreenTextEn().allCount,
+        count: RoutineAddScreenTextEn().count,
+        day: RoutineAddScreenTextEn().day,
+        week: RoutineAddScreenTextEn().week,
+        startDateHintText: RoutineAddScreenTextEn().startDateHintText,
+        routineCycle: RoutineAddScreenTextEn().routineCycle,
+        errorOverDate: RoutineAddScreenTextEn().errorOverDate,
+      );
       return routineAddScreenText;
     } else {
       RoutineAddScreenText routineAddScreenText = RoutineAddScreenText(
-          title: RoutineAddScreenTextKr().title,
-          editTitle: RoutineAddScreenTextKr().editTitle,
-          inputTitle: RoutineAddScreenTextKr().inputTitle,
-          colorTitle: RoutineAddScreenTextKr().colorTitle,
-          inputTitlePlaceholder: RoutineAddScreenTextKr().inputTitlePlaceholder,
-          exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
-          success: RoutineAddScreenTextKr().success,
-          editSuccess: RoutineAddScreenTextKr().editSuccess,
-          maxExercise: RoutineAddScreenTextKr().maxExercise,
-          noRoutine: RoutineAddScreenTextKr().noRoutine,
-          successDelete: RoutineAddScreenTextKr().successDelete,
-          errorDelete: RoutineAddScreenTextKr().errorDelete,
-          cycle: RoutineAddScreenTextKr().cycle,
-          repeat: RoutineAddScreenTextKr().repeat,
-          cycleDate: RoutineAddScreenTextKr().cycleDate,
-          exercise: RoutineAddScreenTextKr().exercise,
-          exerciseListCheck: RoutineAddScreenTextKr().exerciseListCheck,
-          errorCycle: RoutineAddScreenTextKr().errorCycle,
-          cycleDes: RoutineAddScreenTextKr().cycleDes,
-          repeatDes: RoutineAddScreenTextKr().repeatDes,
-          startDate: RoutineAddScreenTextKr().startDate,
-          endDate: RoutineAddScreenTextKr().endDate,
-          selectedDate: RoutineAddScreenTextKr().selectedDate,
-          dateFormat: RoutineAddScreenTextKr().dateFormat,
-          executionCount: RoutineAddScreenTextKr().executionCount,
-          allCount: RoutineAddScreenTextKr().allCount,
-          count: RoutineAddScreenTextKr().count,
-          day: RoutineAddScreenTextKr().day,
-          week: RoutineAddScreenTextKr().week,
-          startDateHintText: RoutineAddScreenTextKr().startDateHintText,
-          routineCycle: RoutineAddScreenTextKr().routineCycle);
+        title: RoutineAddScreenTextKr().title,
+        editTitle: RoutineAddScreenTextKr().editTitle,
+        inputTitle: RoutineAddScreenTextKr().inputTitle,
+        colorTitle: RoutineAddScreenTextKr().colorTitle,
+        inputTitlePlaceholder: RoutineAddScreenTextKr().inputTitlePlaceholder,
+        exercisePlaceholder: RoutineAddScreenTextKr().exercisePlaceholder,
+        success: RoutineAddScreenTextKr().success,
+        editSuccess: RoutineAddScreenTextKr().editSuccess,
+        maxExercise: RoutineAddScreenTextKr().maxExercise,
+        noRoutine: RoutineAddScreenTextKr().noRoutine,
+        successDelete: RoutineAddScreenTextKr().successDelete,
+        errorDelete: RoutineAddScreenTextKr().errorDelete,
+        cycle: RoutineAddScreenTextKr().cycle,
+        repeat: RoutineAddScreenTextKr().repeat,
+        cycleDate: RoutineAddScreenTextKr().cycleDate,
+        exercise: RoutineAddScreenTextKr().exercise,
+        exerciseListCheck: RoutineAddScreenTextKr().exerciseListCheck,
+        errorCycle: RoutineAddScreenTextKr().errorCycle,
+        cycleDes: RoutineAddScreenTextKr().cycleDes,
+        repeatDes: RoutineAddScreenTextKr().repeatDes,
+        startDate: RoutineAddScreenTextKr().startDate,
+        endDate: RoutineAddScreenTextKr().endDate,
+        selectedDate: RoutineAddScreenTextKr().selectedDate,
+        selectedEndDate: RoutineAddScreenTextKr().selectedEndDate,
+        dateFormat: RoutineAddScreenTextKr().dateFormat,
+        executionCount: RoutineAddScreenTextKr().executionCount,
+        allCount: RoutineAddScreenTextKr().allCount,
+        count: RoutineAddScreenTextKr().count,
+        day: RoutineAddScreenTextKr().day,
+        week: RoutineAddScreenTextKr().week,
+        startDateHintText: RoutineAddScreenTextKr().startDateHintText,
+        routineCycle: RoutineAddScreenTextKr().routineCycle,
+        errorOverDate: RoutineAddScreenTextKr().errorOverDate,
+      );
       return routineAddScreenText;
     }
   }

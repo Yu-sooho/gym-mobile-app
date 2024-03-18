@@ -23,6 +23,7 @@ class RoutineAddScreenTextKr {
   String startDate = '시작일';
   String endDate = '종료일';
   String selectedDate = '시작일을 선택해주세요';
+  String selectedEndDate = '종료일을 선택해주세요';
   String dateFormat = 'yyyy년 MM월 dd일';
   String executionCount = '실행 횟수';
   String allCount = '운동 횟수';
@@ -31,6 +32,7 @@ class RoutineAddScreenTextKr {
   String week = '주';
   String startDateHintText = '루틴 주기를 선택해주세요';
   String routineCycle = '루틴';
+  String errorOverDate = '종료일이 시작일보다 빠를 순 없습니다.';
 }
 
 class RoutineAddScreenTextEn {
@@ -58,6 +60,7 @@ class RoutineAddScreenTextEn {
   String startDate = '시작일';
   String endDate = '종료일';
   String selectedDate = '시작일을 선택해주세요';
+  String selectedEndDate = '종료일을 선택해주세요';
   String dateFormat = 'yyyy년 MM월 dd일';
   String executionCount = '실행 횟수';
   String allCount = '운동 횟수';
@@ -66,4 +69,5 @@ class RoutineAddScreenTextEn {
   String week = '주';
   String startDateHintText = '루틴 주기를 선택해주세요';
   String routineCycle = '루틴';
+  String errorOverDate = '종료일이 시작일보다 빠를 순 없습니다.';
 }

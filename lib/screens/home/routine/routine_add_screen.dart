@@ -52,7 +52,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   bool isShow = false;
   Duration duration = Duration(milliseconds: 250);
 
-  DateTime? _selectedDate;
+  DateTime? _selectedStartDate;
+  DateTime? _selectedEndDate;
 
   List<String> selectExercise = [];
   List<Exercise> selectExerciseDetail = [];
@@ -101,7 +102,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       isEditSetting();
     }
     if (widget.startDate != null) {
-      _selectedDate = widget.startDate;
+      _selectedStartDate = widget.startDate;
     }
     await getExerciseList();
   }
@@ -116,7 +117,12 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
     if (widget.routine!.startDate != null) {
       setState(() {
-        _selectedDate = widget.routine!.startDate?.toDate();
+        _selectedStartDate = widget.routine!.startDate?.toDate();
+      });
+    }
+    if (widget.routine!.endDate != null) {
+      setState(() {
+        _selectedEndDate = widget.routine!.endDate?.toDate();
       });
     }
     if (widget.routine?.exercises != null) {
@@ -283,6 +289,15 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
 
   void onPressAdd(BuildContext context) async {
     try {
+      if (_selectedEndDate != null && _selectedStartDate != null) {
+        if (_selectedEndDate!.isBefore(_selectedStartDate!)) {
+          stores.appStateController.showToast(stores.localizationController
+              .localiztionRoutineAddScreen()
+              .errorOverDate);
+          return;
+        }
+      }
+
       stores.appStateController.setIsLoading(true, context);
 
       await networkProviders.routineProvider.postCustomRoutine({
@@ -290,9 +305,12 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'routineCycle': '$routineCycle',
         'exercises': selectExercise,
         'color': colorToString(selectedColor),
-        'startDate':
-            _selectedDate != null ? DateTime.parse('$_selectedDate') : null,
-        'endDate': null,
+        'startDate': _selectedStartDate != null
+            ? DateTime.parse('$_selectedStartDate')
+            : null,
+        'endDate': _selectedEndDate != null
+            ? DateTime.parse('$_selectedEndDate')
+            : null,
         'isEnded': null,
         'executionDate': null,
       });
@@ -330,9 +348,12 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'routineCycle': '$routineCycle',
         'exercises': selectExercise,
         'color': colorToString(selectedColor),
-        'startDate':
-            _selectedDate != null ? DateTime.parse('$_selectedDate') : null,
-        'endDate': null,
+        'startDate': _selectedStartDate != null
+            ? DateTime.parse('$_selectedStartDate')
+            : null,
+        'endDate': _selectedEndDate != null
+            ? DateTime.parse('$_selectedEndDate')
+            : null,
         'isEnded': null,
         'executionDate': null,
       }, docName);
@@ -395,7 +416,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
     }
   }
 
-  Future<void> selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context, bool isEnd) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -474,10 +495,16 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
             child: child!,
           );
         });
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
+    if (picked != null) {
+      if (isEnd && picked != _selectedEndDate) {
+        setState(() {
+          _selectedEndDate = picked;
+        });
+      } else if (picked != _selectedStartDate) {
+        setState(() {
+          _selectedStartDate = picked;
+        });
+      }
     }
   }
 
@@ -897,7 +924,7 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
             Padding(
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: InkWell(
-                onTap: () => selectDate(context),
+                onTap: () => selectDate(context, false),
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border(
@@ -914,15 +941,66 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
                     padding: EdgeInsets.only(bottom: 12),
                     child: Align(
                       child: Text(
-                        _selectedDate != null
+                        _selectedStartDate != null
                             ? DateFormat(stores.localizationController
                                     .localiztionRoutineAddScreen()
                                     .dateFormat)
-                                .format(_selectedDate!)
+                                .format(_selectedStartDate!)
                             : stores.localizationController
                                 .localiztionRoutineAddScreen()
                                 .selectedDate,
-                        style: _selectedDate != null
+                        style: _selectedStartDate != null
+                            ? stores.fontController.customFont().bold12
+                            : stores.fontController.customFont().medium12,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 16, 0, 0),
+              child: SizedBox(
+                  height: 32,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      stores.localizationController
+                          .localiztionRoutineAddScreen()
+                          .endDate,
+                      style: stores.fontController.customFont().bold12,
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: InkWell(
+                onTap: () => selectDate(context, true),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                          width: 1,
+                          color: stores.colorController
+                              .customColor()
+                              .buttonDefaultColor),
+                    ),
+                  ),
+                  width: double.infinity,
+                  height: 40,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 12),
+                    child: Align(
+                      child: Text(
+                        _selectedEndDate != null
+                            ? DateFormat(stores.localizationController
+                                    .localiztionRoutineAddScreen()
+                                    .dateFormat)
+                                .format(_selectedEndDate!)
+                            : stores.localizationController
+                                .localiztionRoutineAddScreen()
+                                .selectedEndDate,
+                        style: _selectedEndDate != null
                             ? stores.fontController.customFont().bold12
                             : stores.fontController.customFont().medium12,
                       ),

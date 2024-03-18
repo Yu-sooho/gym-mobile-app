@@ -163,17 +163,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   void deleteRoutineFromMap(
       RxMap<String, RoutineList> routineMap, Routine routineToDelete) {
-    for (String key in routineMap.keys) {
-      var routineList = routineMap[key];
-      routineList?.list
-          .removeWhere((routine) => routine.id == routineToDelete.id);
-      if (routineList != null) {
-        routineMap[key] = routineList;
-      }
-    }
-
-    stores.routineStateController.routineList
-        .removeWhere((routine) => routine.id == routineToDelete.id);
+    stores.routineStateController
+        .deleteRoutineFromMap(routineMap, routineToDelete);
     setState(() {
       routinesForDay.removeWhere((routine) => routine.id == routineToDelete.id);
     });
