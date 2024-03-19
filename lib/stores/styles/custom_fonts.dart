@@ -39,6 +39,11 @@ class CustomFont1 {
       fontSize: 18 + stores.appStateController.fontSize.value,
       fontWeight: FontWeight.bold,
       color: stores.colorController.customColor().defaultTextColor);
+  late TextStyle bold40 = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 40 + stores.appStateController.fontSize.value,
+      fontWeight: FontWeight.bold,
+      color: stores.colorController.customColor().defaultTextColor);
   late TextStyle modalTitle = TextStyle(
       fontFamily: 'NotoSans',
       fontSize: 14 + stores.appStateController.fontSize.value,
@@ -99,6 +104,11 @@ class CustomFont2 {
       fontSize: 18 + stores.appStateController.fontSize.value,
       fontWeight: FontWeight.bold,
       color: stores.colorController.customColor().defaultTextColor);
+  late TextStyle bold40 = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 40 + stores.appStateController.fontSize.value,
+      fontWeight: FontWeight.bold,
+      color: stores.colorController.customColor().defaultTextColor);
   late TextStyle modalTitle = TextStyle(
       fontFamily: 'Nanum',
       fontSize: 14 + stores.appStateController.fontSize.value,
@@ -157,6 +167,11 @@ class CustomFont3 {
   late TextStyle bold18 = TextStyle(
       fontFamily: 'SCore',
       fontSize: 18 + stores.appStateController.fontSize.value,
+      fontWeight: FontWeight.bold,
+      color: stores.colorController.customColor().defaultTextColor);
+  late TextStyle bold40 = TextStyle(
+      fontFamily: 'SCore',
+      fontSize: 40 + stores.appStateController.fontSize.value,
       fontWeight: FontWeight.bold,
       color: stores.colorController.customColor().defaultTextColor);
   late TextStyle modalTitle = TextStyle(

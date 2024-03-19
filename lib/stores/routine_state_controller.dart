@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gym_calendar/models/routine_models.dart';
 import 'package:gym_calendar/stores/localization/localization_controller.dart';
+import 'package:gym_calendar/utils/package_util.dart';
 
 class RoutineStateController extends GetxController {
   final LocalizationController localizationController =
@@ -92,5 +93,46 @@ class RoutineStateController extends GetxController {
     }
 
     return count;
+  }
+
+  List<Routine> findRoutinesForSelectedDay(DateTime selectedDay) {
+    final List<Routine>? routines =
+        calendarRoutineList['${selectedDay.year}']?.list;
+
+    if (routines == null) return [];
+
+    List<Routine> routinesForSelectedDay = [];
+
+    for (var routine in routines) {
+      if (routine.routineCycle == null || routine.startDate == null) continue;
+
+      final startDate = routine.startDate!.toDate();
+      final DateTime? endDate =
+          routine.endDate != null ? routine.endDate!.toDate() : null;
+      final List<List<int?>> cycleArray =
+          Math().convertedRecycle(routine.routineCycle!);
+
+      if (cycleArray.isEmpty) continue;
+
+      DateTime weekStart =
+          startDate.subtract(Duration(days: startDate.weekday - 1));
+      if (cycleArray[0].first! < startDate.weekday - 1) {
+        weekStart = weekStart.add(Duration(days: 7));
+      }
+
+      int weeksSinceStart =
+          ((selectedDay.difference(weekStart).inDays) / 7).floor();
+      if (weeksSinceStart < 0 ||
+          (endDate != null && selectedDay.isAfter(endDate))) continue;
+
+      int cycleWeekIndex = weeksSinceStart % cycleArray.length;
+      int dayOfWeekIndex = selectedDay.weekday - 1;
+
+      if (cycleArray[cycleWeekIndex].contains(dayOfWeekIndex)) {
+        routinesForSelectedDay.add(routine);
+      }
+    }
+
+    return routinesForSelectedDay;
   }
 }

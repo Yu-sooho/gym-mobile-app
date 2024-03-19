@@ -1,91 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:gym_calendar/models/routine_models.dart';
 import 'package:gym_calendar/providers/package_provider.dart';
 import 'package:gym_calendar/screens/home/routine/package_routine.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
-import 'package:gym_calendar/utils/package_util.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 import 'package:intl/intl.dart';
 
-class CalendarScreen extends StatefulWidget {
-  CalendarScreen({super.key});
+class ExerciseStartScreen extends StatefulWidget {
+  ExerciseStartScreen({super.key});
 
   @override
-  State<CalendarScreen> createState() => _CalendarScreenState();
+  State<ExerciseStartScreen> createState() => _ExerciseStartScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _ExerciseStartScreenState extends State<ExerciseStartScreen> {
   Stores stores = Stores();
   NetworkProviders networkProviders = NetworkProviders();
-
-  final _controller = ScrollController();
-  DateTime? selectedDay;
-  DateTime nowDate = DateTime.now();
-  bool routineLoading = false;
+  List<Duration> rap = [];
   late List<Routine> routinesForDay;
-
-  Future onRefresh() async {
-    setState(() {
-      selectedDay = null;
-      routinesForDay = stores.routineStateController
-          .findRoutinesForSelectedDay(DateTime.now());
-    });
-  }
-
-  onChangedSelectedDate(DateTime? selected) {
-    routinesForDay = stores.routineStateController
-        .findRoutinesForSelectedDay(selected ?? DateTime.now());
-    setState(() {
-      selectedDay = selected;
-    });
-  }
-
-  final double insetSize = 28;
-  final double dateTextSize = 64;
-  double calendarMinHeight = 312;
-  double calendarMaxHeight = 364;
-  double calendarHeight = 0;
 
   @override
   void initState() {
     super.initState();
-    init();
-    calendarMinHeight = calendarMinHeight + insetSize + dateTextSize;
-    calendarMaxHeight = calendarMaxHeight + insetSize + dateTextSize;
+    getRoutineToday();
   }
 
-  init() {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  getRoutineToday() {
     setState(() {
       routinesForDay = stores.routineStateController
           .findRoutinesForSelectedDay(DateTime.now());
     });
   }
 
-  onChangedLength(int length) {
-    // print(length * 52);
-  }
-
-  onChangedSize(double height) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        calendarHeight = height + 52 + 28 + 40;
-      });
+  void rapButtonPressed(Duration duration) {
+    setState(() {
+      rap.add(duration);
+      print(rap);
     });
   }
 
-  onPageChanged(DateTime dateTime) {
-    // print(dateTime);
+  void resetButtonPressed() {
+    setState(() {
+      rap.clear();
+    });
   }
 
   void addRoutineInMap(Routine newRoutine) {
     stores.routineStateController.addRoutineInMap(newRoutine);
-    if (!routinesForDay.any((routine) => routine.id == newRoutine.id)) {
-      setState(() {
-        routinesForDay.add(newRoutine);
-      });
-    }
+    getRoutineToday();
   }
 
   void updateRoutineInMap(Routine routineToUpdate) {
@@ -99,6 +67,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
   }
 
+  void onPressAddRoutineToday() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => RoutineAddScreen(
+                updateRoutineInMap: updateRoutineInMap,
+                addRoutineInMap: addRoutineInMap,
+                startDate: DateTime.now(),
+              )),
+    );
+  }
+
   void onPressEdit(BuildContext context, Routine routine, int index) {
     Navigator.push(
       context,
@@ -107,18 +87,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 routine: routine,
                 updateRoutineInMap: updateRoutineInMap,
                 addRoutineInMap: addRoutineInMap,
-              )),
-    );
-  }
-
-  void onPressAddRoutineToday() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => RoutineAddScreen(
-                updateRoutineInMap: updateRoutineInMap,
-                addRoutineInMap: addRoutineInMap,
-                startDate: selectedDay,
               )),
     );
   }
@@ -148,9 +116,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Navigator.pop(context);
             },
             onPressOk: () async {
-              setState(() {
-                routineLoading = true;
-              });
               final result = await networkProviders.routineProvider
                   .deleteCustomRoutine(routine.id);
               if (result) {
@@ -172,9 +137,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     .localiztionExerciseScreen()
                     .errorDelete);
               }
-              setState(() {
-                routineLoading = false;
-              });
               Get.back();
             }));
   }
@@ -199,25 +161,40 @@ class _CalendarScreenState extends State<CalendarScreen> {
         child: Scaffold(
             backgroundColor: stores.colorController.customColor().transparent,
             body: TabAreaView(
-                minHeaderSize: calendarMinHeight,
-                maxHeaderSize: calendarMaxHeight,
-                headerSize: calendarHeight,
-                openDuration: Duration(microseconds: 0),
-                closeDuration: Duration(microseconds: 200000),
-                onRefresh: onRefresh,
-                scrollController: _controller,
-                header: Column(
-                  children: [
-                    HomeCalendar(
-                        onChangedSelectedDate: onChangedSelectedDate,
-                        onChangedSize: onChangedSize,
-                        onChangedLength: onChangedLength,
-                        onPageChanged: onPageChanged,
-                        nowDate: nowDate,
-                        onRefresh: onRefresh),
-                    header(selectedDay ?? DateTime.now(), dateTextSize,
-                        routinesForDay.isNotEmpty, onPressAddRoutineToday),
-                  ],
+                paddingTop: 24,
+                header: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 20, 16, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 32,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            DateFormat("yyyy년 MM월 dd일").format(DateTime.now()),
+                            style: stores.fontController.customFont().medium14,
+                          ),
+                        ),
+                      ),
+                      CustomButton(
+                          onPress: onPressAddRoutineToday,
+                          child: SizedBox(
+                            width: 32,
+                            height: 32,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                Icons.add,
+                                color: stores.colorController
+                                    .customColor()
+                                    .defaultTextColor,
+                                size: 18,
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
                 children: [
                   routinesForDay.isEmpty
@@ -290,42 +267,5 @@ Widget routineAddButton(Function() onPress) {
             ],
           ),
         )),
-  ));
-}
-
-Widget header(
-    DateTime date, double size, bool isHaveButton, Function()? onPress) {
-  final Stores stores = Get.put(Stores());
-  String formattedDate = DateFormat("yyyy년 MM월 dd일").format(date);
-  return (SizedBox(
-    height: size,
-    child: Padding(
-        padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                formattedDate,
-                style: stores.fontController.customFont().medium14,
-              ),
-              isHaveButton
-                  ? CustomButton(
-                      onPress: onPress,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 16),
-                        child: SizedBox(
-                          width: 32,
-                          child: Icon(
-                            Icons.add,
-                            color: stores.colorController
-                                .customColor()
-                                .defaultTextColor,
-                            size: 18,
-                          ),
-                        ),
-                      ))
-                  : SizedBox()
-            ])),
   ));
 }

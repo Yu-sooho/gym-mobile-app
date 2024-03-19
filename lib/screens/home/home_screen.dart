@@ -112,7 +112,7 @@ class _HomeScreen extends State<HomeScreen> {
                       CalendarScreen(),
                       RoutineScreen(),
                       ExerciseScreen(),
-                      StopWatchScreen(),
+                      WatchScreen(),
                       ShoppingScreen()
                     ][tab],
                     bottomNavigationBar: Theme(

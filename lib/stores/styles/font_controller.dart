@@ -12,16 +12,17 @@ class CustomFont {
   final TextStyle bold14;
   final TextStyle bold16;
   final TextStyle bold18;
+  final TextStyle bold40;
 
-  CustomFont({
-    required this.regular12,
-    required this.medium12,
-    required this.medium14,
-    required this.bold12,
-    required this.bold14,
-    required this.bold16,
-    required this.bold18,
-  });
+  CustomFont(
+      {required this.regular12,
+      required this.medium12,
+      required this.medium14,
+      required this.bold12,
+      required this.bold14,
+      required this.bold16,
+      required this.bold18,
+      required this.bold40});
 }
 
 class CustomFontController extends GetxController {
@@ -49,6 +50,7 @@ class CustomFontController extends GetxController {
         bold14: CustomFont1().bold14,
         bold16: CustomFont1().bold16,
         bold18: CustomFont1().bold18,
+        bold40: CustomFont1().bold40,
       );
       return customFont;
     } else if (fontType.value == 1) {
@@ -60,6 +62,7 @@ class CustomFontController extends GetxController {
         bold14: CustomFont2().bold14,
         bold16: CustomFont2().bold16,
         bold18: CustomFont2().bold18,
+        bold40: CustomFont2().bold40,
       );
       return customFont;
     } else {
@@ -71,6 +74,7 @@ class CustomFontController extends GetxController {
         bold14: CustomFont3().bold14,
         bold16: CustomFont3().bold16,
         bold18: CustomFont3().bold18,
+        bold40: CustomFont3().bold40,
       );
       return customFont;
     }
