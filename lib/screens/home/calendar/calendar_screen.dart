@@ -118,7 +118,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           builder: (_) => RoutineAddScreen(
                 updateRoutineInMap: updateRoutineInMap,
                 addRoutineInMap: addRoutineInMap,
-                startDate: selectedDay,
+                startDate: selectedDay ?? DateTime.now(),
               )),
     );
   }

@@ -32,17 +32,15 @@ class WatchScreenState extends State<WatchScreen>
     return Scaffold(
       backgroundColor: stores.colorController.customColor().transparent,
       appBar: AppBar(
-        elevation: 0, // 이 부분이 AppBar의 그림자를 없애줍니다.
+        elevation: 0,
         toolbarHeight: 0,
         backgroundColor: stores.colorController.customColor().transparent,
         bottom: TabBar(
           indicator: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: stores.colorController
-                    .customColor()
-                    .defaultTextColor, // 인디케이터 색상
-                width: 1.0, // 인디케이터 두께
+                color: stores.colorController.customColor().defaultTextColor,
+                width: 1.0,
               ),
             ),
           ),

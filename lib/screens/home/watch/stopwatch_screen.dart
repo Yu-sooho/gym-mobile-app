@@ -11,18 +11,16 @@ class StopWatchScreen extends StatefulWidget {
 
 class _StopWatchScreenState extends State<StopWatchScreen> {
   Stores stores = Stores();
-  List<Duration> rap = [];
 
   void rapButtonPressed(Duration duration) {
     setState(() {
-      rap.add(duration);
-      print(rap);
+      stores.exerciseStateController.rap.add(duration);
     });
   }
 
   void resetButtonPressed() {
     setState(() {
-      rap.clear();
+      stores.exerciseStateController.rap.clear();
     });
   }
 
@@ -44,106 +42,117 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
         },
         blendMode: BlendMode.dstOut,
         child: Scaffold(
-            backgroundColor: stores.colorController.customColor().transparent,
-            body: TabAreaView(
-                paddingTop: 24,
-                header: tabheader(rapButtonPressed, resetButtonPressed),
-                children: [
-                  ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: rap.length,
-                    itemExtent: 32,
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    itemBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        height: 42,
-                        width: 320,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                                width: 32,
-                                child: Text(
-                                  '$index',
-                                  style: stores.fontController
-                                      .customFont()
-                                      .bold14
-                                      .copyWith(
-                                          color: stores.colorController
-                                              .customColor()
-                                              .defaultTextColor),
-                                )),
-                            Text(
-                              (rap[index].inMinutes).toString().padLeft(2, '0'),
+          backgroundColor: stores.colorController.customColor().transparent,
+          body: Column(children: [
+            CustomStopWatch(
+                rapButtonPressed: rapButtonPressed,
+                resetButtonPressed: resetButtonPressed,
+                stopwatch: stores.exerciseStateController.stopwatch),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: stores.exerciseStateController.rap.length,
+                itemExtent: 32,
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                itemBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 42,
+                    width: 320,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                            width: 32,
+                            child: Text(
+                              '$index',
                               style: stores.fontController
                                   .customFont()
-                                  .medium14
+                                  .bold14
                                   .copyWith(
                                       color: stores.colorController
                                           .customColor()
                                           .defaultTextColor),
-                            ),
-                            Text(
-                              ' : ',
-                              style: stores.fontController
-                                  .customFont()
-                                  .medium14
-                                  .copyWith(
-                                      color: stores.colorController
-                                          .customColor()
-                                          .defaultTextColor),
-                            ),
-                            Text(
-                              (rap[index].inSeconds % 60)
-                                  .toString()
-                                  .padLeft(2, '0'),
-                              style: stores.fontController
-                                  .customFont()
-                                  .medium14
-                                  .copyWith(
-                                      color: stores.colorController
-                                          .customColor()
-                                          .defaultTextColor),
-                            ),
-                            Text(
-                              ' : ',
-                              style: stores.fontController
-                                  .customFont()
-                                  .medium14
-                                  .copyWith(
-                                      color: stores.colorController
-                                          .customColor()
-                                          .defaultTextColor),
-                            ),
-                            Text(
-                              (rap[index].inMilliseconds % 1000)
-                                  .toString()
-                                  .padLeft(3, '0'),
-                              style: stores.fontController
-                                  .customFont()
-                                  .medium14
-                                  .copyWith(
-                                      color: stores.colorController
-                                          .customColor()
-                                          .defaultTextColor),
-                            ),
-                          ],
+                            )),
+                        Text(
+                          (stores.exerciseStateController.rap[index].inMinutes)
+                              .toString()
+                              .padLeft(2, '0'),
+                          style: stores.fontController
+                              .customFont()
+                              .medium14
+                              .copyWith(
+                                  color: stores.colorController
+                                      .customColor()
+                                      .defaultTextColor),
                         ),
-                      );
-                    },
-                  ),
-                ]))));
+                        Text(
+                          ' : ',
+                          style: stores.fontController
+                              .customFont()
+                              .medium14
+                              .copyWith(
+                                  color: stores.colorController
+                                      .customColor()
+                                      .defaultTextColor),
+                        ),
+                        Text(
+                          (stores.exerciseStateController.rap[index].inSeconds %
+                                  60)
+                              .toString()
+                              .padLeft(2, '0'),
+                          style: stores.fontController
+                              .customFont()
+                              .medium14
+                              .copyWith(
+                                  color: stores.colorController
+                                      .customColor()
+                                      .defaultTextColor),
+                        ),
+                        Text(
+                          ' : ',
+                          style: stores.fontController
+                              .customFont()
+                              .medium14
+                              .copyWith(
+                                  color: stores.colorController
+                                      .customColor()
+                                      .defaultTextColor),
+                        ),
+                        Text(
+                          (stores.exerciseStateController.rap[index]
+                                      .inMilliseconds %
+                                  1000)
+                              .toString()
+                              .padLeft(3, '0'),
+                          style: stores.fontController
+                              .customFont()
+                              .medium14
+                              .copyWith(
+                                  color: stores.colorController
+                                      .customColor()
+                                      .defaultTextColor),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 12,
+            )
+          ]),
+        )));
   }
 }
 
 Widget tabheader(Function(Duration duration) rapButtonPressed,
-    Function() resetButtonPressed) {
+    Function() resetButtonPressed, stopwatch) {
   return (Column(
     children: [
       CustomStopWatch(
-        rapButtonPressed: rapButtonPressed,
-        resetButtonPressed: resetButtonPressed,
-      )
+          rapButtonPressed: rapButtonPressed,
+          resetButtonPressed: resetButtonPressed,
+          stopwatch: stopwatch)
     ],
   ));
 }

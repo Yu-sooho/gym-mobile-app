@@ -6,8 +6,12 @@ import 'package:gym_calendar/widgets/package_widgets.dart';
 class CustomStopWatch extends StatefulWidget {
   final Function(Duration duration) rapButtonPressed;
   final Function() resetButtonPressed;
+  final Stopwatch? stopwatch;
+  final Timer? timer;
   CustomStopWatch(
       {super.key,
+      this.timer,
+      this.stopwatch,
       required this.rapButtonPressed,
       required this.resetButtonPressed});
 
@@ -19,6 +23,19 @@ class _CustomStopWatchState extends State<CustomStopWatch> {
   Stores stores = Stores();
   Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.stopwatch != null) {
+      _stopwatch = widget.stopwatch!;
+    }
+    if (_stopwatch.isRunning) {
+      _timer = Timer.periodic(Duration(milliseconds: 30), (timer) {
+        setState(() {});
+      });
+    }
+  }
 
   void _startStopButtonPressed() {
     if (_stopwatch.isRunning) {
@@ -111,7 +128,14 @@ class _CustomStopWatchState extends State<CustomStopWatch> {
                       width: 58,
                       height: 48,
                       child: Align(
-                        child: Text(_stopwatch.isRunning ? 'Stop' : 'Start'),
+                        child: Text(_stopwatch.isRunning ? 'Stop' : 'Start',
+                            style: stores.fontController
+                                .customFont()
+                                .medium12
+                                .copyWith(
+                                    color: stores.colorController
+                                        .customColor()
+                                        .defaultTextColor)),
                       )),
                 ),
                 SizedBox(
@@ -123,7 +147,15 @@ class _CustomStopWatchState extends State<CustomStopWatch> {
                   child: SizedBox(
                       width: 58,
                       height: 48,
-                      child: Align(child: Text('Reset'))),
+                      child: Align(
+                          child: Text('Reset',
+                              style: stores.fontController
+                                  .customFont()
+                                  .medium12
+                                  .copyWith(
+                                      color: stores.colorController
+                                          .customColor()
+                                          .defaultTextColor)))),
                 ),
                 SizedBox(
                   width: 20,
@@ -132,7 +164,17 @@ class _CustomStopWatchState extends State<CustomStopWatch> {
                 CustomButton(
                   onPress: _rapButtonPressed,
                   child: SizedBox(
-                      width: 58, height: 48, child: Align(child: Text('Rap'))),
+                      width: 58,
+                      height: 48,
+                      child: Align(
+                          child: Text('Rap',
+                              style: stores.fontController
+                                  .customFont()
+                                  .medium12
+                                  .copyWith(
+                                      color: stores.colorController
+                                          .customColor()
+                                          .defaultTextColor)))),
                 ),
               ],
             ),
