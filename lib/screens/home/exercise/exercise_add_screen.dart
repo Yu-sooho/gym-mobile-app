@@ -54,6 +54,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
   bool isShow = false;
   Duration duration = Duration(milliseconds: 250);
   String searchKeyword = '';
+  bool autoIncrease = false;
 
   final muscleTextInputMaxSize = 32.0;
   final buttonMaxSize = 48.0;
@@ -102,6 +103,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
     _nowCountController.text = widget.exercise!.count!;
     _targetCountController.text = widget.exercise!.targetCount!;
 
+    autoIncrease = widget.exercise!.autoIncrease;
     exerciseName = widget.exercise!.name;
     targetWeight = widget.exercise!.targetWeight!;
     weight = widget.exercise!.weight!;
@@ -258,6 +260,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
         'musclesNames': selectedMuscles,
         'weight': weight,
         'targetWeight': targetWeight,
+        'autoIncrease:': autoIncrease,
         'count': count,
         'targetCount': targetCount
       });
@@ -310,6 +313,7 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
         'musclesNames': selectedMuscles,
         'weight': weight,
         'targetWeight': targetWeight,
+        'autoIncrease': autoIncrease,
         'count': count,
         'targetCount': targetCount
       }, docName);
@@ -669,8 +673,9 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
           title: stores.localizationController
               .localiztionExerciseAddScreen()
               .title,
-          rightText:
-              stores.localizationController.localiztionExerciseScreen().add,
+          rightText: widget.exercise != null
+              ? stores.localizationController.localiztionExerciseScreen().edit
+              : stores.localizationController.localiztionExerciseScreen().add,
           isRightInActive: checkCanSave(),
           onPressRight: () => widget.exercise != null
               ? onPressEdit(context)
@@ -820,6 +825,39 @@ class _ExerciseAddScreenState extends State<ExerciseAddScreen> {
                     onChanged2: onChangeTargetCount),
                 SizedBox(
                   height: 12,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 16, 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        stores.localizationController
+                            .localiztionExerciseAddScreen()
+                            .autoIncrease,
+                        style: stores.fontController.customFont().bold12,
+                      ),
+                      Transform.scale(
+                        scale: .9,
+                        child: CustomCheckbox(
+                          value: autoIncrease,
+                          activeColor: stores.colorController
+                              .customColor()
+                              .buttonDefaultColor,
+                          inactiveColor: stores.colorController
+                              .customColor()
+                              .buttonActiveText,
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              if (newValue != null) {
+                                autoIncrease = newValue;
+                              }
+                            });
+                          },
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 selectedList(selectedMuscles),
                 SizedBox(

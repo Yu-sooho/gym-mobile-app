@@ -3,6 +3,7 @@ class ExerciseScreenTextKr {
   String addExercise = '운동 추가';
   String addPart = '근육 추가';
   String add = '추가';
+  String edit = '수정';
   String latestSort = '최신순';
   String maxPart = '부위는 최대 10개까지 가능합니다.';
   String noExercise = '운동이 없습니다.';
@@ -13,6 +14,7 @@ class ExerciseScreenTextKr {
 class ExerciseScreenTextEn {
   String inputTitle = 'ExerciseName';
   String addExercise = 'Add Exercise';
+  String edit = '수정';
   String addPart = '근육 추가';
   String add = 'Add';
   String success = '운동이 추가되었습니다.';

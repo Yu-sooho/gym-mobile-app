@@ -26,6 +26,7 @@ class ExerciseAddScreenTextKr {
   String nowCount = '현재 세트 수';
   String targetCount = '목표 세트 수';
   String errorCount = '현재 세트 수가 목표 세트 수보다 높을 수 없습니다.';
+  String autoIncrease = '자동 증량';
 }
 
 class ExerciseAddScreenTextEn {
@@ -56,4 +57,5 @@ class ExerciseAddScreenTextEn {
   String nowCount = '현재 세트 수';
   String targetCount = '목표 세트 수';
   String errorCount = '현재 세트 수가 목표 세트 수보다 높을 수 없습니다.';
+  String autoIncrease = '자동 증량';
 }

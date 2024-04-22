@@ -208,11 +208,13 @@ class ExerciseProvider {
       final targetWeight = data['targetWeight'];
       final count = data['count'];
       final targetCount = data['targetCount'];
+      final autoIncrease = data['autoIncrease'];
       final id = element.id;
       final exercise = Exercise(
           id: id,
           uid: uid,
           name: name,
+          autoIncrease: autoIncrease,
           musclesNames: musclesNames ?? [],
           docName: element.id,
           muscles: userMusclesResult,

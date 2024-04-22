@@ -53,6 +53,7 @@ class Exercise {
   String? targetCount;
   List<Muscles>? muscles;
   String? docName;
+  bool autoIncrease;
   Exercise(
       {required this.id,
       required this.uid,
@@ -65,7 +66,8 @@ class Exercise {
       this.targetWeight,
       this.docName,
       this.count,
-      this.targetCount});
+      this.targetCount,
+      this.autoIncrease = false});
 
   factory Exercise.fromJson(Map<String, dynamic> json, id) {
     return Exercise(

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gym_calendar/stores/localization/component_button_text.dart';
 import 'package:gym_calendar/stores/localization/exercise_add_screen_text.dart';
+import 'package:gym_calendar/stores/localization/exercise_item_text.dart';
 import 'package:gym_calendar/stores/localization/exercise_screen_text.dart';
+import 'package:gym_calendar/stores/localization/routine_setting_screen_text.dart';
 import 'package:gym_calendar/stores/localization/home_screen_text.dart';
 import 'package:gym_calendar/stores/localization/inquiry_screen_text.dart';
 import 'package:gym_calendar/stores/localization/login_screen_text.dart';
@@ -158,6 +160,7 @@ class ExerciseAddScreenText {
   final String nowCount;
   final String targetCount;
   final String errorCount;
+  final String autoIncrease;
 
   ExerciseAddScreenText(
       {required this.title,
@@ -185,7 +188,8 @@ class ExerciseAddScreenText {
       required this.count,
       required this.nowCount,
       required this.targetCount,
-      required this.errorCount});
+      required this.errorCount,
+      required this.autoIncrease});
 }
 
 class InquiryScreenText {
@@ -373,6 +377,7 @@ class ExerciseScreenText {
   final String addExercise;
   final String addPart;
   final String add;
+  final String edit;
 
   final String noExercise;
   final String maxPart;
@@ -385,11 +390,33 @@ class ExerciseScreenText {
     required this.addExercise,
     required this.addPart,
     required this.add,
+    required this.edit,
     required this.noExercise,
     required this.maxPart,
     required this.errorDelete,
     required this.successDelete,
   });
+}
+
+class ExerciseItemText {
+  final String lastSet;
+  final String nowSet;
+  final String targetSet;
+  final String lastWeight;
+  final String nowWeight;
+  final String targetWeight;
+  final String exerciseStart;
+  final String exerciseFinish;
+
+  ExerciseItemText(
+      {required this.lastSet,
+      required this.nowSet,
+      required this.targetSet,
+      required this.lastWeight,
+      required this.nowWeight,
+      required this.targetWeight,
+      required this.exerciseStart,
+      required this.exerciseFinish});
 }
 
 class RoutineCycleScreenText {
@@ -402,6 +429,12 @@ class RoutineCycleScreenText {
       required this.subTitle,
       required this.week,
       required this.weekday});
+}
+
+class RoutineSettingScreenText {
+  final String title;
+  final String part;
+  RoutineSettingScreenText({required this.title, required this.part});
 }
 
 class LocalizationController extends GetxController {
@@ -680,6 +713,7 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseScreenTextEn().addExercise,
           addPart: ExerciseScreenTextEn().addPart,
           add: ExerciseScreenTextEn().add,
+          edit: ExerciseScreenTextEn().edit,
           noExercise: ExerciseScreenTextKr().noExercise,
           maxPart: ExerciseScreenTextEn().maxPart,
           errorDelete: ExerciseScreenTextEn().errorDelete,
@@ -691,6 +725,7 @@ class LocalizationController extends GetxController {
           addExercise: ExerciseScreenTextKr().addExercise,
           addPart: ExerciseScreenTextKr().addPart,
           add: ExerciseScreenTextKr().add,
+          edit: ExerciseScreenTextKr().edit,
           noExercise: ExerciseScreenTextKr().noExercise,
           maxPart: ExerciseScreenTextKr().maxPart,
           errorDelete: ExerciseScreenTextEn().errorDelete,
@@ -728,6 +763,7 @@ class LocalizationController extends GetxController {
           count: ExerciseAddScreenTextEn().count,
           nowCount: ExerciseAddScreenTextEn().nowCount,
           targetCount: ExerciseAddScreenTextEn().targetCount,
+          autoIncrease: ExerciseAddScreenTextEn().autoIncrease,
           errorCount: ExerciseAddScreenTextEn().errorCount);
       return exerciseAddScreenText;
     } else {
@@ -758,6 +794,7 @@ class LocalizationController extends GetxController {
           count: ExerciseAddScreenTextKr().count,
           nowCount: ExerciseAddScreenTextKr().nowCount,
           targetCount: ExerciseAddScreenTextKr().targetCount,
+          autoIncrease: ExerciseAddScreenTextKr().autoIncrease,
           errorCount: ExerciseAddScreenTextKr().errorCount);
       return exerciseAddScreenText;
     }
@@ -882,6 +919,52 @@ class LocalizationController extends GetxController {
         weekday: RoutineCycleScreenTextKr().weekday,
       );
       return routineCycleScreenText;
+    }
+  }
+
+  RoutineSettingScreenText localiztionRoutineSettingScreen() {
+    if (language.value == 0) {
+      RoutineSettingScreenText exerciseStartScreenText =
+          RoutineSettingScreenText(
+        title: RoutineSettingScreenEn().title,
+        part: RoutineSettingScreenEn().part,
+      );
+      return exerciseStartScreenText;
+    } else {
+      RoutineSettingScreenText exerciseStartScreenText =
+          RoutineSettingScreenText(
+        title: RoutineSettingScreenKr().title,
+        part: RoutineSettingScreenKr().part,
+      );
+      return exerciseStartScreenText;
+    }
+  }
+
+  ExerciseItemText localiztionExerciseItem() {
+    if (language.value == 0) {
+      ExerciseItemText exerciseStartScreenText = ExerciseItemText(
+        lastSet: ExerciseItemTextKr().lastSet,
+        nowSet: ExerciseItemTextKr().nowSet,
+        targetSet: ExerciseItemTextKr().targetSet,
+        lastWeight: ExerciseItemTextKr().lastWeight,
+        nowWeight: ExerciseItemTextEn().nowWeight,
+        targetWeight: ExerciseItemTextKr().targetWeight,
+        exerciseStart: ExerciseItemTextKr().exerciseStart,
+        exerciseFinish: ExerciseItemTextKr().exerciseFinish,
+      );
+      return exerciseStartScreenText;
+    } else {
+      ExerciseItemText exerciseStartScreenText = ExerciseItemText(
+        lastSet: ExerciseItemTextEn().lastSet,
+        nowSet: ExerciseItemTextEn().nowSet,
+        targetSet: ExerciseItemTextEn().targetSet,
+        lastWeight: ExerciseItemTextEn().lastWeight,
+        nowWeight: ExerciseItemTextEn().nowWeight,
+        targetWeight: ExerciseItemTextEn().targetWeight,
+        exerciseStart: ExerciseItemTextEn().exerciseStart,
+        exerciseFinish: ExerciseItemTextEn().exerciseFinish,
+      );
+      return exerciseStartScreenText;
     }
   }
 }

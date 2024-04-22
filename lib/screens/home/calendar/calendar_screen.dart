@@ -132,6 +132,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
   }
 
+  void onPressRoutine(BuildContext context, Routine routine) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => RoutineSettingScreen(
+                routine: routine,
+              )),
+    );
+  }
+
   void onPressDelete(BuildContext context, Routine routine) {
     showDialog(
         context: context,
@@ -238,7 +248,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             return RoutineListItem(
                                 index: index,
                                 item: routinesForDay[index],
+                                selectedDay: selectedDay ?? DateTime.now(),
                                 onPressDelete: onPressDelete,
+                                onPress: onPressRoutine,
                                 onPressEdit: onPressEdit);
                           },
                         ),

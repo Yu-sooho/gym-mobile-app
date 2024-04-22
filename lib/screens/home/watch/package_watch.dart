@@ -1,1 +1,1 @@
-export 'watch_screen.dart';
+export 'stopwatch_screen.dart';

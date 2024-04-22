@@ -179,6 +179,16 @@ class _RoutineScreenState extends State<RoutineScreen> {
     getRoutineList();
   }
 
+  void onPressRoutine(BuildContext context, Routine routine) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => RoutineSettingScreen(
+                routine: routine,
+              )),
+    );
+  }
+
   void onPressDelete(BuildContext context, Routine routine) {
     showDialog(
         context: context,
@@ -291,6 +301,8 @@ class _RoutineScreenState extends State<RoutineScreen> {
                 return RoutineListItem(
                     index: index,
                     item: stores.routineStateController.routineList[index],
+                    disabledButton: false,
+                    onPress: onPressRoutine,
                     onPressDelete: onPressDelete,
                     onPressEdit: onPressEdit);
               },

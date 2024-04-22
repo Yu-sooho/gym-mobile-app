@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 class RoutineListItem extends StatefulWidget {
   final Routine item;
   final int index;
-  final Function(Routine item)? onPress;
+  final Function(BuildContext context, Routine item)? onPress;
   final Function(BuildContext context, Routine item)? onPressDelete;
   final Function(BuildContext context, Routine item, int index)? onPressEdit;
   final bool? isSelected;
@@ -17,6 +17,7 @@ class RoutineListItem extends StatefulWidget {
   final bool disabledDelete;
   final bool disabledButton;
   final bool? isVisabled;
+  final DateTime? selectedDay;
 
   RoutineListItem({
     required this.item,
@@ -29,6 +30,7 @@ class RoutineListItem extends StatefulWidget {
     this.disabledDelete = false,
     this.disabledButton = false,
     this.isVisabled = false,
+    this.selectedDay,
     super.key,
   });
 
@@ -41,7 +43,8 @@ class RoutineListItem extends StatefulWidget {
         other.disabledDelete == disabledDelete &&
         other.isCanSelected == isCanSelected &&
         other.item == item &&
-        other.isVisabled == isVisabled;
+        other.isVisabled == isVisabled &&
+        other.selectedDay == selectedDay;
   }
 
   @override
@@ -51,7 +54,8 @@ class RoutineListItem extends StatefulWidget {
       disabledDelete.hashCode ^
       isCanSelected.hashCode ^
       item.hashCode ^
-      isVisabled.hashCode;
+      isVisabled.hashCode ^
+      selectedDay.hashCode;
 
   @override
   State<RoutineListItem> createState() => _RoutineListItem();
@@ -62,7 +66,7 @@ class _RoutineListItem extends State<RoutineListItem> {
 
   void onPressed(BuildContext context) {
     if (widget.disabledButton) return;
-    if (widget.onPress != null) widget.onPress!(widget.item);
+    if (widget.onPress != null) widget.onPress!(context, widget.item);
   }
 
   double isVisiableHeight = 0.0;
@@ -99,6 +103,14 @@ class _RoutineListItem extends State<RoutineListItem> {
         Math().convertedRecycle(widget.item.routineCycle ?? '');
 
     final totalItems = routineCycle.expand((innerList) => innerList).length;
+    final executionDate = widget.item.executionDate?.any((timestamp) {
+          DateTime date = timestamp.toDate();
+          DateTime? now = widget.selectedDay;
+          return date.year == now?.year &&
+              date.month == now?.month &&
+              date.day == now?.day;
+        }) ??
+        false;
 
     return Material(
       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -221,25 +233,53 @@ class _RoutineListItem extends State<RoutineListItem> {
                             ],
                           ),
                           Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: InkWell(
-                                  onTap: onPressVisiable,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 13),
-                                    child: AnimatedRotation(
-                                      turns: isVisiableArrowRotation,
-                                      duration: duration,
-                                      child: Icon(
-                                        Icons.arrow_right,
-                                        color: stores.colorController
-                                            .customColor()
-                                            .buttonActiveColor,
-                                        size: 24,
-                                      ),
-                                    ),
-                                  )),
-                            ),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  executionDate
+                                      ? Align(
+                                          alignment: Alignment.centerRight,
+                                          child: InkWell(
+                                              onTap: onPressVisiable,
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 13),
+                                                child: AnimatedRotation(
+                                                  turns:
+                                                      isVisiableArrowRotation,
+                                                  duration: duration,
+                                                  child: Icon(
+                                                    Icons.arrow_right,
+                                                    color: stores
+                                                        .colorController
+                                                        .customColor()
+                                                        .buttonActiveColor,
+                                                    size: 24,
+                                                  ),
+                                                ),
+                                              )),
+                                        )
+                                      : SizedBox(),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: InkWell(
+                                        onTap: onPressVisiable,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: 13),
+                                          child: AnimatedRotation(
+                                            turns: isVisiableArrowRotation,
+                                            duration: duration,
+                                            child: Icon(
+                                              Icons.arrow_right,
+                                              color: stores.colorController
+                                                  .customColor()
+                                                  .buttonActiveColor,
+                                              size: 24,
+                                            ),
+                                          ),
+                                        )),
+                                  ),
+                                ]),
                           ),
                         ]),
                       ),
