@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gym_calendar/models/package_models.dart';
+import 'package:gym_calendar/providers/package_provider.dart';
+import 'package:gym_calendar/screens/home/routine/package_routine.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
 import 'package:gym_calendar/widgets/package_widgets.dart';
 
 class RoutineSettingScreen extends StatefulWidget {
-  final Routine? routine;
+  final String? docName;
 
-  RoutineSettingScreen({super.key, this.routine});
+  RoutineSettingScreen({super.key, this.docName});
 
   @override
   State<RoutineSettingScreen> createState() => _RoutineSettingScreenState();
@@ -14,41 +17,206 @@ class RoutineSettingScreen extends StatefulWidget {
 
 class _RoutineSettingScreenState extends State<RoutineSettingScreen> {
   Stores stores = Stores();
+  NetworkProviders networkProviders = NetworkProviders();
+  List executionDates = [];
+  Routine? routine;
+  bool isRefreshing = true;
+  bool isLoading = false;
+
+  Future onRefresh() async {
+    setState(() {
+      routine = null;
+      isRefreshing = true;
+    });
+    final result = await networkProviders.routineProvider
+        .getRoutineByDocName(widget.docName!);
+    setState(() {
+      routine = result;
+      isRefreshing = false;
+    });
+  }
+
+  Future getRoutine() async {
+    if (widget.docName != null) {
+      setState(() {
+        isLoading = true;
+      });
+      final result = await networkProviders.routineProvider
+          .getRoutineByDocName(widget.docName!);
+      if (!context.mounted) return;
+      setState(() {
+        routine = result;
+        isLoading = false;
+        isRefreshing = false;
+      });
+    }
+  }
+
+  init() async {
+    await getRoutine();
+  }
 
   @override
   void initState() {
     super.initState();
-    print(widget.routine?.exercises[0].name);
+    init();
+    // if (widget.routine?.executionDate != null) {
+    //   executionDates = widget.routine!.executionDate!;
+    // }
   }
 
-  onPressComplete(Exercise? exercise) {}
+  onPressComplete(Exercise? exercise) async {
+    // final docName = widget.routine?.docName;
+    // print(widget.routine.toString());
+    // if (docName == null) return;
+    // try {
+    //   DateTime now = DateTime.now();
+    //   DateTime targetDateOnly = DateTime(now.year, now.month, now.day);
+    //   Timestamp executionDate = Timestamp.fromDate(targetDateOnly);
+    //   final execution = executionDates.where((element) {
+    //     DateTime targetDate =
+    //         DateTime(element.year, element.month, element.day);
+    //     return targetDateOnly == targetDate;
+    //   });
+    //   if (execution.isNotEmpty) {
+    //     stores.appStateController.showToast('이미 완료된 운동입니다');
+    //     return;
+    //   }
+
+    //   setState(() {
+    //     executionDates.add(targetDateOnly);
+    //   });
+    //   stores.appStateController.setIsLoading(true, context);
+    //   await networkProviders.routineProvider.putCustomRoutine({
+    //     'executionDate': [executionDate]
+    //   }, docName);
+
+    //   final result =
+    //       await networkProviders.routineProvider.getRoutineByDocName(docName);
+    //   if (result != null) {
+    //     final temp = stores.routineStateController.routineList
+    //         .indexWhere((element) => element.id == widget.routine?.id);
+    //     if (temp >= 0) {
+    //       stores.routineStateController.routineList[temp] = result;
+    //     }
+    //   }
+    //   if (!context.mounted) return;
+    //   stores.appStateController.setIsLoading(false, context);
+    // } catch (error) {
+    //   print('routine_add_screen onPressEdit error:$error');
+    //   stores.appStateController.setIsLoading(false, context);
+    //   stores.appStateController.showToast(stores.localizationController
+    //       .localiztionComponentError()
+    //       .networkError);
+    // }
+  }
 
   onPressStart(Exercise? exercise) {}
+
+  void addRoutineInMap(Routine newRoutine) {
+    stores.routineStateController.addRoutineInMap(newRoutine);
+  }
+
+  void updateRoutineInMap(Routine routineToUpdate) {
+    stores.routineStateController.updateRoutineInMap(routineToUpdate);
+  }
+
+  onPressAdd() {
+    if (routine != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => RoutineAddScreen(
+                  routine: routine,
+                  updateRoutineInMap: updateRoutineInMap,
+                  addRoutineInMap: addRoutineInMap,
+                  onRefresh: onRefresh,
+                )),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return (SafeAreaView(
-      title: widget.routine?.name ?? '',
+      onRefresh: onRefresh,
+      physics: AlwaysScrollableScrollPhysics(),
+      title: routine?.name ?? '',
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 24),
-            child: ListView.builder(
-              primary: true,
-              shrinkWrap: true,
-              itemCount: widget.routine?.exercises.length,
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-              itemBuilder: (BuildContext context, int index) {
-                return (exerciseItem(
-                  widget.routine?.exercises[index],
-                  onPressStart,
-                  onPressComplete,
-                ));
-              },
-            ),
-          ),
-        ),
+        isRefreshing
+            ? SizedBox()
+            : routine?.exercises == null || routine!.exercises.isEmpty
+                ? Column(children: [
+                    Container(
+                      height: 240,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(),
+                      child: Text(
+                        stores.localizationController
+                            .localiztionComponentError()
+                            .noData,
+                        style: stores.fontController.customFont().medium12,
+                      ),
+                    ),
+                    SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 360),
+                        child: CustomButton(
+                            onPress: onPressAdd,
+                            child: Text(
+                              stores.localizationController
+                                  .localiztionRoutineSettingScreen()
+                                  .addExercise,
+                              style:
+                                  stores.fontController.customFont().medium12,
+                            )),
+                      ),
+                    ),
+                  ])
+                : SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: ShaderMask(
+                        shaderCallback: (Rect rect) {
+                          return LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              stores.colorController
+                                  .customColor()
+                                  .defaultBackground1,
+                              Colors.transparent,
+                              Colors.transparent,
+                              stores.colorController
+                                  .customColor()
+                                  .defaultBackground2,
+                            ],
+                            stops: [0.0, 0.01, 0.95, 1.0],
+                          ).createShader(rect);
+                        },
+                        blendMode: BlendMode.dstOut,
+                        child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: routine?.exercises.length,
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index == 0) {
+                              return (Padding(
+                                  padding: EdgeInsets.only(top: 24),
+                                  child: exerciseItem(
+                                    routine?.exercises[index],
+                                    onPressStart,
+                                    onPressComplete,
+                                  )));
+                            }
+                            return (exerciseItem(
+                              routine?.exercises[index],
+                              onPressStart,
+                              onPressComplete,
+                            ));
+                          },
+                        )),
+                  )
       ],
     ));
   }
@@ -87,12 +255,15 @@ Widget exerciseItem(
                             .customColor()
                             .buttonActiveText),
                   ),
-                  Text(
-                    exercise?.count ?? '-',
-                    style: stores.fontController.customFont().bold14.copyWith(
-                        color: stores.colorController
-                            .customColor()
-                            .buttonActiveText),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      exercise?.count ?? '-',
+                      style: stores.fontController.customFont().bold14.copyWith(
+                          color: stores.colorController
+                              .customColor()
+                              .buttonActiveText),
+                    ),
                   ),
                 ],
               ),
@@ -109,12 +280,15 @@ Widget exerciseItem(
                           .customColor()
                           .buttonActiveText),
                 ),
-                Text(
-                  '10',
-                  style: stores.fontController.customFont().bold14.copyWith(
-                      color: stores.colorController
-                          .customColor()
-                          .buttonActiveText),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: Text(
+                    '10',
+                    style: stores.fontController.customFont().bold14.copyWith(
+                        color: stores.colorController
+                            .customColor()
+                            .buttonActiveText),
+                  ),
                 ),
               ],
             )),
@@ -130,12 +304,15 @@ Widget exerciseItem(
                           .customColor()
                           .buttonActiveText),
                 ),
-                Text(
-                  exercise?.targetCount ?? '-',
-                  style: stores.fontController.customFont().bold14.copyWith(
-                      color: stores.colorController
-                          .customColor()
-                          .buttonActiveText),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: Text(
+                    exercise?.targetCount ?? '-',
+                    style: stores.fontController.customFont().bold14.copyWith(
+                        color: stores.colorController
+                            .customColor()
+                            .buttonActiveText),
+                  ),
                 ),
               ],
             ))
@@ -158,12 +335,15 @@ Widget exerciseItem(
                             .customColor()
                             .buttonActiveText),
                   ),
-                  Text(
-                    exercise?.weight ?? '',
-                    style: stores.fontController.customFont().bold14.copyWith(
-                        color: stores.colorController
-                            .customColor()
-                            .buttonActiveText),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      exercise?.weight ?? '',
+                      style: stores.fontController.customFont().bold14.copyWith(
+                          color: stores.colorController
+                              .customColor()
+                              .buttonActiveText),
+                    ),
                   ),
                 ],
               ),
@@ -180,12 +360,15 @@ Widget exerciseItem(
                             .customColor()
                             .buttonActiveText),
                   ),
-                  Text(
-                    '123',
-                    style: stores.fontController.customFont().bold14.copyWith(
-                        color: stores.colorController
-                            .customColor()
-                            .buttonActiveText),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      '123',
+                      style: stores.fontController.customFont().bold14.copyWith(
+                          color: stores.colorController
+                              .customColor()
+                              .buttonActiveText),
+                    ),
                   ),
                 ],
               ),
@@ -202,12 +385,15 @@ Widget exerciseItem(
                             .customColor()
                             .buttonActiveText),
                   ),
-                  Text(
-                    exercise?.targetWeight ?? '',
-                    style: stores.fontController.customFont().bold14.copyWith(
-                        color: stores.colorController
-                            .customColor()
-                            .buttonActiveText),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      exercise?.targetWeight ?? '',
+                      style: stores.fontController.customFont().bold14.copyWith(
+                          color: stores.colorController
+                              .customColor()
+                              .buttonActiveText),
+                    ),
                   ),
                 ],
               ),

@@ -15,11 +15,13 @@ class RoutineAddScreen extends StatefulWidget {
   final Function? updateRoutineInMap;
   final Function? addRoutineInMap;
   final DateTime? startDate;
+  final Function? onRefresh;
   RoutineAddScreen(
       {super.key,
       this.routine,
       this.updateRoutineInMap,
       this.addRoutineInMap,
+      this.onRefresh,
       this.startDate});
 
   @override
@@ -362,8 +364,6 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
         'endDate': _selectedEndDate != null
             ? DateTime.parse('$_selectedEndDate')
             : null,
-        'isEnded': null,
-        'executionDate': null,
       }, docName);
 
       final result =
@@ -382,6 +382,9 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
           .editSuccess);
       if (widget.updateRoutineInMap != null) {
         widget.updateRoutineInMap!(result);
+      }
+      if (widget.onRefresh != null) {
+        widget.onRefresh!();
       }
       Navigator.pop(context);
     } catch (error) {

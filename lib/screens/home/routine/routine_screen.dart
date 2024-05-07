@@ -184,7 +184,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
       context,
       MaterialPageRoute(
           builder: (_) => RoutineSettingScreen(
-                routine: routine,
+                docName: routine.docName,
               )),
     );
   }

@@ -37,7 +37,7 @@ class SafeAreaView extends StatefulWidget {
   });
 
   @override
-  _SafeAreaViewState createState() => _SafeAreaViewState();
+  State<SafeAreaView> createState() => _SafeAreaViewState();
 }
 
 class _SafeAreaViewState extends State<SafeAreaView> {

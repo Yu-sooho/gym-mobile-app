@@ -42,8 +42,12 @@ class LoginScreenText {
 class ComponentErrorText {
   final String networkError;
   final String noSearchData;
+  final String noData;
 
-  ComponentErrorText({required this.networkError, required this.noSearchData});
+  ComponentErrorText(
+      {required this.networkError,
+      required this.noSearchData,
+      required this.noData});
 }
 
 class ComponentButtonText {
@@ -434,7 +438,9 @@ class RoutineCycleScreenText {
 class RoutineSettingScreenText {
   final String title;
   final String part;
-  RoutineSettingScreenText({required this.title, required this.part});
+  final String addExercise;
+  RoutineSettingScreenText(
+      {required this.title, required this.part, required this.addExercise});
 }
 
 class LocalizationController extends GetxController {
@@ -608,12 +614,15 @@ class LocalizationController extends GetxController {
     if (language.value == 0) {
       ComponentErrorText settingScreenText = ComponentErrorText(
           networkError: ComponentErrorTextEn().networkError,
-          noSearchData: ComponentErrorTextEn().noSearchData);
+          noSearchData: ComponentErrorTextEn().noSearchData,
+          noData: ComponentErrorTextEn().noData);
       return settingScreenText;
     } else {
       ComponentErrorText settingScreenText = ComponentErrorText(
-          networkError: ComponentErrorTextKr().networkError,
-          noSearchData: ComponentErrorTextKr().noSearchData);
+        networkError: ComponentErrorTextKr().networkError,
+        noSearchData: ComponentErrorTextKr().noSearchData,
+        noData: ComponentErrorTextKr().noData,
+      );
       return settingScreenText;
     }
   }
@@ -926,16 +935,16 @@ class LocalizationController extends GetxController {
     if (language.value == 0) {
       RoutineSettingScreenText exerciseStartScreenText =
           RoutineSettingScreenText(
-        title: RoutineSettingScreenEn().title,
-        part: RoutineSettingScreenEn().part,
-      );
+              title: RoutineSettingScreenEn().title,
+              part: RoutineSettingScreenEn().part,
+              addExercise: RoutineSettingScreenEn().addExercise);
       return exerciseStartScreenText;
     } else {
       RoutineSettingScreenText exerciseStartScreenText =
           RoutineSettingScreenText(
-        title: RoutineSettingScreenKr().title,
-        part: RoutineSettingScreenKr().part,
-      );
+              title: RoutineSettingScreenKr().title,
+              part: RoutineSettingScreenKr().part,
+              addExercise: RoutineSettingScreenKr().addExercise);
       return exerciseStartScreenText;
     }
   }

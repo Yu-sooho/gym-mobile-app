@@ -137,7 +137,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       context,
       MaterialPageRoute(
           builder: (_) => RoutineSettingScreen(
-                routine: routine,
+                docName: routine.docName,
               )),
     );
   }
