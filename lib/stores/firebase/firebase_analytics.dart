@@ -8,7 +8,7 @@ class FirebaseAnalyticsController extends GetxController {
 
   clickEvent({
     required String name,
-    required Map<String, Object?>? parameters,
+    required Map<String, Object>? parameters,
   }) async {
     try {
       await FirebaseAnalytics.instance.logEvent(
