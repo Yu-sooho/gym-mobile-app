@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:gym_calendar/screens/package_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gym_calendar/stores/package_stores.dart';
+import 'package:gym_calendar/utils/package_util.dart';
 import 'firebase_options.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,6 +19,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  if (isDev) {
+    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+    FirebaseStorage.instance.useStorageEmulator('localhost', 9000);
+  }
+
   await themeCheck();
   await firebaseLoginCheck();
   await firebaseMessagingInit();

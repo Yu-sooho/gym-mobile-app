@@ -3,8 +3,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
+bool isDev = true;
+
+final Map<String, int> devPortNumber = {
+  'AUTH': 9099,
+  'FIRESTORE': 8080,
+  'RDB': 9000,
+  'FUNCTIONS': 5001,
+  'STORAGE': 9199,
+};
+
 class Networks {
-  final bool isDev = false;
+  final bool isDev = true;
 
   late String baseUrl = isDev
       ? 'http://127.0.0.1:5001/gymcalendar-20206/us-central1/'

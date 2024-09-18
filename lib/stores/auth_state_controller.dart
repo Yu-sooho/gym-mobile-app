@@ -76,7 +76,8 @@ class AuthStateController extends GetxController {
   }
 
   Future<bool> kakaoLogin() async {
-    if (await isKakaoTalkInstalled()) {
+    final kakaoTalkInstalledRes = await isKakaoTalkInstalled();
+    if (kakaoTalkInstalledRes) {
       try {
         final res = await UserApi.instance.loginWithKakaoTalk();
         if (res.accessToken.isNotEmpty) {

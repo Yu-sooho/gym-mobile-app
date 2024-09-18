@@ -128,8 +128,10 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
       });
     }
     if (widget.routine?.exercises != null) {
-      widget.routine?.exercises.forEach((element) =>
-          {selectExercise.add(element.id), selectExerciseDetail.add(element)});
+      widget.routine?.exercises.forEach((element) {
+        selectExercise.add(element.id);
+        selectExerciseDetail.add(element);
+      });
       setState(() {
         openButtonSize = buttonMaxSize;
         openButtonOpacity = 1.0;

@@ -699,26 +699,26 @@ packages:
     dependency: transitive
     description:
       name: kakao_flutter_sdk_auth
-      sha256: "48a84519fded04b686852c11d95e00483d295ee703f56d357059cbe0c556a969"
+      sha256: "409c99c2bffe58f3be9078e6d4b25f64c7a789ef72110d6b8951e3e88e65e06a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.0"
+    version: "1.9.5"
   kakao_flutter_sdk_common:
     dependency: "direct main"
     description:
       name: kakao_flutter_sdk_common
-      sha256: e908d4e1c672cc3c4f56bb9b04e8fb5775ee7617503c4b43100d0d123e5735d1
+      sha256: "1bbfd232830732f92d5837de6f9085c678059f42f075f80433ae2986fe8ea598"
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.0"
+    version: "1.9.5"
   kakao_flutter_sdk_user:
     dependency: "direct main"
     description:
       name: kakao_flutter_sdk_user
-      sha256: "73809bd6d9066d663642e23b4d63ec3c68e31c0dbaeb2143084cf1fad59f6155"
+      sha256: "17037c3b0d7812b5438bcd6a58907a28f7603e8615c3f5ce2b3f1f38129df800"
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.0"
+    version: "1.9.5"
   keyboard_dismisser:
     dependency: "direct main"
     description:
@@ -1019,26 +1019,26 @@ packages:
     dependency: "direct main"
     description:
       name: sign_in_with_apple
-      sha256: "0975c23b9f8b30a80e27d5659a75993a093d4cb5f4eb7d23a9ccc586fea634e0"
+      sha256: "3c9dc9dcd5c42a17c6d4b912556198e8bd8e731ab67ac30f4a655974f95e7260"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "6.1.2"
   sign_in_with_apple_platform_interface:
     dependency: transitive
     description:
       name: sign_in_with_apple_platform_interface
-      sha256: a5883edee09ed6be19de19e7d9f618a617fe41a6fa03f76d082dfb787e9ea18d
+      sha256: c2ef2ce6273fce0c61acd7e9ff5be7181e33d7aa2b66508b39418b786cca2119
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   sign_in_with_apple_web:
     dependency: transitive
     description:
       name: sign_in_with_apple_web
-      sha256: "44b66528f576e77847c14999d5e881e17e7223b7b0625a185417829e5306f47a"
+      sha256: c009e9beeb6c376e86aaa154fcc8b4e075d4bad90c56286b9668a51cdb6129ea
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "2.1.0"
   simple_gesture_detector:
     dependency: transitive
     description:

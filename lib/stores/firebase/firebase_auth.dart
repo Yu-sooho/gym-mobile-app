@@ -91,9 +91,9 @@ class FirebaseAuthController extends GetxController {
 
       if (docId?.value != null) {
         final fcmToken = await FirebaseMessaging.instance.getToken();
-        firebaseFirestoreController.postCollectionDataSet(
+        firebaseFirestoreController.putCollectionDataSet(
+            docName: docId!.value,
             collectionName: 'users',
-            docName: docId?.value,
             obj: {'fcmToken': fcmToken});
       }
       return true;

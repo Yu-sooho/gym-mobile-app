@@ -110,11 +110,11 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         .updateUser(data, stores.firebaseAuthController.docId!.value);
     if (res) {
       if (context.mounted) {
-        Navigator.pop(context);
         if (nickName.isNotEmpty) {
           stores.firebaseAuthController.currentUserData.displayName!.value =
               nickName;
         }
+        Navigator.pop(context);
       }
     }
     if (context.mounted) stores.appStateController.setIsLoading(false, context);
