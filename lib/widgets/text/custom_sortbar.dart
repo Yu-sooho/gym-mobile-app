@@ -86,6 +86,8 @@ class _CustomSortBar extends State<CustomSortBar> {
                                       .customFont()
                                       .medium12,
                                   border: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 10),
                                 ),
                                 cursorColor: stores.colorController
                                     .customColor()

@@ -100,26 +100,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void onPressEdit(BuildContext context, Routine routine, int index) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => RoutineAddScreen(
-                routine: routine,
-                updateRoutineInMap: updateRoutineInMap,
-                addRoutineInMap: addRoutineInMap,
-              )),
+    Get.toNamed(
+      '/routine_add', // 지정한 이름으로 네비게이션
+      arguments: {
+        'routine': routine,
+        'updateRoutineInMap': updateRoutineInMap,
+        'addRoutineInMap': addRoutineInMap,
+      },
     );
   }
 
   void onPressAddRoutineToday() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => RoutineAddScreen(
-                updateRoutineInMap: updateRoutineInMap,
-                addRoutineInMap: addRoutineInMap,
-                startDate: selectedDay ?? DateTime.now(),
-              )),
+    Get.toNamed(
+      '/routine_add', // 지정한 이름으로 네비게이션
+      arguments: {
+        'startDate': selectedDay ?? DateTime.now(),
+        'updateRoutineInMap': updateRoutineInMap,
+        'addRoutineInMap': addRoutineInMap,
+      },
     );
   }
 
@@ -133,12 +131,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void onPressRoutine(BuildContext context, Routine routine) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => RoutineSettingScreen(
-                docName: routine.docName,
-              )),
+    Get.toNamed(
+      '/routine_add', // 지정한 이름으로 네비게이션
+      arguments: {'docName': routine.docName},
     );
   }
 

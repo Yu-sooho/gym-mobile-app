@@ -23,7 +23,7 @@ void main() async {
   if (isDev) {
     FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-    FirebaseStorage.instance.useStorageEmulator('localhost', 9000);
+    FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   }
 
   await themeCheck();

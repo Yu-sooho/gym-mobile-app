@@ -50,38 +50,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void onPressTheme() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ThemeScreen(),
-          settings: RouteSettings(name: 'theme')),
+    Get.toNamed(
+      '/theme', // 지정한 이름으로 네비게이션
     );
   }
 
   void onPressSetting() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => SettingScreen(),
-          settings: RouteSettings(name: 'setting')),
+    Get.toNamed(
+      '/setting', // 지정한 이름으로 네비게이션
     );
   }
 
   void onPressEdit() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ProfileEditScreen(),
-          settings: RouteSettings(name: 'profile_edit')),
+    Get.toNamed(
+      '/profile_edit', // 지정한 이름으로 네비게이션
     );
   }
 
   void onPressInquiry() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => InquiryScreen(),
-          settings: RouteSettings(name: 'inquriy')),
+    Get.toNamed(
+      '/inquriy', // 지정한 이름으로 네비게이션
     );
   }
 
@@ -110,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await stores.firebaseAuthController.signOut();
     stores.firebaseAuthController.currentUserData = UserData();
     if (!mounted) return;
-    Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
+    Get.offNamedUntil("/login", (route) => false);
   }
 
   @override

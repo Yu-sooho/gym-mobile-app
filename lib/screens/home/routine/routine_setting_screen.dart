@@ -123,15 +123,14 @@ class _RoutineSettingScreenState extends State<RoutineSettingScreen> {
 
   onPressAdd() {
     if (routine != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (_) => RoutineAddScreen(
-                  routine: routine,
-                  updateRoutineInMap: updateRoutineInMap,
-                  addRoutineInMap: addRoutineInMap,
-                  onRefresh: onRefresh,
-                )),
+      Get.toNamed(
+        '/routine_add', // 지정한 이름으로 네비게이션
+        arguments: {
+          'routine': routine,
+          'updateRoutineInMap': updateRoutineInMap,
+          'addRoutineInMap': addRoutineInMap,
+          'onRefresh': onRefresh,
+        },
       );
     }
   }

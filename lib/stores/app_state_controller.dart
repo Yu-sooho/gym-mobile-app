@@ -41,9 +41,6 @@ class AppStateController extends GetxController {
 
   final OverlayEntry overlayEntrys = OverlayEntry(builder: loadingScreen);
 
-  late RxBool exerciseAlarm = true.obs;
-  late RxBool scheduleAlarm = true.obs;
-
   late RxDouble fontSize = 0.0.obs;
 
   Future<bool> changeFontSize(size) async {

@@ -125,14 +125,12 @@ class _RoutineScreenState extends State<RoutineScreen> {
   }
 
   onPressAdd() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => RoutineAddScreen(
-                updateRoutineInMap:
-                    stores.routineStateController.updateRoutineInMap,
-                addRoutineInMap: stores.routineStateController.addRoutineInMap,
-              )),
+    Get.toNamed(
+      '/routine_add', // 지정한 이름으로 네비게이션
+      arguments: {
+        'updateRoutineInMap': stores.routineStateController.updateRoutineInMap,
+        'addRoutineInMap': stores.routineStateController.addRoutineInMap,
+      },
     );
   }
 
@@ -180,12 +178,11 @@ class _RoutineScreenState extends State<RoutineScreen> {
   }
 
   void onPressRoutine(BuildContext context, Routine routine) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => RoutineSettingScreen(
-                docName: routine.docName,
-              )),
+    Get.toNamed(
+      '/routine_setting', // 지정한 이름으로 네비게이션
+      arguments: {
+        'docName': routine.docName,
+      },
     );
   }
 
@@ -237,15 +234,13 @@ class _RoutineScreenState extends State<RoutineScreen> {
   }
 
   void onPressEdit(BuildContext context, Routine routine, int index) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (_) => RoutineAddScreen(
-                routine: routine,
-                updateRoutineInMap:
-                    stores.routineStateController.updateRoutineInMap,
-                addRoutineInMap: stores.routineStateController.addRoutineInMap,
-              )),
+    Get.toNamed(
+      '/routine_add', // 지정한 이름으로 네비게이션
+      arguments: {
+        'routine': routine,
+        'updateRoutineInMap': stores.routineStateController.updateRoutineInMap,
+        'addRoutineInMap': stores.routineStateController.addRoutineInMap,
+      },
     );
   }
 

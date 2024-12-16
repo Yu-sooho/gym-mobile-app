@@ -16,11 +16,8 @@ class _HomeScreen extends State<HomeScreen> {
   final Stores stores = Get.put(Stores());
 
   void onPressProfile(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ProfileScreen(),
-          settings: RouteSettings(name: 'profile')),
+    Get.toNamed(
+      '/profile',
     );
   }
 

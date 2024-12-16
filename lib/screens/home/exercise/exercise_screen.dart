@@ -31,11 +31,8 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   final Duration duration = Duration(milliseconds: 250);
 
   void onPressAdd(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ExerciseAddScreen(),
-          settings: RouteSettings(name: 'exerciseAdd')),
+    Get.toNamed(
+      '/exerciseAdd',
     );
   }
 
@@ -121,9 +118,9 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   }
 
   void onPressEdit(BuildContext context, Exercise exercise, int index) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => ExerciseAddScreen(exercise: exercise)),
+    Get.toNamed(
+      '/exercise_add', // 지정한 이름으로 네비게이션
+      arguments: {'exercise': exercise},
     );
   }
 

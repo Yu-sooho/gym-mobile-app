@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
       stores.appStateController.setIsLoading(false, context);
       if (res) {
         if (!context.mounted) return;
-        Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+        Get.offNamedUntil("/home", (route) => false);
         return;
       }
     } catch (error) {

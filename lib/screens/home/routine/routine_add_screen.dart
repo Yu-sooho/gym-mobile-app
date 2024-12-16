@@ -594,11 +594,8 @@ class _RoutineAddScreenState extends State<RoutineAddScreen> {
   }
 
   onPressExerciseAdd(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ExerciseAddScreen(),
-          settings: RouteSettings(name: 'exerciseAdd')),
+    Get.toNamed(
+      '/exercise_add', // 지정한 이름으로 네비게이션
     );
   }
 
